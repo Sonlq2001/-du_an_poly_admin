@@ -1,6 +1,7 @@
 import React, { memo } from "react";
 import { FaShoppingBag } from "react-icons/fa";
 import { AiFillEye } from "react-icons/ai";
+import { BiCheck } from "react-icons/bi";
 
 import { ListBoxCard, ItemCard } from "./BoxCard.styles";
 
@@ -19,21 +20,21 @@ const BoxCard = () => {
 
 			<ItemCard>
 				<div className="card-left">
-					<div className="card-total">750</div>
+					<div className="card-total">1850</div>
 					<div className="card-title">Lượt truy cập</div>
 				</div>
-				<div className="card-right">
+				<div className="card-right view">
 					<AiFillEye />
 				</div>
 			</ItemCard>
 
 			<ItemCard>
 				<div className="card-left">
-					<div className="card-total">750</div>
-					<div className="card-total">Sản phẩm</div>
+					<div className="card-total">450</div>
+					<div className="card-title">Sinh viên có sản phẩm</div>
 				</div>
-				<div className="card-right">
-					<FaShoppingBag />
+				<div className="card-right student">
+					<BiCheck />
 				</div>
 			</ItemCard>
 		</ListBoxCard>
