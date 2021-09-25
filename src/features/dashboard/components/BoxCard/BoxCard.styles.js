@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const ListBoxCard = styled.div`
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: space-between;
 `;
 
 export const ItemCard = styled.div`
@@ -12,7 +12,7 @@ export const ItemCard = styled.div`
 	background-color: var(--white-color);
 	border-radius: 5px;
 	padding: 1.5rem;
-	width: calc(100% / 3);
+	width: 31%;
 
 	.card-left {
 		margin-right: 1.5rem;
@@ -48,5 +48,13 @@ export const ItemCard = styled.div`
 		right: 0;
 		background: currentColor;
 		opacity: 0.1;
+	}
+
+	.view {
+		color: var(--blue-color);
+	}
+
+	.student {
+		color: var(--green-color);
 	}
 `;
