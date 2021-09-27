@@ -21,6 +21,7 @@ const Variables = () => {
       --green-color: #00BC8C;
       --aaa-color: #aaa;
       --eee-color: #eee;
+      --ddd-color: #ddd;
     }
   `;
 };

@@ -3,6 +3,7 @@ import { BiSearchAlt2 } from "react-icons/bi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { GrTopCorner } from "react-icons/gr";
 import { BiLogOut } from "react-icons/bi";
+import OutsideClickHandler from "react-outside-click-handler";
 
 import {
 	WrapNavbar,
@@ -54,15 +55,16 @@ const Navbar = () => {
 								<GrTopCorner />
 							</div>
 						</div>
-
-						<ListAction className={`${actionUser ? "active" : ""}`}>
-							<li className="item-action">
-								<a href="!#" className="link-action">
-									<BiLogOut className="icon-action" />
-									Logout
-								</a>
-							</li>
-						</ListAction>
+						<OutsideClickHandler onOutsideClick={() => setActionUser(false)}>
+							<ListAction className={`${actionUser ? "active" : ""}`}>
+								<li className="item-action">
+									<a href="!#" className="link-action">
+										<BiLogOut className="icon-action" />
+										Logout
+									</a>
+								</li>
+							</ListAction>
+						</OutsideClickHandler>
 					</NavControl>
 				</NavbarAction>
 			</NavbarRight>
