@@ -13,7 +13,7 @@ const Sidebar = () => {
 				<li className="item-menu">
 					<NavLink exact to="/" className="link-menu" activeClassName="active">
 						<RiDashboardFill className="icon-menu" />
-						Quản trị
+						Quản trị Dashboard
 					</NavLink>
 				</li>
 				<li className="item-menu">
