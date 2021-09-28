@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { memo, useState } from "react";
 import { WrapContent } from "./../../../../styles/common/common-styles";
 import { TitleTable, Btn, GroupPagination } from "./Comfirm.styles";
 import { TablePagination } from "./../../../../components/Pagination/Pagination";
@@ -45,12 +44,7 @@ const ListScreen = () => {
             <Td>Dự án tốt nghiêp</Td>
             <Td>Kỳ sping 2021</Td>
             <Td>
-              <li>Nguyễn Mạnh Quân</li>
-              <li>Lê Duy sơn </li>
-              <li>Lê Quang Sơn</li>
-              <li>Nguyễn Hữu Sơn </li>
-              <li>Lê Phương Thảo </li>
-              <li>Bùi Hoàng Việt </li>
+              <p>Lê quang Sơn , Nguyễn Hữu Sơn .......</p>
             </Td>
             <Td>
               <Btn backgroundColor="warning">
@@ -69,12 +63,7 @@ const ListScreen = () => {
             <Td>Dự án tốt nghiêp</Td>
             <Td>Kỳ sping 2021</Td>
             <Td>
-              <li>Nguyễn Mạnh Quân</li>
-              <li>Lê Duy sơn </li>
-              <li>Lê Quang Sơn</li>
-              <li>Nguyễn Hữu Sơn </li>
-              <li>Lê Phương Thảo </li>
-              <li>Bùi Hoàng Việt </li>
+              <p>Nguyễn Mạnh Quân,Lê Phương Thảo... </p>
             </Td>
             <Td>
               <Btn backgroundColor="warning">
@@ -93,12 +82,7 @@ const ListScreen = () => {
             <Td>Dự án tốt nghiêp</Td>
             <Td>Kỳ sping 2021</Td>
             <Td>
-              <li>Nguyễn Mạnh Quân</li>
-              <li>Lê Duy sơn </li>
-              <li>Lê Quang Sơn</li>
-              <li>Nguyễn Hữu Sơn </li>
-              <li>Lê Phương Thảo </li>
-              <li>Bùi Hoàng Việt </li>
+              <p>Bùi Hoàng việt , Lê duy Sơn ....</p>
             </Td>
             <Td>
               <Btn backgroundColor="warning">
@@ -137,12 +121,7 @@ const ListScreen = () => {
             <Td>Dự án tốt nghiêp</Td>
             <Td>Kỳ sping 2021</Td>
             <Td>
-              <li>Nguyễn Mạnh Quân</li>
-              <li>Lê Duy sơn </li>
-              <li>Lê Quang Sơn</li>
-              <li>Nguyễn Hữu Sơn </li>
-              <li>Lê Phương Thảo </li>
-              <li>Bùi Hoàng Việt </li>
+              <p>Bùi Hoàng việt , Lê duy Sơn ....</p>
             </Td>
             <Td>
               <Btn backgroundColor="warning">
@@ -168,4 +147,4 @@ const ListScreen = () => {
   );
 };
 
-export default ListScreen;
+export default memo(ListScreen);

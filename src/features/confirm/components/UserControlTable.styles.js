@@ -7,7 +7,6 @@ export const GroupFilter = styled.div`
 `;
 export const BoxFilter = styled.div`
   width: 20rem;
-
   & + & {
     margin-left: 4rem;
   }
