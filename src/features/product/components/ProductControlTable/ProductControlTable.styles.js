@@ -1,15 +1,15 @@
 import styled from "styled-components";
 
 export const GroupFilter = styled.div`
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: 2rem;
   grid-row-gap: 1.5rem;
 `;
 
 export const BoxFilter = styled.div`
-  width: 80%;
+  width: 75%;
   margin-bottom: 2rem;
   .label-filter {
     font-size: 1.4rem;
