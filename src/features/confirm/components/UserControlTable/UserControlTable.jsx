@@ -26,7 +26,6 @@ const UserControlTable = () => {
         <Select
           placeholder="Kỳ học"
           options={[
-            { value: 1, label: "kỳ Spring 2021" },
             { value: 2, label: "kỳ Summer 2021" },
             { value: 3, label: "kỳ Fall 2021" },
             { value: 4, label: "kỳ Spring 2020" },
