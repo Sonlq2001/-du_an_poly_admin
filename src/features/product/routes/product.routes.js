@@ -2,7 +2,7 @@ import { lazy } from "react";
 const ProductScreen = lazy(() => import("../screens/ProductScreen"));
 const PRODUCT_SCREEN = {
   id: "id_product",
-  path: "/productlist",
+  path: "/product-list",
   exact: true,
   component: ProductScreen,
 };

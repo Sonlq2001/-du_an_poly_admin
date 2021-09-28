@@ -4,10 +4,12 @@ export const GroupFilter = styled.div`
   margin-bottom: 4rem;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-column-gap: 2rem;
+  grid-row-gap: 1.5rem;
 `;
 
 export const BoxFilter = styled.div`
-  width: 23rem;
+  width: 80%;
   margin-bottom: 2rem;
   .label-filter {
     font-size: 1.4rem;

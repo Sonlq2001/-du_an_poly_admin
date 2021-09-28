@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { GroupFilter, BoxFilter } from "./ProductControlTable.styles";
 import Select from "react-select";
 const ProductControlTable = () => {
@@ -6,7 +6,6 @@ const ProductControlTable = () => {
     <GroupFilter>
       <BoxFilter>
         <label htmlFor="" className="label-filter">
-      
           Tìm kiếm
         </label>
         <input type="text" placeholder="Tìm kiếm" className="input-filter" />
@@ -50,9 +49,8 @@ const ProductControlTable = () => {
           ]}
         />
       </BoxFilter>
-     
     </GroupFilter>
   );
 };
 
-export default ProductControlTable;
+export default memo(ProductControlTable);
