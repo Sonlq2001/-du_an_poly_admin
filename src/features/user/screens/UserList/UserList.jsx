@@ -40,7 +40,6 @@ const UserList = () => {
 		<WrapContent>
 			<TitleTable>Danh sách user</TitleTable>
 			<UserControlTable />
-
 			<TableCustom>
 				<Thead>
 					<Tr>

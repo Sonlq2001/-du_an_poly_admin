@@ -8,7 +8,6 @@ const Sidebar = () => {
 	return (
 		<WrapSidebar>
 			<img src={LogoFpt} alt="" className="img-logo" />
-
 			<ListMenu>
 				<li className="item-menu">
 					<NavLink exact to="/" className="link-menu" activeClassName="active">
@@ -19,7 +18,7 @@ const Sidebar = () => {
 				<li className="item-menu">
 					<NavLink to="/confirm" className="link-menu" activeClassName="active">
 						<RiDashboardFill className="icon-menu" />
-						Quản sản phẩm
+							Quản sản phẩm
 					</NavLink>
 				</li>
 				<li className="item-menu">
