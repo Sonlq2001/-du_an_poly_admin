@@ -2,7 +2,7 @@ import React from "react";
 import { Form } from "./AddSpecialized.styles";
 import Select from "react-select";
 
-const AddSpecia = ({ item }) => {
+const AddSpecialized = ({ item }) => {
   return (
     <>
       <Form action="">
@@ -31,4 +31,4 @@ const AddSpecia = ({ item }) => {
   );
 };
 
-export default AddSpecia;
+export default AddSpecialized;

@@ -7,7 +7,7 @@ const SpecializedControlTable = () => {
     <GroupFilter>
       <BoxFilter>
         <label htmlFor="" className="label-filter">
-          Tìm Kiếm{" "}
+          Tìm Kiếm
         </label>
         <input type="text" placeholder="Tìm kiếm" className="input-filter" />
       </BoxFilter>

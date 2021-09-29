@@ -2,7 +2,7 @@ import React, { memo, useState } from "react";
 import { WrapContent } from "./../../../styles/common/common-styles";
 import { TablePagination } from "./../../../components/Pagination/Pagination";
 import SpecializedControlTable from "./../components/specializedControlTable/SpecializedControlTable";
-import Addspecialized from "./../components/add/index";
+import AddSpecialized from "../components/AddSpecialized/index";
 import PopupOverlay from "./../../../components/PopupOverlay/PopupOverlay";
 import {
   GroupPagination,
@@ -33,14 +33,12 @@ const SpecializedScreen = () => {
     console.log("vo day");
   };
   const Update = (item) => {
-    console.log("Thêm chuyên ngành ");
     setItem(item);
     setToggleAdd(true);
   };
   const AddSpecia = (item) => {
     setItem(item);
     setToggleAdd(!toggleAdd);
-    console.log("Thêm chuyên ngành ");
   };
   return (
     <WrapContent>
@@ -102,7 +100,7 @@ const SpecializedScreen = () => {
         item={Item}
         title={Item ? "Sửa Chuyên Ngành" : "Thêm Chuyên Ngành "}
       >
-        <Addspecialized item={Item} />
+        <AddSpecialized item={Item} />
       </PopupOverlay>
     </WrapContent>
   );
