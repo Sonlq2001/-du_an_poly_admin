@@ -13,17 +13,27 @@ import {
 } from "./../../../../components/Table/TableCustom";
 import { Button } from "./../../../../components/Button/Button";
 import { TablePagination } from "./../../../../components/Pagination/Pagination";
-import { GroupPagination, TitleTable } from "./UserList.styles";
+import { GroupPagination, TitleTable, BoxActionTable } from "./UserList.styles";
 import UserControlTable from "./../../components/UserControlTable/UserControlTable";
+import PopupOverlay from "./../../../../components/PopupOverlay/PopupOverlay";
+import PopupUser from "./../../components/PopupUser/PopupUser";
+import { DATA_FAKE } from "./../../constants/user.constants";
 
 const UserList = () => {
 	const [rowPerPage, setRowPerPage] = useState(10);
+	const [isPopup, setIsPopup] = useState(false);
+	const [contentEdit, setContentEdit] = useState({ name: "" });
 	const handleChangeRowsPerPage = (rowPage) => {
 		setRowPerPage(rowPage);
 	};
 
 	const handleChangePage = () => {
 		console.log("vo day");
+	};
+
+	const handleEdit = (values) => {
+		setContentEdit({ ...contentEdit, ...values });
+		setIsPopup(true);
 	};
 
 	return (
@@ -42,65 +52,27 @@ const UserList = () => {
 				</Thead>
 
 				<Tbody>
-					<Tr>
-						<Td>1</Td>
-						<Td>Lê Quang Sơn</Td>
-						<Td>sonlqph09794@fpt.edu.vn</Td>
-						<Td>0394570202</Td>
-						<Td>
-							<Button color="warning">
-								<MdModeEdit />
-							</Button>
-							<Button color="danger">
-								<BsTrash />
-							</Button>
-						</Td>
-					</Tr>
+					{DATA_FAKE.map((item) => {
+						return (
+							<Tr key={item.id}>
+								<Td>1</Td>
+								<Td>{item.name}</Td>
+								<Td>{item.email}</Td>
+								<Td>{item.phone}</Td>
+								<Td>
+									<BoxActionTable>
+										<Button color="warning" onClick={() => handleEdit(item)}>
+											<MdModeEdit />
+										</Button>
 
-					<Tr>
-						<Td>1</Td>
-						<Td>Lê Quang Sơn</Td>
-						<Td>sonlqph09794@fpt.edu.vn</Td>
-						<Td>0394570202</Td>
-						<Td>
-							<Button color="warning">
-								<MdModeEdit />
-							</Button>
-							<Button color="danger">
-								<BsTrash />
-							</Button>
-						</Td>
-					</Tr>
-
-					<Tr>
-						<Td>1</Td>
-						<Td>Lê Quang Sơn</Td>
-						<Td>sonlqph09794@fpt.edu.vn</Td>
-						<Td>0394570202</Td>
-						<Td>
-							<Button color="warning">
-								<MdModeEdit />
-							</Button>
-							<Button color="danger">
-								<BsTrash />
-							</Button>
-						</Td>
-					</Tr>
-
-					<Tr>
-						<Td>1</Td>
-						<Td>Lê Quang Sơn</Td>
-						<Td>sonlqph09794@fpt.edu.vn</Td>
-						<Td>0394570202</Td>
-						<Td>
-							<Button color="warning">
-								<MdModeEdit />
-							</Button>
-							<Button color="danger">
-								<BsTrash />
-							</Button>
-						</Td>
-					</Tr>
+										<Button color="danger" disabled={true}>
+											<BsTrash />
+										</Button>
+									</BoxActionTable>
+								</Td>
+							</Tr>
+						);
+					})}
 				</Tbody>
 			</TableCustom>
 
@@ -112,6 +84,10 @@ const UserList = () => {
 					onPageChange={handleChangePage}
 				/>
 			</GroupPagination>
+
+			<PopupOverlay open={isPopup} setOpen={setIsPopup} title="Sửa user">
+				<PopupUser content={contentEdit} />
+			</PopupOverlay>
 		</WrapContent>
 	);
 };
