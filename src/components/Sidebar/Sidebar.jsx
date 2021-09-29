@@ -28,6 +28,12 @@ const Sidebar = () => {
 						Quản trị user
 					</NavLink>
 				</li>
+				<li className="item-menu">
+					<NavLink to="/subject" className="link-menu" activeClassName="active">
+						<RiDashboardFill className="icon-menu" />
+						Quản trị môn học
+					</NavLink>
+				</li>
 			</ListMenu>
 		</WrapSidebar>
 	);

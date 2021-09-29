@@ -1,16 +1,22 @@
 import styled from "styled-components";
 
 export const GroupFilter = styled.div`
-	margin-bottom: 4rem;
+	margin-bottom: 2rem;
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
 `;
 
 export const BoxFilter = styled.div`
-	width: 20rem;
+	width: 25%;
+	margin-bottom: 2rem;
 
 	& + & {
 		margin-left: 4rem;
+	}
+
+	&:nth-child(4) {
+		margin-left: 0;
 	}
 
 	.label-filter {
