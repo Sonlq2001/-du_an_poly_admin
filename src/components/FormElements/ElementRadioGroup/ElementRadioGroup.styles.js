@@ -3,6 +3,9 @@ import styled from "styled-components";
 export const BoxElementRadio = styled.div`
 	display: flex;
 	align-items: center;
+	& + & {
+		margin-left: 2rem;
+	}
 
 	.label-field {
 		font-size: 1.4rem;
@@ -37,5 +40,17 @@ export const BoxElementRadio = styled.div`
 
 	.radio-field:checked + .radio-fake::after {
 		transform: scale(1);
+	}
+`;
+
+export const GroupRadio = styled.div`
+	.title-group {
+		font-size: 1.4rem;
+	}
+
+	.children-group {
+		display: flex;
+		align-items: center;
+		margin-top: 1rem;
 	}
 `;
