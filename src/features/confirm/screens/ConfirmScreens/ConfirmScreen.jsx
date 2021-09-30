@@ -1,7 +1,8 @@
 import React, { memo, useState } from "react";
 import { WrapContent } from "./../../../../styles/common/common-styles";
-import { TitleTable, Btn, GroupPagination } from "./Comfirm.styles";
+import { TitleTable, WapButton, GroupPagination } from "./Comfirm.styles";
 import { TablePagination } from "./../../../../components/Pagination/Pagination";
+import PopupOverlay from "./../../../../components/PopupOverlay/PopupOverlay";
 import {
   TableCustom,
   Thead,
@@ -10,9 +11,12 @@ import {
   Tbody,
   Td,
 } from "./../../../../components/Table/TableCustom";
+import { Button } from "./../../../../components/Button/Button";
 import UserControlTable from "./../../components/UserControlTable/UserControlTable";
+import Reason from "../../components/reason/Reason";
 const ListScreen = () => {
   const [rowPerPage, setRowPerPage] = useState(10);
+  const [open, setOpen] = useState(false);
   const handleChangeRowsPerPage = (rowPage) => {
     setRowPerPage(rowPage);
   };
@@ -47,13 +51,15 @@ const ListScreen = () => {
               <p>Lê quang Sơn , Nguyễn Hữu Sơn .......</p>
             </Td>
             <Td>
-              <Btn backgroundColor="warning">
-                <a href="https://www.youtube.com" target="_blank">
+              <WapButton>
+                <Button color="warning" href="https://www.youtube.com">
                   View
-                </a>
-              </Btn>
-              <Btn>Phê duyệt</Btn>
-              <Btn backgroundColor="danger">Từ trối</Btn>
+                </Button>
+                <Button>Phê duyệt</Button>
+                <Button color="danger" onClick={() => setOpen(!open)}>
+                  Từ trối
+                </Button>
+              </WapButton>
             </Td>
           </Tr>
           <Tr>
@@ -66,13 +72,13 @@ const ListScreen = () => {
               <p>Nguyễn Mạnh Quân,Lê Phương Thảo... </p>
             </Td>
             <Td>
-              <Btn backgroundColor="warning">
-                <a href="https://www.youtube.com" target="_blank">
+              <WapButton>
+                <Button color="warning" href="https://www.youtube.com">
                   View
-                </a>
-              </Btn>
-              <Btn>Phê duyệt</Btn>
-              <Btn backgroundColor="danger">Từ trối</Btn>
+                </Button>
+                <Button>Phê duyệt</Button>
+                <Button color="danger">Từ trối</Button>
+              </WapButton>
             </Td>
           </Tr>
           <Tr>
@@ -85,13 +91,13 @@ const ListScreen = () => {
               <p>Bùi Hoàng việt , Lê duy Sơn ....</p>
             </Td>
             <Td>
-              <Btn backgroundColor="warning">
-                <a href="https://www.youtube.com" target="_blank">
+              <WapButton>
+                <Button color="warning" href="https://www.youtube.com">
                   View
-                </a>
-              </Btn>
-              <Btn>Phê duyệt</Btn>
-              <Btn backgroundColor="danger">Từ trối</Btn>
+                </Button>
+                <Button>Phê duyệt</Button>
+                <Button color="danger">Từ trối</Button>
+              </WapButton>
             </Td>
           </Tr>
           <Tr>
@@ -105,13 +111,11 @@ const ListScreen = () => {
               <li>Lê Duy sơn </li>
             </Td>
             <Td>
-              <Btn backgroundColor="warning">
-                <a href="https://www.youtube.com" target="_blank">
-                  View
-                </a>
-              </Btn>
-              <Btn>Phê duyệt</Btn>
-              <Btn backgroundColor="danger">Từ trối</Btn>
+              <WapButton>
+                <Button color="warning" href="https://www.youtube.com">View</Button>
+                <Button>Phê duyệt</Button>
+                <Button color="danger">Từ trối</Button>
+              </WapButton>
             </Td>
           </Tr>
           <Tr>
@@ -124,13 +128,11 @@ const ListScreen = () => {
               <p>Bùi Hoàng việt , Lê duy Sơn ....</p>
             </Td>
             <Td>
-              <Btn backgroundColor="warning">
-                <a href="https://www.youtube.com" target="_blank">
-                  View
-                </a>
-              </Btn>
-              <Btn>Phê duyệt</Btn>
-              <Btn backgroundColor="danger">Từ trối</Btn>
+              <WapButton>
+                <Button color="warning" href="https://www.youtube.com">View</Button>
+                <Button>Phê duyệt</Button>
+                <Button color="danger">Từ trối</Button>
+              </WapButton>
             </Td>
           </Tr>
         </Tbody>
@@ -143,6 +145,9 @@ const ListScreen = () => {
           onPageChange={handleChangePage}
         />
       </GroupPagination>
+      <PopupOverlay open={open} setOpen={setOpen} title="Lý do">
+        <Reason />
+      </PopupOverlay>
     </WrapContent>
   );
 };
