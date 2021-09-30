@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { WrapContent } from "../../../styles/common/common-styles";
 import { MdModeEdit } from "react-icons/md";
 import { BsTrash } from "react-icons/bs";
-import { GroupPagination, TitleTable } from "./ProductScreen.styles";
-import { Button } from "./../../../components/Button/Button";
+import { GroupPagination, TitleTable, Btn } from "./ProductScreen.styles";
+
 import { TablePagination } from "./../../../components/Pagination/Pagination";
 import ProductControlTable from "./../components/ProductControlTable/ProductControlTable";
 import {
@@ -50,12 +50,12 @@ const ProductScreen = () => {
               <p>Lê Quang Sơn , lê duy sơn ...</p>
             </Td>
             <Td>
-              <Button color="warning">
+              <Btn backgroundColor="warning">
                 <MdModeEdit />
-              </Button>
-              <Button color="danger">
+              </Btn>
+              <Btn backgroundColor="danger">
                 <BsTrash />
-              </Button>
+              </Btn>
             </Td>
           </Tr>
           <Tr>
@@ -68,12 +68,12 @@ const ProductScreen = () => {
               <p>Lê Quang Sơn , lê duy sơn ...</p>
             </Td>
             <Td>
-              <Button color="warning">
+              <Btn backgroundColor="warning">
                 <MdModeEdit />
-              </Button>
-              <Button color="danger">
+              </Btn>
+              <Btn backgroundColor="danger">
                 <BsTrash />
-              </Button>
+              </Btn>
             </Td>
           </Tr>
           <Tr>
@@ -86,12 +86,12 @@ const ProductScreen = () => {
               <p>Lê Quang Sơn , lê duy sơn ...</p>
             </Td>
             <Td>
-              <Button color="warning">
+              <Btn backgroundColor="warning">
                 <MdModeEdit />
-              </Button>
-              <Button color="danger">
+              </Btn>
+              <Btn backgroundColor="danger">
                 <BsTrash />
-              </Button>
+              </Btn>
             </Td>
           </Tr>
           <Tr>
@@ -104,12 +104,12 @@ const ProductScreen = () => {
               <p>Lê Quang Sơn , lê duy sơn ...</p>
             </Td>
             <Td>
-              <Button color="warning">
+              <Btn backgroundColor="warning">
                 <MdModeEdit />
-              </Button>
-              <Button color="danger">
+              </Btn>
+              <Btn backgroundColor="danger">
                 <BsTrash />
-              </Button>
+              </Btn>
             </Td>
           </Tr>
           <Tr>
@@ -122,12 +122,12 @@ const ProductScreen = () => {
               <p>Lê Quang Sơn , lê duy sơn ...</p>
             </Td>
             <Td>
-              <Button color="warning">
+              <Btn backgroundColor="warning">
                 <MdModeEdit />
-              </Button>
-              <Button color="danger">
+              </Btn>
+              <Btn backgroundColor="danger">
                 <BsTrash />
-              </Button>
+              </Btn>
             </Td>
           </Tr>
           <Tr>
@@ -140,12 +140,12 @@ const ProductScreen = () => {
               <p>Lê Quang Sơn , lê duy sơn ...</p>
             </Td>
             <Td>
-              <Button color="warning">
+              <Btn backgroundColor="warning">
                 <MdModeEdit />
-              </Button>
-              <Button color="danger">
+              </Btn>
+              <Btn backgroundColor="danger">
                 <BsTrash />
-              </Button>
+              </Btn>
             </Td>
           </Tr>
           <Tr>
@@ -158,12 +158,12 @@ const ProductScreen = () => {
               <p>Lê Quang Sơn , lê duy sơn ...</p>
             </Td>
             <Td>
-              <Button color="warning">
+              <Btn backgroundColor="warning">
                 <MdModeEdit />
-              </Button>
-              <Button color="danger">
+              </Btn>
+              <Btn backgroundColor="danger">
                 <BsTrash />
-              </Button>
+              </Btn>
             </Td>
           </Tr>
           <Tr>
@@ -176,12 +176,12 @@ const ProductScreen = () => {
               <p>Lê Quang Sơn , lê duy sơn ...</p>
             </Td>
             <Td>
-              <Button color="warning">
+              <Btn backgroundColor="warning">
                 <MdModeEdit />
-              </Button>
-              <Button color="danger">
+              </Btn>
+              <Btn backgroundColor="danger">
                 <BsTrash />
-              </Button>
+              </Btn>
             </Td>
           </Tr>
           <Tr>
@@ -194,12 +194,12 @@ const ProductScreen = () => {
               <p>Lê Quang Sơn , lê duy sơn ...</p>
             </Td>
             <Td>
-              <Button color="warning">
+              <Btn backgroundColor="warning">
                 <MdModeEdit />
-              </Button>
-              <Button color="danger">
+              </Btn>
+              <Btn backgroundColor="danger">
                 <BsTrash />
-              </Button>
+              </Btn>
             </Td>
           </Tr>
           <Tr>
@@ -212,12 +212,12 @@ const ProductScreen = () => {
               <p>Lê Quang Sơn , lê duy sơn ...</p>
             </Td>
             <Td>
-              <Button color="warning">
+              <Btn backgroundColor="warning">
                 <MdModeEdit />
-              </Button>
-              <Button color="danger">
+              </Btn>
+              <Btn backgroundColor="danger">
                 <BsTrash />
-              </Button>
+              </Btn>
             </Td>
           </Tr>
           <Tr>
@@ -230,12 +230,12 @@ const ProductScreen = () => {
               <p>Lê Quang Sơn , lê duy sơn ...</p>
             </Td>
             <Td>
-              <Button color="warning">
+              <Btn backgroundColor="warning">
                 <MdModeEdit />
-              </Button>
-              <Button color="danger">
+              </Btn>
+              <Btn backgroundColor="danger">
                 <BsTrash />
-              </Button>
+              </Btn>
             </Td>
           </Tr>
         </Tbody>
@@ -252,4 +252,4 @@ const ProductScreen = () => {
   );
 };
 
-export default ProductScreen;
+export default memo(ProductScreen);
