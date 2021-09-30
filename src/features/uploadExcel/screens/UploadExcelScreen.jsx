@@ -25,8 +25,7 @@ const UploadExcelScreen = () => {
 				</p>
 
 				<div className="button-upload">
-					<Button>
-						<MdCloudUpload />
+					<Button icon={<MdCloudUpload />} size="medium">
 						Upload
 					</Button>
 				</div>
