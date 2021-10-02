@@ -4,8 +4,10 @@ import { USER_LIST_ROUTES } from "././../features/user/routes/user.routes";
 import { SPCIALIZED_ROUTES } from "../features/specialized/routes/specialized.routes";
 import { PRODUCT_LIST_ROUTES } from "../features/product/routes/product.routes";
 import { UPLOAD_EXCEL_ROUTES } from "./../features/uploadExcel/routes/upload-excel.routes";
+import { AUTH_ROUTES } from "./../features/auth/routes/auth.routes";
 
 export const LIST_ROUTES = [
+	...AUTH_ROUTES,
 	...UPLOAD_EXCEL_ROUTES,
 	...SPCIALIZED_ROUTES,
 	...PRODUCT_LIST_ROUTES,
