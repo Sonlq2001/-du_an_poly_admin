@@ -27,15 +27,9 @@ import { Button } from "../../../components/Button/Button";
 import { DATA_FAKE } from "./../constants/specialized.constants";
 
 const SpecializedScreen = () => {
-	const [rowPerPage, setRowPerPage] = useState(10);
 	const [toggleAdd, setToggleAdd] = useState(false);
 	const [Item, setItem] = useState();
-	const handleChangeRowsPerPage = (rowPage) => {
-		setRowPerPage(rowPage);
-	};
-	const handleChangePage = () => {
-		console.log("vo day");
-	};
+
 	const Update = (item) => {
 		setItem(item);
 		setToggleAdd(true);
@@ -43,6 +37,16 @@ const SpecializedScreen = () => {
 	const AddSpecia = (item) => {
 		setItem(item);
 		setToggleAdd(!toggleAdd);
+	};
+
+	const [pagination, setPagination] = useState({
+		page: 1,
+		pageLength: 20,
+		totalRecords: 100,
+	});
+
+	const handleChangePage = (values) => {
+		setPagination({ ...pagination, ...values });
 	};
 	return (
 		<WrapContent>
@@ -89,9 +93,10 @@ const SpecializedScreen = () => {
 			</TableCustom>
 			<GroupPagination>
 				<TablePagination
-					onRowsPerPageChange={handleChangeRowsPerPage}
-					rowsPerPageOptions={[10, 20, 50]}
-					rowsPerPage={rowPerPage}
+					pageLengthMenu={[20, 50, 100]}
+					page={pagination.page}
+					pageLength={pagination.pageLength}
+					totalRecords={pagination.totalRecords}
 					onPageChange={handleChangePage}
 				/>
 			</GroupPagination>
