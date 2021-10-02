@@ -5,67 +5,121 @@ import OutsideClickHandler from "react-outside-click-handler";
 
 import { GroupPagination, BoxSelect, BoxControl } from "./Pagination.styles";
 
-export const TablePagination = ({
-  onPageChange,
-  onRowsPerPageChange,
-  rowsPerPageOptions,
-  rowsPerPage,
-}) => {
-  const [isSelect, setIsSelect] = useState(false);
+const limit = (value, min, max) => {
+	return Math.max(min, Math.min(max, value));
+};
 
-  const handleChangePage = (newPage) => {
-    rowsPerPage += rowsPerPage;
-    onPageChange();
-  };
+export const TablePagination = ({ totalRecords = 0, ...props }) => {
+	const [pagination, setPagination] = useState({
+		select: false,
+		page: props.page,
+	});
 
-  const handleChangePageRow = (item) => {
-    onRowsPerPageChange(item);
-    setIsSelect(false);
-  };
+	const pageLength = props.pageLength || props.pageLengthMenu[0] || 10;
 
-  return (
-    <GroupPagination>
-      <span className="title-pagination">Hàng mỗi trang: </span>
-      <BoxSelect>
-        <div
-          className={`show-option ${isSelect ? "active" : ""}`}
-          onClick={() => setIsSelect(!isSelect)}
-        >
-          {rowsPerPage}
-          <span className="icon-option">
-            <FaSortDown />
-          </span>
-        </div>
-        {isSelect && (
-          <OutsideClickHandler onOutsideClick={() => setIsSelect(false)}>
-            <div className="list-option">
-              {rowsPerPageOptions.map((item) => (
-                <div
-                  className="item-option"
-                  key={item}
-                  onClick={() => handleChangePageRow(item)}
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
-          </OutsideClickHandler>
-        )}
-      </BoxSelect>
+	// tính ra tổng số page cần dùng
+	const totalPages =
+		totalRecords > 0 ? Math.ceil(totalRecords / pageLength) : 1;
 
-      <div className="location-pagination">
-        {1}-{rowsPerPage} of 100
-      </div>
+	const page = limit(props.page, 1, totalPages);
 
-      <BoxControl>
-        <span className="icon-prev">
-          <BsChevronLeft />
-        </span>
+	const from = limit((page - 1) * pageLength + 1, 1, totalRecords);
 
-        <span className="icon-next" onClick={() => handleChangePage(1)}>
-          <BsChevronRight />
-        </span>
-      </BoxControl>
-    </GroupPagination>
-  );
+	const to = limit((props.page - 1) * pageLength + pageLength, 1, totalRecords);
+
+	const prevPageDisabled = page <= 1;
+	const nextPageDisabled = page >= totalPages;
+
+	const changePage = (options) => {
+		const { page = props.page, pageLength = props.pageLength } = { ...options };
+
+		const pageMin = 1;
+		const pageMax = Math.max(Math.ceil(totalRecords / pageLength), 1);
+
+		props.onPageChange({
+			page: limit(page, pageMin, pageMax),
+			pageLength,
+		});
+	};
+
+	return (
+		<GroupPagination>
+			<span className="title-pagination">Hàng mỗi trang: </span>
+			<BoxSelect>
+				<div
+					className={`show-option ${pagination.select ? "active" : ""}`}
+					onClick={() =>
+						setPagination({ ...pagination, select: !pagination.select })
+					}
+				>
+					{pageLength}
+					<span className="icon-option">
+						<FaSortDown />
+					</span>
+				</div>
+				{pagination.select && (
+					<OutsideClickHandler
+						onOutsideClick={() =>
+							setPagination({ ...pagination, select: !pagination.select })
+						}
+					>
+						<div className="list-option">
+							{props.pageLengthMenu.map((item) => (
+								<div
+									className="item-option"
+									key={item}
+									onClick={() => {
+										setPagination({
+											...pagination,
+											select: !pagination.select,
+										});
+										changePage({
+											page: item !== pageLength ? 1 : page,
+											pageLength: item,
+										});
+									}}
+								>
+									{item}
+								</div>
+							))}
+						</div>
+					</OutsideClickHandler>
+				)}
+			</BoxSelect>
+
+			<div className="location-pagination">
+				{from}-{to} of {totalRecords}
+			</div>
+
+			<BoxControl>
+				<span
+					className={`${prevPageDisabled ? "disabled" : ""} icon-prev`}
+					onClick={() => {
+						const prevPage = page > 1 ? page - 1 : page;
+						if (prevPage !== pagination.page) {
+							setPagination({ ...pagination, page: prevPage });
+						}
+
+						changePage({ page: prevPage });
+					}}
+				>
+					<BsChevronLeft />
+				</span>
+
+				<span
+					className={`${prevPageDisabled ? "disabled" : ""} icon-next`}
+					onClick={() => {
+						const nextPage = page < totalPages ? page + 1 : page;
+						if (nextPage !== pagination.page) {
+							setPagination({ ...pagination, page: nextPage });
+						}
+
+						changePage({ page: nextPage });
+					}}
+				>
+					<BsChevronRight />
+				</span>
+			</BoxControl>
+		</GroupPagination>
+	);
 };

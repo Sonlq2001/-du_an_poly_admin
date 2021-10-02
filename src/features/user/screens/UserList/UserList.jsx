@@ -20,16 +20,18 @@ import PopupUser from "./../../components/PopupUser/PopupUser";
 import { DATA_FAKE } from "./../../constants/user.constants";
 
 const UserList = () => {
-	const [rowPerPage, setRowPerPage] = useState(10);
 	const [isPopup, setIsPopup] = useState(false);
 	const [contentEdit, setContentEdit] = useState({ name: "" });
-	const handleChangeRowsPerPage = (rowPage) => {
-		setRowPerPage(rowPage);
-	};
+	const [pagination, setPagination] = useState({
+		page: 1,
+		pageLength: 20,
+		totalRecords: 100,
+	});
 
-	const handleChangePage = () => {
-		console.log("vo day");
+	const handleChangePage = (values) => {
+		setPagination({ ...pagination, ...values });
 	};
+	console.log(pagination);
 
 	const handleEdit = (values) => {
 		setContentEdit({ ...contentEdit, ...values });
@@ -78,9 +80,10 @@ const UserList = () => {
 
 			<GroupPagination>
 				<TablePagination
-					onRowsPerPageChange={handleChangeRowsPerPage}
-					rowsPerPageOptions={[10, 20, 50]}
-					rowsPerPage={rowPerPage}
+					pageLengthMenu={[20, 50, 100]}
+					page={pagination.page}
+					pageLength={pagination.pageLength}
+					totalRecords={pagination.totalRecords}
 					onPageChange={handleChangePage}
 				/>
 			</GroupPagination>

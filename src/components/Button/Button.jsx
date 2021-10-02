@@ -49,7 +49,7 @@ export const Button = ({
 			{children && <span className="text-btn">{children}</span>}
 		</ButtonCustom>
 	) : (
-		<a href={href} target="_blank" className="text-btn">
+		<a href={href} target="_blank" rel="noreferrer" className="text-btn">
 			<ButtonCustom color={colorButton} size={sizeButton}>
 				<span className="icon-btn">{icon}</span>
 				{children}

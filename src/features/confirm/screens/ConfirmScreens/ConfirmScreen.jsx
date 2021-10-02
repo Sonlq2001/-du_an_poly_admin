@@ -17,13 +17,14 @@ import {
 } from "./../../../../components/Table/TableCustom";
 import UserControlTable from "./../../components/UserControlTable/UserControlTable";
 const ListScreen = () => {
-	const [rowPerPage, setRowPerPage] = useState(10);
-	const handleChangeRowsPerPage = (rowPage) => {
-		setRowPerPage(rowPage);
-	};
+	const [pagination, setPagination] = useState({
+		page: 1,
+		pageLength: 20,
+		totalRecords: 100,
+	});
 
-	const handleChangePage = () => {
-		console.log("vo day");
+	const handleChangePage = (values) => {
+		setPagination({ ...pagination, ...values });
 	};
 	return (
 		<WrapContent>
@@ -67,9 +68,10 @@ const ListScreen = () => {
 			</TableCustom>
 			<GroupPagination>
 				<TablePagination
-					onRowsPerPageChange={handleChangeRowsPerPage}
-					rowsPerPageOptions={[10, 20, 50]}
-					rowsPerPage={rowPerPage}
+					pageLengthMenu={[20, 50, 100]}
+					page={pagination.page}
+					pageLength={pagination.pageLength}
+					totalRecords={pagination.totalRecords}
 					onPageChange={handleChangePage}
 				/>
 			</GroupPagination>
