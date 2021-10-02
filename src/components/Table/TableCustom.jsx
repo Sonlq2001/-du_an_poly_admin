@@ -2,31 +2,35 @@ import React from "react";
 
 import { Table, TableTr, TableTh } from "./TableCustom.styles";
 
-export const TableCustom = ({ children }) => {
-  return <Table>{children}</Table>;
+export const TableCustom = ({ children, className }) => {
+	return <Table className={className}>{children}</Table>;
 };
 
-export const Thead = ({ children }) => {
-  return <thead>{children}</thead>;
+export const Thead = ({ children, className }) => {
+	return <thead className={className}>{children}</thead>;
 };
 
-export const Tbody = ({ children }) => {
-  return <tbody>{children}</tbody>;
+export const Tbody = ({ children, className }) => {
+	return <tbody className={className}>{children}</tbody>;
 };
 
-export const Tr = ({ children }) => {
-  return <TableTr>{children}</TableTr>;
+export const Tr = ({ children, className }) => {
+	return <TableTr className={className}>{children}</TableTr>;
 };
 
-export const Th = ({ children, sort }) => {
-  const isSort = sort === undefined ? true : false;
-  return isSort ? (
-    <TableTh sort={isSort}>{children}</TableTh>
-  ) : (
-    <th className="th-default">{children}</th>
-  );
+export const Th = ({ children, sort, className }) => {
+	const isSort = sort === undefined ? true : false;
+	return isSort ? (
+		<TableTh sort={isSort} className={className}>
+			{children}
+		</TableTh>
+	) : (
+		<th className="th-default" className={className}>
+			{children}
+		</th>
+	);
 };
 
-export const Td = ({ children }) => {
-  return <td>{children}</td>;
+export const Td = ({ children, className }) => {
+	return <td className={className}>{children}</td>;
 };
