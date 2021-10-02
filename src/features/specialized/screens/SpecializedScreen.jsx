@@ -1,18 +1,20 @@
 import React, { memo, useState } from "react";
+import { MdModeEdit } from "react-icons/md";
+import { BsTrash } from "react-icons/bs";
+import { IoMdAdd } from "react-icons/io";
+
 import { WrapContent } from "./../../../styles/common/common-styles";
 import { TablePagination } from "./../../../components/Pagination/Pagination";
-import SpecializedControlTable from "./../components/specializedControlTable/SpecializedControlTable";
+import SpecializedControlTable from "../components/SpecializedControlTable/SpecializedControlTable";
 import AddSpecialized from "../components/AddSpecialized/index";
 import PopupOverlay from "./../../../components/PopupOverlay/PopupOverlay";
 import {
 	GroupPagination,
 	TitleTable,
 	BoxActionTable,
-	Add,
-} from "./Specialized.styles";
-import { MdModeEdit } from "react-icons/md";
-import { BsTrash } from "react-icons/bs";
-import { IoMdAdd } from "react-icons/io";
+	TableHeader,
+} from "./SpecializedScreen.styles";
+
 import {
 	TableCustom,
 	Thead,
@@ -22,6 +24,8 @@ import {
 	Tbody,
 } from "../../../components/Table/TableCustom";
 import { Button } from "../../../components/Button/Button";
+import { DATA_FAKE } from "./../constants/specialized.constants";
+
 const SpecializedScreen = () => {
 	const [toggleAdd, setToggleAdd] = useState(false);
 	const [Item, setItem] = useState();
@@ -46,12 +50,10 @@ const SpecializedScreen = () => {
 	};
 	return (
 		<WrapContent>
-			<TitleTable>
-				Danh sách chuyên ngành
-				<Add onClick={() => AddSpecia(null)}>
-					<IoMdAdd />
-				</Add>{" "}
-			</TitleTable>
+			<TableHeader>
+				<TitleTable>Danh sách chuyên ngành</TitleTable>
+				<Button onClick={() => AddSpecia(null)} icon={<IoMdAdd />} />
+			</TableHeader>
 			<SpecializedControlTable />
 			<TableCustom>
 				<Thead>
@@ -63,30 +65,30 @@ const SpecializedScreen = () => {
 					</Tr>
 				</Thead>
 				<Tbody>
-					<Tr>
-						<Td>1 </Td>
-						<Td> Thiết kế đồ họa </Td>
-						<Td>Trần Hữu Thiện </Td>
-						<Td>
-							<BoxActionTable>
-								<Button
-									color="warning"
-									onClick={() =>
-										Update({
-											id: 1,
-											name: "thiết kế website",
-											teacher_id: "1",
-										})
-									}
-								>
-									<MdModeEdit />
-								</Button>
-								<Button color="danger">
-									<BsTrash />
-								</Button>
-							</BoxActionTable>
-						</Td>
-					</Tr>
+					{DATA_FAKE.map((item) => (
+						<Tr key={item.id}>
+							<Td>{item.id}</Td>
+							<Td>{item.name}</Td>
+							<Td>{item.teacher}</Td>
+							<Td>
+								<BoxActionTable>
+									<Button
+										color="warning"
+										icon={<MdModeEdit />}
+										size="small"
+										onClick={() =>
+											Update({
+												id: 1,
+												name: "thiết kế website",
+												teacher_id: "1",
+											})
+										}
+									/>
+									<Button color="danger" size="small" icon={<BsTrash />} />
+								</BoxActionTable>
+							</Td>
+						</Tr>
+					))}
 				</Tbody>
 			</TableCustom>
 			<GroupPagination>

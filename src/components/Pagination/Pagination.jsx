@@ -107,7 +107,7 @@ export const TablePagination = ({ totalRecords = 0, ...props }) => {
 				</span>
 
 				<span
-					className={`${prevPageDisabled ? "disabled" : ""} icon-next`}
+					className={`${nextPageDisabled ? "disabled" : ""} icon-next`}
 					onClick={() => {
 						const nextPage = page < totalPages ? page + 1 : page;
 						if (nextPage !== pagination.page) {

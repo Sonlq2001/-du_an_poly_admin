@@ -19,6 +19,12 @@ export const Button = ({
 		case "danger":
 			colorButton = "#E54B3C";
 			break;
+		case "info":
+			colorButton = "#17a2b8";
+			break;
+		case "success":
+			colorButton = "#04aa6d";
+			break;
 		default:
 			colorButton = "#3498DB";
 	}

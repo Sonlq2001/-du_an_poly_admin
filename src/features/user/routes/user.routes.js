@@ -1,6 +1,6 @@
 import { lazy } from "react";
 
-const UserList = lazy(() => import("./../screens/UserList/UserList"));
+const UserList = lazy(() => import("./../screens/UserScreen/UserScreen"));
 
 const USER_LIST = {
 	id: "id_user_list",

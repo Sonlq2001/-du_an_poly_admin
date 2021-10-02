@@ -1,11 +1,15 @@
 import React, { memo, useState } from "react";
+import { FiCheck } from "react-icons/fi";
+import { AiOutlineEye } from "react-icons/ai";
+import { BsTrash } from "react-icons/bs";
+
 import { WrapContent } from "./../../../../styles/common/common-styles";
 import {
 	TitleTable,
-	Btn,
 	GroupPagination,
 	GroupAction,
-} from "./Comfirm.styles";
+	BoxMain,
+} from "./ConfirmScreen.styles";
 import { TablePagination } from "./../../../../components/Pagination/Pagination";
 import {
 	TableCustom,
@@ -16,7 +20,10 @@ import {
 	Td,
 } from "./../../../../components/Table/TableCustom";
 import UserControlTable from "./../../components/UserControlTable/UserControlTable";
-const ListScreen = () => {
+import { Button } from "./../../../../components/Button/Button";
+import { DATA_FAKE } from "./../../constants/confirm.constants";
+
+const ConfirmScreen = () => {
 	const [pagination, setPagination] = useState({
 		page: 1,
 		pageLength: 20,
@@ -28,55 +35,53 @@ const ListScreen = () => {
 	};
 	return (
 		<WrapContent>
-			<TitleTable> Sản phẩm chờ phê duyệt</TitleTable>
-			<UserControlTable />
-			<TableCustom>
-				<Thead>
-					<Tr>
-						<Th sort={false}>STT</Th>
-						<Th>Tên đề tài </Th>
-						<Th>Lớp</Th>
-						<Th>Môn </Th>
-						<Th>Kỳ học </Th>
-						<Th>Thành viên </Th>
-						<Th sort={false}>Action</Th>
-					</Tr>
-				</Thead>
-				<Tbody>
-					<Tr>
-						<Td>1</Td>
-						<Td>Web sản phẩm tốt sinh viên poly</Td>
-						<Td>pt15305</Td>
-						<Td>Dự án tốt nghiêp</Td>
-						<Td>Kỳ sping 2021</Td>
-						<Td>
-							<p>Lê quang Sơn , Nguyễn Hữu Sơn .......</p>
-						</Td>
-						<Td>
-							<div>
-								<Btn backgroundColor="warning">
-									<a href="https://www.youtube.com" target="_blank">
-										View
-									</a>
-								</Btn>
-								<Btn>Phê duyệt</Btn>
-								<Btn backgroundColor="danger">Từ trối</Btn>
-							</div>
-						</Td>
-					</Tr>
-				</Tbody>
-			</TableCustom>
-			<GroupPagination>
-				<TablePagination
-					pageLengthMenu={[20, 50, 100]}
-					page={pagination.page}
-					pageLength={pagination.pageLength}
-					totalRecords={pagination.totalRecords}
-					onPageChange={handleChangePage}
-				/>
-			</GroupPagination>
+			<BoxMain>
+				<TitleTable> Sản phẩm chờ phê duyệt</TitleTable>
+				<UserControlTable />
+				<TableCustom className="table-confirm">
+					<Thead>
+						<Tr>
+							<Th sort={false}>STT</Th>
+							<Th>Tên đề tài </Th>
+							<Th>Lớp</Th>
+							<Th>Môn </Th>
+							<Th className="fix-th">Kỳ học </Th>
+							<Th>Thành viên </Th>
+							<Th sort={false}>Action</Th>
+						</Tr>
+					</Thead>
+					<Tbody>
+						{DATA_FAKE.map((data) => (
+							<Tr key={data.id}>
+								<Td>{data.id}</Td>
+								<Td>{data.name}</Td>
+								<Td>{data.class}</Td>
+								<Td>{data.subject}</Td>
+								<Td className="fix-td">{data.semester}</Td>
+								<Td>{data.member.map((item) => item)}</Td>
+								<Td>
+									<GroupAction>
+										<Button icon={<FiCheck />} size="small" color="success" />
+										<Button icon={<AiOutlineEye />} size="small" color="info" />
+										<Button icon={<BsTrash />} size="small" color="danger" />
+									</GroupAction>
+								</Td>
+							</Tr>
+						))}
+					</Tbody>
+				</TableCustom>
+				<GroupPagination>
+					<TablePagination
+						pageLengthMenu={[20, 50, 100]}
+						page={pagination.page}
+						pageLength={pagination.pageLength}
+						totalRecords={pagination.totalRecords}
+						onPageChange={handleChangePage}
+					/>
+				</GroupPagination>
+			</BoxMain>
 		</WrapContent>
 	);
 };
 
-export default memo(ListScreen);
+export default memo(ConfirmScreen);
