@@ -1,76 +1,48 @@
-import React, { memo, useMemo } from "react";
+import React, { memo } from 'react';
 
-import TableComponent from "./TableComponent";
+import { WrapTable } from './TableFeedback.styles';
+import { BoxTitleDashboard } from './../../../../styles/common/common-styles';
+import {
+  TableCustom,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+} from './../../../../components/Table/TableCustom';
+import { DATA_FAKE } from './../../constants/dashboard.constants';
 
 const TableFeedback = () => {
-	const columns = useMemo(
-		() => [
-			{
-				Header: "STT",
-				accessor: "id",
-			},
-			{
-				Header: "Người đánh giá",
-				accessor: "name",
-			},
-			{
-				Header: "Nội dung",
-				accessor: "content",
-			},
-			{
-				Header: "Sản phẩm",
-				accessor: "product",
-			},
-			{
-				Header: "Thời gian",
-				accessor: "time",
-			},
-		],
-		[]
-	);
+  return (
+    <WrapTable>
+      <BoxTitleDashboard>Phản hồi mới nhất</BoxTitleDashboard>
+      <div className="group-table">
+        <TableCustom>
+          <Thead>
+            <Tr>
+              <Th>#</Th>
+              <Th>Sản phẩm</Th>
+              <Th className="fix-sort">Người đánh giá</Th>
+              <Th>Nội dung</Th>
+              <Th>Thời gian</Th>
+            </Tr>
+          </Thead>
 
-	const data = useMemo(
-		() => [
-			{
-				id: 1,
-				name: "le quang son",
-				content: "san pham pro max vip",
-				product: "đồ án tốt nghiệp marketing",
-				time: "09/25/2021",
-			},
-			{
-				id: 2,
-				name: "le quang son",
-				content: "san pham pro max vip",
-				product: "đồ án tốt nghiệp marketing",
-				time: "09/25/2021",
-			},
-			{
-				id: 3,
-				name: "le quang son",
-				content: "san pham pro max vip",
-				product: "đồ án tốt nghiệp marketing",
-				time: "09/25/2021",
-			},
-			{
-				id: 4,
-				name: "le quang son",
-				content: "san pham pro max vip",
-				product: "đồ án tốt nghiệp marketing",
-				time: "09/25/2021",
-			},
-			{
-				id: 5,
-				name: "le quang son",
-				content: "san pham pro max vip",
-				product: "đồ án tốt nghiệp marketing",
-				time: "09/25/2021",
-			},
-		],
-		[]
-	);
-
-	return <TableComponent columns={columns} data={data} />;
+          <Tbody>
+            {DATA_FAKE.map((row) => (
+              <Tr key={row.id}>
+                <Td>{row.id}</Td>
+                <Td>{row.product}</Td>
+                <Td>{row.name}</Td>
+                <Td>{row.content}</Td>
+                <Td>{row.time}</Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </TableCustom>
+      </div>
+    </WrapTable>
+  );
 };
 
 export default memo(TableFeedback);
