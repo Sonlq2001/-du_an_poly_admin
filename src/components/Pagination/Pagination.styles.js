@@ -67,4 +67,8 @@ export const BoxControl = styled.div`
 	.icon-next {
 		margin-left: 1.5rem;
 	}
+
+	.icon-prev.disabled {
+		color: red;
+	}
 `;

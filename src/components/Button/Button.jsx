@@ -19,6 +19,12 @@ export const Button = ({
 		case "danger":
 			colorButton = "#E54B3C";
 			break;
+		case "info":
+			colorButton = "#17a2b8";
+			break;
+		case "success":
+			colorButton = "#04aa6d";
+			break;
 		default:
 			colorButton = "#3498DB";
 	}
@@ -26,13 +32,13 @@ export const Button = ({
 	let sizeButton = { fontSize: "", padding: "" };
 	switch (size) {
 		case "small":
-			sizeButton = { fontSize: "1.4rem", padding: "8px" };
+			sizeButton = { fontSize: "1.4rem", padding: "8px 10px" };
 			break;
 		case "large":
-			sizeButton = { fontSize: "1.6rem", padding: "12px" };
+			sizeButton = { fontSize: "1.6rem", padding: "12px 14px" };
 			break;
 		default:
-			sizeButton = { fontSize: "1.5rem", padding: "10px" };
+			sizeButton = { fontSize: "1.5rem", padding: "10px 12px" };
 	}
 	const isLink = href === undefined ? true : false;
 	return isLink ? (
@@ -42,11 +48,14 @@ export const Button = ({
 			size={sizeButton}
 			disabled={disabled}
 		>
-			<span className="icon-btn">{icon}</span>
-			<span className="text-btn">{children}</span>
+			{icon && (
+				<span className={`icon-btn ${children ? "" : "active"}`}>{icon}</span>
+			)}
+
+			{children && <span className="text-btn">{children}</span>}
 		</ButtonCustom>
 	) : (
-		<a href={href} target="_blank" className="text-btn">
+		<a href={href} target="_blank" rel="noreferrer" className="text-btn">
 			<ButtonCustom color={colorButton} size={sizeButton}>
 				<span className="icon-btn">{icon}</span>
 				{children}
