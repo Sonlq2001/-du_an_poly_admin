@@ -25,9 +25,7 @@ export const Th = ({ children, sort, className }) => {
 			{children}
 		</TableTh>
 	) : (
-		<th className="th-default" className={className}>
-			{children}
-		</th>
+		<th className={`th-default ${className}`}>{children}</th>
 	);
 };
 
