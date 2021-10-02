@@ -4,7 +4,6 @@ export const DATA_FAKE = [
 		name: "website bán hàng",
 		class: "pt1514",
 		subject: "Đồ án tốt nghiêp",
-		subject: "Đồ án tốt nghiêp",
 		semester: 7,
 		member: ["Lê Quang Sơn, Nguyễn Hữu Sơn"],
 	},

@@ -9,7 +9,7 @@ import {
 } from "./PopupOverlay.styles";
 import { Button } from "./../../components/Button/Button";
 
-const PopupOverlay = ({ open, setOpen, children, title }) => {
+const PopupOverlay = ({ open, setOpen, children, title, scroll = false }) => {
 	return (
 		<>
 			<GroupPopupOverlay
@@ -22,7 +22,7 @@ const PopupOverlay = ({ open, setOpen, children, title }) => {
 				>
 					<h3 className="title-popup">{title}</h3>
 
-					<ContentPopup>{children}</ContentPopup>
+					<ContentPopup scroll={scroll}>{children}</ContentPopup>
 
 					<ActionPopup>
 						<Button type="submit" icon={<BiSave />} size="small">
