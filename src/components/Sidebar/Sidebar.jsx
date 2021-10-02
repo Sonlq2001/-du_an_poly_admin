@@ -2,6 +2,8 @@ import React, { memo } from "react";
 import { NavLink } from "react-router-dom";
 import { RiDashboardFill } from "react-icons/ri";
 import { MdCloudUpload } from "react-icons/md";
+import { FaShoppingBag, FaUserFriends } from "react-icons/fa";
+import { GiBookCover } from "react-icons/gi";
 
 import { WrapSidebar, ListMenu } from "./Sidebar.styles";
 import LogoFpt from "./../../assets/images/logo.png";
@@ -20,13 +22,13 @@ const Sidebar = () => {
 				</li>
 				<li className="item-menu">
 					<NavLink to="/confirm" className="link-menu" activeClassName="active">
-						<RiDashboardFill className="icon-menu" />
+						<FaShoppingBag className="icon-menu" />
 						Quản sản phẩm
 					</NavLink>
 				</li>
 				<li className="item-menu">
 					<NavLink to="/user" className="link-menu" activeClassName="active">
-						<RiDashboardFill className="icon-menu" />
+						<FaUserFriends className="icon-menu" />
 						Quản trị user
 					</NavLink>
 				</li>
@@ -36,7 +38,7 @@ const Sidebar = () => {
 						className="link-menu"
 						activeClassName="active"
 					>
-						<RiDashboardFill className="icon-menu" />
+						<GiBookCover className="icon-menu" />
 						Quản trị chuyên ngành
 					</NavLink>
 				</li>
