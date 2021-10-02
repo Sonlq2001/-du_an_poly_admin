@@ -2,7 +2,7 @@ import React, { memo, useState } from "react";
 import { WrapContent } from "../../../styles/common/common-styles";
 import { MdModeEdit } from "react-icons/md";
 import { BsTrash } from "react-icons/bs";
-import { GroupPagination, TitleTable, Btn } from "./ProductScreen.styles";
+import { GroupPagination, TitleTable, WapButton } from "./ProductScreen.styles";
 
 import { TablePagination } from "./../../../components/Pagination/Pagination";
 import ProductControlTable from "./../components/ProductControlTable/ProductControlTable";
@@ -14,6 +14,7 @@ import {
   Tbody,
   Td,
 } from "./../../../components/Table/TableCustom";
+import { Button } from "./../../../components/Button/Button";
 const ProductScreen = () => {
   const [rowPerPage, setRowPerPage] = useState(10);
   const handleChangeRowsPerPage = (rowPage) => {
@@ -23,6 +24,48 @@ const ProductScreen = () => {
   const handleChangePage = () => {
     console.log("vo day");
   };
+  const DATA_FAKE = [
+    {
+      id: 1,
+      name: "dự án sản phẩm poly ",
+      mon: "dự án tốt nghiệp",
+      class: "pt15316",
+      teacher: "trần hữu Thiện",
+      group: "Lê Quang Sơn , lê duy sơn ...",
+    },
+    {
+      id: 2,
+      name: "dự án sản phẩm poly ",
+      mon: "dự án tốt nghiệp",
+      class: "pt15316",
+      teacher: "trần hữu Thiện",
+      group: "Lê Quang Sơn , lê duy sơn ...",
+    },
+    {
+      id: 3,
+      name: "dự án sản phẩm poly ",
+      mon: "dự án tốt nghiệp",
+      class: "pt15316",
+      teacher: "trần hữu Thiện",
+      group: "Lê Quang Sơn , lê duy sơn ...",
+    },
+    {
+      id: 4,
+      name: "dự án sản phẩm poly ",
+      mon: "dự án tốt nghiệp",
+      class: "pt15316",
+      teacher: "trần hữu Thiện",
+      group: "Lê Quang Sơn , lê duy sơn ...",
+    },
+    {
+      id: 5,
+      name: "dự án sản phẩm poly ",
+      mon: "dự án tốt nghiệp",
+      class: "pt15316",
+      teacher: "trần hữu Thiện",
+      group: "Lê Quang Sơn , lê duy sơn ...",
+    },
+  ];
   return (
     <WrapContent>
       <TitleTable> Danh sách sản phẩm </TitleTable>
@@ -40,204 +83,24 @@ const ProductScreen = () => {
           </Tr>
         </Thead>
         <Tbody>
-          <Tr>
-            <Td> 1</Td>
-            <Td> Sản phẩm poly </Td>
-            <Td> dự án tốt nghiệp </Td>
-            <Td> p115315</Td>
-            <Td> Trần Hữu Thiện</Td>
-            <Td>
-              <p>Lê Quang Sơn , lê duy sơn ...</p>
-            </Td>
-            <Td>
-              <Btn backgroundColor="warning">
-                <MdModeEdit />
-              </Btn>
-              <Btn backgroundColor="danger">
-                <BsTrash />
-              </Btn>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td> 2</Td>
-            <Td> Sản phẩm poly </Td>
-            <Td> dự án tốt nghiệp </Td>
-            <Td> p115315</Td>
-            <Td> Trần Hữu Thiện</Td>
-            <Td>
-              <p>Lê Quang Sơn , lê duy sơn ...</p>
-            </Td>
-            <Td>
-              <Btn backgroundColor="warning">
-                <MdModeEdit />
-              </Btn>
-              <Btn backgroundColor="danger">
-                <BsTrash />
-              </Btn>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td> 2</Td>
-            <Td> Sản phẩm poly </Td>
-            <Td> dự án tốt nghiệp </Td>
-            <Td> p115315</Td>
-            <Td> Trần Hữu Thiện</Td>
-            <Td>
-              <p>Lê Quang Sơn , lê duy sơn ...</p>
-            </Td>
-            <Td>
-              <Btn backgroundColor="warning">
-                <MdModeEdit />
-              </Btn>
-              <Btn backgroundColor="danger">
-                <BsTrash />
-              </Btn>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td> 3</Td>
-            <Td> Sản phẩm poly </Td>
-            <Td> dự án tốt nghiệp </Td>
-            <Td> p115315</Td>
-            <Td> Trần Hữu Thiện</Td>
-            <Td>
-              <p>Lê Quang Sơn , lê duy sơn ...</p>
-            </Td>
-            <Td>
-              <Btn backgroundColor="warning">
-                <MdModeEdit />
-              </Btn>
-              <Btn backgroundColor="danger">
-                <BsTrash />
-              </Btn>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td> 4</Td>
-            <Td> Sản phẩm poly </Td>
-            <Td> dự án tốt nghiệp </Td>
-            <Td> p115315</Td>
-            <Td> Trần Hữu Thiện</Td>
-            <Td>
-              <p>Lê Quang Sơn , lê duy sơn ...</p>
-            </Td>
-            <Td>
-              <Btn backgroundColor="warning">
-                <MdModeEdit />
-              </Btn>
-              <Btn backgroundColor="danger">
-                <BsTrash />
-              </Btn>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td> 3</Td>
-            <Td> Sản phẩm poly </Td>
-            <Td> dự án tốt nghiệp </Td>
-            <Td> p115315</Td>
-            <Td> Trần Hữu Thiện</Td>
-            <Td>
-              <p>Lê Quang Sơn , lê duy sơn ...</p>
-            </Td>
-            <Td>
-              <Btn backgroundColor="warning">
-                <MdModeEdit />
-              </Btn>
-              <Btn backgroundColor="danger">
-                <BsTrash />
-              </Btn>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td> 4</Td>
-            <Td> Sản phẩm poly </Td>
-            <Td> dự án tốt nghiệp </Td>
-            <Td> p115315</Td>
-            <Td> Trần Hữu Thiện</Td>
-            <Td>
-              <p>Lê Quang Sơn , lê duy sơn ...</p>
-            </Td>
-            <Td>
-              <Btn backgroundColor="warning">
-                <MdModeEdit />
-              </Btn>
-              <Btn backgroundColor="danger">
-                <BsTrash />
-              </Btn>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td> 5</Td>
-            <Td> Sản phẩm poly </Td>
-            <Td> dự án tốt nghiệp </Td>
-            <Td> p115315</Td>
-            <Td>Lê Trọng Đạt </Td>
-            <Td>
-              <p>Lê Quang Sơn , lê duy sơn ...</p>
-            </Td>
-            <Td>
-              <Btn backgroundColor="warning">
-                <MdModeEdit />
-              </Btn>
-              <Btn backgroundColor="danger">
-                <BsTrash />
-              </Btn>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td> 6</Td>
-            <Td> Sản phẩm poly </Td>
-            <Td> dự án tốt nghiệp </Td>
-            <Td> p115315</Td>
-            <Td> Trần Hữu Thiện</Td>
-            <Td>
-              <p>Lê Quang Sơn , lê duy sơn ...</p>
-            </Td>
-            <Td>
-              <Btn backgroundColor="warning">
-                <MdModeEdit />
-              </Btn>
-              <Btn backgroundColor="danger">
-                <BsTrash />
-              </Btn>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td> 7</Td>
-            <Td> Sản phẩm poly </Td>
-            <Td> dự án tốt nghiệp </Td>
-            <Td> p115315</Td>
-            <Td> Trần Hữu Thiện</Td>
-            <Td>
-              <p>Lê Quang Sơn , lê duy sơn ...</p>
-            </Td>
-            <Td>
-              <Btn backgroundColor="warning">
-                <MdModeEdit />
-              </Btn>
-              <Btn backgroundColor="danger">
-                <BsTrash />
-              </Btn>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td> 8</Td>
-            <Td> Sản phẩm poly </Td>
-            <Td> Dự án 1 </Td>
-            <Td> p115315</Td>
-            <Td> Trần Hữu Thiện</Td>
-            <Td>
-              <p>Lê Quang Sơn , lê duy sơn ...</p>
-            </Td>
-            <Td>
-              <Btn backgroundColor="warning">
-                <MdModeEdit />
-              </Btn>
-              <Btn backgroundColor="danger">
-                <BsTrash />
-              </Btn>
-            </Td>
-          </Tr>
+          {DATA_FAKE.map((item, index) => (
+            <Tr>
+              <Td> {index + 1}</Td>
+              <Td> {item.name} </Td>
+              <Td> {item.mon} </Td>
+              <Td> {item.class}</Td>
+              <Td> {item.teacher}</Td>
+              <Td>
+                <p>{item.group}</p>
+              </Td>
+              <Td>
+                <WapButton>
+                  <Button color="warning" icon={<MdModeEdit />}></Button>
+                  <Button color="danger" icon={<BsTrash />}></Button>
+                </WapButton>
+              </Td>
+            </Tr>
+          ))}
         </Tbody>
       </TableCustom>
       <GroupPagination>
