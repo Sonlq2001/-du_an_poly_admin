@@ -20,9 +20,9 @@ const PopupUser = ({ content }) => {
 			</GroupField>
 			<GroupField>
 				<label htmlFor="" className="label-field">
-					Họ tên
+					Điện thoại
 				</label>
-				<p className="content-field">Lê Quang Sơn</p>
+				<p className="content-field">{content.phone}</p>
 			</GroupField>
 			<GroupField>
 				<label htmlFor="" className="label-field">

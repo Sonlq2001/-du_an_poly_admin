@@ -1,5 +1,5 @@
 const ResetCss = () => {
-	return /*css*/ `
+  return /*css*/ `
 		* {
 			margin: 0;
 			padding: 0;

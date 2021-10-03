@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router-dom";
 
 import DefaultLayout from "./../layouts/DefaultLayout/DefaultLayout";
 import { LIST_ROUTES } from "./routes.config";
+import Loading from "./../components/Loading/Loading";
 
 const WrapRoute = ({ component: Component, path, layout, exact }) => {
 	const RouteLayout = DefaultLayout || layout;
@@ -28,7 +29,7 @@ const WrapRoute = ({ component: Component, path, layout, exact }) => {
 
 const Routes = () => {
 	return (
-		<Suspense fallback={<div>loading...</div>}>
+		<Suspense fallback={<Loading />}>
 			<Switch>
 				{LIST_ROUTES.map((route) => (
 					<WrapRoute key={route.id} {...route} />

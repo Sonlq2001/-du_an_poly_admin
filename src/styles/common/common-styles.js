@@ -9,4 +9,5 @@ export const WrapContent = styled.div`
 	border-radius: 5px;
 	background-color: var(--white-color);
 	padding: 1.5rem;
+	min-height: 90vh;
 `;

@@ -42,7 +42,6 @@ export const ContentPopupOverlay = styled.div`
 	.title-popup {
 		font-size: 1.7rem;
 		font-weight: 500;
-		margin-bottom: 2rem;
 		border-bottom: 1px solid var(--eee-color);
 		padding-bottom: 1.5rem;
 	}
@@ -50,9 +49,11 @@ export const ContentPopupOverlay = styled.div`
 
 export const ContentPopup = styled.div`
 	position: relative;
-	overflow-y: scroll;
+	overflow-y: ${({ scroll }) => (scroll ? "scroll" : "visible")};
 	width: 100%;
 	max-height: 31rem;
+	padding: 2rem 0;
+
 	&::-webkit-scrollbar {
 		width: 5px;
 		height: 5rem;

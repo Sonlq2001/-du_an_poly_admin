@@ -5,11 +5,11 @@ import {
 	GroupPopupOverlay,
 	ContentPopupOverlay,
 	ActionPopup,
-	ContentPopup
+	ContentPopup,
 } from "./PopupOverlay.styles";
 import { Button } from "./../../components/Button/Button";
 
-const PopupOverlay = ({ open, setOpen, children, title }) => {
+const PopupOverlay = ({ open, setOpen, children, title, scroll = false }) => {
 	return (
 		<>
 			<GroupPopupOverlay
@@ -22,16 +22,13 @@ const PopupOverlay = ({ open, setOpen, children, title }) => {
 				>
 					<h3 className="title-popup">{title}</h3>
 
-					<ContentPopup>
-						{children}
-					</ContentPopup>
+					<ContentPopup scroll={scroll}>{children}</ContentPopup>
 
 					<ActionPopup>
-						<Button>
+						<Button type="submit" icon={<BiSave />} size="small">
 							Lưu
-							<BiSave />
 						</Button>
-						<Button color="danger" onClick={() => setOpen(!open)}>
+						<Button color="danger" onClick={() => setOpen(!open)} size="small">
 							Hủy
 						</Button>
 					</ActionPopup>
