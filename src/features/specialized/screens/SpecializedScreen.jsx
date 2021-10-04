@@ -5,7 +5,7 @@ import { IoMdAdd } from 'react-icons/io';
 
 import { WrapContent } from './../../../styles/common/common-styles';
 import { TablePagination } from './../../../components/Pagination/Pagination';
-import SpecializedControlTable from './../components/SpecializedControlTable/SpecializedControlTable';
+import SpecializedControlTable from './../components/specializedControlTable/SpecializedControlTable';
 import AddSpecialized from '../components/AddSpecialized/index';
 import PopupOverlay from './../../../components/PopupOverlay/PopupOverlay';
 import {
