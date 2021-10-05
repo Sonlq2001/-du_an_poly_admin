@@ -1,3 +1,3 @@
 export const USER_PATH = {
-	GET_USER: "/users",
+  GET_USER: '/products',
 };

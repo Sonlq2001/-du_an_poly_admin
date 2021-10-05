@@ -1,5 +1,5 @@
 const Variables = () => {
-	return /*css*/ `
+  return /*css*/ `
     :root{
       --blue-color: #3498DB;
       --blue-bold-color: #2980b9;
@@ -15,6 +15,7 @@ const Variables = () => {
       --bg-tr-table: #00000008;
       
       --red-color: #e74c3c;
+      --red-bg-err: #fce4e4;
 
       --yellow-color: #FBB837;
 
