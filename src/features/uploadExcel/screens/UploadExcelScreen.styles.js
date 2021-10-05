@@ -1,24 +1,19 @@
 import styled from 'styled-components';
 
 export const GroupUpload = styled.div`
-  max-width: 30%;
-  margin: 0 auto;
-  margin-top: 3rem;
-  text-align: center;
-
   .group-select {
-    margin-top: 3rem;
-  }
-
-  .select-upload {
-    font-size: 1.4rem;
-    text-align: left;
-  }
-
-  .select-upload + .select-upload {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-top: 2rem;
   }
-
+  .box-select {
+    width: 50%;
+    font-size: 1.3rem;
+  }
+  .box-select + .box-select {
+    margin-left: 4rem;
+  }
   .title-upload {
     font-size: 1.8rem;
     font-weight: 500;
@@ -32,21 +27,29 @@ export const GroupUpload = styled.div`
   .button-upload {
     margin-top: 3rem;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
   }
 `;
 
 export const BoxUpload = styled.div`
-  margin: 2rem 0 1rem 0;
-  width: 100%;
-  .label-upload {
-    display: block;
-    padding: 2rem 5rem;
-    background-color: rgba(52 152 219 / 11%);
-    border-radius: 1rem;
-    border: 1px dashed var(--ddd-color);
-    cursor: pointer;
+  margin: 4em 0 1rem 0;
+  width: calc(50% - 2rem);
+
+  .error-file {
+    font-size: 1.3rem;
+    color: var(--red-color);
+    margin-top: 5px;
   }
+`;
+
+export const ContentUpload = styled.label`
+  display: block;
+  padding: 2rem 5rem;
+  background-color: rgba(52 152 219 / 11%);
+  border-radius: 1rem;
+  border: 1px dashed var(--ddd-color);
+  cursor: pointer;
+  text-align: center;
 
   .input-upload {
     display: none;

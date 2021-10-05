@@ -36,6 +36,23 @@ const ResetCss = () => {
 			height: auto;
 			vertical-align: middle;
 		}
+
+		.error-group .err-msg {
+			position: absolute;
+			color: var(--red-color);
+			font-size: 1.3rem;
+			padding-top: 5px;
+		}
+
+		.error-group .form-field {
+			font-size: 1.3rem;
+			border: 1px solid var(--red-color) !important;
+			background-color: var(--red-bg-err);
+		}
+
+		.error-group .label-field {
+			color: var(--red-color);
+		}
 	`;
 };
 

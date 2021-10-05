@@ -14,7 +14,7 @@ const ElementInput = ({ label, id, placeholder, ...props }) => {
       <input
         type="text"
         placeholder={placeholder}
-        className="input-field"
+        className="input-field form-field"
         {...field}
       />
       <ErrorMessage component="div" name={field.name} className="err-msg" />
