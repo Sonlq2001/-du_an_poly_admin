@@ -26,8 +26,11 @@ export const Button = ({
     case 'success':
       colorButton = '#04aa6d';
       break;
-    default:
+    case 'primary':
       colorButton = '#3498DB';
+      break;
+    default:
+      colorButton = '#fff';
   }
 
   let sizeButton = { fontSize: '', padding: '' };

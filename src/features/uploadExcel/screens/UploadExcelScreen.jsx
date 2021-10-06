@@ -22,7 +22,7 @@ const UploadExcelScreen = () => {
         initialValues={initForm}
         validationSchema={schema}
         onSubmit={(values) => {
-          console.log(values);
+          // TODO : upload file
         }}
       >
         {() => {

@@ -1,41 +1,65 @@
-import React from "react";
-import { BiSave } from "react-icons/bi";
+import React from 'react';
 
 import {
-	GroupPopupOverlay,
-	ContentPopupOverlay,
-	ActionPopup,
-	ContentPopup,
-} from "./PopupOverlay.styles";
-import { Button } from "./../../components/Button/Button";
+  GroupPopupOverlay,
+  ContentPopupOverlay,
+  ActionPopup,
+  ContentPopup,
+} from './PopupOverlay.styles';
+import { Button } from './../../components/Button/Button';
 
-const PopupOverlay = ({ open, setOpen, children, title, scroll = false }) => {
-	return (
-		<>
-			<GroupPopupOverlay
-				className={`${open ? "active" : ""}`}
-				onClick={() => setOpen(!open)}
-			>
-				<ContentPopupOverlay
-					className={`${open ? "active" : ""}`}
-					onClick={(e) => e.stopPropagation()}
-				>
-					<h3 className="title-popup">{title}</h3>
+const PopupOverlay = ({
+  open,
+  setOpen,
+  children,
+  title,
+  scroll = false,
+  isAction = false,
+  size,
+  textOk,
+}) => {
+  let sizePopup = '';
+  switch (size) {
+    case 'lg':
+      sizePopup = '800px';
+      break;
+    case 'md':
+      sizePopup = '600px';
+      break;
+    default:
+      sizePopup = '450px';
+  }
 
-					<ContentPopup scroll={scroll}>{children}</ContentPopup>
+  return (
+    <div>
+      <GroupPopupOverlay
+        className={`${open ? 'active' : ''}`}
+        onClick={() => setOpen(!open)}
+      >
+        <ContentPopupOverlay
+          className={`${open ? 'active' : ''}`}
+          onClick={(e) => e.stopPropagation()}
+          size={sizePopup}
+          isAction={isAction}
+        >
+          {title && <h3 className="title-popup">{title}</h3>}
 
-					<ActionPopup>
-						<Button type="submit" icon={<BiSave />} size="small">
-							Lưu
-						</Button>
-						<Button color="danger" onClick={() => setOpen(!open)} size="small">
-							Hủy
-						</Button>
-					</ActionPopup>
-				</ContentPopupOverlay>
-			</GroupPopupOverlay>
-		</>
-	);
+          <ContentPopup scroll={scroll}>{children}</ContentPopup>
+
+          {isAction && (
+            <ActionPopup>
+              <Button onClick={() => setOpen(!open)} size="medium">
+                Hủy
+              </Button>
+              <Button type="submit" size="medium" color="primary">
+                {textOk ? textOk : 'Lưu'}
+              </Button>
+            </ActionPopup>
+          )}
+        </ContentPopupOverlay>
+      </GroupPopupOverlay>
+    </div>
+  );
 };
 
 export default PopupOverlay;
