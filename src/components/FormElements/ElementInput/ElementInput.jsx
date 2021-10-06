@@ -8,14 +8,18 @@ const ElementInput = ({ label, id, placeholder, ...props }) => {
   const classError = meta.touched && meta.error;
   return (
     <BoxInputField className={`${classError ? 'error-group' : ''}`}>
-      <label htmlFor={id} className="label-field">
-        {label}
-      </label>
+      {label && (
+        <label htmlFor={id} className="label-field">
+          {label}
+        </label>
+      )}
+
       <input
         type="text"
         placeholder={placeholder}
         className="input-field form-field"
         {...field}
+        {...props}
       />
       <ErrorMessage component="div" name={field.name} className="err-msg" />
     </BoxInputField>

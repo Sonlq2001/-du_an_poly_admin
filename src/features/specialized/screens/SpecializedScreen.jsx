@@ -5,8 +5,8 @@ import { IoMdAdd } from 'react-icons/io';
 
 import { WrapContent } from './../../../styles/common/common-styles';
 import { TablePagination } from './../../../components/Pagination/Pagination';
-import SpecializedControlTable from './../components/specializedControlTable/SpecializedControlTable';
-import AddSpecialized from '../components/AddSpecialized/index';
+import SpecializedControlTable from '../components/SpecializedControlTable/SpecializedControlTable';
+import ActionSpecialized from './../components/ActionSpecialized/ActionSpecialized';
 import PopupOverlay from './../../../components/PopupOverlay/PopupOverlay';
 import {
   GroupPagination,
@@ -25,19 +25,14 @@ import {
 } from '../../../components/Table/TableCustom';
 import { Button } from '../../../components/Button/Button';
 import { DATA_FAKE } from './../constants/specialized.constants';
+import { initForm } from './../helpers/specialized.helpers';
+import RemoveSpecialized from './../components/RemoveSpecialized/RemoveSpecialized';
 
 const SpecializedScreen = () => {
-  const [toggleAdd, setToggleAdd] = useState(false);
-  const [Item, setItem] = useState();
-
-  const Update = (item) => {
-    setItem(item);
-    setToggleAdd(true);
-  };
-  const AddSpecia = (item) => {
-    setItem(item);
-    setToggleAdd(!toggleAdd);
-  };
+  const [isDialogAction, setIsDialogAction] = useState(false);
+  const [itemSpecialized, setItemSpecialized] = useState(initForm);
+  const [isOpenRemove, setIsOpenRemove] = useState(false);
+  const [itemRemove, setItemRemove] = useState(null);
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -48,20 +43,30 @@ const SpecializedScreen = () => {
   const handleChangePage = (values) => {
     setPagination({ ...pagination, ...values });
   };
+
   return (
     <WrapContent>
       <TableHeader>
         <TitleTable>Danh sách chuyên ngành</TitleTable>
-        <Button onClick={() => AddSpecia(null)} icon={<IoMdAdd />} />
+        <Button
+          onClick={() => {
+            setIsDialogAction(true);
+            setItemSpecialized(initForm);
+          }}
+          icon={<IoMdAdd />}
+          color="primary"
+        />
       </TableHeader>
       <SpecializedControlTable />
       <TableCustom>
         <Thead>
           <Tr>
-            <Th sort={false}> STT </Th>
-            <Th> Tên Chuyên Ngành </Th>
-            <Th> Chủ Nhiệm</Th>
-            <Th sort={false}> Action </Th>
+            <Th sort={false}>STT</Th>
+            <Th>Tên Chuyên Ngành</Th>
+            <Th>Chủ Nhiệm</Th>
+            <Th sort={false} align="right">
+              Action
+            </Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -76,15 +81,20 @@ const SpecializedScreen = () => {
                     color="warning"
                     icon={<MdModeEdit />}
                     size="small"
-                    onClick={() =>
-                      Update({
-                        id: 1,
-                        name: 'thiết kế website',
-                        teacher_id: '1',
-                      })
-                    }
+                    onClick={() => {
+                      setIsDialogAction(true);
+                      setItemSpecialized(item);
+                    }}
                   />
-                  <Button color="danger" size="small" icon={<BsTrash />} />
+                  <Button
+                    color="danger"
+                    size="small"
+                    icon={<BsTrash />}
+                    onClick={() => {
+                      setIsOpenRemove(true);
+                      setItemRemove(item);
+                    }}
+                  />
                 </BoxActionTable>
               </Td>
             </Tr>
@@ -101,14 +111,26 @@ const SpecializedScreen = () => {
         />
       </GroupPagination>
 
+      {/* overlay */}
       <PopupOverlay
-        open={toggleAdd}
-        setOpen={setToggleAdd}
-        item={Item}
-        title={Item ? 'Sửa Chuyên Ngành' : 'Thêm Chuyên Ngành '}
+        open={isDialogAction}
+        setOpen={setIsDialogAction}
+        item={itemSpecialized}
+        title={itemSpecialized.name ? 'Sửa Chuyên Ngành' : 'Thêm Chuyên Ngành '}
       >
-        <AddSpecialized item={Item} />
+        <ActionSpecialized
+          item={itemSpecialized}
+          setOpen={setIsDialogAction}
+          setItemSpecialized={setItemSpecialized}
+        />
       </PopupOverlay>
+
+      {/* overlay remove */}
+      <RemoveSpecialized
+        item={itemRemove}
+        open={isOpenRemove}
+        setOpen={setIsOpenRemove}
+      />
     </WrapContent>
   );
 };
