@@ -6,8 +6,10 @@ import { SPCIALIZED_ROUTES } from '../features/specialized/routes/specialized.ro
 import { PRODUCT_LIST_ROUTES } from '../features/product/routes/product.routes';
 import { UPLOAD_EXCEL_ROUTES } from './../features/uploadExcel/routes/upload-excel.routes';
 import { AUTH_ROUTES } from './../features/auth/routes/auth.routes';
+import { SUBJECT_LIST_ROUTES } from '../features/listsubject/routes/Subject.routes';
 
 export const LIST_ROUTES = [
+  ...SUBJECT_LIST_ROUTES,
   ...SUBJECT_ROUTES,
   ...AUTH_ROUTES,
   ...UPLOAD_EXCEL_ROUTES,
