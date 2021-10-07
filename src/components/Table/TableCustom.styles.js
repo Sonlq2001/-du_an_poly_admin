@@ -17,6 +17,7 @@ export const TableTr = styled.tr`
     padding: 1rem;
     white-space: nowrap;
     min-width: 7rem;
+    text-align: ${({ alignText }) => alignText};
   }
 
   .fix-sort {
@@ -35,6 +36,7 @@ export const TableTr = styled.tr`
 export const TableTh = styled.th`
   position: relative;
   cursor: pointer;
+  text-align: ${({ alignText }) => alignText};
   &::after {
     content: '\\2191';
     position: absolute;
