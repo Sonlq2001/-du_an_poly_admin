@@ -53,7 +53,7 @@ const Sidebar = () => {
           </NavLink>
         </li>
 
-        <li>
+        <li className="item-menu">
           <NavLink to="/subject" className="link-menu" activeClassName="active">
             <RiDashboardFill className="icon-menu" />
             Quản trị môn học
