@@ -1,9 +1,12 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useMemo } from 'react';
 import { BiSearchAlt2 } from 'react-icons/bi';
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import { GrTopCorner } from 'react-icons/gr';
 import { BiLogOut } from 'react-icons/bi';
 import OutsideClickHandler from 'react-outside-click-handler';
+import { useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { compile } from 'path-to-regexp';
 
 import {
   WrapNavbar,
@@ -17,6 +20,7 @@ import {
   GroupNotification,
   ListNotification,
 } from './Navbar.styles';
+import { LIST_ROUTES } from './../../routes/routes.config';
 
 const FAKE_NOTIFICATION = [
   {
@@ -40,10 +44,28 @@ const Navbar = () => {
   const [actionUser, setActionUser] = useState(false);
   const [isNotification, setIsNotification] = useState(false);
 
+  const location = useLocation();
+  const params = useParams();
+
+  const { pageTitle: ReduxPageTitle } = useSelector((state) => state.common);
+
+  const pageTitle = useMemo(() => {
+    return (
+      ReduxPageTitle ||
+      LIST_ROUTES.find((route) => {
+        try {
+          return compile(route.path)(params) === location.pathname;
+        } catch {
+          return false;
+        }
+      })?.pageTitle
+    );
+  }, [params, location.pathname, ReduxPageTitle]);
+
   return (
     <WrapNavbar>
       <NavbarLeft>
-        <h1 className="title-admin">Dashboard</h1>
+        <h1 className="title-admin">{pageTitle}</h1>
       </NavbarLeft>
       <NavbarRight>
         <NavbarSearch>

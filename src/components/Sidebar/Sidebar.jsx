@@ -1,65 +1,56 @@
 import React, { memo } from 'react';
-import { NavLink } from 'react-router-dom';
-import { RiDashboardFill } from 'react-icons/ri';
-import { MdCloudUpload } from 'react-icons/md';
-import { FaShoppingBag, FaUserFriends } from 'react-icons/fa';
-import { GiBookCover } from 'react-icons/gi';
+import { RiDashboardLine } from 'react-icons/ri';
 
-import { WrapSidebar, ListMenu } from './Sidebar.styles';
+import { WrapSidebar, ListMenu, ItemLink } from './Sidebar.styles';
 import LogoFpt from './../../assets/images/logo.png';
+import { sidebars } from './../../routes/sidebars.constants';
+import { DASHBOARD_PATH } from './../../features/dashboard/constants/dashboard.paths';
 
 const Sidebar = () => {
   return (
     <WrapSidebar>
       <img src={LogoFpt} alt="" className="img-logo" />
 
-      <ListMenu>
-        <li className="item-menu">
-          <NavLink exact to="/" className="link-menu" activeClassName="active">
-            <RiDashboardFill className="icon-menu" />
-            Quản trị Dashboard
-          </NavLink>
-        </li>
-        <li className="item-menu">
-          <NavLink to="/confirm" className="link-menu" activeClassName="active">
-            <FaShoppingBag className="icon-menu" />
-            Quản sản phẩm
-          </NavLink>
-        </li>
-        <li className="item-menu">
-          <NavLink to="/user" className="link-menu" activeClassName="active">
-            <FaUserFriends className="icon-menu" />
-            Quản trị user
-          </NavLink>
-        </li>
-        <li className="item-menu">
-          <NavLink
-            to="/specialized"
-            className="link-menu"
-            activeClassName="active"
-          >
-            <GiBookCover className="icon-menu" />
-            Quản trị chuyên ngành
-          </NavLink>
-        </li>
-        <li className="item-menu">
-          <NavLink
-            to="/upload-excel"
-            className="link-menu"
-            activeClassName="active"
-          >
-            <MdCloudUpload className="icon-menu" />
-            Nhập điểm
-          </NavLink>
-        </li>
+      <div className="group-sidebar scroll-delayed">
+        <div className="content-sidebar ">
+          <div>
+            <ItemLink
+              exact
+              to={DASHBOARD_PATH.LIST}
+              className="link-menu"
+              activeClassName="active"
+            >
+              <RiDashboardLine className="icon-menu" />
+              Quản trị Dashboard
+            </ItemLink>
+          </div>
+          {sidebars.map((sidebar) => (
+            <ListMenu key={sidebar.title}>
+              {sidebar.title && (
+                <div className="title-sidebar">
+                  <span className="title-cate">{sidebar.title}</span>
+                </div>
+              )}
+              {sidebar?.items.map((sidebarItem) => (
+                <li className="item-menu" key={sidebarItem.id}>
+                  <ItemLink
+                    exact
+                    to={sidebarItem.path}
+                    className="link-menu"
+                    activeClassName="active"
+                  >
+                    {sidebarItem.icon && (
+                      <span className="icon-menu">{sidebarItem.icon}</span>
+                    )}
 
-        <li className="item-menu">
-          <NavLink to="/subject" className="link-menu" activeClassName="active">
-            <RiDashboardFill className="icon-menu" />
-            Quản trị môn học
-          </NavLink>
-        </li>
-      </ListMenu>
+                    {sidebarItem.navigationTitle}
+                  </ItemLink>
+                </li>
+              ))}
+            </ListMenu>
+          ))}
+        </div>
+      </div>
     </WrapSidebar>
   );
 };

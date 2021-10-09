@@ -5,23 +5,19 @@ export const BoxMessageWait = styled.div`
   padding: 1.5rem;
   border-radius: 5px;
 `;
-
 export const GroupMessageWait = styled.div`
   overflow-y: scroll;
   max-height: 20rem;
   padding: 3.2rem 1rem 2rem 0;
-
   &::-webkit-scrollbar {
     width: 5px;
     height: 5rem;
   }
-
   &::-webkit-scrollbar-thumb {
     background: var(--eee-color);
     border-radius: 10px;
   }
 `;
-
 export const MsgItem = styled.div`
   display: flex;
   justify-content: space-between;
@@ -56,7 +52,6 @@ export const MsgItem = styled.div`
     color: var(--aaa-color);
   }
 `;
-
 export const MsgAction = styled.div`
   position: relative;
   margin-left: 3rem;
