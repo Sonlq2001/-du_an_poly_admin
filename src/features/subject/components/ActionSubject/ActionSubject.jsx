@@ -14,7 +14,6 @@ const ActionSubject = ({ setItemSpecialized, item, setOpen }) => {
         initialValues={item}
         validationSchema={schema}
         onSubmit={(values) => {
-          console.log('ok ok', values);
           if (item.name === '') {
             // TODO: add
           } else {
@@ -22,7 +21,7 @@ const ActionSubject = ({ setItemSpecialized, item, setOpen }) => {
           }
         }}
       >
-        {({ handleSubmit, resetForm, setStatus }) => {
+        {({ handleSubmit }) => {
           return (
             <ContentForm>
               <div className="from-group">
@@ -30,7 +29,7 @@ const ActionSubject = ({ setItemSpecialized, item, setOpen }) => {
                 <div className="box-select">
                   <ElementSelect
                     className="select"
-                    name="teacher"
+                    name="major_id"
                     placeholder="Chọn giảng viên"
                     options={[
                       { value: '1', label: 'Thiết kế đồ họa ' },

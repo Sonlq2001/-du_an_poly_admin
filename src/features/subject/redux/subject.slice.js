@@ -5,22 +5,20 @@ export const fetchData = createAsyncThunk('subject/list', async () => {
   return data.data;
 });
 const initialState = {
-  data: [],
-  loading: false,
+  data: null,
 };
 const subjectSlice = createSlice({
   name: 'subject',
   initialState,
   extraReducers: {
     [fetchData.pending]: (state) => {
-      state.loading = true;
+      state.loading = null;
     },
     [fetchData.fulfilled]: (state, action) => {
-      state.loading = false;
       state.data = action.payload;
     },
     [fetchData.rejected]: (state) => {
-      state.loading = true;
+      state.loading = null;
     },
   },
 });

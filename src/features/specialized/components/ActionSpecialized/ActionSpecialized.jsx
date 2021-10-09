@@ -22,7 +22,7 @@ const ActionSpecialized = ({ item, setItemSpecialized, setOpen }) => {
           }
         }}
       >
-        {({ handleSubmit, resetForm, setStatus }) => {
+        {({ handleSubmit }) => {
           return (
             <ContentForm>
               <div className="from-group">

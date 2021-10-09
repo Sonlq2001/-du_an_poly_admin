@@ -43,7 +43,14 @@ const SpecializedTable = ({ data }) => {
   return (
     <WrapContent>
       <HeaderTable>
-        <Button icon={<IoMdAdd />} color="primary">
+        <Button
+          icon={<IoMdAdd />}
+          color="primary"
+          onClick={() => {
+            setIsDialogAction(true);
+            setItemSpecialized(initForm);
+          }}
+        >
           Thêm
         </Button>
       </HeaderTable>
