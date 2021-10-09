@@ -22,7 +22,7 @@ const ConfirmScreen = () => {
         <BoxSearchInput>
           <BoxControl className="box-control">
             <label htmlFor="" className="label-control">
-              Tìm kiếm
+              Tên sản phẩm
             </label>
             <InputSearch
               type="text"
@@ -43,14 +43,14 @@ const ConfirmScreen = () => {
                 { label: 'Giảng viên', value: 3 },
                 { label: 'Sinh viên', value: 4 },
               ]}
-              placeholder="Tìm theo vai trò"
+              placeholder="Tìm theo chủ nhiệm"
             />
           </BoxControl>
         </BoxSearchInput>
         <BoxSearchInput>
           <BoxControl className="box-control">
             <label htmlFor="" className="label-control">
-              Chủ nhiệm
+              Bộ môn
             </label>
             <Select
               className="select-option input-search"
@@ -60,13 +60,13 @@ const ConfirmScreen = () => {
                 { label: 'Giảng viên', value: 3 },
                 { label: 'Sinh viên', value: 4 },
               ]}
-              placeholder="Tìm theo vai trò"
+              placeholder="Tìm theo bộ môn"
             />
           </BoxControl>
 
           <BoxControl className="box-control">
             <label htmlFor="" className="label-control">
-              Chủ nhiệm
+              Kì học
             </label>
             <Select
               className="select-option input-search"
@@ -76,7 +76,7 @@ const ConfirmScreen = () => {
                 { label: 'Giảng viên', value: 3 },
                 { label: 'Sinh viên', value: 4 },
               ]}
-              placeholder="Tìm theo vai trò"
+              placeholder="Tìm theo kì học"
             />
           </BoxControl>
         </BoxSearchInput>

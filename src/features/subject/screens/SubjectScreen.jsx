@@ -17,7 +17,7 @@ const SubjectScreen = () => {
   const subject = useSelector((state) => state.subject.data);
   useEffect(() => {
     dispatch(fetchData());
-  }, []);
+  }, [dispatch]);
   return (
     <>
       <TitleMain> Danh sách môn học</TitleMain>

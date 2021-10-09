@@ -21,7 +21,7 @@ const UserScreen = () => {
         <BoxSearchInput>
           <BoxControl className="box-control">
             <label htmlFor="" className="label-control">
-              Tìm kiếm
+              Tên
             </label>
             <InputSearch
               type="text"
