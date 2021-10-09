@@ -1,24 +1,31 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const GroupField = styled.div`
-	& + & {
-		margin-top: 1.5rem;
-	}
+  display: flex;
+  align-items: center;
+  & + & {
+    margin-top: 2rem;
+  }
 
-	.label-field {
-		font-size: 1.4rem;
-	}
+  &:last-child {
+    margin-top: 4rem;
+    justify-content: flex-end;
+  }
 
-	.content-field {
-		font-size: 1.4rem;
-		margin-top: 5px;
-		color: var(--aaa-color);
-	}
+  .label-field {
+    font-size: 1.4rem;
+    width: 15rem;
+  }
+
+  .content-field {
+    font-size: 1.4rem;
+    color: var(--aaa-color);
+  }
 `;
 
 export const GroupRole = styled.div`
-	display: flex;
-	align-items: center;
-	flex-wrap: wrap;
-	margin-top: -1rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: -1rem;
 `;

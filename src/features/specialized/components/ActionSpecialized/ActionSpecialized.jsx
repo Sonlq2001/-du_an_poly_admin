@@ -1,7 +1,6 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { AiOutlineSave } from 'react-icons/ai';
-
 import { ContentForm, GroupAction } from './ActionSpecialized.styles';
 import { schema } from './../../helpers/specialized.helpers';
 import ElementInput from './../../../../components/FormElements/ElementInput/ElementInput';
@@ -23,7 +22,7 @@ const ActionSpecialized = ({ item, setItemSpecialized, setOpen }) => {
           }
         }}
       >
-        {({ handleSubmit, resetForm, setStatus }) => {
+        {({ handleSubmit }) => {
           return (
             <ContentForm>
               <div className="from-group">

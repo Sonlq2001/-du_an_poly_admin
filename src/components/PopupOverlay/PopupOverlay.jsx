@@ -40,7 +40,6 @@ const PopupOverlay = ({
           className={`${open ? 'active' : ''}`}
           onClick={(e) => e.stopPropagation()}
           size={sizePopup}
-          isAction={isAction}
         >
           {title && <h3 className="title-popup">{title}</h3>}
 

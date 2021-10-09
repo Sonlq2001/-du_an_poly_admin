@@ -11,6 +11,7 @@ export const Button = ({
   size,
   icon,
   type,
+  component,
 }) => {
   let colorButton = '';
   switch (color) {
