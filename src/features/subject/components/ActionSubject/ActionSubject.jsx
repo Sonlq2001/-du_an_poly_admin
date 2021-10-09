@@ -1,13 +1,12 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { AiOutlineSave } from 'react-icons/ai';
-import { ContentForm, GroupAction } from './ActionSpecialized.styles';
-import { schema } from './../../helpers/specialized.helpers';
+import { ContentForm, GroupAction } from './ActionSubject.styles';
 import ElementInput from './../../../../components/FormElements/ElementInput/ElementInput';
 import ElementSelect from './../../../../components/FormElements/ElementSelect/ElementSelect';
 import { Button } from './../../../../components/Button/Button';
-
-const ActionSpecialized = ({ item, setItemSpecialized, setOpen }) => {
+import { AiOutlineSave } from 'react-icons/ai';
+import { schema } from './../../helpers/subject.helpers';
+const ActionSubject = ({ setItemSpecialized, item, setOpen }) => {
   return (
     <>
       <Formik
@@ -15,6 +14,7 @@ const ActionSpecialized = ({ item, setItemSpecialized, setOpen }) => {
         initialValues={item}
         validationSchema={schema}
         onSubmit={(values) => {
+          console.log('ok ok', values);
           if (item.name === '') {
             // TODO: add
           } else {
@@ -26,28 +26,30 @@ const ActionSpecialized = ({ item, setItemSpecialized, setOpen }) => {
           return (
             <ContentForm>
               <div className="from-group">
-                <label htmlFor="">Giảng viên</label>
+                <label htmlFor="">Chuyên Ngành </label>
                 <div className="box-select">
                   <ElementSelect
                     className="select"
                     name="teacher"
                     placeholder="Chọn giảng viên"
                     options={[
-                      { value: '1', label: 'Trần Hữu Thiện' },
-                      { value: '2', label: 'Lê Trọng Đạt' },
-                      { value: '3', label: 'Lê Trọng Đạt' },
-                      { value: '4', label: 'Lê Trọng Đạt' },
+                      { value: '1', label: 'Thiết kế đồ họa ' },
+                      { value: '2', label: 'Thiết kế Website' },
                     ]}
                   />
                 </div>
               </div>
               <div className="from-group">
-                <label htmlFor=""> Chuyên ngành </label>
+                <label htmlFor=""> Môn Học </label>
                 <ElementInput
                   type="text"
                   placeholder="Tên chuyên ngành"
                   name="name"
                 />
+              </div>
+              <div className="from-group">
+                <label htmlFor=""> Mã Môn </label>
+                <ElementInput type="text" placeholder="Mã Môn " name="code" />
               </div>
 
               <GroupAction>
@@ -77,4 +79,4 @@ const ActionSpecialized = ({ item, setItemSpecialized, setOpen }) => {
   );
 };
 
-export default ActionSpecialized;
+export default ActionSubject;
