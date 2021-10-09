@@ -1,10 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import api from './../../../api/api';
-import { USER_PATH } from './../constants/user.paths';
 
 export const fetchData = createAsyncThunk('user/fetchData', async () => {
-  const response = await api.get(USER_PATH.GET_USER);
+  const response = await api.get('/products');
   return response.data;
 });
 

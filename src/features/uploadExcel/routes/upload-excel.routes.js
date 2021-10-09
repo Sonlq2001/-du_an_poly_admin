@@ -1,9 +1,12 @@
-import { lazy } from "react";
+import { lazy } from 'react';
+
+import { UPLOAD_EXCEL_PATH } from './../constants/upload-excel.paths';
 
 const UPLOAD_EXCEL_SCREEN = {
-	id: "id_upload_excel",
-	path: "/upload-excel",
-	component: lazy(() => import("./../screens/UploadExcelScreen")),
+  id: 'id_upload_excel',
+  path: UPLOAD_EXCEL_PATH.UPLOAD,
+  component: lazy(() => import('./../screens/UploadExcelScreen')),
+  pageTitle: 'Nhập điểm',
 };
 
 export const UPLOAD_EXCEL_ROUTES = [UPLOAD_EXCEL_SCREEN];
