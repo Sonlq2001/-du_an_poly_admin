@@ -1,7 +1,7 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import Select from 'react-select';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { DATA_FAKE } from './../constants/specialized.constants';
 import {
   WrapContent,
   TitleMain,
@@ -9,10 +9,19 @@ import {
   BoxControl,
   BoxSearchInput,
   InputSearch,
-} from './../../../styles/common/common-styles';
-import SpecializedTable from './../components/SpecializedTable/SpecializedTable';
+} from '../../../styles/common/common-styles';
+import MajorsTable from '../components/MajorsTable/MajorsTable';
+import { getMajors } from '../redux/majors.slice';
 
-const SpecializedScreen = () => {
+const MajorsScreen = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getMajors());
+  }, [dispatch]);
+
+  const { listMajors } = useSelector((state) => state.majors);
+
   return (
     <>
       <TitleMain>Chuyên ngành</TitleMain>
@@ -48,8 +57,12 @@ const SpecializedScreen = () => {
         </BoxSearchInput>
       </WrapContent>
 
-      <SpecializedTable data={DATA_FAKE} />
+      {listMajors && listMajors.length > 0 ? (
+        <MajorsTable data={listMajors} />
+      ) : (
+        <div>Chưa có chuyên ngành nào </div>
+      )}
     </>
   );
 };
-export default memo(SpecializedScreen);
+export default memo(MajorsScreen);

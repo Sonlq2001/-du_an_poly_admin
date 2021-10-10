@@ -17,6 +17,7 @@ const PopupOverlay = ({
   isAction = false,
   size,
   textOk,
+  onOk,
 }) => {
   let sizePopup = '';
   switch (size) {
@@ -54,7 +55,12 @@ const PopupOverlay = ({
               <Button onClick={() => setOpen(!open)} size="medium">
                 Hủy
               </Button>
-              <Button type="submit" size="medium" color="primary">
+              <Button
+                type="submit"
+                size="medium"
+                color="primary"
+                onClick={() => onOk()}
+              >
                 {textOk ? textOk : 'Lưu'}
               </Button>
             </ActionPopup>

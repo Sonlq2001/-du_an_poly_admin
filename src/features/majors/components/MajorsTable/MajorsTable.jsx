@@ -7,7 +7,7 @@ import {
   WrapContent,
   HeaderTable,
   GroupPagination,
-} from './../../../../styles/common/common-styles';
+} from '../../../../styles/common/common-styles';
 import {
   TableCustom,
   Thead,
@@ -16,17 +16,17 @@ import {
   Td,
   Tbody,
 } from '../../../../components/Table/TableCustom';
-import RemoveSpecialized from './../RemoveSpecialized/RemoveSpecialized';
-import { TablePagination } from './../../../../components/Pagination/Pagination';
-import ActionSpecialized from './../ActionSpecialized/ActionSpecialized';
-import PopupOverlay from './../../../../components/PopupOverlay/PopupOverlay';
-import { Button } from './../../../../components/Button/Button';
-import { initForm } from './../../helpers/specialized.helpers';
-import { BoxActionTable } from './SpecializedTable.styles';
+import RemoveMajors from '../RemoveMajors/RemoveMajors';
+import { TablePagination } from '../../../../components/Pagination/Pagination';
+import ActionMajors from '../ActionMajors/ActionMajors';
+import PopupOverlay from '../../../../components/PopupOverlay/PopupOverlay';
+import { Button } from '../../../../components/Button/Button';
+import { initForm } from '../../helpers/majors.helpers';
+import { BoxActionTable } from './MajorsTable.styles';
 
-const SpecializedTable = ({ data }) => {
+const MajorsTable = ({ data }) => {
   const [isDialogAction, setIsDialogAction] = useState(false);
-  const [itemSpecialized, setItemSpecialized] = useState(initForm);
+  const [itemMajors, setItemMajors] = useState(initForm);
   const [isOpenRemove, setIsOpenRemove] = useState(false);
   const [itemRemove, setItemRemove] = useState(null);
 
@@ -48,7 +48,7 @@ const SpecializedTable = ({ data }) => {
           color="primary"
           onClick={() => {
             setIsDialogAction(true);
-            setItemSpecialized(initForm);
+            setItemMajors(initForm);
           }}
         >
           Thêm
@@ -60,9 +60,8 @@ const SpecializedTable = ({ data }) => {
           <Tr>
             <Th sort={false}>STT</Th>
             <Th>Tên Chuyên Ngành</Th>
-            <Th>Chủ Nhiệm</Th>
             <Th sort={false} align="right">
-              Action
+              Thao tác
             </Th>
           </Tr>
         </Thead>
@@ -71,7 +70,6 @@ const SpecializedTable = ({ data }) => {
             <Tr key={item.id}>
               <Td>{item.id}</Td>
               <Td>{item.name}</Td>
-              <Td>{item.teacher}</Td>
               <Td>
                 <BoxActionTable>
                   <Button
@@ -80,7 +78,7 @@ const SpecializedTable = ({ data }) => {
                     size="small"
                     onClick={() => {
                       setIsDialogAction(true);
-                      setItemSpecialized(item);
+                      setItemMajors(item);
                     }}
                   />
                   <Button
@@ -113,18 +111,13 @@ const SpecializedTable = ({ data }) => {
       <PopupOverlay
         open={isDialogAction}
         setOpen={setIsDialogAction}
-        item={itemSpecialized}
-        title={itemSpecialized.name ? 'Sửa Chuyên Ngành' : 'Thêm Chuyên Ngành '}
+        title={itemMajors.name ? 'Sửa Chuyên Ngành' : 'Thêm Chuyên Ngành '}
       >
-        <ActionSpecialized
-          item={itemSpecialized}
-          setOpen={setIsDialogAction}
-          setItemSpecialized={setItemSpecialized}
-        />
+        <ActionMajors item={itemMajors} setOpen={setIsDialogAction} />
       </PopupOverlay>
 
       {/* overlay remove */}
-      <RemoveSpecialized
+      <RemoveMajors
         item={itemRemove}
         open={isOpenRemove}
         setOpen={setIsOpenRemove}
@@ -133,4 +126,4 @@ const SpecializedTable = ({ data }) => {
   );
 };
 
-export default memo(SpecializedTable);
+export default memo(MajorsTable);

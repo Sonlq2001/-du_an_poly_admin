@@ -1,13 +1,17 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { AiOutlineSave } from 'react-icons/ai';
-import { ContentForm, GroupAction } from './ActionSpecialized.styles';
-import { schema } from './../../helpers/specialized.helpers';
-import ElementInput from './../../../../components/FormElements/ElementInput/ElementInput';
-import ElementSelect from './../../../../components/FormElements/ElementSelect/ElementSelect';
-import { Button } from './../../../../components/Button/Button';
+import { useDispatch } from 'react-redux';
 
-const ActionSpecialized = ({ item, setItemSpecialized, setOpen }) => {
+import { ContentForm, GroupAction } from './ActionMajors.styles';
+import { schema } from '../../helpers/majors.helpers';
+import ElementInput from '../../../../components/FormElements/ElementInput/ElementInput';
+import { Button } from '../../../../components/Button/Button';
+import { postMajors, putMajors } from './../../redux/majors.slice';
+
+const ActionMajors = ({ item, setOpen }) => {
+  const dispatch = useDispatch();
+
   return (
     <>
       <Formik
@@ -16,31 +20,16 @@ const ActionSpecialized = ({ item, setItemSpecialized, setOpen }) => {
         validationSchema={schema}
         onSubmit={(values) => {
           if (item.name === '') {
-            // TODO: add
+            dispatch(postMajors(values));
           } else {
-            // TODO: edit
+            dispatch(putMajors(values));
           }
+          setOpen(false);
         }}
       >
         {({ handleSubmit }) => {
           return (
             <ContentForm>
-              <div className="from-group">
-                <label htmlFor="">Giảng viên</label>
-                <div className="box-select">
-                  <ElementSelect
-                    className="select"
-                    name="teacher"
-                    placeholder="Chọn giảng viên"
-                    options={[
-                      { value: '1', label: 'Trần Hữu Thiện' },
-                      { value: '2', label: 'Lê Trọng Đạt' },
-                      { value: '3', label: 'Lê Trọng Đạt' },
-                      { value: '4', label: 'Lê Trọng Đạt' },
-                    ]}
-                  />
-                </div>
-              </div>
               <div className="from-group">
                 <label htmlFor=""> Chuyên ngành </label>
                 <ElementInput
@@ -77,4 +66,4 @@ const ActionSpecialized = ({ item, setItemSpecialized, setOpen }) => {
   );
 };
 
-export default ActionSpecialized;
+export default ActionMajors;
