@@ -34,10 +34,9 @@ export const GroupUpload = styled.div`
 export const BoxUpload = styled.div`
   margin: 4em 0 1rem 0;
   width: calc(50% - 2rem);
-
   .error-file {
     font-size: 1.3rem;
-    color: var(--red-color);
+    color: var(--red-color) !important;
     margin-top: 5px;
   }
 `;

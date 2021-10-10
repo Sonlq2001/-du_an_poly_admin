@@ -20,7 +20,7 @@ const PopupOverlay = ({
 }) => {
   let sizePopup = '';
   switch (size) {
-    case 'xxl':
+    case 'xl':
       sizePopup = '1000px';
       break;
     case 'lg':
@@ -43,6 +43,7 @@ const PopupOverlay = ({
           className={`${open ? 'active' : ''}`}
           onClick={(e) => e.stopPropagation()}
           size={sizePopup}
+          scroll={scroll}
         >
           {title && <h3 className="title-popup">{title}</h3>}
 

@@ -18,13 +18,13 @@ export const GroupPopupOverlay = styled.div`
 export const ContentPopupOverlay = styled.div`
   position: absolute;
   left: 50%;
-  top: 30%;
+  top: ${({ scroll }) => (scroll ? '40%' : '30%')};
   transform: translate(-50%, -50%);
   z-index: 10;
   background-color: var(--white-color);
   border-radius: 5px;
-  padding: 2rem 2.5rem;
-  height: auto;
+  padding: 2rem 1rem 2rem 2.5rem;
+  height: ${({ scroll }) => (scroll ? '95%' : 'auto')};
   opacity: 0;
   visibility: hidden;
   overflow: auto;
@@ -32,7 +32,7 @@ export const ContentPopupOverlay = styled.div`
   transition: ease-in-out 0.4s;
   overflow: visible;
   &.active {
-    top: 40%;
+    top: ${({ scroll }) => (scroll ? '50%' : '40%')};
     opacity: 1;
     visibility: visible;
   }
@@ -44,11 +44,10 @@ export const ContentPopupOverlay = styled.div`
   }
 `;
 export const ContentPopup = styled.div`
-  position: relative;
   overflow-y: ${({ scroll }) => (scroll ? 'scroll' : 'visible')};
   width: 100%;
-  max-height: 50rem;
-  padding-top: 2rem;
+  max-height: ${({ scroll }) => (scroll ? '90%' : 'auto')};
+  padding: 2rem 1rem 0 0;
   &::-webkit-scrollbar {
     width: 5px;
     height: 5rem;

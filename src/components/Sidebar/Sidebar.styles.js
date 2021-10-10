@@ -34,9 +34,6 @@ export const WrapSidebar = styled.div`
   .group-sidebar:focus {
     visibility: visible;
   }
-  .scroll-delayed {
-    transition: visibility 0.2s;
-  }
   .scroll-delayed:hover {
     transition: visibility 0.2s;
   }
