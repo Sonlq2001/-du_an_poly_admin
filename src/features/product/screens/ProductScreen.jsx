@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { WrapContent } from '../../../styles/common/common-styles';
 import { MdModeEdit } from 'react-icons/md';
 import { BsTrash } from 'react-icons/bs';
@@ -14,11 +14,9 @@ import {
   Tbody,
   Td,
 } from './../../../components/Table/TableCustom';
-import { useSelector, useDispatch } from 'react-redux';
-import { ListProduct } from '../redux/product.slice';
+import { useSelector } from 'react-redux';
 const ProductScreen = () => {
-  const dispatch = useDispatch();
-  const [pagination,setPagination] = useState({
+  const [pagination, setPagination] = useState({
     page: 1,
     pageLength: 20,
     totalRecords: 100,
@@ -28,9 +26,7 @@ const ProductScreen = () => {
     setPagination({ ...pagination, ...values });
   };
   const product = useSelector((state) => state.product.product);
-  useEffect(() => {
-    dispatch(ListProduct());
-  }, []);
+
   const ChangeSearch = (e) => {
     console.log('tìm kiếm ', e.target.value);
   };

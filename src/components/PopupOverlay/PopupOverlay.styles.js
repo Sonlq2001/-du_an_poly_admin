@@ -47,7 +47,7 @@ export const ContentPopup = styled.div`
   position: relative;
   overflow-y: ${({ scroll }) => (scroll ? 'scroll' : 'visible')};
   width: 100%;
-  max-height: 31rem;
+  max-height: 50rem;
   padding-top: 2rem;
   &::-webkit-scrollbar {
     width: 5px;

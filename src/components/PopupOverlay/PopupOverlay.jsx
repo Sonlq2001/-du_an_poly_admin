@@ -20,6 +20,9 @@ const PopupOverlay = ({
 }) => {
   let sizePopup = '';
   switch (size) {
+    case 'xxl':
+      sizePopup = '1000px';
+      break;
     case 'lg':
       sizePopup = '800px';
       break;

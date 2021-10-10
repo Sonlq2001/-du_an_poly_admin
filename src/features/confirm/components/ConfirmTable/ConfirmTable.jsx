@@ -15,8 +15,11 @@ import {
 import { Button } from './../../../../components/Button/Button';
 import { TablePagination } from './../../../../components/Pagination/Pagination';
 import { GroupPagination, GroupAction, BoxMain } from './ConfirmTable.styles';
-
+import PopupOverlay from './../../../../components/PopupOverlay/PopupOverlay';
+import ReviewProduct from './../Review/ReviewProduct';
 const ConfirmTable = ({ data }) => {
+  const [open, setOpen] = useState(false);
+  const [product, setProduct] = useState({});
   const [pagination, setPagination] = useState({
     page: 1,
     pageLength: 20,
@@ -26,7 +29,10 @@ const ConfirmTable = ({ data }) => {
   const handleChangePage = (values) => {
     setPagination({ ...pagination, ...values });
   };
-
+  const Review = (item) => {
+    setProduct(item);
+    setOpen(!open);
+  };
   return (
     <WrapContent>
       <BoxMain>
@@ -43,23 +49,40 @@ const ConfirmTable = ({ data }) => {
             </Tr>
           </Thead>
           <Tbody>
-            {data.map((data) => (
-              <Tr key={data.id}>
-                <Td>{data.id}</Td>
-                <Td>{data.name}</Td>
-                <Td>{data.class}</Td>
-                <Td>{data.subject}</Td>
-                <Td className="fix-td">{data.semester}</Td>
-                <Td>{data.member.map((item) => item)}</Td>
-                <Td>
-                  <GroupAction>
-                    <Button icon={<FiCheck />} size="small" color="success" />
-                    <Button icon={<AiOutlineEye />} size="small" color="info" />
-                    <Button icon={<BsTrash />} size="small" color="danger" />
-                  </GroupAction>
-                </Td>
-              </Tr>
-            ))}
+            {data
+              ? data.map((item, index) => {
+                  return (
+                    <Tr key={index}>
+                      <Td> {index + 1}</Td>
+                      <Td>{item.name} </Td>
+                      <Td>{item.class} </Td>
+                      <Td>{item.subject.name} </Td>
+                      <Td> </Td>
+                      <Td> </Td>
+                      <Td>
+                        <GroupAction>
+                          <Button
+                            icon={<FiCheck />}
+                            size="small"
+                            color="success"
+                          />
+                          <Button
+                            icon={<AiOutlineEye />}
+                            size="small"
+                            color="info"
+                            onClick={() => Review(item)}
+                          />
+                          <Button
+                            icon={<BsTrash />}
+                            size="small"
+                            color="danger"
+                          />
+                        </GroupAction>
+                      </Td>
+                    </Tr>
+                  );
+                })
+              : ''}
           </Tbody>
         </TableCustom>
         <GroupPagination>
@@ -72,6 +95,16 @@ const ConfirmTable = ({ data }) => {
           />
         </GroupPagination>
       </BoxMain>
+      <PopupOverlay
+        open={open}
+        setOpen={setOpen}
+        size="xxl"
+        title="Chi Tiết Sản Phẩm "
+        scroll={true}
+      >
+        <ReviewProduct data={product} />
+      </PopupOverlay>
+      {/* <ReviewProduct data={product} show={open} setShow={setOpen} /> */}
     </WrapContent>
   );
 };
