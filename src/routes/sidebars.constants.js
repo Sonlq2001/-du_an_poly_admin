@@ -10,6 +10,7 @@ import { SPECIALIZED_PATH } from './../features/specialized/constants/specialize
 import { SUBJECT_PATH } from './../features/subject/constants/subject.paths';
 import { UPLOAD_EXCEL_PATH } from './../features/uploadExcel/constants/upload-excel.paths';
 import { USER_PATH } from './../features/user/constants/user.paths';
+import { FEEDBACK_PATH } from './../features/feedback/constants/feedback.paths';
 
 export const sidebars = [
   {
@@ -48,7 +49,7 @@ export const sidebars = [
       {
         id: 'id_page_reply',
         navigationTitle: 'Quản trị phản hồi',
-        path: '/feedback',
+        path: FEEDBACK_PATH.LIST,
         icon: <MdMailOutline />,
       },
     ],

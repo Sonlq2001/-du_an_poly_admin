@@ -115,7 +115,6 @@ const SubjectTable = ({ data }) => {
               ? 'Sửa Môn  Học  '
               : 'Thêm Môn Học '
           }
-          scroll
         >
           <ActionSubject
             item={itemSpecialized}
