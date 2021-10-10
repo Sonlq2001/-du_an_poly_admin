@@ -15,73 +15,17 @@ export const OverLay = styled.div`
     visibility: visible;
   }
 `;
-// export const Content = styled.div`
-//   background-color: var(--white-color);
-//   padding: 4rem;
-//   position: absolute;
-//   max-width: 70%;
-//   z-index: 11;
-//   left: 15%;
-//   height: 100%;
-//   top: 5%;
-//   /* visibility: hidden;
-//   overflow: hidden; */
-//   /* transform: translateY(-20%); */
-//   transform: translateY(0%);
-//   transition: ease-in-out 0.4s;
-//   opacity: 1;
-//   /* overflow-y: scroll; */
-//   ::-webkit-scrollbar {
-//     width: 6px;
-//     border-left: 1px solid #e6ecf8;
-//     height: 100px;
-//   }
-//   ::-webkit-scrollbar-thumb {
-//     background-color: var(--ddd-color);
-//     border-radius: 10px;
-//   }
-//   &.activeContent {
-//     visibility: visible;
-//     transform: translateY(0);
-//     opacity: 1;
-//   }
-//   &:hover {
-//     overflow-y: scroll;
-//   }
-//   & img {
-//     image-rendering: pixelated;
-//   }
-// `;
-export const Content = styled.div``;
+export const Content = styled.div`
+  max-width: 100%;
+  overflow: hidden;
+  /* position: absolute; */
+`;
 export const MainReview = styled.div`
   max-width: 100%;
   overflow: hidden;
 `;
 export const DescriptionReview = styled.div``;
-export const ImageSlice = styled.div`
-  & .slick-dots li {
-    width: 70px;
-    height: 70px;
-  }
-  & .slick-dots {
-    width: 85%;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  & .slick-list {
-    height: 370px;
-    overflow: hidden;
-  }
-  & .slick-list img {
-    width: 100%;
-    height: 300px;
-    image-resolution: center;
-    image-rendering: pixelated;
-    border-radius: 5px;
-  }
-`;
+
 export const ContentReview = styled.div`
   padding-left: 2rem;
   & h1 {
@@ -116,7 +60,7 @@ export const LabelProject = styled.div`
   font-size: 1.4rem;
   white-space: nowrap;
   margin-right: 1rem;
-  color: var(--first-color);
+  color: var(--red-color);
   font-weight: 500;
   margin-right: 1rem;
 `;
@@ -133,6 +77,31 @@ export const GroupDetail = styled.div`
 `;
 
 // group detail
+export const ImageSlice = styled.div`
+  & .slick-dots li {
+    width: 70px;
+    height: 70px;
+  }
+  & .slick-dots {
+    width: 85%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  & .slick-list {
+    height: 370px;
+    overflow: hidden;
+  }
+  & .slick-list img {
+    width: 100%;
+    height: 300px;
+    image-resolution: center;
+    image-rendering: pixelated;
+    border-radius: 5px;
+  }
+`;
+
 export const ListCurrentImg = styled.div`
   width: 150px;
   height: 50px;

@@ -98,13 +98,12 @@ const ConfirmTable = ({ data }) => {
       <PopupOverlay
         open={open}
         setOpen={setOpen}
-        size="xxl"
+        size="xl"
         title="Chi Tiết Sản Phẩm "
-        scroll={true}
+        scroll
       >
         <ReviewProduct data={product} />
       </PopupOverlay>
-      {/* <ReviewProduct data={product} show={open} setShow={setOpen} /> */}
     </WrapContent>
   );
 };
