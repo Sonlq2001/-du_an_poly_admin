@@ -1,6 +1,7 @@
 import React, { memo, useEffect } from 'react';
 import Select from 'react-select';
-import SubjectTable from './../components/SubjectTable/SubjectTable';
+// import SubjectTable from './../components/SubjectTable/SubjectTable';
+import SubjectTable from '../components/SubjectTable/SubjectTable';
 import {
   WrapContent,
   TitleMain,
