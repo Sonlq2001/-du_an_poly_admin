@@ -7,8 +7,8 @@ const SUPPORTED_FORMATS = [
 ];
 
 export const schema = Yup.object().shape({
-  branch: Yup.string().required('Vui lòng chọn cơ sở !'),
-  file: Yup.mixed()
+  semester_id: Yup.number().required('Vui lòng chọn cơ sở !').nullable(),
+  excel: Yup.mixed()
     .required('Vui lòng chọn file upload !')
     .test('file', 'Định dạng file không đúng !', (value) =>
       SUPPORTED_FORMATS.includes(value?.type)
@@ -16,11 +16,11 @@ export const schema = Yup.object().shape({
     .test(
       'file',
       'Kích thước file quá lớn !',
-      (value) => value === null || (value && value?.size <= 100000)
+      (value) => value === null || (value && value?.size <= 10000)
     ),
 });
 
 export const initForm = {
-  branch: '',
-  file: null,
+  semester_id: null,
+  excel: null,
 };

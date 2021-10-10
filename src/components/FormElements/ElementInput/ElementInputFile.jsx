@@ -1,10 +1,10 @@
 import React, { memo } from 'react';
 import { useFormikContext } from 'formik';
 
-const ElementInputFile = ({ className, id, ...props }) => {
-  const { values, setFieldValue, handleBlur } = useFormikContext();
+const ElementInputFile = ({ className, name, id, ...props }) => {
+  const { values, setFieldValue, setTouched } = useFormikContext();
   const handleFile = (e) => {
-    setFieldValue('file', e.target.files[0]);
+    setFieldValue(name, e.target.files[0]);
   };
   return (
     <>
@@ -15,7 +15,7 @@ const ElementInputFile = ({ className, id, ...props }) => {
         {...values}
         onChange={handleFile}
         {...props}
-        onBlur={handleBlur}
+        onBlur={() => setTouched(true)}
       />
     </>
   );

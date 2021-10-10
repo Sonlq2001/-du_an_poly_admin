@@ -1,7 +1,8 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import { GrFormUpload } from 'react-icons/gr';
 import { MdCloudUpload } from 'react-icons/md';
 import { Formik, Form, ErrorMessage } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { WrapContent } from './../../../styles/common/common-styles';
 import {
@@ -10,22 +11,43 @@ import {
   ContentUpload,
 } from './UploadExcelScreen.styles';
 import { Button } from './../../../components/Button/Button';
-import { LIST_BRANCH } from './../constants/upload.constants';
 import ElementSelect from './../../../components/FormElements/ElementSelect/ElementSelect';
 import { schema, initForm } from './../helpers/upload.helpers';
 import ElementInputFile from './../../../components/FormElements/ElementInput/ElementInputFile';
+import {
+  postImportFileExcel,
+  getSemesters,
+} from './../redux/uploadExcel.slice';
+import { MapOptions } from './../../../helpers/convert/map-options';
 
 const UploadExcelScreen = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getSemesters());
+  }, [dispatch]);
+
+  const { listSemester } = useSelector((state) => state.uploadExcel);
+  const listSelectOptionSemester = MapOptions(listSemester);
+
   return (
     <WrapContent>
       <Formik
         initialValues={initForm}
         validationSchema={schema}
         onSubmit={(values) => {
-          // TODO : upload file
+          const valueForm = new FormData();
+          valueForm.append('campus_id', 1);
+          valueForm.append('semester_id', values.semester_id);
+          valueForm.append('excel', values.excel);
+          dispatch(postImportFileExcel(valueForm));
         }}
       >
-        {() => {
+        {({ touched, errors, values }) => {
+          let classError = touched.semester_id && touched.excel && errors;
+          if (values.excel !== null) {
+            classError = false;
+          }
           return (
             <Form>
               <GroupUpload>
@@ -42,18 +64,23 @@ const UploadExcelScreen = () => {
                   <div className="box-select">
                     <ElementSelect
                       placeholder="Cơ sở"
-                      options={LIST_BRANCH}
-                      name="branch"
+                      options={
+                        listSelectOptionSemester ? listSelectOptionSemester : []
+                      }
+                      name="semester_id"
                       label="Cơ sở"
                     />
                   </div>
                 </div>
-                <BoxUpload>
-                  <ContentUpload htmlFor="file-upload" className="label-upload">
+                <BoxUpload className={`${classError ? 'error-group' : ''}`}>
+                  <ContentUpload
+                    htmlFor="file-upload"
+                    className="label-upload form-field"
+                  >
                     <ElementInputFile
                       className="input-upload"
                       id="file-upload"
-                      name="file"
+                      name="excel"
                       accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                     />
                     <span className="icon-upload">
@@ -63,7 +90,7 @@ const UploadExcelScreen = () => {
                   </ContentUpload>
                   <ErrorMessage
                     component="div"
-                    name="file"
+                    name="excel"
                     className="error-file"
                   />
                 </BoxUpload>
