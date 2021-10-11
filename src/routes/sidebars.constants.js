@@ -6,7 +6,7 @@ import { RiSettings4Line } from 'react-icons/ri';
 import { BiBookAlt } from 'react-icons/bi';
 
 import { CONFIRM_PATH } from './../features/confirm/constants/confirm.paths';
-import { SPECIALIZED_PATH } from './../features/specialized/constants/specialized.paths';
+import { MAJORS_PATH } from './../features/majors/constants/majors.paths';
 import { SUBJECT_PATH } from './../features/subject/constants/subject.paths';
 import { UPLOAD_EXCEL_PATH } from './../features/uploadExcel/constants/upload-excel.paths';
 import { USER_PATH } from './../features/user/constants/user.paths';
@@ -23,9 +23,9 @@ export const sidebars = [
         icon: <BsBag />,
       },
       {
-        id: 'id_page_specialized',
+        id: 'id_page_majors',
         navigationTitle: 'Quản trị chuyên ngành',
-        path: SPECIALIZED_PATH.LIST,
+        path: MAJORS_PATH.LIST,
         icon: <FiBookOpen />,
       },
       {
