@@ -1,6 +1,7 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 import {
   WrapContent,
@@ -9,19 +10,26 @@ import {
   BoxControl,
   BoxSearchInput,
   InputSearch,
-} from '../../../styles/common/common-styles';
-import MajorsTable from '../components/MajorsTable/MajorsTable';
-import { getMajors } from '../redux/majors.slice';
+} from './../../../styles/common/common-styles';
+import MajorsTable from './../components/MajorsTable/MajorsTable';
+import { getMajors } from './../redux/majors.slice';
+import Loading from './../../../components/Loading/Loading';
 
 const MajorsScreen = () => {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    dispatch(getMajors());
+    dispatch(getMajors())
+      .then(unwrapResult)
+      .finally(() => setIsLoading(true));
   }, [dispatch]);
 
   const { listMajors } = useSelector((state) => state.majors);
 
+  if (!isLoading) {
+    return <Loading />;
+  }
   return (
     <>
       <TitleMain>Chuyên ngành</TitleMain>
