@@ -1,7 +1,8 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import Select from 'react-select';
+import { useDispatch, useSelector } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
 
-import { DATA_FAKE } from './../constants/specialized.constants';
 import {
   WrapContent,
   TitleMain,
@@ -10,9 +11,25 @@ import {
   BoxSearchInput,
   InputSearch,
 } from './../../../styles/common/common-styles';
-import SpecializedTable from './../components/SpecializedTable/SpecializedTable';
+import MajorsTable from './../components/MajorsTable/MajorsTable';
+import { getMajors } from './../redux/majors.slice';
+import Loading from './../../../components/Loading/Loading';
 
-const SpecializedScreen = () => {
+const MajorsScreen = () => {
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    dispatch(getMajors())
+      .then(unwrapResult)
+      .finally(() => setIsLoading(true));
+  }, [dispatch]);
+
+  const { listMajors } = useSelector((state) => state.majors);
+
+  if (!isLoading) {
+    return <Loading />;
+  }
   return (
     <>
       <TitleMain>Chuyên ngành</TitleMain>
@@ -48,8 +65,12 @@ const SpecializedScreen = () => {
         </BoxSearchInput>
       </WrapContent>
 
-      <SpecializedTable data={DATA_FAKE} />
+      {listMajors && listMajors.length > 0 ? (
+        <MajorsTable data={listMajors} />
+      ) : (
+        <div>Chưa có chuyên ngành nào </div>
+      )}
     </>
   );
 };
-export default memo(SpecializedScreen);
+export default memo(MajorsScreen);

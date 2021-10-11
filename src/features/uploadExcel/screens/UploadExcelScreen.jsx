@@ -56,18 +56,18 @@ const UploadExcelScreen = () => {
                   <div className="box-select">
                     <ElementSelect
                       placeholder="Kì học"
-                      name="semester"
-                      options={[]}
+                      name="semester_id"
+                      options={
+                        listSelectOptionSemester ? listSelectOptionSemester : []
+                      }
                       label="Kì học"
                     />
                   </div>
                   <div className="box-select">
                     <ElementSelect
                       placeholder="Cơ sở"
-                      options={
-                        listSelectOptionSemester ? listSelectOptionSemester : []
-                      }
-                      name="semester_id"
+                      options={[]}
+                      name="campus_id"
                       label="Cơ sở"
                     />
                   </div>
