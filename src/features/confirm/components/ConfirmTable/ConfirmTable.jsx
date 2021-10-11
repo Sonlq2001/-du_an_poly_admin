@@ -17,8 +17,11 @@ import { TablePagination } from './../../../../components/Pagination/Pagination'
 import { GroupPagination, GroupAction, BoxMain } from './ConfirmTable.styles';
 import PopupOverlay from './../../../../components/PopupOverlay/PopupOverlay';
 import ReviewProduct from './../Review/ReviewProduct';
+import RemoveProduct from './../RemoveProduct/RemoveProduct';
 const ConfirmTable = ({ data }) => {
   const [open, setOpen] = useState(false);
+  const [openRemove, setOpenRemove] = useState(false);
+  const [itemRemove, setItemRemove] = useState(null);
   const [product, setProduct] = useState({
     id: '',
     name: '',
@@ -35,8 +38,12 @@ const ConfirmTable = ({ data }) => {
     setPagination({ ...pagination, ...values });
   };
   const Review = (item) => {
-    setProduct({ ...product, ...item });
+    setProduct(item);
     setOpen(!open);
+  };
+  const removeProduct = (item) => {
+    setOpenRemove(true);
+    setItemRemove(item);
   };
   return (
     <WrapContent>
@@ -81,6 +88,7 @@ const ConfirmTable = ({ data }) => {
                             icon={<BsTrash />}
                             size="small"
                             color="danger"
+                            onClick={() => removeProduct(item)}
                           />
                         </GroupAction>
                       </Td>
@@ -109,6 +117,11 @@ const ConfirmTable = ({ data }) => {
       >
         <ReviewProduct data={product} />
       </PopupOverlay>
+      <RemoveProduct
+        open={openRemove}
+        setOpen={setOpenRemove}
+        item={itemRemove}
+      />
     </WrapContent>
   );
 };
