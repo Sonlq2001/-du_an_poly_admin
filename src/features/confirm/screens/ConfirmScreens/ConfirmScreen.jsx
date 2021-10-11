@@ -15,7 +15,7 @@ import ConfirmTable from './../../components/ConfirmTable/ConfirmTable';
 
 const ConfirmScreen = () => {
   const dispatch = useDispatch();
-  const product = useSelector((state) => state.product.product);
+  const { listProduct } = useSelector((state) => state.product);
   useEffect(() => {
     dispatch(ListProduct());
   }, [dispatch]);
@@ -116,8 +116,9 @@ const ConfirmScreen = () => {
           </BoxControl>
         </BoxSearchInput>
       </WrapContent>
-
-      <ConfirmTable data={product} />
+      {listProduct && listProduct.length > 0 ? (
+        <ConfirmTable data={listProduct} />
+      ): <div>khong co</div>}
     </>
   );
 };

@@ -19,7 +19,12 @@ import PopupOverlay from './../../../../components/PopupOverlay/PopupOverlay';
 import ReviewProduct from './../Review/ReviewProduct';
 const ConfirmTable = ({ data }) => {
   const [open, setOpen] = useState(false);
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState({
+    id: '',
+    name: '',
+    subject: '',
+    description: '',
+  });
   const [pagination, setPagination] = useState({
     page: 1,
     pageLength: 20,
@@ -30,7 +35,7 @@ const ConfirmTable = ({ data }) => {
     setPagination({ ...pagination, ...values });
   };
   const Review = (item) => {
-    setProduct(item);
+    setProduct({ ...product, ...item });
     setOpen(!open);
   };
   return (

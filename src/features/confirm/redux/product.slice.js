@@ -5,22 +5,20 @@ export const ListProduct = createAsyncThunk('product/list', async () => {
   return data;
 });
 const initialState = {
-  product: [],
-  loading: false,
+  listProduct: null,
 };
 const productSlice = createSlice({
   name: 'product',
   initialState,
   extraReducers: {
     [ListProduct.pending]: (state) => {
-      state.loading = true;
+      state.listProduct = null;
     },
     [ListProduct.fulfilled]: (state, action) => {
-      state.product = action.payload.data;
-      state.loading = false;
+      state.listProduct = action.payload.data;
     },
     [ListProduct.pending]: (state) => {
-      state.loading = true;
+      state.listProduct = null;
     },
   },
 });
