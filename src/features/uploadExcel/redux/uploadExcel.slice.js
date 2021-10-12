@@ -4,8 +4,13 @@ import { uploadExcelApi } from './../api/upload-excel.api';
 
 export const postImportFileExcel = createAsyncThunk(
   'uploadExcel/postImportFileExcel',
-  async (file) => {
-    await uploadExcelApi.postImportFile(file);
+  async (file, { rejectWithValue }) => {
+    try {
+      await uploadExcelApi.postImportFile(file);
+    } catch (error) {
+      error.response.data.message = 'Upload file không thành công !';
+      return rejectWithValue(error.response.data.message);
+    }
   }
 );
 

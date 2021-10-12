@@ -2,6 +2,8 @@ import React from 'react';
 import { Formik } from 'formik';
 import { AiOutlineSave } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 import { ContentForm, GroupAction } from './ActionMajors.styles';
 import { schema } from '../../helpers/majors.helpers';
@@ -18,12 +20,17 @@ const ActionMajors = ({ item, setOpen }) => {
         enableReinitialize
         initialValues={item}
         validationSchema={schema}
-        onSubmit={(values) => {
+        onSubmit={(values, { resetForm }) => {
           if (item.name === '') {
-            dispatch(postMajors(values));
+            dispatch(postMajors(values))
+              .then(unwrapResult)
+              .then(() => toast.success('Thêm thành công !'));
           } else {
-            dispatch(putMajors(values));
+            dispatch(putMajors(values))
+              .then(unwrapResult)
+              .then(() => toast.success('Sửa thành công !'));
           }
+          resetForm();
           setOpen(false);
         }}
       >
