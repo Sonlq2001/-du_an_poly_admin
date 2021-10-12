@@ -10,5 +10,4 @@ const RemoveProduct = ({ item, open, setOpen }) => {
 };
 
 export default RemoveProduct;
-{
-}
+

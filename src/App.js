@@ -6,6 +6,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import Routes from './routes/Routes';
 import store from './redux/store';
 import { persistor } from './redux/store';
+import 'react-quill/dist/quill.snow.css'; // ES6
 
 const App = () => {
   return (

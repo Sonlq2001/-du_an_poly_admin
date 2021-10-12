@@ -118,7 +118,9 @@ const ConfirmScreen = () => {
       </WrapContent>
       {listProduct && listProduct.length > 0 ? (
         <ConfirmTable data={listProduct} />
-      ): <div>khong co</div>}
+      ) : (
+        <div>khong co</div>
+      )}
     </>
   );
 };

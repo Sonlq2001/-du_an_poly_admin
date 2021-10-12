@@ -2,6 +2,7 @@ import React, { memo, useState } from 'react';
 import { FiCheck } from 'react-icons/fi';
 import { AiOutlineEye } from 'react-icons/ai';
 import { BsTrash } from 'react-icons/bs';
+import { MdModeEdit } from 'react-icons/md';
 
 import { WrapContent } from './../../../../styles/common/common-styles';
 import {
@@ -18,11 +19,19 @@ import { GroupPagination, GroupAction, BoxMain } from './ConfirmTable.styles';
 import PopupOverlay from './../../../../components/PopupOverlay/PopupOverlay';
 import ReviewProduct from './../Review/ReviewProduct';
 import RemoveProduct from './../RemoveProduct/RemoveProduct';
+import ActionProduct from '../ActionProduct/ActionProduct';
 const ConfirmTable = ({ data }) => {
   const [open, setOpen] = useState(false);
   const [openRemove, setOpenRemove] = useState(false);
+  const [ItemUpdate, setItemUpdate] = useState(false);
   const [itemRemove, setItemRemove] = useState(null);
   const [product, setProduct] = useState({
+    id: '',
+    name: '',
+    subject: '',
+    description: '',
+  });
+  const [updateProduct, setUpdateProd] = useState({
     id: '',
     name: '',
     subject: '',
@@ -44,6 +53,10 @@ const ConfirmTable = ({ data }) => {
   const removeProduct = (item) => {
     setOpenRemove(true);
     setItemRemove(item);
+  };
+  const update = (item) => {
+    setUpdateProd(item);
+    setItemUpdate(true);
   };
   return (
     <WrapContent>
@@ -73,11 +86,20 @@ const ConfirmTable = ({ data }) => {
                       <Td> </Td>
                       <Td>
                         <GroupAction>
-                          <Button
-                            icon={<FiCheck />}
-                            size="small"
-                            color="success"
-                          />
+                          {item.status === 1 ? (
+                            <Button
+                              icon={<FiCheck />}
+                              size="small"
+                              color="success"
+                            />
+                          ) : (
+                            <Button
+                              icon={<MdModeEdit />}
+                              size="small"
+                              color="warning"
+                              onClick={() => update(item)}
+                            />
+                          )}
                           <Button
                             icon={<AiOutlineEye />}
                             size="small"
@@ -108,6 +130,7 @@ const ConfirmTable = ({ data }) => {
           />
         </GroupPagination>
       </BoxMain>
+      {/* chi tiết sản phẩm  */}
       <PopupOverlay
         open={open}
         setOpen={setOpen}
@@ -117,11 +140,22 @@ const ConfirmTable = ({ data }) => {
       >
         <ReviewProduct data={product} />
       </PopupOverlay>
+      {/* xóa sản phẩm  */}
       <RemoveProduct
         open={openRemove}
         setOpen={setOpenRemove}
         item={itemRemove}
       />
+      {/* cập nhật sản phẩm  */}
+      <PopupOverlay
+        open={ItemUpdate}
+        setOpen={setItemUpdate}
+        size="xl"
+        title="Cập nhật  sản phẩm  "
+        scroll
+      >
+        <ActionProduct data={updateProduct} setOpen={setItemUpdate} />
+      </PopupOverlay>
     </WrapContent>
   );
 };
