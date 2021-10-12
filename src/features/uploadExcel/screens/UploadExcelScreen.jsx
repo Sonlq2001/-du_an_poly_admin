@@ -3,12 +3,16 @@ import { GrFormUpload } from 'react-icons/gr';
 import { MdCloudUpload } from 'react-icons/md';
 import { Formik, Form, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { unwrapResult } from '@reduxjs/toolkit';
+import AlertMessage from './../../../components/AlertMessage/AlertMessage';
 
 import { WrapContent } from './../../../styles/common/common-styles';
 import {
   GroupUpload,
   BoxUpload,
   ContentUpload,
+  HeaderUpload,
 } from './UploadExcelScreen.styles';
 import { Button } from './../../../components/Button/Button';
 import ElementSelect from './../../../components/FormElements/ElementSelect/ElementSelect';
@@ -22,7 +26,6 @@ import { MapOptions } from './../../../helpers/convert/map-options';
 
 const UploadExcelScreen = () => {
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(getSemesters());
   }, [dispatch]);
@@ -33,14 +36,20 @@ const UploadExcelScreen = () => {
   return (
     <WrapContent>
       <Formik
+        enableReinitialize
         initialValues={initForm}
         validationSchema={schema}
-        onSubmit={(values) => {
+        onSubmit={(values, { resetForm, ...rest }) => {
           const valueForm = new FormData();
           valueForm.append('campus_id', 1);
           valueForm.append('semester_id', values.semester_id);
           valueForm.append('excel', values.excel);
-          dispatch(postImportFileExcel(valueForm));
+          dispatch(postImportFileExcel(valueForm))
+            .then(unwrapResult)
+            .then(() => toast.success('Upload file thành công !'))
+            .catch(() => toast.error('Upload file không thành công !'));
+
+          resetForm({ semester_id: null, excel: null });
         }}
       >
         {({ touched, errors, values }) => {
@@ -51,7 +60,12 @@ const UploadExcelScreen = () => {
           return (
             <Form>
               <GroupUpload>
-                <h3 className="title-upload">Danh sách điểm</h3>
+                <HeaderUpload>
+                  <h3 className="title-upload">Danh sách điểm</h3>
+                  <Button type="button" size="small">
+                    File mẫu
+                  </Button>
+                </HeaderUpload>
                 <div className="group-select">
                   <div className="box-select">
                     <ElementSelect
@@ -82,6 +96,7 @@ const UploadExcelScreen = () => {
                       id="file-upload"
                       name="excel"
                       accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                      value=""
                     />
                     <span className="icon-upload">
                       <GrFormUpload />
@@ -113,6 +128,7 @@ const UploadExcelScreen = () => {
           );
         }}
       </Formik>
+      <AlertMessage />
     </WrapContent>
   );
 };
