@@ -1,5 +1,4 @@
 import React, { memo, useEffect, useState } from 'react';
-import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 
@@ -14,6 +13,7 @@ import {
 import MajorsTable from './../components/MajorsTable/MajorsTable';
 import { getMajors } from './../redux/majors.slice';
 import Loading from './../../../components/Loading/Loading';
+import GroupAlert from './../../../components/AlertMessage/AlertMessage';
 
 const MajorsScreen = () => {
   const dispatch = useDispatch();
@@ -46,22 +46,6 @@ const MajorsScreen = () => {
               className="input-filter input-search"
             />
           </BoxControl>
-
-          <BoxControl className="box-control">
-            <label htmlFor="" className="label-control">
-              Chủ nhiệm
-            </label>
-            <Select
-              className="select-option input-search"
-              options={[
-                { label: 'Quản trị', value: 1 },
-                { label: 'Giáo vụ', value: 2 },
-                { label: 'Giảng viên', value: 3 },
-                { label: 'Sinh viên', value: 4 },
-              ]}
-              placeholder="Tìm theo vai trò"
-            />
-          </BoxControl>
         </BoxSearchInput>
       </WrapContent>
 
@@ -70,6 +54,8 @@ const MajorsScreen = () => {
       ) : (
         <div>Chưa có chuyên ngành nào </div>
       )}
+
+      <GroupAlert />
     </>
   );
 };

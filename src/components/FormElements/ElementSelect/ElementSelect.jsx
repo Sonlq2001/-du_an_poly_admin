@@ -32,7 +32,7 @@ const ElementSelect = ({ label, options, placeholder, ...props }) => {
         placeholder={placeholder}
         name={field.name}
         {...field}
-        value={valueSelected}
+        value={valueSelected || null}
         onChange={handleSelect}
         onBlur={() => helpers.setTouched(true)}
         {...props}
