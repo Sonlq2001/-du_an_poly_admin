@@ -57,6 +57,7 @@ const UploadExcelScreen = () => {
           if (values.excel !== null) {
             classError = false;
           }
+
           return (
             <Form>
               <GroupUpload>
@@ -87,6 +88,11 @@ const UploadExcelScreen = () => {
                   </div>
                 </div>
                 <BoxUpload className={`${classError ? 'error-group' : ''}`}>
+                  {values.excel?.name ? (
+                    <div className="label-upload">{values.excel.name}</div>
+                  ) : (
+                    <div className="label-upload label-field">Chọn file</div>
+                  )}
                   <ContentUpload
                     htmlFor="file-upload"
                     className="label-upload form-field"

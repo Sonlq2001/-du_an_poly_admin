@@ -36,6 +36,10 @@ export const HeaderUpload = styled.div`
 export const BoxUpload = styled.div`
   margin: 4em 0 1rem 0;
   width: calc(50% - 2rem);
+  .label-upload {
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+  }
   .error-file {
     font-size: 1.3rem;
     color: var(--red-color) !important;
