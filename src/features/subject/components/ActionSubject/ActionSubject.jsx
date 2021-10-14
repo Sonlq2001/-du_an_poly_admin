@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import { postSubject, updateSubject } from './../../redux/subject.slice.js';
 import { toast } from 'react-toastify';
 import { unwrapResult } from '@reduxjs/toolkit';
-const ActionSubject = ({ setItemSpecialized, item, setOpen }) => {
+const ActionSubject = ({ setItemSpecialized, item, setOpen, dataMajors }) => {
   const dispatch = useDispatch();
   return (
     <>
@@ -42,10 +42,7 @@ const ActionSubject = ({ setItemSpecialized, item, setOpen }) => {
                     className="select"
                     name="major_id"
                     placeholder="Chọn giảng viên"
-                    options={[
-                      { value: '1', label: 'Thiết kế đồ họa ' },
-                      { value: '2', label: 'Thiết kế Website' },
-                    ]}
+                    options={dataMajors ? dataMajors : []}
                   />
                 </div>
               </div>

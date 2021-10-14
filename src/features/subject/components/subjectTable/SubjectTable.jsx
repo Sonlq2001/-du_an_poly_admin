@@ -22,7 +22,7 @@ import { BoxActionTable } from './SubjectTable.styles';
 import ActionSubject from '../ActionSubject/ActionSubject';
 import RemoveSubject from '../RemoveSubject/RemoveSubject';
 import { initForm } from '../../helpers/subject.helpers';
-const SubjectTable = ({ data }) => {
+const SubjectTable = ({ data, dataMajors }) => {
   const [isDialogAction, setIsDialogAction] = useState(false);
   const [itemSpecialized, setItemSpecialized] = useState(initForm);
   const [isOpenRemove, setIsOpenRemove] = useState(false);
@@ -120,6 +120,7 @@ const SubjectTable = ({ data }) => {
             item={itemSpecialized}
             setOpen={setIsDialogAction}
             setItemSpecialized={setItemSpecialized}
+            dataMajors={dataMajors}
           />
         </PopupOverlay>
 

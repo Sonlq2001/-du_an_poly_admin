@@ -55,11 +55,7 @@ const SubjectScreen = () => {
             </label>
             <Select
               className="select-option input-search"
-              options={[
-                { label: 'Thiết kế web', value: 1 },
-                { label: 'Thiết kế đồ họa ', value: 2 },
-                { label: 'Du lịch - khách sạn - nhà hàng ', value: 3 },
-              ]}
+              options={listMajors ? listMajors : []}
               placeholder="Chuyên ngành "
             />
           </BoxControl>
@@ -67,7 +63,10 @@ const SubjectScreen = () => {
       </WrapContent>
 
       {subject && subject.length > 0 ? (
-        <SubjectTable data={subject} />
+        <SubjectTable
+          data={subject}
+          dataMajors={listMajors ? listMajors : []}
+        />
       ) : (
         <Loading />
       )}
