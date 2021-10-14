@@ -2,9 +2,7 @@ import React from 'react';
 import PopupOverlay from './../../../../components/PopupOverlay/PopupOverlay';
 import { MessagePopup } from './RemoveProduct.styles';
 const RemoveProduct = ({ item, open, setOpen }) => {
-  const handleRemoveProduct = () => {
-    console.log('item  xóa product ', item);
-  };
+  const handleRemoveProduct = () => {};
   return (
     <PopupOverlay
       open={open}
