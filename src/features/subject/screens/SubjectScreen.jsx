@@ -1,6 +1,7 @@
 import React, { memo, useEffect } from 'react';
 import Select from 'react-select';
-import SubjectTable from './../components/SubjectTable/SubjectTable';
+// import SubjectTable from './../components/SubjectTable/SubjectTable';
+import SubjectTable from '../components/SubjectTable/SubjectTable';
 import {
   WrapContent,
   TitleMain,
@@ -55,7 +56,7 @@ const SubjectScreen = () => {
       {subject && subject.length > 0 ? (
         <SubjectTable data={subject} />
       ) : (
-        <div>Chưa có chuyên ngành nào </div>
+        <div>Chưa có môn học nào </div>
       )}
     </>
   );

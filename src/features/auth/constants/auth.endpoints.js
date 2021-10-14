@@ -1,3 +1,4 @@
 export const PATH_AUTH = {
-	SIGN_IN: "/sign-in",
+  SIGN_IN: '/sign-in',
+  AUTH_TOKEN: '/google/auth/:token',
 };
