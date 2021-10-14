@@ -66,9 +66,9 @@ const MajorsTable = ({ data }) => {
           </Tr>
         </Thead>
         <Tbody>
-          {data.map((item) => (
+          {data.map((item, index) => (
             <Tr key={item.id}>
-              <Td>{item.id}</Td>
+              <Td>{index + 1}</Td>
               <Td>{item.name}</Td>
               <Td>
                 <BoxActionTable>

@@ -6,19 +6,30 @@ import ElementSelect from './../../../../components/FormElements/ElementSelect/E
 import { Button } from './../../../../components/Button/Button';
 import { AiOutlineSave } from 'react-icons/ai';
 import { schema } from './../../helpers/subject.helpers';
+import { useDispatch } from 'react-redux';
+import { postSubject, updateSubject } from './../../redux/subject.slice.js';
+import { toast } from 'react-toastify';
+import { unwrapResult } from '@reduxjs/toolkit';
 const ActionSubject = ({ setItemSpecialized, item, setOpen }) => {
+  const dispatch = useDispatch();
   return (
     <>
       <Formik
         enableReinitialize
         initialValues={item}
         validationSchema={schema}
-        onSubmit={(values) => {
+        onSubmit={(values, { resetForm }) => {
           if (item.name === '') {
-            // TODO: add
+            dispatch(postSubject(values))
+              .then(unwrapResult)
+              .then(() => toast.success('Thêm thành công !'));
           } else {
-            // TODO: edit
+            dispatch(updateSubject(values))
+              .then(unwrapResult)
+              .then(()=> toast.success('Cập nhật  thành công !'));
           }
+          resetForm();
+          setOpen(false);
         }}
       >
         {({ handleSubmit }) => {

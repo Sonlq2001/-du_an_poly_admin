@@ -6,6 +6,15 @@ export const SIGN_IN_SCREEN = {
   path: PATH_AUTH.SIGN_IN,
   component: lazy(() => import('./../screens/SignIn/SignInScreen')),
   layout: AuthLayout,
+  isAuthRoute: true,
 };
 
-export const AUTH_ROUTES = [SIGN_IN_SCREEN];
+export const AUTH_TOKEN = {
+  id: 'id_auth_token',
+  path: PATH_AUTH.AUTH_TOKEN,
+  component: lazy(() => import('./../screens/SignIn/AuthToken')),
+  layout: AuthLayout,
+  isAuthRoute: true,
+};
+
+export const AUTH_ROUTES = [SIGN_IN_SCREEN, AUTH_TOKEN];

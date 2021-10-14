@@ -1,6 +1,11 @@
 import axios from 'axios';
 
 const requestInterceptor = (req) => {
+  // const { accessToken } = JSON.parse(localStorage.getItem('persist:auth'));
+
+  // if(accessToken){
+  //   req.header
+  // }
   return req;
 };
 
@@ -9,7 +14,7 @@ const responseInterceptor = (res) => {
 };
 
 const api = axios.create({
-  baseURL: 'http://api.duanpoly.ml/api',
+  baseURL: process.env.REACT_APP_API,
   headers: { 'Content-Type': 'application/json' },
 });
 

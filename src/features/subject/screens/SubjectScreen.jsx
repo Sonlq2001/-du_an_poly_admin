@@ -56,7 +56,7 @@ const SubjectScreen = () => {
       {subject && subject.length > 0 ? (
         <SubjectTable data={subject} />
       ) : (
-        <div>Chưa có chuyên ngành nào </div>
+        <div>Chưa có môn học nào </div>
       )}
     </>
   );

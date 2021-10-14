@@ -1,5 +1,5 @@
 import { BsBag, BsChat } from 'react-icons/bs';
-import { FiBookOpen, FiUsers } from 'react-icons/fi';
+import { FiBookOpen, FiUsers, FiType } from 'react-icons/fi';
 import { MdMailOutline } from 'react-icons/md';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { RiSettings4Line } from 'react-icons/ri';
@@ -11,6 +11,7 @@ import { SUBJECT_PATH } from './../features/subject/constants/subject.paths';
 import { UPLOAD_EXCEL_PATH } from './../features/uploadExcel/constants/upload-excel.paths';
 import { USER_PATH } from './../features/user/constants/user.paths';
 import { FEEDBACK_PATH } from './../features/feedback/constants/feedback.paths';
+import { PRODUCT_TYPE_PATH } from './../features/product-type/constants/product-type.paths';
 
 export const sidebars = [
   {
@@ -21,6 +22,12 @@ export const sidebars = [
         navigationTitle: 'Quản trị sản phẩm',
         path: CONFIRM_PATH.LIST,
         icon: <BsBag />,
+      },
+      {
+        id: 'id_page_product_type',
+        navigationTitle: 'Quản trị danh mục',
+        path: PRODUCT_TYPE_PATH.LIST,
+        icon: <FiType />,
       },
       {
         id: 'id_page_majors',
