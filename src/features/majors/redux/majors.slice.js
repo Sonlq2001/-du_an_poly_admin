@@ -40,6 +40,7 @@ const initialState = {
 const majorsSlice = createSlice({
   name: 'majors',
   initialState,
+
   extraReducers: {
     [getMajors.pending]: (state) => {
       state.listMajors = null;

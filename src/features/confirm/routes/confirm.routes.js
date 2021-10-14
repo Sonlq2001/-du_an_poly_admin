@@ -1,8 +1,8 @@
 import { lazy } from 'react';
 
-import { CONFIRM_PATH } from './../constants/confirm.paths';
+import { CONFIRM_PATH } from '../constants/confirm.paths';
 const ConfirmScreen = lazy(() =>
-  import('./../screens/ConfirmScreens/ConfirmScreen')
+  import('../screens/ConfirmScreens/ConfirmScreen')
 );
 
 const CONFIRM_SCREEN = {
