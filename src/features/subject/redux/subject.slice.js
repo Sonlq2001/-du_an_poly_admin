@@ -17,9 +17,7 @@ export const removeSubject = createAsyncThunk('subject/remove', async (id) => {
   try {
     await removeSub(id);
     return id;
-  } catch (error) {
-    console.log('error', error);
-  }
+  } catch (error) {}
 });
 // cập nhật
 export const updateSubject = createAsyncThunk(
