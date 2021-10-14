@@ -26,7 +26,7 @@ const ActionSubject = ({ setItemSpecialized, item, setOpen }) => {
           } else {
             dispatch(updateSubject(values))
               .then(unwrapResult)
-              .then(()=> toast.success('Cập nhật  thành công !'));
+              .then(() => toast.success('Cập nhật  thành công !'));
           }
           resetForm();
           setOpen(false);

@@ -4,6 +4,7 @@ import { majorsApi } from '../api/majors.api';
 
 export const getMajors = createAsyncThunk('majors/getMajors', async () => {
   const response = await majorsApi.getMajors();
+  console.log('ở đay', response);
   return response.data;
 });
 
