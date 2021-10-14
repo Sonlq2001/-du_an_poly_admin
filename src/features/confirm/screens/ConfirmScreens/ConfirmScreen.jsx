@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import Select from 'react-select';
 import { ListProduct } from './../../redux/product.slice';
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,13 +12,20 @@ import {
 } from './../../../../styles/common/common-styles';
 
 import ConfirmTable from './../../components/ConfirmTable/ConfirmTable';
-
+import Loading from './../../../../components/Loading/Loading';
+import { unwrapResult } from '@reduxjs/toolkit';
 const ConfirmScreen = () => {
   const dispatch = useDispatch();
   const { listProduct } = useSelector((state) => state.product);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
-    dispatch(ListProduct());
+    dispatch(ListProduct())
+      .then(unwrapResult)
+      .finally(() => setIsLoading(true));
   }, [dispatch]);
+  if (!isLoading) {
+    <Loading />;
+  }
   return (
     <>
       <TitleMain> Danh sách sản phẩm </TitleMain>
@@ -116,11 +123,7 @@ const ConfirmScreen = () => {
           </BoxControl>
         </BoxSearchInput>
       </WrapContent>
-      {listProduct && listProduct.length > 0 ? (
-        <ConfirmTable data={listProduct} />
-      ) : (
-        <div>khong co</div>
-      )}
+      <ConfirmTable data={listProduct ? listProduct : []} />
     </>
   );
 };

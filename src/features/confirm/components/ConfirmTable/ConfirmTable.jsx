@@ -81,7 +81,7 @@ const ConfirmTable = ({ data }) => {
                       <Td> {index + 1}</Td>
                       <Td>{item.name} </Td>
                       <Td>{item.class} </Td>
-                      <Td>{item.subject.name} </Td>
+                      <Td>{item.subject && item.subject.name} </Td>
                       <Td> </Td>
                       <Td> </Td>
                       <Td>

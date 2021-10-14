@@ -81,7 +81,7 @@ const ReviewProduct = ({ data }) => {
           </BoxProject>
           <BoxProject>
             <LabelProject>Mã môn học:</LabelProject>
-            {data != null ? data.subject.code : ''}
+            {data.subject && data.subject.code}
           </BoxProject>
           <BoxProject>
             <LabelProject>Kì học:</LabelProject>
