@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react';
 import { FiCheck } from 'react-icons/fi';
-import { AiOutlineEye } from 'react-icons/ai';
+import { AiOutlineEye, AiOutlineDeliveredProcedure } from 'react-icons/ai';
 import { BsTrash } from 'react-icons/bs';
 import { MdModeEdit } from 'react-icons/md';
 
@@ -20,10 +20,13 @@ import PopupOverlay from './../../../../components/PopupOverlay/PopupOverlay';
 import ReviewProduct from './../Review/ReviewProduct';
 import RemoveProduct from './../RemoveProduct/RemoveProduct';
 import ActionProduct from '../ActionProduct/ActionProduct';
+import FromRefuse from '../ActionRefuse/FromRefuse';
 const ConfirmTable = ({ data }) => {
   const [open, setOpen] = useState(false);
   const [openRemove, setOpenRemove] = useState(false);
   const [ItemUpdate, setItemUpdate] = useState(false);
+  const [refuse, setIRefuse] = useState(false);
+  const [itemRefuse, setItemRefuse] = useState(null);
   const [itemRemove, setItemRemove] = useState(null);
   const [product, setProduct] = useState({
     id: '',
@@ -57,6 +60,10 @@ const ConfirmTable = ({ data }) => {
   const update = (item) => {
     setUpdateProd(item);
     setItemUpdate(true);
+  };
+  const tutroi = (item) => {
+    setItemRefuse(item);
+    setIRefuse(!refuse);
   };
   return (
     <WrapContent>
@@ -106,12 +113,21 @@ const ConfirmTable = ({ data }) => {
                             color="info"
                             onClick={() => Review(item)}
                           />
-                          <Button
-                            icon={<BsTrash />}
-                            size="small"
-                            color="danger"
-                            onClick={() => removeProduct(item)}
-                          />
+                          {item.status === 0 ? (
+                            <Button
+                              icon={<AiOutlineDeliveredProcedure />}
+                              size="small"
+                              color="danger"
+                              onClick={() => tutroi(item)}
+                            />
+                          ) : (
+                            <Button
+                              icon={<BsTrash />}
+                              size="small"
+                              color="danger"
+                              onClick={() => removeProduct(item)}
+                            />
+                          )}
                         </GroupAction>
                       </Td>
                     </Tr>
@@ -155,6 +171,10 @@ const ConfirmTable = ({ data }) => {
         scroll
       >
         <ActionProduct data={updateProduct} setOpen={setItemUpdate} />
+      </PopupOverlay>
+      {/* từ trối sản phẩm  */}
+      <PopupOverlay open={refuse} setOpen={setIRefuse} title="Lý do">
+        <FromRefuse data={itemRefuse} setOpen={setIRefuse} />
       </PopupOverlay>
     </WrapContent>
   );
