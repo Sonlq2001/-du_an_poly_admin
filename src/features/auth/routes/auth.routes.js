@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { PATH_AUTH } from './../constants/auth.endpoints';
+import { PATH_AUTH } from './../constants/auth.paths';
 const AuthLayout = lazy(() => import('../layouts/AuthLayoutScreens'));
 export const SIGN_IN_SCREEN = {
   id: 'id_sign_in',
