@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { AiOutlineGoogle } from 'react-icons/ai';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import GoogleLogin from 'react-google-login';
 
 import {
   PageSingIn,
@@ -9,16 +10,16 @@ import {
   FormLogin,
 } from './SignInScreen.styles';
 import LogoFpt from './../../../../assets/images/logo.png';
-import { getLinkSocialLogin } from './../../redux/auth.slice';
+import { postAccessToken } from './../../redux/auth.slice';
 
 const SignInScreen = () => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getLinkSocialLogin());
-  }, [dispatch]);
 
-  const { linkSocial } = useSelector((state) => state.auth);
-  console.log(linkSocial);
+  const responseGoogle = (response) => {
+    const { accessToken } = response;
+    dispatch(postAccessToken(accessToken));
+  };
+
   return (
     <PageSingIn>
       <PageSingInLeft></PageSingInLeft>
@@ -26,15 +27,25 @@ const SignInScreen = () => {
         <FormLogin>
           <img src={LogoFpt} alt="" className="logo-from" />
           <p className="des-from">Cao đẳng thực hành Fpolytechnic</p>
-          <a
-            href="http://api.duanpoly.ml/api/login/google"
-            className="button-form"
-          >
-            <span className="icon-form">
-              <AiOutlineGoogle />
-            </span>
-            Google
-          </a>
+          <GoogleLogin
+            clientId={process.env.REACT_APP_CLIENT_ID}
+            render={(renderProps) => (
+              <button
+                className="button-form"
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+              >
+                <span className="icon-form">
+                  <AiOutlineGoogle />
+                </span>
+                Google
+              </button>
+            )}
+            buttonText="Login"
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={'single_host_origin'}
+          />
         </FormLogin>
       </PageSingInRight>
     </PageSingIn>

@@ -102,7 +102,7 @@ export const NavControl = styled.div`
   .avatar-user {
     width: 4rem;
     height: 4rem;
-    border-radius: 5px;
+    border-radius: 50%;
     margin-right: 2rem;
   }
 
@@ -116,6 +116,7 @@ export const NavControl = styled.div`
 
 export const ListAction = styled.ul`
   position: absolute;
+  width: 80%;
   bottom: -210%;
   right: 0;
   width: 100%;
@@ -145,6 +146,9 @@ export const ListAction = styled.ul`
     padding: 1rem;
     border-radius: 5px;
     transition: ease 0.3s;
+    border: none;
+    width: 100%;
+    background: transparent;
   }
 
   .link-action:hover {

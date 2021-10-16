@@ -1,3 +1,4 @@
 export const AUTH_ENDPOINT = {
-  GET_LINK_SOCIAL: '/login/google',
+  POST_ACCESS_TOKEN: '/callback/google',
+  POST_LOGOUT: '/logout',
 };
