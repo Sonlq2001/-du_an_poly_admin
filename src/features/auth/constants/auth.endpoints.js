@@ -1,4 +1,3 @@
-export const PATH_AUTH = {
-  SIGN_IN: '/sign-in',
-  AUTH_TOKEN: '/google/auth/:token',
+export const AUTH_ENDPOINT = {
+  GET_LINK_SOCIAL: '/login/google',
 };

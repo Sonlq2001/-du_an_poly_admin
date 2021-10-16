@@ -58,7 +58,8 @@ export const FormLogin = styled.div`
     color: var(--white-color);
     width: 100%;
     transition: linear 0.2s;
-    font-weight: 600;
+    font-weight: 500;
+    font-size: 1.5rem;
   }
 
   .button-form:hover {
