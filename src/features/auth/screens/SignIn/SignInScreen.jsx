@@ -18,6 +18,7 @@ const SignInScreen = () => {
   }, [dispatch]);
 
   const { linkSocial } = useSelector((state) => state.auth);
+  console.log(linkSocial);
   return (
     <PageSingIn>
       <PageSingInLeft></PageSingInLeft>

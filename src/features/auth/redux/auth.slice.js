@@ -7,8 +7,8 @@ import { authApi } from './../api/auth.api';
 export const getLinkSocialLogin = createAsyncThunk(
   'auth/getLinkSocialLogin',
   async () => {
-    await authApi.getLinkSocial();
-
+    const response = await authApi.getLinkSocial();
+    console.log(response);
   }
 );
 
