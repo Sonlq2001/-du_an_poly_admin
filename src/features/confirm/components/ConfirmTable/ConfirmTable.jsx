@@ -2,6 +2,7 @@ import React, { memo, useState } from 'react';
 import { FiCheck } from 'react-icons/fi';
 import { AiOutlineEye } from 'react-icons/ai';
 import { BsTrash } from 'react-icons/bs';
+import { MdModeEdit } from 'react-icons/md';
 
 import { WrapContent } from './../../../../styles/common/common-styles';
 import {
@@ -15,8 +16,27 @@ import {
 import { Button } from './../../../../components/Button/Button';
 import { TablePagination } from './../../../../components/Pagination/Pagination';
 import { GroupPagination, GroupAction, BoxMain } from './ConfirmTable.styles';
-
+import PopupOverlay from './../../../../components/PopupOverlay/PopupOverlay';
+import ReviewProduct from './../Review/ReviewProduct';
+import RemoveProduct from './../RemoveProduct/RemoveProduct';
+import ActionProduct from '../ActionProduct/ActionProduct';
 const ConfirmTable = ({ data }) => {
+  const [open, setOpen] = useState(false);
+  const [openRemove, setOpenRemove] = useState(false);
+  const [ItemUpdate, setItemUpdate] = useState(false);
+  const [itemRemove, setItemRemove] = useState(null);
+  const [product, setProduct] = useState({
+    id: '',
+    name: '',
+    subject: '',
+    description: '',
+  });
+  const [updateProduct, setUpdateProd] = useState({
+    id: '',
+    name: '',
+    subject: '',
+    description: '',
+  });
   const [pagination, setPagination] = useState({
     page: 1,
     pageLength: 20,
@@ -26,7 +46,18 @@ const ConfirmTable = ({ data }) => {
   const handleChangePage = (values) => {
     setPagination({ ...pagination, ...values });
   };
-
+  const Review = (item) => {
+    setProduct(item);
+    setOpen(!open);
+  };
+  const removeProduct = (item) => {
+    setOpenRemove(true);
+    setItemRemove(item);
+  };
+  const update = (item) => {
+    setUpdateProd(item);
+    setItemUpdate(true);
+  };
   return (
     <WrapContent>
       <BoxMain>
@@ -43,23 +74,50 @@ const ConfirmTable = ({ data }) => {
             </Tr>
           </Thead>
           <Tbody>
-            {data.map((data) => (
-              <Tr key={data.id}>
-                <Td>{data.id}</Td>
-                <Td>{data.name}</Td>
-                <Td>{data.class}</Td>
-                <Td>{data.subject}</Td>
-                <Td className="fix-td">{data.semester}</Td>
-                <Td>{data.member.map((item) => item)}</Td>
-                <Td>
-                  <GroupAction>
-                    <Button icon={<FiCheck />} size="small" color="success" />
-                    <Button icon={<AiOutlineEye />} size="small" color="info" />
-                    <Button icon={<BsTrash />} size="small" color="danger" />
-                  </GroupAction>
-                </Td>
-              </Tr>
-            ))}
+            {data
+              ? data.map((item, index) => {
+                  return (
+                    <Tr key={index}>
+                      <Td> {index + 1}</Td>
+                      <Td>{item.name} </Td>
+                      <Td>{item.class} </Td>
+                      <Td>{item.subject && item.subject.name} </Td>
+                      <Td> </Td>
+                      <Td> </Td>
+                      <Td>
+                        <GroupAction>
+                          {item.status === 1 ? (
+                            <Button
+                              icon={<FiCheck />}
+                              size="small"
+                              color="success"
+                            />
+                          ) : (
+                            <Button
+                              icon={<MdModeEdit />}
+                              size="small"
+                              color="warning"
+                              onClick={() => update(item)}
+                            />
+                          )}
+                          <Button
+                            icon={<AiOutlineEye />}
+                            size="small"
+                            color="info"
+                            onClick={() => Review(item)}
+                          />
+                          <Button
+                            icon={<BsTrash />}
+                            size="small"
+                            color="danger"
+                            onClick={() => removeProduct(item)}
+                          />
+                        </GroupAction>
+                      </Td>
+                    </Tr>
+                  );
+                })
+              : ''}
           </Tbody>
         </TableCustom>
         <GroupPagination>
@@ -72,6 +130,32 @@ const ConfirmTable = ({ data }) => {
           />
         </GroupPagination>
       </BoxMain>
+      {/* chi tiết sản phẩm  */}
+      <PopupOverlay
+        open={open}
+        setOpen={setOpen}
+        size="xl"
+        title="Chi Tiết Sản Phẩm "
+        scroll
+      >
+        <ReviewProduct data={product} />
+      </PopupOverlay>
+      {/* xóa sản phẩm  */}
+      <RemoveProduct
+        open={openRemove}
+        setOpen={setOpenRemove}
+        item={itemRemove}
+      />
+      {/* cập nhật sản phẩm  */}
+      <PopupOverlay
+        open={ItemUpdate}
+        setOpen={setItemUpdate}
+        size="xl"
+        title="Cập nhật  sản phẩm  "
+        scroll
+      >
+        <ActionProduct data={updateProduct} setOpen={setItemUpdate} />
+      </PopupOverlay>
     </WrapContent>
   );
 };

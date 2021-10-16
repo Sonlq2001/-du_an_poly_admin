@@ -11,5 +11,5 @@ export const removeSub = (id) => {
   return api.delete(SUBJECT_PATH.REMOVE.replace(':id', id.toString()));
 };
 export const updateSub = (data) => {
-  return api.put(SUBJECT_PATH.UPDATE.replace(':id', data.id.toString()),data);
+  return api.put(SUBJECT_PATH.UPDATE.replace(':id', data.id.toString()), data);
 };
