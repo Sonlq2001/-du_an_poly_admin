@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import { RiDashboardLine } from 'react-icons/ri';
+import { Link } from 'react-router-dom';
 
 import { WrapSidebar, ListMenu, ItemLink } from './Sidebar.styles';
 import LogoFpt from './../../assets/images/logo.png';
@@ -9,7 +10,9 @@ import { DASHBOARD_PATH } from './../../features/dashboard/constants/dashboard.p
 const Sidebar = () => {
   return (
     <WrapSidebar>
-      <img src={LogoFpt} alt="" className="img-logo" />
+      <Link to="/">
+        <img src={LogoFpt} alt="" className="img-logo" />
+      </Link>
 
       <div className="group-sidebar scroll-delayed">
         <div className="content-sidebar ">

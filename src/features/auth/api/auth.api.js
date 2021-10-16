@@ -2,10 +2,15 @@ import api from './../../../api/api';
 
 import { AUTH_ENDPOINT } from './../constants/auth.endpoints';
 
-const getLinkSocial = () => {
-  return api.get(AUTH_ENDPOINT.GET_LINK_SOCIAL);
+const postAccessToken = (accessToken) => {
+  return api.post(AUTH_ENDPOINT.POST_ACCESS_TOKEN, accessToken);
+};
+
+const postLogout = () => {
+  return api.post(AUTH_ENDPOINT.POST_LOGOUT);
 };
 
 export const authApi = {
-  getLinkSocial,
+  postAccessToken,
+  postLogout,
 };
