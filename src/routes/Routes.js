@@ -26,10 +26,6 @@ const WrapRoute = ({
     return <Redirect to={ROOT_ROUTE} />;
   }
 
-  // if (path === '/google/auth/:token' && !accessToken) {
-  //   return <Redirect to={AUTH_ROUTE} />;
-  // }
-
   return (
     <Route
       exact={isExact}

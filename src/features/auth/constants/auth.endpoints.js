@@ -1,4 +1,4 @@
-export const PATH_AUTH = {
-  SIGN_IN: '/sign-in',
-  AUTH_TOKEN: '/google/auth/:token',
+export const AUTH_ENDPOINT = {
+  POST_ACCESS_TOKEN: '/callback/google',
+  POST_LOGOUT: '/logout',
 };

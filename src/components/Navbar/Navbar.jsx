@@ -4,7 +4,7 @@ import { IoMdNotificationsOutline } from 'react-icons/io';
 import { GrTopCorner } from 'react-icons/gr';
 import { BiLogOut } from 'react-icons/bi';
 import OutsideClickHandler from 'react-outside-click-handler';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import { compile } from 'path-to-regexp';
 
@@ -21,6 +21,7 @@ import {
   ListNotification,
 } from './Navbar.styles';
 import { LIST_ROUTES } from './../../routes/routes.config';
+import { postLogout } from './../../features/auth/redux/auth.slice';
 
 const FAKE_NOTIFICATION = [
   {
@@ -43,11 +44,13 @@ const FAKE_NOTIFICATION = [
 const Navbar = () => {
   const [actionUser, setActionUser] = useState(false);
   const [isNotification, setIsNotification] = useState(false);
+  const dispatch = useDispatch();
 
   const location = useLocation();
   const params = useParams();
 
   const { pageTitle: ReduxPageTitle } = useSelector((state) => state.common);
+  const { useLogin } = useSelector((state) => state.auth);
 
   const pageTitle = useMemo(() => {
     return (
@@ -61,6 +64,10 @@ const Navbar = () => {
       })?.pageTitle
     );
   }, [params, location.pathname, ReduxPageTitle]);
+
+  const handleLogout = () => {
+    dispatch(postLogout());
+  };
 
   return (
     <WrapNavbar>
@@ -108,27 +115,26 @@ const Navbar = () => {
           </GroupNotification>
 
           <NavControl>
-            <div className="box-control">
-              <img
-                src="https://i.pinimg.com/564x/1c/c2/40/1cc2408849475c4fe0963566ad520fea.jpg"
-                alt=""
-                className="avatar-user"
-              />
-              le quang son
-              <div
-                className="icon-drop"
-                onClick={() => setActionUser(!actionUser)}
-              >
-                <GrTopCorner />
+            {useLogin && (
+              <div className="box-control">
+                <img src={useLogin?.avatar} alt="" className="avatar-user" />
+                {useLogin?.email}
+                <div
+                  className="icon-drop"
+                  onClick={() => setActionUser(!actionUser)}
+                >
+                  <GrTopCorner />
+                </div>
               </div>
-            </div>
+            )}
+
             <OutsideClickHandler onOutsideClick={() => setActionUser(false)}>
               <ListAction className={`${actionUser ? 'active' : ''}`}>
                 <li className="item-action">
-                  <a href="!#" className="link-action">
+                  <button className="link-action" onClick={handleLogout}>
                     <BiLogOut className="icon-action" />
                     Logout
-                  </a>
+                  </button>
                 </li>
               </ListAction>
             </OutsideClickHandler>
