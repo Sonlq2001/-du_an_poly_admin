@@ -10,7 +10,6 @@ const ElementSelect = ({ label, options, placeholder, ...props }) => {
   const valueSelected = options.find((option) => option.value === field.value);
 
   const handleSelect = (selected) => {
-    console.log(selected);
     const option = selected ? selected.value : selected;
     const valueOption = {
       target: {

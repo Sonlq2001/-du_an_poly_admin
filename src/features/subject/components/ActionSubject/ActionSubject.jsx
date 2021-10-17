@@ -19,7 +19,6 @@ const ActionSubject = ({ setItemSpecialized, item, setOpen, dataMajors }) => {
         initialValues={item}
         validationSchema={schema}
         onSubmit={(values, { resetForm }) => {
-          console.log('values', values);
           if (item.name === '') {
             dispatch(postSubject(values))
               .then(unwrapResult)
