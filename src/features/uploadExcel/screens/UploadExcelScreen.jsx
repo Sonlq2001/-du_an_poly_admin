@@ -32,7 +32,6 @@ const UploadExcelScreen = () => {
 
   const { listSemester } = useSelector((state) => state.uploadExcel);
   const listSelectOptionSemester = MapOptions(listSemester);
-
   return (
     <WrapContent>
       <Formik
@@ -63,8 +62,8 @@ const UploadExcelScreen = () => {
               <GroupUpload>
                 <HeaderUpload>
                   <h3 className="title-upload">Danh sách điểm</h3>
-                  <Button type="button" size="small">
-                    File mẫu
+                  <Button type="button" size="small" color="success">
+                    <a href="http://api.duanpoly.ml/api/export"> File mẫu</a>
                   </Button>
                 </HeaderUpload>
                 <div className="group-select">
