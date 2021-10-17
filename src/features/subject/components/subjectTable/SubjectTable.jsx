@@ -36,6 +36,7 @@ const SubjectTable = ({ data, dataMajors }) => {
   const handleChangePage = (values) => {
     setPagination({ ...pagination, ...values });
   };
+
   return (
     <>
       <WrapContent>
@@ -69,7 +70,7 @@ const SubjectTable = ({ data, dataMajors }) => {
                 <Td> {index + 1} </Td>
                 <Td> {item.name} </Td>
                 <Td> {item.code} </Td>
-                <Td> {index + 1} </Td>
+                <Td> {item.majors && item.majors.name} </Td>
                 <Td>
                   <BoxActionTable>
                     <Button
@@ -120,7 +121,7 @@ const SubjectTable = ({ data, dataMajors }) => {
             item={itemSpecialized}
             setOpen={setIsDialogAction}
             setItemSpecialized={setItemSpecialized}
-            dataMajors={dataMajors}
+            dataMajors={dataMajors ? dataMajors : []}
           />
         </PopupOverlay>
 

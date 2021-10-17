@@ -41,7 +41,7 @@ const ActionSubject = ({ setItemSpecialized, item, setOpen, dataMajors }) => {
                   <ElementSelect
                     className="select"
                     name="major_id"
-                    placeholder="Chọn giảng viên"
+                    placeholder="Chọn chuyên ngành"
                     options={dataMajors ? dataMajors : []}
                   />
                 </div>
