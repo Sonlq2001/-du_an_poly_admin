@@ -29,6 +29,12 @@ const SubjectScreen = () => {
       .then(unwrapResult)
       .finally(() => setIsLoading(true));
   }, [dispatch]);
+  const DataMajors =
+    listMajors &&
+    listMajors.map((item) => {
+      return { ...item, label: item.name, value: item.id };
+    });
+
   if (!isLoading) {
     return <Loading />;
   }
@@ -55,7 +61,7 @@ const SubjectScreen = () => {
             </label>
             <Select
               className="select-option input-search"
-              options={listMajors ? listMajors : []}
+              options={DataMajors ? DataMajors : []}
               placeholder="Chuyên ngành "
             />
           </BoxControl>
@@ -65,7 +71,7 @@ const SubjectScreen = () => {
       {subject && subject.length > 0 ? (
         <SubjectTable
           data={subject}
-          dataMajors={listMajors ? listMajors : []}
+          dataMajors={DataMajors ? DataMajors : []}
         />
       ) : (
         <Loading />

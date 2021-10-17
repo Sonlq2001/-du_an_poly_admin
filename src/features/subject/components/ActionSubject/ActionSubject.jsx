@@ -19,6 +19,7 @@ const ActionSubject = ({ setItemSpecialized, item, setOpen, dataMajors }) => {
         initialValues={item}
         validationSchema={schema}
         onSubmit={(values, { resetForm }) => {
+          console.log('values', values);
           if (item.name === '') {
             dispatch(postSubject(values))
               .then(unwrapResult)
@@ -41,7 +42,7 @@ const ActionSubject = ({ setItemSpecialized, item, setOpen, dataMajors }) => {
                   <ElementSelect
                     className="select"
                     name="major_id"
-                    placeholder="Chọn giảng viên"
+                    placeholder="Chọn chuyên ngành"
                     options={dataMajors ? dataMajors : []}
                   />
                 </div>
