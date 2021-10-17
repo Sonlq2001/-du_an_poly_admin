@@ -9,7 +9,6 @@ const postImportFile = (file) => {
 const getSemesters = () => {
   return api.get(UPLOAD_EXCEL_ENDPOINTS.GET_SEMESTERS);
 };
-
 export const uploadExcelApi = {
   postImportFile,
   getSemesters,

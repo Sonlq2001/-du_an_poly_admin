@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { unwrapResult } from '@reduxjs/toolkit';
 import AlertMessage from './../../../components/AlertMessage/AlertMessage';
-
 import { WrapContent } from './../../../styles/common/common-styles';
 import {
   GroupUpload,
@@ -14,6 +13,7 @@ import {
   ContentUpload,
   HeaderUpload,
 } from './UploadExcelScreen.styles';
+
 import { Button } from './../../../components/Button/Button';
 import ElementSelect from './../../../components/FormElements/ElementSelect/ElementSelect';
 import { schema, initForm } from './../helpers/upload.helpers';
@@ -23,7 +23,6 @@ import {
   getSemesters,
 } from './../redux/uploadExcel.slice';
 import { MapOptions } from './../../../helpers/convert/map-options';
-
 const UploadExcelScreen = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -32,7 +31,6 @@ const UploadExcelScreen = () => {
 
   const { listSemester } = useSelector((state) => state.uploadExcel);
   const listSelectOptionSemester = MapOptions(listSemester);
-
   return (
     <WrapContent>
       <Formik
@@ -57,14 +55,13 @@ const UploadExcelScreen = () => {
           if (values.excel !== null) {
             classError = false;
           }
-
           return (
             <Form>
               <GroupUpload>
                 <HeaderUpload>
                   <h3 className="title-upload">Danh sách điểm</h3>
-                  <Button type="button" size="small">
-                    File mẫu
+                  <Button type="button" size="small" color="success" onClick>
+                    <a href="http://api.duanpoly.ml/api/export"> File Mẫu </a>
                   </Button>
                 </HeaderUpload>
                 <div className="group-select">
