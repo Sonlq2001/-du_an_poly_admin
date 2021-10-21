@@ -4,7 +4,6 @@ export const BoxTitleDashboard = styled.div`
   font-size: 1.6rem;
   font-weight: 500;
 `;
-
 export const WrapContent = styled.div`
   border-radius: 5px;
   background-color: var(--white-color);
@@ -13,7 +12,6 @@ export const WrapContent = styled.div`
     margin-top: 2rem;
   }
 `;
-
 export const TitleMain = styled.h3`
   font-size: 2rem;
   font-weight: 500;
@@ -73,16 +71,28 @@ export const InputSearch = styled.input`
   border-radius: 5px;
   background-color: var(--eee-color);
 `;
-
 export const HeaderTable = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
   margin-bottom: 2rem;
 `;
-
 export const GroupPagination = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 2rem;
+`;
+export const BoxActionTable = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+export const EmptyResult = styled.div`
+  font-size: 1.5rem;
+  text-align: center;
+  .text-result {
+    font-size: 1.5rem;
+  }
+  img {
+    height: 20rem;
+  }
 `;

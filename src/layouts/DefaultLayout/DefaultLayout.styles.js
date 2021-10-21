@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const WrapApp = styled.div`
   display: flex;
+  overflow: hidden;
 
   .wrap-main {
     width: calc(100% - 28rem);
