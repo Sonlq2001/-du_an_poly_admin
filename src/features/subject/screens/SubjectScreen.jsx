@@ -1,7 +1,19 @@
 import React, { memo, useEffect, useState } from 'react';
 import Select from 'react-select';
-// import SubjectTable from './../components/SubjectTable/SubjectTable';
-import SubjectTable from '../components/SubjectTable/SubjectTable';
+import { useDispatch, useSelector } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { IoMdAdd } from 'react-icons/io';
+import { BsTrash } from 'react-icons/bs';
+import { MdModeEdit } from 'react-icons/md';
+
+import {
+  TableCustom,
+  Thead,
+  Th,
+  Tr,
+  Td,
+  Tbody,
+} from '../../../components/Table/TableCustom';
 import {
   WrapContent,
   TitleMain,
@@ -9,35 +21,41 @@ import {
   BoxControl,
   BoxSearchInput,
   InputSearch,
+  HeaderTable,
+  EmptyResult,
+  BoxActionTable,
 } from './../../../styles/common/common-styles';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchData } from './../redux/subject.slice';
-import { getMajors } from './../../majors/redux/majors.slice';
-import { unwrapResult } from '@reduxjs/toolkit';
+import { Button } from '../../../components/Button/Button';
+import PopupOverlay from '../../../components/PopupOverlay/PopupOverlay';
+
+import { getListSubject } from './../redux/subject.slice';
+
 import Loading from './../../../components/Loading/Loading';
 import GroupAlert from './../../../components/AlertMessage/AlertMessage';
+import EmptyResultImage from './../../../assets/images/empty-result.gif';
+import ActionSubject from './../components/ActionSubject/ActionSubject';
+import { initForm } from './../helpers/subject.helpers';
+import RemoveSubject from './../components/RemoveSubject/RemoveSubject';
 
-// gọi api
 const SubjectScreen = () => {
   const dispatch = useDispatch();
-  const subject = useSelector((state) => state.subject.data);
-  const { listMajors } = useSelector((state) => state.majors);
-  const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
-    dispatch(getMajors());
-    dispatch(fetchData())
-      .then(unwrapResult)
-      .finally(() => setIsLoading(true));
-  }, [dispatch]);
-  const DataMajors =
-    listMajors &&
-    listMajors.map((item) => {
-      return { ...item, label: item.name, value: item.id };
-    });
+  const [isLoadingSubject, setIsLoadingSubject] = useState(false);
+  const [isDialogActionSubject, setIsDialogActionSubject] = useState(false);
+  const [itemSubject, setItemSubject] = useState(initForm);
+  const [isDialogDeleteSubject, setIsDialogDeleteSubject] = useState(false);
 
-  if (!isLoading) {
+  useEffect(() => {
+    dispatch(getListSubject())
+      .then(unwrapResult)
+      .finally(() => setIsLoadingSubject(true));
+  }, [dispatch]);
+
+  const { listSubject } = useSelector((state) => state.subject);
+
+  if (!isLoadingSubject) {
     return <Loading />;
   }
+
   return (
     <>
       <TitleMain> Danh sách môn học</TitleMain>
@@ -61,21 +79,100 @@ const SubjectScreen = () => {
             </label>
             <Select
               className="select-option input-search"
-              options={DataMajors ? DataMajors : []}
+              options={[]}
               placeholder="Chuyên ngành "
             />
           </BoxControl>
         </BoxSearchInput>
       </WrapContent>
 
-      {subject && subject.length > 0 ? (
-        <SubjectTable
-          data={subject}
-          dataMajors={DataMajors ? DataMajors : []}
-        />
-      ) : (
-        <Loading />
-      )}
+      <WrapContent>
+        <HeaderTable>
+          <Button
+            icon={<IoMdAdd />}
+            color="primary"
+            onClick={() => {
+              setIsDialogActionSubject(true);
+              setItemSubject(initForm);
+            }}
+          >
+            Thêm
+          </Button>
+        </HeaderTable>
+
+        {listSubject && listSubject.length > 0 ? (
+          <>
+            <TableCustom>
+              <Thead>
+                <Tr>
+                  <Th sort={false}>#</Th>
+                  <Th>Tên môn học</Th>
+                  <Th>Mã môn</Th>
+                  <Th>Chuyên ngành</Th>
+                  <Th sort={false} align="right">
+                    Thao tác
+                  </Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {listSubject.map((row, index) => (
+                  <Tr key={row.id}>
+                    <Td>{index + 1}</Td>
+                    <Td>{row.name}</Td>
+                    <Td>{row.code}</Td>
+                    <Td>{row.major_id}</Td>
+                    <Td>
+                      <BoxActionTable>
+                        <Button
+                          color="warning"
+                          icon={<MdModeEdit />}
+                          size="small"
+                          onClick={() => {
+                            setIsDialogActionSubject(true);
+                            setItemSubject(row);
+                          }}
+                        />
+                        <Button
+                          color="danger"
+                          size="small"
+                          icon={<BsTrash />}
+                          onClick={() => {
+                            setIsDialogDeleteSubject(true);
+                            setItemSubject(row);
+                          }}
+                        />
+                      </BoxActionTable>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </TableCustom>
+          </>
+        ) : (
+          <EmptyResult>
+            <div>Không có kết quả nào</div>
+            <img src={EmptyResultImage} alt="" />
+          </EmptyResult>
+        )}
+      </WrapContent>
+
+      {/* overlay edit and add */}
+      <PopupOverlay
+        open={isDialogActionSubject}
+        setOpen={setIsDialogActionSubject}
+        // title={itemMajors?.id ? 'Sửa Chuyên Ngành' : 'Thêm Chuyên Ngành '}
+      >
+        <ActionSubject item={itemSubject} setOpen={setIsDialogActionSubject} />
+      </PopupOverlay>
+
+      {/* overlay remove */}
+      <RemoveSubject
+        item={itemSubject}
+        open={isDialogDeleteSubject}
+        setOpen={setIsDialogDeleteSubject}
+      />
+
+      {/* alert message */}
       <GroupAlert />
     </>
   );

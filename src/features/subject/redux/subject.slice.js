@@ -1,69 +1,95 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getAll, postSub, removeSub, updateSub } from './../api/subject.api.js';
-export const fetchData = createAsyncThunk('subject/list', async () => {
-  const { data } = await getAll();
-  return data.data;
-});
-// thêm
+
+import { subjectApi } from './../api/subject.api.js';
+
+export const getListSubject = createAsyncThunk(
+  'subject/getListSubject',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await subjectApi.getListSubject();
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const postSubject = createAsyncThunk(
-  'subject/create',
-  async (newSubject) => {
-    const { data } = await postSub(newSubject);
-    return data;
+  'subject/postSubject',
+  async (newSubject, { rejectWithValue }) => {
+    try {
+      const response = await subjectApi.postSubject(newSubject);
+      return response.data;
+    } catch (error) {
+      const { code, majorId } = error.response.data.errors;
+      const arrayError = [...code, ...majorId];
+      console.log(arrayError);
+      return rejectWithValue(arrayError);
+    }
   }
 );
-// xóa
-export const removeSubject = createAsyncThunk('subject/remove', async (id) => {
-  try {
-    await removeSub(id);
-    return id;
-  } catch (error) {}
-});
-// cập nhật
-export const updateSubject = createAsyncThunk(
+
+export const removeSubject = createAsyncThunk(
+  'subject/removeSubject',
+  async (id, { rejectWithValue }) => {
+    try {
+      await subjectApi.removeSubject(id);
+      return id;
+    } catch (error) {
+      return rejectWithValue(error.response.data.errors);
+    }
+  }
+);
+
+export const putSubject = createAsyncThunk(
   'subject/update',
-  async (subject) => {
-    const { data } = await updateSub(subject);
-    return data;
+  async (subject, { rejectWithValue }) => {
+    try {
+      const response = await subjectApi.putSubject(subject);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data.errors);
+    }
   }
 );
+
 const initialState = {
-  data: null,
+  listSubject: null,
 };
 const subjectSlice = createSlice({
   name: 'subject',
   initialState,
   extraReducers: {
-    [fetchData.pending]: (state) => {
-      state.data = null;
+    [getListSubject.pending]: (state) => {
+      state.listSubject = null;
     },
-    [fetchData.fulfilled]: (state, action) => {
-      state.data = action.payload;
+    [getListSubject.fulfilled]: (state, action) => {
+      state.listSubject = action.payload.data;
     },
-    [fetchData.rejected]: (state) => {
-      state.data = null;
+    [getListSubject.rejected]: (state) => {
+      state.listSubject = null;
     },
-    // post
     [postSubject.fulfilled]: (state, action) => {
-      state.data = [action.payload.data, ...state.data];
+      state.listSubject = [...state.listSubject, action.payload.data];
     },
     [postSubject.rejected]: (state) => {
-      state.data = null;
+      state.listSubject = null;
     },
-    // xóa
     [removeSubject.fulfilled]: (state, action) => {
-      state.data = state.data.filter((item) => item.id !== action.payload);
+      state.listSubject = state.listSubject.filter(
+        (item) => item.id !== action.payload
+      );
     },
     [removeSubject.rejected]: (state) => {
-      state.data = null;
+      state.listSubject = null;
     },
-    // cập nhật
-    [updateSubject.fulfilled]: (state, action) => {
-      state.data = state.data.map((item) =>
+
+    [putSubject.fulfilled]: (state, action) => {
+      state.listSubject = state.listSubject.map((item) =>
         item.id === action.payload.data.id ? action.payload.data : item
       );
     },
-    [updateSubject.rejected]: (state) => {
+    [putSubject.rejected]: (state) => {
       state.data = null;
     },
   },
