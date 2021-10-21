@@ -21,17 +21,20 @@ const ActionMajors = ({ item, setOpen }) => {
         initialValues={item}
         validationSchema={schema}
         onSubmit={(values, { resetForm }) => {
-          if (item.name === '') {
+          if (item?.name === '') {
             dispatch(postMajors(values))
               .then(unwrapResult)
-              .then(() => toast.success('Thêm thành công !'));
+              .then(() => toast.success('Thêm thành công !'))
+              .catch((error) => toast.error(error.name[0]))
+              .finally(() => setOpen(false));
           } else {
             dispatch(putMajors(values))
               .then(unwrapResult)
-              .then(() => toast.success('Sửa thành công !'));
+              .then(() => toast.success('Sửa thành công !'))
+              .catch((error) => toast.error(error.name[0]))
+              .finally(() => setOpen(false));
           }
           resetForm();
-          setOpen(false);
         }}
       >
         {({ handleSubmit }) => {
