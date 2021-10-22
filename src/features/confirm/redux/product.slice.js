@@ -10,6 +10,14 @@ const initialState = {
 const productSlice = createSlice({
   name: 'product',
   initialState,
+  reducers: {
+    productUpdate(state, action) {
+      state.listProduct = state.listProduct.map((item) => {
+        if (item.id === action.payload) item.status = 1;
+        return item;
+      });
+    },
+  },
   extraReducers: {
     [ListProduct.pending]: (state) => {
       state.listProduct = null;
@@ -22,5 +30,6 @@ const productSlice = createSlice({
     },
   },
 });
+export const { productUpdate } = productSlice.actions;
 const { reducer: productReducer } = productSlice;
 export default productReducer;
