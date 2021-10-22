@@ -23,9 +23,10 @@ import ReviewProduct from './../Review/ReviewProduct';
 import RemoveProduct from './../RemoveProduct/RemoveProduct';
 import ActionProduct from '../ActionProduct/ActionProduct';
 import { useDispatch } from 'react-redux';
-import { productUpdate } from '../../redux/product.slice';
+import { productUpdate, updateProduct } from '../../redux/product.slice';
 import Refuse from './../ActionProduct/refuse/Refuse';
 const ConfirmTable = ({ data }) => {
+  console.log('data',data)
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openRemove, setOpenRemove] = useState(false);
@@ -39,6 +40,7 @@ const ConfirmTable = ({ data }) => {
     subject: '',
     description: '',
   });
+
   const [updateProduct, setUpdateProd] = useState({
     id: '',
     name: '',
@@ -69,6 +71,7 @@ const ConfirmTable = ({ data }) => {
   const handleConfirm = (item) => {
     console.log('xác nhận', item);
     dispatch(productUpdate(item.id));
+    // dispatch(updateProduct(item));
   };
   const handleRefuse = (item) => {
     setRefuse(item);

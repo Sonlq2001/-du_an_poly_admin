@@ -1,9 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getAll } from './../api/product.api';
+import { getAll, update } from './../api/product.api';
 export const ListProduct = createAsyncThunk('product/list', async () => {
   const { data } = await getAll();
   return data;
 });
+export const updateProduct = createAsyncThunk(
+  'product/update',
+  async (product) => {
+    const response = await update(product);
+    console.log('redux', response);
+  }
+);
 const initialState = {
   listProduct: null,
 };

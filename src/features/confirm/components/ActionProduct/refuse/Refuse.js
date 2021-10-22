@@ -1,40 +1,50 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import { From } from './Refuse.styles';
+import { From, GroupButton } from './Refuse.styles';
+import { Button } from './../../../../../components/Button/Button';
+import { useDispatch } from 'react-redux';
+import { updateProduct } from '../../../redux/product.slice';
 const Refuse = ({ item, setItemRefuse }) => {
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
-      lydo: '',
+      reason: '',
     },
     validate: (values) => {
       const errors = {};
-      if (!values.lydo) {
-        errors.lydo = 'Required';
-      } else if (values.lydo.length < 20) {
-        errors.lydo = 'Quá it ';
+      if (!values.reason) {
+        errors.reason = 'Required';
+      } else if (values.reason.length < 20) {
+        errors.reason = 'Không ít hơn 50 ký tự !';
       }
       return errors;
     },
     onSubmit: (values) => {
       console.log('value', values);
+      // dispatch(updateProduct(item));
+      // setItemRefuse(false)
     },
   });
   return (
     <From onSubmit={formik.handleSubmit}>
       <textarea
-        name="lydo"
+        name="reason"
         id="input"
         class="form-control"
         rows="3"
         required="required"
         onChange={formik.handleChange}
-      >
-        {' '}
-      </textarea>
-      {formik.errors.lydo ? (
-        <div className="erors">{formik.errors.lydo}</div>
+        placeholder="lý do từ trối "
+      ></textarea>
+      {formik.errors.reason ? (
+        <div className="errors">{formik.errors.reason}</div>
       ) : null}
-      <button> lưu</button>
+      <GroupButton>
+        <label onClick={() => setItemRefuse(false)}> Hủy </label>{' '}
+        <Button color="primary" size="lg">
+          lưu
+        </Button>
+      </GroupButton>
     </From>
   );
 };
