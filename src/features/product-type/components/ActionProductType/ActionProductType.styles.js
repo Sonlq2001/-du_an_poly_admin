@@ -1,11 +1,5 @@
 import styled from 'styled-components';
-export const Title = styled.h3`
-  padding-bottom: 1rem;
-  margin-bottom: 3rem;
-  font-size: 17px;
-  font-weight: 550;
-  border-bottom: 2px solid var(--eee-color);
-`;
+
 export const ContentForm = styled.div`
   padding-right: 1rem;
   & .from-group {
@@ -45,7 +39,6 @@ export const ContentForm = styled.div`
     overflow: visible;
   }
 `;
-
 export const GroupAction = styled.div`
   display: flex;
   justify-content: flex-end;

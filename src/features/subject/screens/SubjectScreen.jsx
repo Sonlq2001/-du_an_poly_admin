@@ -1,6 +1,5 @@
 import React, { memo, useEffect, useState } from 'react';
 import Select from 'react-select';
-// import SubjectTable from './../components/SubjectTable/SubjectTable';
 import SubjectTable from '../components/SubjectTable/SubjectTable';
 import {
   WrapContent,
@@ -17,7 +16,6 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import Loading from './../../../components/Loading/Loading';
 import GroupAlert from './../../../components/AlertMessage/AlertMessage';
 
-// gọi api
 const SubjectScreen = () => {
   const dispatch = useDispatch();
   const subject = useSelector((state) => state.subject.data);
