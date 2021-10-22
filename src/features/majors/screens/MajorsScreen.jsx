@@ -47,7 +47,6 @@ const MajorsScreen = () => {
   useEffect(() => {
     dispatch(getMajors())
       .then(unwrapResult)
-      .catch(() => console.log('ko co data'))
       .finally(() => setIsLoading(true));
   }, [dispatch]);
 
