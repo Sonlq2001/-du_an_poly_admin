@@ -24,9 +24,11 @@ import {
   HeaderTable,
   EmptyResult,
   BoxActionTable,
+  GroupPagination,
 } from './../../../styles/common/common-styles';
 import { Button } from '../../../components/Button/Button';
 import PopupOverlay from '../../../components/PopupOverlay/PopupOverlay';
+import { TablePagination } from '../../../components/Pagination/Pagination';
 
 import { getListSubject } from './../redux/subject.slice';
 
@@ -147,6 +149,16 @@ const SubjectScreen = () => {
                 ))}
               </Tbody>
             </TableCustom>
+
+            <GroupPagination>
+              <TablePagination
+                pageLengthMenu={[20, 50, 100]}
+                page={1}
+                pageLength={10}
+                totalRecords={100}
+                onPageChange={() => null}
+              />
+            </GroupPagination>
           </>
         ) : (
           <EmptyResult>

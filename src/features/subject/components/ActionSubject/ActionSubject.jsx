@@ -25,7 +25,6 @@ const ActionSubject = ({ item, setOpen }) => {
 
   const { listMajors } = useSelector((state) => state.majors);
   const listSelectMajor = MapOptions(listMajors);
-  console.log(initForm);
   return (
     <>
       <Formik
