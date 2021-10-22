@@ -7,6 +7,7 @@ import productReducer from '../features/confirm/redux/product.slice';
 import subjectReducer from '../features/subject/redux/subject.slice';
 import uploadExcelReducer from './../features/uploadExcel/redux/uploadExcel.slice';
 import majorsReducer from './../features/majors/redux/majors.slice';
+import productTypeReducer from './../features/product-type/redux/product-type.slice';
 
 const rootReducer = combineReducers({
   user: useReducer,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   common: commonReducer,
   uploadExcel: uploadExcelReducer,
   majors: majorsReducer,
+  productType: productTypeReducer,
 });
 
 export default rootReducer;

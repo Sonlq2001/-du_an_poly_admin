@@ -1,17 +1,30 @@
-import React from 'react';
+import React, { memo, useEffect } from 'react';
 import { Formik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { unwrapResult } from '@reduxjs/toolkit';
+
 import { ContentForm, GroupAction } from './ActionSubject.styles';
 import ElementInput from './../../../../components/FormElements/ElementInput/ElementInput';
 import ElementSelect from './../../../../components/FormElements/ElementSelect/ElementSelect';
 import { Button } from './../../../../components/Button/Button';
 import { AiOutlineSave } from 'react-icons/ai';
 import { schema } from './../../helpers/subject.helpers';
-import { useDispatch } from 'react-redux';
-import { postSubject, updateSubject } from './../../redux/subject.slice.js';
-import { toast } from 'react-toastify';
-import { unwrapResult } from '@reduxjs/toolkit';
-const ActionSubject = ({ setItemSpecialized, item, setOpen, dataMajors }) => {
+
+import { postSubject, putSubject } from './../../redux/subject.slice.js';
+import { getMajors } from './../../../majors/redux/majors.slice';
+import { MapOptions } from './../../../../helpers/convert/map-options';
+import { initForm } from './../../helpers/subject.helpers';
+
+const ActionSubject = ({ item, setOpen }) => {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getMajors());
+  }, [dispatch]);
+
+  const { listMajors } = useSelector((state) => state.majors);
+  const listSelectMajor = MapOptions(listMajors);
   return (
     <>
       <Formik
@@ -19,17 +32,23 @@ const ActionSubject = ({ setItemSpecialized, item, setOpen, dataMajors }) => {
         initialValues={item}
         validationSchema={schema}
         onSubmit={(values, { resetForm }) => {
-          if (item.name === '') {
+          if (item?.name === '') {
             dispatch(postSubject(values))
               .then(unwrapResult)
-              .then(() => toast.success('Thêm thành công !'));
+              .then(() => toast.success('Thêm thành công !'))
+              .finally(() => {
+                resetForm({ ...initForm });
+                setOpen(false);
+              });
           } else {
-            dispatch(updateSubject(values))
+            dispatch(putSubject(values))
               .then(unwrapResult)
-              .then(() => toast.success('Cập nhật  thành công !'));
+              .then(() => toast.success('Cập nhật  thành công !'))
+              .finally(() => {
+                resetForm({ ...initForm });
+                setOpen(false);
+              });
           }
-          resetForm();
-          setOpen(false);
         }}
       >
         {({ handleSubmit }) => {
@@ -42,7 +61,7 @@ const ActionSubject = ({ setItemSpecialized, item, setOpen, dataMajors }) => {
                     className="select"
                     name="major_id"
                     placeholder="Chọn chuyên ngành"
-                    options={dataMajors ? dataMajors : []}
+                    options={listSelectMajor ? listSelectMajor : []}
                   />
                 </div>
               </div>
@@ -56,7 +75,7 @@ const ActionSubject = ({ setItemSpecialized, item, setOpen, dataMajors }) => {
               </div>
               <div className="from-group">
                 <label htmlFor=""> Mã Môn </label>
-                <ElementInput type="text" placeholder="Mã Môn " name="code" />
+                <ElementInput type="text" placeholder="Mã Môn" name="code" />
               </div>
 
               <GroupAction>
@@ -86,4 +105,4 @@ const ActionSubject = ({ setItemSpecialized, item, setOpen, dataMajors }) => {
   );
 };
 
-export default ActionSubject;
+export default memo(ActionSubject);

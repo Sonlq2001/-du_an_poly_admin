@@ -5,13 +5,16 @@ import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { unwrapResult } from '@reduxjs/toolkit';
 
-import { ContentForm, GroupAction } from './ActionMajors.styles';
-import { schema } from '../../helpers/majors.helpers';
+import { ContentForm, GroupAction } from './ActionProductType.styles';
+import { schema } from '../../helpers/product-type.helpers';
 import ElementInput from '../../../../components/FormElements/ElementInput/ElementInput';
 import { Button } from '../../../../components/Button/Button';
-import { postMajors, putMajors } from './../../redux/majors.slice';
+import {
+  postProductType,
+  putProductType,
+} from './../../redux/product-type.slice';
 
-const ActionMajors = ({ item, setOpen }) => {
+const ActionProductType = ({ item, setOpen }) => {
   const dispatch = useDispatch();
 
   return (
@@ -22,29 +25,34 @@ const ActionMajors = ({ item, setOpen }) => {
         validationSchema={schema}
         onSubmit={(values, { resetForm }) => {
           if (item?.name === '') {
-            dispatch(postMajors(values))
+            dispatch(postProductType(values))
               .then(unwrapResult)
               .then(() => toast.success('Thêm thành công !'))
               .catch((error) => toast.error(error.name[0]))
-              .finally(() => setOpen(false));
+              .finally(() => {
+                setOpen(false);
+                resetForm();
+              });
           } else {
-            dispatch(putMajors(values))
+            dispatch(putProductType(values))
               .then(unwrapResult)
               .then(() => toast.success('Sửa thành công !'))
               .catch((error) => toast.error(error.name[0]))
-              .finally(() => setOpen(false));
+              .finally(() => {
+                resetForm();
+                setOpen(false);
+              });
           }
-          resetForm();
         }}
       >
         {({ handleSubmit }) => {
           return (
             <ContentForm>
               <div className="from-group">
-                <label htmlFor=""> Chuyên ngành </label>
+                <label htmlFor="">Danh mục</label>
                 <ElementInput
                   type="text"
-                  placeholder="Tên chuyên ngành"
+                  placeholder="Tên danh mục"
                   name="name"
                 />
               </div>
@@ -76,4 +84,4 @@ const ActionMajors = ({ item, setOpen }) => {
   );
 };
 
-export default ActionMajors;
+export default ActionProductType;

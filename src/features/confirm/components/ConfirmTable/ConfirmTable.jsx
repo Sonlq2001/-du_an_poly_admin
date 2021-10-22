@@ -26,7 +26,7 @@ import { useDispatch } from 'react-redux';
 import { productUpdate, updateProduct } from '../../redux/product.slice';
 import Refuse from './../ActionProduct/refuse/Refuse';
 const ConfirmTable = ({ data }) => {
-  console.log('data',data)
+  console.log('data', data);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openRemove, setOpenRemove] = useState(false);

@@ -6,14 +6,17 @@ import { MessagePopup } from './RemoveSubject.styles';
 import { useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
+
 const RemoveSubject = ({ item, open, setOpen }) => {
   const dispatch = useDispatch();
+
   const handleRemove = () => {
     dispatch(removeSubject(item.id))
       .then(unwrapResult)
-      .then(toast.success('Xóa môn học thành công !'));
-    setOpen(false);
+      .then(toast.success('Xóa môn học thành công !'))
+      .finally(() => setOpen(false));
   };
+
   return (
     <PopupOverlay
       open={open}

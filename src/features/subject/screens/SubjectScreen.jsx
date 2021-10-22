@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useState } from 'react';
 import Select from 'react-select';
 // import SubjectTable from './../components/SubjectTable/SubjectTable';
-import SubjectTable from '../components/subjectTable/SubjectTable';
+import SubjectTable from './../components/SubjectTable/SubjectTable';
 import {
   WrapContent,
   TitleMain,
@@ -34,7 +34,7 @@ const SubjectScreen = () => {
     listMajors.map((item) => {
       return { ...item, label: item.name, value: item.id };
     });
-
+  console.log(subject);
   if (!isLoading) {
     return <Loading />;
   }

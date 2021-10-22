@@ -50,8 +50,7 @@ const Navbar = () => {
   const params = useParams();
 
   const { pageTitle: ReduxPageTitle } = useSelector((state) => state.common);
-  const { useLogin } = useSelector((state) => state.auth);
-
+  const { useLogin, accessToken } = useSelector((state) => state.auth);
   const pageTitle = useMemo(() => {
     return (
       ReduxPageTitle ||
@@ -115,7 +114,7 @@ const Navbar = () => {
           </GroupNotification>
 
           <NavControl>
-            {useLogin && (
+            {useLogin && accessToken && (
               <div className="box-control">
                 <img src={useLogin?.avatar} alt="" className="avatar-user" />
                 {useLogin?.email}

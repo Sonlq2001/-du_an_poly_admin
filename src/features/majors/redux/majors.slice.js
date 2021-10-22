@@ -2,34 +2,55 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { majorsApi } from '../api/majors.api';
 
-export const getMajors = createAsyncThunk('majors/getMajors', async () => {
-  const response = await majorsApi.getMajors();
-  return response.data;
-});
+export const getMajors = createAsyncThunk(
+  'majors/getMajors',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await majorsApi.getMajors();
+      return response.data;
+    } catch (error) {
+      const msgError = error.response.data.errors;
+      return rejectWithValue(msgError);
+    }
+  }
+);
 
 export const postMajors = createAsyncThunk(
   'majors/postMajors',
-  async (majors) => {
-    const response = await majorsApi.postMajors(majors);
-    return response.data;
+  async (majors, { rejectWithValue }) => {
+    try {
+      const response = await majorsApi.postMajors(majors);
+      return response.data;
+    } catch (error) {
+      const msgError = error.response.data.errors;
+      return rejectWithValue(msgError);
+    }
   }
 );
 
 export const removeMajors = createAsyncThunk(
   'majors/removeMajors',
-  async (id) => {
+  async (id, { rejectWithValue }) => {
     try {
       await majorsApi.removeMajors(id);
       return id;
-    } catch (error) {}
+    } catch (error) {
+      const msgError = error.response.data.errors;
+      return rejectWithValue(msgError);
+    }
   }
 );
 
 export const putMajors = createAsyncThunk(
   'majors/putMajors',
-  async (majors) => {
-    const response = await majorsApi.putMajors(majors);
-    return response.data;
+  async (majors, { rejectWithValue }) => {
+    try {
+      const response = await majorsApi.putMajors(majors);
+      return response.data;
+    } catch (error) {
+      const msgError = error.response.data.errors;
+      return rejectWithValue(msgError);
+    }
   }
 );
 
