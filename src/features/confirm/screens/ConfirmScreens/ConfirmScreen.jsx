@@ -26,6 +26,7 @@ const ConfirmScreen = () => {
   if (!isLoading) {
     <Loading />;
   }
+  console.log('listProduct', listProduct);
   return (
     <>
       <TitleMain> Danh sách sản phẩm </TitleMain>

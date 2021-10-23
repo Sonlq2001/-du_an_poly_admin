@@ -102,7 +102,17 @@ const ConfirmTable = ({ data }) => {
                       <Td>{item.class} </Td>
                       <Td>{item.subject && item.subject.name} </Td>
                       <Td> </Td>
-                      <Td> </Td>
+                      <Td>
+                        {item.students &&
+                          item.students.map((element) => {
+                            return (
+                              <li>
+                                {element.name} - {element.student_code}{' '}
+                              </li>
+                            );
+                          })}{' '}
+                      </Td>
+
                       <Td>
                         <GroupAction>
                           {item.status === 0 ? (
