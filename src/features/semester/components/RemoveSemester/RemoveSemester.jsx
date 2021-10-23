@@ -4,13 +4,13 @@ import { toast } from 'react-toastify';
 import { unwrapResult } from '@reduxjs/toolkit';
 
 import PopupOverlay from '../../../../components/PopupOverlay/PopupOverlay';
-import { MessagePopup } from './RemoveProductType.styles';
-import { deleteProductType } from './../../redux/product-type.slice';
+import { MessagePopup } from './RemoveSemester.styles';
+import { removeSemester } from './../../redux/semester.slice';
 
-const RemoveProductType = ({ item, open, setOpen }) => {
+const RemoveSemester = ({ item, open, setOpen }) => {
   const dispatch = useDispatch();
-  const handleRemove = () => {
-    dispatch(deleteProductType(item.id))
+  const handleRemoveSemester = () => {
+    dispatch(removeSemester(item.id))
       .then(unwrapResult)
       .then(toast.success('Xóa thành công !'))
       .finally(() => setOpen(false));
@@ -23,7 +23,7 @@ const RemoveProductType = ({ item, open, setOpen }) => {
         setOpen={setOpen}
         isAction
         textOk="Đồng ý"
-        onOk={handleRemove}
+        onOk={handleRemoveSemester}
       >
         <MessagePopup>Bạn có thực sư muốn xóa nội dung này !</MessagePopup>
       </PopupOverlay>
@@ -31,4 +31,4 @@ const RemoveProductType = ({ item, open, setOpen }) => {
   );
 };
 
-export default RemoveProductType;
+export default RemoveSemester;

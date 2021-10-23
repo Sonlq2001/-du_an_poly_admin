@@ -3,7 +3,7 @@ import { FiBookOpen, FiUsers, FiType } from 'react-icons/fi';
 import { MdMailOutline } from 'react-icons/md';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { RiSettings4Line } from 'react-icons/ri';
-import { BiBookAlt } from 'react-icons/bi';
+import { BiBookAlt, BiSitemap } from 'react-icons/bi';
 
 import { CONFIRM_PATH } from './../features/confirm/constants/confirm.paths';
 import { MAJORS_PATH } from './../features/majors/constants/majors.paths';
@@ -12,6 +12,7 @@ import { UPLOAD_EXCEL_PATH } from './../features/uploadExcel/constants/upload-ex
 import { USER_PATH } from './../features/user/constants/user.paths';
 import { FEEDBACK_PATH } from './../features/feedback/constants/feedback.paths';
 import { PRODUCT_TYPE_PATH } from './../features/product-type/constants/product-type.paths';
+import { SEMESTER_PATH } from './../features/semester/constants/semester.paths';
 
 export const sidebars = [
   {
@@ -46,6 +47,12 @@ export const sidebars = [
         navigationTitle: 'Quản môn học',
         path: SUBJECT_PATH.LIST,
         icon: <BiBookAlt />,
+      },
+      {
+        id: 'id_page_semester',
+        navigationTitle: 'Quản trị kỳ học',
+        path: SEMESTER_PATH.LIST,
+        icon: <BiSitemap />,
       },
       {
         id: 'id_page_comment',

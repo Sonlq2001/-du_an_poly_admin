@@ -23,7 +23,6 @@ export const postSubject = createAsyncThunk(
     } catch (error) {
       const { code, majorId } = error.response.data.errors;
       const arrayError = [...code, ...majorId];
-      console.log(arrayError);
       return rejectWithValue(arrayError);
     }
   }

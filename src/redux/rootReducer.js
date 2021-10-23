@@ -8,6 +8,7 @@ import subjectReducer from '../features/subject/redux/subject.slice';
 import uploadExcelReducer from './../features/uploadExcel/redux/uploadExcel.slice';
 import majorsReducer from './../features/majors/redux/majors.slice';
 import productTypeReducer from './../features/product-type/redux/product-type.slice';
+import semesterReducer from './../features/semester/redux/semester.slice';
 
 const rootReducer = combineReducers({
   user: useReducer,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   uploadExcel: uploadExcelReducer,
   majors: majorsReducer,
   productType: productTypeReducer,
+  semester: semesterReducer,
 });
 
 export default rootReducer;
