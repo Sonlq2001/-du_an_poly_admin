@@ -15,11 +15,12 @@ export const WrapSidebar = styled.div`
     width: 14rem;
   }
   .group-sidebar {
-    max-height: 50rem;
+    position: relative;
+    height: 100%;
     padding: 0 1rem 6rem 0;
     margin-top: 2.5rem;
-    overflow: auto;
     visibility: hidden;
+    overflow-y: scroll;
     &::-webkit-scrollbar {
       width: 5px;
       height: 5rem;
@@ -28,6 +29,9 @@ export const WrapSidebar = styled.div`
       background: var(--eee-color);
       border-radius: 10px;
     }
+  }
+  .content-sidebar {
+    margin-bottom: 2rem;
   }
   .content-sidebar,
   .group-sidebar:hover,

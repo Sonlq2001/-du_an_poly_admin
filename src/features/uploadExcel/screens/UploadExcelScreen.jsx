@@ -37,7 +37,7 @@ const UploadExcelScreen = () => {
         enableReinitialize
         initialValues={initForm}
         validationSchema={schema}
-        onSubmit={(values, { resetForm, ...rest }) => {
+        onSubmit={(values, { resetForm }) => {
           const valueForm = new FormData();
           valueForm.append('campus_id', 1);
           valueForm.append('semester_id', values.semester_id);
@@ -45,9 +45,8 @@ const UploadExcelScreen = () => {
           dispatch(postImportFileExcel(valueForm))
             .then(unwrapResult)
             .then(() => toast.success('Upload file thành công !'))
-            .catch(() => toast.error('Upload file không thành công !'));
-
-          resetForm({ semester_id: null, excel: null });
+            .catch(() => toast.error('Upload file không thành công !'))
+            .finally(() => resetForm({ semester_id: null, excel: null }));
         }}
       >
         {({ touched, errors, values }) => {
@@ -60,7 +59,7 @@ const UploadExcelScreen = () => {
               <GroupUpload>
                 <HeaderUpload>
                   <h3 className="title-upload">Danh sách điểm</h3>
-                  <Button type="button" size="small" color="success" onClick>
+                  <Button type="button" size="small" color="success">
                     <a href="http://api.duanpoly.ml/api/export"> File Mẫu </a>
                   </Button>
                 </HeaderUpload>
