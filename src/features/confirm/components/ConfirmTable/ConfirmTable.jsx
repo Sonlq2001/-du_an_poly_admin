@@ -145,7 +145,9 @@ const ConfirmTable = ({ data }) => {
                               // phê duyệt
                               disabled={
                                 item.status === 1 &&
-                                useLogin.id === item.teacher_id
+                                useLogin.id &&
+                                useLogin.id === item.teacher_id &&
+                                item.teacher_id
                               }
                             />
                           )}
@@ -173,6 +175,7 @@ const ConfirmTable = ({ data }) => {
                               onClick={() => handleRefuse(item)}
                               disabled={
                                 item.status === 1 &&
+                                useLogin.id &&
                                 useLogin.id === item.teacher_id
                               }
                               // từ trối

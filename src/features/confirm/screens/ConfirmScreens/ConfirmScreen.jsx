@@ -14,15 +14,25 @@ import {
 import ConfirmTable from './../../components/ConfirmTable/ConfirmTable';
 import Loading from './../../../../components/Loading/Loading';
 import { unwrapResult } from '@reduxjs/toolkit';
+import { getSemesters } from '../../../uploadExcel/redux/uploadExcel.slice';
+import { MapOptions } from '../../../../helpers/convert/map-options';
 const ConfirmScreen = () => {
   const dispatch = useDispatch();
-  const { listProduct } = useSelector((state) => state.product);
   const [isLoading, setIsLoading] = useState(false);
+  const { listProduct } = useSelector((state) => state.product);
+  const { listSemester } = useSelector((state) => state.uploadExcel);
+  const listSelectOptionSemester = MapOptions(listSemester);
   useEffect(() => {
+    dispatch(getSemesters());
     dispatch(ListProduct())
       .then(unwrapResult)
       .finally(() => setIsLoading(true));
   }, [dispatch]);
+  // change kỳ học
+  const HandlerSemester = (data) => {
+    console.log('data', data);
+  };
+
   if (!isLoading) {
     <Loading />;
   }
@@ -82,11 +92,9 @@ const ConfirmScreen = () => {
             </label>
             <Select
               className="select-option input-search"
-              options={[
-                { label: 'Sping 2021', value: 1 },
-                { label: 'Sumer 2020', value: 2 },
-              ]}
+              options={listSelectOptionSemester ? listSelectOptionSemester : []}
               placeholder="Tìm theo kì học"
+              onChange={(e) => HandlerSemester(e)}
             />
           </BoxControl>
         </BoxSearchInput>
