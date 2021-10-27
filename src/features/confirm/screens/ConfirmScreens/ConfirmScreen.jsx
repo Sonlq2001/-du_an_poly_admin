@@ -26,7 +26,6 @@ const ConfirmScreen = () => {
   if (!isLoading) {
     <Loading />;
   }
-  console.log('listProduct', listProduct);
   return (
     <>
       <TitleMain> Danh sách sản phẩm </TitleMain>
@@ -103,7 +102,7 @@ const ConfirmScreen = () => {
                 { label: 'Dà Nẵng', value: 2 },
                 { label: 'Tây Nguyên', value: 3 },
                 { label: 'Hồ Chí Minh ', value: 4 },
-                { label: 'cần Thơ  ', value: 4 },
+                { label: 'cần Thơ  ', value: 5 },
               ]}
               placeholder="Tìm theo Cơ Sở "
             />

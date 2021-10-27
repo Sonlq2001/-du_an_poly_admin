@@ -22,12 +22,17 @@ import PopupOverlay from './../../../../components/PopupOverlay/PopupOverlay';
 import ReviewProduct from './../Review/ReviewProduct';
 import RemoveProduct from './../RemoveProduct/RemoveProduct';
 import ActionProduct from '../ActionProduct/ActionProduct';
-import { useDispatch } from 'react-redux';
-import { productUpdate, updateProduct } from '../../redux/product.slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { productUpdate, ApproveProduct } from '../../redux/product.slice';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
+import GroupAlert from './../../../../components/AlertMessage/AlertMessage';
 import Refuse from './../ActionProduct/refuse/Refuse';
 const ConfirmTable = ({ data }) => {
-  console.log('data', data);
+  // teacher_id
+  // useLogin.id id đăng nhập
   const dispatch = useDispatch();
+  const { useLogin, accessToken } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
   const [openRemove, setOpenRemove] = useState(false);
   const [ItemUpdate, setItemUpdate] = useState(false);
@@ -69,9 +74,18 @@ const ConfirmTable = ({ data }) => {
     setItemUpdate(true);
   };
   const handleConfirm = (item) => {
-    console.log('xác nhận', item);
-    dispatch(productUpdate(item.id));
-    // dispatch(updateProduct(item));
+    const detail = {
+      id: item.id,
+      status: item.status + 1,
+      message: null,
+    };
+    console.log('object', detail);
+    // dispatch(ApproveProduct(detail))
+    //   .then(unwrapResult)
+    //   .then(() => toast.success('Phê duyệt thành công !'))
+    //   .catch((error) => toast.error(error.name[0]))
+    //   .finally(() => setOpen(false));
+    dispatch(productUpdate(detail));
   };
   const handleRefuse = (item) => {
     setRefuse(item);
@@ -104,30 +118,35 @@ const ConfirmTable = ({ data }) => {
                       <Td> </Td>
                       <Td>
                         {item.students &&
-                          item.students.map((element) => {
+                          item.students.map((element, i) => {
                             return (
-                              <li>
-                                {element.name} - {element.student_code}{' '}
+                              <li key={i}>
+                                {element.name} - {element.student_code}
                               </li>
                             );
-                          })}{' '}
+                          })}
                       </Td>
-
                       <Td>
                         <GroupAction>
-                          {item.status === 0 ? (
-                            <Button
-                              icon={<FiCheck />}
-                              size="small"
-                              color="success"
-                              onClick={() => handleConfirm(item)}
-                            />
-                          ) : (
+                          {item.status === 2 ? (
                             <Button
                               icon={<MdModeEdit />}
                               size="small"
                               color="warning"
                               onClick={() => update(item)}
+                              // cập nhật
+                            />
+                          ) : (
+                            <Button
+                              icon={<FiCheck />}
+                              size="small"
+                              color="success"
+                              onClick={() => handleConfirm(item)}
+                              // phê duyệt
+                              disabled={
+                                item.status === 1 &&
+                                useLogin.id === item.teacher_id
+                              }
                             />
                           )}
                           <Button
@@ -135,20 +154,28 @@ const ConfirmTable = ({ data }) => {
                             size="small"
                             color="info"
                             onClick={() => Review(item)}
+                            // review
                           />
-                          {item.status === 0 ? (
-                            <Button
-                              icon={<BiExit />}
-                              size="small"
-                              color="danger"
-                              onClick={() => handleRefuse(item)}
-                            />
-                          ) : (
+                          {item.status === 2 ? (
                             <Button
                               icon={<BsTrash />}
                               size="small"
                               color="danger"
                               onClick={() => removeProduct(item)}
+
+                              // xóa
+                            />
+                          ) : (
+                            <Button
+                              icon={<BiExit />}
+                              size="small"
+                              color="danger"
+                              onClick={() => handleRefuse(item)}
+                              disabled={
+                                item.status === 1 &&
+                                useLogin.id === item.teacher_id
+                              }
+                              // từ trối
                             />
                           )}
                         </GroupAction>
@@ -204,6 +231,7 @@ const ConfirmTable = ({ data }) => {
       >
         <Refuse item={refuse} setItemRefuse={setItemRefuse} />
       </PopupOverlay>
+      <GroupAlert />
     </WrapContent>
   );
 };

@@ -10,6 +10,7 @@ export const postAccessToken = createAsyncThunk(
     const response = await authApi.postAccessToken({
       access_token: accessToken,
     });
+    console.log('auth', response);
     return response.data;
   }
 );
@@ -32,9 +33,9 @@ const authSlice = createSlice({
       state.accessToken = null;
     },
     [postAccessToken.fulfilled]: (state, action) => {
-      const { email, avatar } = action.payload.user;
+      const { email, avatar, id } = action.payload.user;
       state.accessToken = action.payload.access_token;
-      state.useLogin = { avatar, email };
+      state.useLogin = { avatar, email, id };
     },
     [postAccessToken.rejected]: (state) => {
       state.accessToken = null;

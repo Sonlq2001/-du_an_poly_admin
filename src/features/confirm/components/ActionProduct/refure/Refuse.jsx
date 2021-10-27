@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import { From, GroupButton } from './Refuse.styles';
-import { Button } from './../../../../../components/Button/Button';
+import { Button } from '../../../../../components/Button/Button';
 import { useDispatch } from 'react-redux';
 import { updateProduct } from '../../../redux/product.slice';
 const Refuse = ({ item, setItemRefuse }) => {
@@ -30,7 +30,7 @@ const Refuse = ({ item, setItemRefuse }) => {
       <textarea
         name="reason"
         id="input"
-        class="form-control"
+        className="form-control"
         rows="3"
         required="required"
         onChange={formik.handleChange}
@@ -40,7 +40,7 @@ const Refuse = ({ item, setItemRefuse }) => {
         <div className="errors">{formik.errors.reason}</div>
       ) : null}
       <GroupButton>
-        <label onClick={() => setItemRefuse(false)}> Hủy </label>{' '}
+        <label onClick={() => setItemRefuse(false)}> Hủy </label>
         <Button color="primary" size="lg">
           lưu
         </Button>

@@ -3,7 +3,9 @@ import { useFormik } from 'formik';
 import { From, GroupButton } from './Refuse.styles';
 import { Button } from './../../../../../components/Button/Button';
 import { useDispatch } from 'react-redux';
-import { updateProduct } from '../../../redux/product.slice';
+import { ApproveProduct } from '../../../redux/product.slice';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 const Refuse = ({ item, setItemRefuse }) => {
   const dispatch = useDispatch();
   const formik = useFormik({
@@ -14,15 +16,23 @@ const Refuse = ({ item, setItemRefuse }) => {
       const errors = {};
       if (!values.reason) {
         errors.reason = 'Required';
-      } else if (values.reason.length < 20) {
-        errors.reason = 'Không ít hơn 50 ký tự !';
+      } else if (values.reason.length < 10) {
+        errors.reason = 'Không ít hơn 10 ký tự !';
       }
       return errors;
     },
     onSubmit: (values) => {
-      console.log('value', values);
-      // dispatch(updateProduct(item));
-      // setItemRefuse(false)
+      // status là từ chối 
+      const detail = {
+        id: item.id,
+        status: 0,
+        message: values.reason,
+      };
+      dispatch(ApproveProduct(detail))
+        .then(unwrapResult)
+        .then(() => toast.success('Từ chối thành công !'))
+        .catch((error) => toast.error(error.name[0]))
+        .finally(() => setItemRefuse(false));
     },
   });
   return (

@@ -107,13 +107,13 @@ const ActionProduct = ({ data, setOpen }) => {
                   <label htmlFor=""> </label>
                   <ul>
                     <li>
-                      Nguyễn Hữu Sơn{' '}
+                      Nguyễn Hữu Sơn
                       <span>
                         <AiOutlineDelete />
                       </span>
                     </li>
                     <li>
-                      Nguyễn Hữu Sơn{' '}
+                      Nguyễn Hữu Sơn
                       <span>
                         <AiOutlineDelete />
                       </span>
