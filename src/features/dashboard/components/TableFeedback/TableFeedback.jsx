@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 
 import { WrapTable } from './TableFeedback.styles';
-import { BoxTitleDashboard } from './../../../../styles/common/common-styles';
+import { BoxTitleDashboard } from 'styles/common/common-styles';
 import {
   TableCustom,
   Thead,
@@ -9,7 +9,7 @@ import {
   Tr,
   Th,
   Td,
-} from './../../../../components/Table/TableCustom';
+} from 'components/Table/TableCustom';
 import { DATA_FAKE } from './../../constants/dashboard.constants';
 
 const TableFeedback = () => {

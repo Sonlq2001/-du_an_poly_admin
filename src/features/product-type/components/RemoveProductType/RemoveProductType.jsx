@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { unwrapResult } from '@reduxjs/toolkit';
 
-import PopupOverlay from '../../../../components/PopupOverlay/PopupOverlay';
+import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import { MessagePopup } from './RemoveProductType.styles';
 import { deleteProductType } from './../../redux/product-type.slice';
 

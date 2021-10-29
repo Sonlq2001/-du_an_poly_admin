@@ -3,7 +3,7 @@ import { BsThreeDotsVertical, BsTrash } from 'react-icons/bs';
 import { RiChat3Line } from 'react-icons/ri';
 import OutsideClickHandler from 'react-outside-click-handler';
 
-import { BoxTitleDashboard } from './../../../../styles/common/common-styles';
+import { BoxTitleDashboard } from 'styles/common/common-styles';
 import {
   BoxMessageWait,
   MsgItem,

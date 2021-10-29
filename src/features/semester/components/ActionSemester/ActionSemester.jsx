@@ -7,8 +7,8 @@ import { unwrapResult } from '@reduxjs/toolkit';
 
 import { ContentForm, GroupAction } from './ActionSemester.styles';
 import { schema } from '../../helpers/semester.helpers';
-import ElementInput from '../../../../components/FormElements/ElementInput/ElementInput';
-import { Button } from '../../../../components/Button/Button';
+import ElementInput from 'components/FormElements/ElementInput/ElementInput';
+import { Button } from 'components/Button/Button';
 import { postSemester, putSemester } from './../../redux/semester.slice';
 
 const ActionSemester = ({ item, setOpen }) => {

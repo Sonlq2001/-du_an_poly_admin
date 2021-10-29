@@ -9,10 +9,10 @@ import {
   BoxControl,
   BoxSearchInput,
   InputSearch,
-} from './../../../../styles/common/common-styles';
+} from 'styles/common/common-styles';
 
 import ConfirmTable from './../../components/ConfirmTable/ConfirmTable';
-import Loading from './../../../../components/Loading/Loading';
+import Loading from 'components/Loading/Loading';
 import { unwrapResult } from '@reduxjs/toolkit';
 const ConfirmScreen = () => {
   const dispatch = useDispatch();

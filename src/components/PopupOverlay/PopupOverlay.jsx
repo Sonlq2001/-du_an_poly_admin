@@ -6,7 +6,7 @@ import {
   ActionPopup,
   ContentPopup,
 } from './PopupOverlay.styles';
-import { Button } from './../../components/Button/Button';
+import { Button } from 'components/Button/Button';
 
 const PopupOverlay = ({
   open,

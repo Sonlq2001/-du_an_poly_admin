@@ -12,7 +12,7 @@ import {
   Tr,
   Td,
   Tbody,
-} from '../../../../components/Table/TableCustom';
+} from 'components/Table/TableCustom';
 
 import {
   WrapContent,
@@ -25,16 +25,16 @@ import {
   BoxActionTable,
   GroupPagination,
   EmptyResult,
-} from './../../../../styles/common/common-styles';
+} from 'styles/common/common-styles';
 
-import { Button } from './../../../../components/Button/Button';
-import { TablePagination } from '../../../../components/Pagination/Pagination';
-import Loading from './../../../../components/Loading/Loading';
-import PopupOverlay from '../../../../components/PopupOverlay/PopupOverlay';
-import GroupAlert from './../../../../components/AlertMessage/AlertMessage';
+import { Button } from 'components/Button/Button';
+import { TablePagination } from 'components/Pagination/Pagination';
+import Loading from 'components/Loading/Loading';
+import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
+import GroupAlert from 'components/AlertMessage/AlertMessage';
 
 import { getSemester } from './../../redux/semester.slice';
-import EmptyResultImage from './../../../../assets/images/empty-result.gif';
+import EmptyResultImage from 'assets/images/empty-result.gif';
 import { initForm } from './../../helpers/semester.helpers';
 import ActionSemester from './../../components/ActionSemester/ActionSemester';
 import RemoveSemester from './../../components/RemoveSemester/RemoveSemester';

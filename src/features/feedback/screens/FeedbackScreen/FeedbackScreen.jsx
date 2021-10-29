@@ -7,7 +7,7 @@ import {
   BoxControl,
   BoxSearchInput,
   InputSearch,
-} from '../../../../styles/common/common-styles';
+} from 'styles/common/common-styles';
 import FeedbackTable from './../../components/FeedbackTable/FeedbackTable';
 import { DATA_FAKE } from './../../constants/feedback.constants';
 
