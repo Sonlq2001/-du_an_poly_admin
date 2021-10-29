@@ -14,17 +14,17 @@ import {
   BoxActionTable,
   GroupPagination,
   EmptyResult,
-} from './../../../styles/common/common-styles';
-import { Button } from './../../../components/Button/Button';
-import { TablePagination } from './../../../components/Pagination/Pagination';
+} from 'styles/common/common-styles';
+import { Button } from 'components/Button/Button';
+import { TablePagination } from 'components/Pagination/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
 import { getListSubject } from './../redux/subject.slice';
-import { getMajors } from './../../majors/redux/majors.slice';
+import { getMajors } from 'features/majors/redux/majors.slice';
 import { unwrapResult } from '@reduxjs/toolkit';
-import Loading from './../../../components/Loading/Loading';
-import GroupAlert from './../../../components/AlertMessage/AlertMessage';
-import EmptyResultImage from './../../../assets/images/empty-result.gif';
-import PopupOverlay from './../../../components/PopupOverlay/PopupOverlay';
+import Loading from 'components/Loading/Loading';
+import GroupAlert from 'components/AlertMessage/AlertMessage';
+import EmptyResultImage from 'assets/images/empty-result.gif';
+import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import {
   TableCustom,
   Thead,

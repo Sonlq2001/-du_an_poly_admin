@@ -1,9 +1,9 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import { From, GroupButton } from './Refuse.styles';
-import { Button } from './../../../../../components/Button/Button';
+import { Button } from 'components/Button/Button';
 import { useDispatch } from 'react-redux';
-import { updateProduct } from '../../../redux/product.slice';
+import { updateProduct } from 'features/confirm/redux/product.slice';
 const Refuse = ({ item, setItemRefuse }) => {
   const dispatch = useDispatch();
   const formik = useFormik({

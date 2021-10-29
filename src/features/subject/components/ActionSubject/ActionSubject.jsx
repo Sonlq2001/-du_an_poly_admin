@@ -5,15 +5,15 @@ import { toast } from 'react-toastify';
 import { unwrapResult } from '@reduxjs/toolkit';
 
 import { ContentForm, GroupAction } from './ActionSubject.styles';
-import ElementInput from './../../../../components/FormElements/ElementInput/ElementInput';
-import ElementSelect from './../../../../components/FormElements/ElementSelect/ElementSelect';
-import { Button } from './../../../../components/Button/Button';
+import ElementInput from 'components/FormElements/ElementInput/ElementInput';
+import ElementSelect from 'components/FormElements/ElementSelect/ElementSelect';
+import { Button } from 'components/Button/Button';
 import { AiOutlineSave } from 'react-icons/ai';
 import { schema } from './../../helpers/subject.helpers';
 
 import { postSubject, putSubject } from './../../redux/subject.slice.js';
-import { getMajors } from './../../../majors/redux/majors.slice';
-import { MapOptions } from './../../../../helpers/convert/map-options';
+import { getMajors } from 'features/majors/redux/majors.slice';
+import { MapOptions } from 'helpers/convert/map-options';
 import { initForm } from './../../helpers/subject.helpers';
 
 const ActionSubject = ({ item, setOpen }) => {

@@ -7,8 +7,8 @@ import { unwrapResult } from '@reduxjs/toolkit';
 
 import { ContentForm, GroupAction } from './ActionProductType.styles';
 import { schema } from '../../helpers/product-type.helpers';
-import ElementInput from '../../../../components/FormElements/ElementInput/ElementInput';
-import { Button } from '../../../../components/Button/Button';
+import ElementInput from 'components/FormElements/ElementInput/ElementInput';
+import { Button } from 'components/Button/Button';
 import {
   postProductType,
   putProductType,

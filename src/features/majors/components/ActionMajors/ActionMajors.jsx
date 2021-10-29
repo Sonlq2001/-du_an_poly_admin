@@ -7,8 +7,8 @@ import { unwrapResult } from '@reduxjs/toolkit';
 
 import { ContentForm, GroupAction } from './ActionMajors.styles';
 import { schema } from '../../helpers/majors.helpers';
-import ElementInput from '../../../../components/FormElements/ElementInput/ElementInput';
-import { Button } from '../../../../components/Button/Button';
+import ElementInput from 'components/FormElements/ElementInput/ElementInput';
+import { Button } from 'components/Button/Button';
 import { postMajors, putMajors } from './../../redux/majors.slice';
 
 const ActionMajors = ({ item, setOpen }) => {

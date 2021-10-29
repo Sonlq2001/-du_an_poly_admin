@@ -1,8 +1,8 @@
 import React from 'react';
 import { Formik } from 'formik';
-import ElementInput from './../../../../components/FormElements/ElementInput/ElementInput';
-import ElementSelect from './../../../../components/FormElements/ElementSelect/ElementSelect';
-import { Button } from './../../../../components/Button/Button';
+import ElementInput from 'components/FormElements/ElementInput/ElementInput';
+import ElementSelect from 'components/FormElements/ElementSelect/ElementSelect';
+import { Button } from 'components/Button/Button';
 import {
   GroupAction,
   ContentForm,
