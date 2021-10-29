@@ -21,8 +21,8 @@ const Refuse = ({ item, setItemRefuse }) => {
     },
     onSubmit: (values) => {
       console.log('value', values);
-      // dispatch(updateProduct(item));
-      // setItemRefuse(false)
+      dispatch(updateProduct(item));
+      setItemRefuse(false);
     },
   });
   return (

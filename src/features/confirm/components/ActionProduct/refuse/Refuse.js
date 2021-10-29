@@ -22,12 +22,13 @@ const Refuse = ({ item, setItemRefuse }) => {
       return errors;
     },
     onSubmit: (values) => {
-      // status là từ chối 
+      // status là từ chối
       const detail = {
         id: item.id,
         status: 0,
         message: values.reason,
       };
+      setItemRefuse(false);
       dispatch(ApproveProduct(detail))
         .then(unwrapResult)
         .then(() => toast.success('Từ chối thành công !'))

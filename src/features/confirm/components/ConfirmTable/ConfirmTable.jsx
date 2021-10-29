@@ -80,12 +80,12 @@ const ConfirmTable = ({ data }) => {
       message: null,
     };
     console.log('object', detail);
-    // dispatch(ApproveProduct(detail))
-    //   .then(unwrapResult)
-    //   .then(() => toast.success('Phê duyệt thành công !'))
-    //   .catch((error) => toast.error(error.name[0]))
-    //   .finally(() => setOpen(false));
-    dispatch(productUpdate(detail));
+    dispatch(ApproveProduct(detail))
+      .then(unwrapResult)
+      .then(() => toast.success('Phê duyệt thành công !'))
+      .catch((error) => toast.error('Thất Bại '))
+      .finally(() => setOpen(false));
+    // dispatch(productUpdate(detail));
   };
   const handleRefuse = (item) => {
     setRefuse(item);

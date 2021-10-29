@@ -7,16 +7,23 @@ import { authApi } from './../api/auth.api';
 export const postAccessToken = createAsyncThunk(
   'auth/postAccessToken',
   async (accessToken) => {
-    const response = await authApi.postAccessToken({
-      access_token: accessToken,
-    });
-    console.log('auth', response);
-    return response.data;
+    try {
+      const response = await authApi.postAccessToken({
+        access_token: accessToken,
+      });
+      console.log('auth', response);
+      return response.data;
+    } catch (error) {
+      console.log('errors ', error);
+    }
   }
 );
 
 export const postLogout = createAsyncThunk('auth/postLogout', async () => {
-  await authApi.postLogout();
+  try {
+    await authApi.postLogout();
+    localStorage.clear();
+  } catch (error) {}
 });
 
 const initialState = {
