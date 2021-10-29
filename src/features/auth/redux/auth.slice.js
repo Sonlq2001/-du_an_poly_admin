@@ -7,15 +7,23 @@ import { authApi } from './../api/auth.api';
 export const postAccessToken = createAsyncThunk(
   'auth/postAccessToken',
   async (accessToken) => {
-    const response = await authApi.postAccessToken({
-      access_token: accessToken,
-    });
-    return response.data;
+    try {
+      const response = await authApi.postAccessToken({
+        access_token: accessToken,
+      });
+      console.log('auth', response);
+      return response.data;
+    } catch (error) {
+      console.log('errors ', error);
+    }
   }
 );
 
 export const postLogout = createAsyncThunk('auth/postLogout', async () => {
-  await authApi.postLogout();
+  try {
+    await authApi.postLogout();
+    localStorage.clear();
+  } catch (error) {}
 });
 
 const initialState = {
@@ -32,9 +40,9 @@ const authSlice = createSlice({
       state.accessToken = null;
     },
     [postAccessToken.fulfilled]: (state, action) => {
-      const { email, avatar } = action.payload.user;
+      const { email, avatar, id } = action.payload.user;
       state.accessToken = action.payload.access_token;
-      state.useLogin = { avatar, email };
+      state.useLogin = { avatar, email, id };
     },
     [postAccessToken.rejected]: (state) => {
       state.accessToken = null;

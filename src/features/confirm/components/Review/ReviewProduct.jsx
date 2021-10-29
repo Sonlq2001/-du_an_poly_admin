@@ -7,7 +7,6 @@ import {
   MainReview,
   ImageSlice,
   ContentReview,
-  // csftygubhc
   ListCurrentImg,
   TitleProject,
   GroupMember,
@@ -29,7 +28,11 @@ const ReviewProduct = ({ data }) => {
     customPaging: function (i) {
       return (
         <ListCurrentImg>
-          <img src={LIST_SLIDE[i].img} className="current-slide" alt="" />
+          <img
+            src={data.galleries && data.galleries[i]}
+            className="current-slide"
+            alt=""
+          />
         </ListCurrentImg>
       );
     },
@@ -45,13 +48,20 @@ const ReviewProduct = ({ data }) => {
     <Content>
       <MainReview className="row">
         <ImageSlice className="col-6">
-          <Slider {...settings}>
-            {LIST_SLIDE.map((item, index) => (
-              <div key={index}>
-                <img src={item.img} alt="" />
-              </div>
-            ))}
-          </Slider>
+          {data.galleries ? (
+            <Slider {...settings}>
+              {LIST_SLIDE.map((item, index) => (
+                <div key={index}>
+                  <img src={item} alt="" />
+                </div>
+              ))}
+            </Slider>
+          ) : (
+            <div className="slider_galleries">
+              {' '}
+              <img src={data.image && data.image} alt="" />{' '}
+            </div>
+          )}
         </ImageSlice>
         <ContentReview className="col-6">
           <TitleProject> {data.name} </TitleProject>
@@ -59,11 +69,14 @@ const ReviewProduct = ({ data }) => {
           <GroupMember>
             <LabelProject>Thành viên nhóm: </LabelProject>
             <div className="list-member">
-              <span className="item-member">Lê Quang Sơn - PH09794</span>
-              <span className="item-member">Lê Quang Sơn - PH09794</span>
-              <span className="item-member">Lê Quang Sơn - PH09794</span>
-              <span className="item-member">Lê Quang Sơn - PH09794</span>
-              <span className="item-member">Lê Quang Sơn - PH09794</span>
+              {data.students &&
+                data.students.map((element, i) => {
+                  return (
+                    <span key={i} className="item-member">
+                      {element.name} - {element.student_code}
+                    </span>
+                  );
+                })}
             </div>
           </GroupMember>
           <BoxProject>
@@ -72,7 +85,8 @@ const ReviewProduct = ({ data }) => {
           </BoxProject>
           <BoxProject>
             <LabelProject>Giảng viên hướng dẫn:</LabelProject>
-            Trần hữu thiện
+            {data.teacher && data.teacher.name} -{' '}
+            {data.teacher && data.teacher.email}
           </BoxProject>
           <BoxProject>
             <LabelProject>Chuyên ngành:</LabelProject>
@@ -96,7 +110,11 @@ const ReviewProduct = ({ data }) => {
                 <MdContentPaste />
                 <span>Bài viết giới thiệu</span>
               </TitleMain>
-              <ContentPost>{data.description}</ContentPost>
+              <ContentPost
+                dangerouslySetInnerHTML={{
+                  __html: data.description,
+                }}
+              ></ContentPost>
             </div>
           </div>
           <div className="xl-4">
@@ -109,14 +127,17 @@ const ReviewProduct = ({ data }) => {
               <GroupAttach>
                 <ItemAttach>
                   <div className="title-attach">Link github:</div>
-                  <a href="!#">
+                  <a target="_blank" href="!#">
                     https://caodang.fpt.edu.vn/tin-tuc-poly/nu-sinh-fpoly-tay-nguyen-dat-chung-chi-cuoc-thi-vo-dich-thiet-ke-do-hoa-the-gioi.html
                   </a>
                 </ItemAttach>
                 <ItemAttach>
                   <div className="title-attach">Tài liệu hướng dẫn:</div>
-                  <a href="!#">
-                    https://caodang.fpt.edu.vn/tin-tuc-poly/nu-sinh-fpoly-tay-nguyen-dat-chung-chi-cuoc-thi-vo-dich-thiet-ke-do-hoa-the-gioi.html
+                  <a
+                    target="_blank"
+                    href={data.resource_url && data.resource_url}
+                  >
+                    {data.resource_url && data.resource_url}
                   </a>
                 </ItemAttach>
               </GroupAttach>

@@ -18,11 +18,9 @@ import { initForm } from './../../helpers/subject.helpers';
 
 const ActionSubject = ({ item, setOpen }) => {
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(getMajors());
   }, [dispatch]);
-
   const { listMajors } = useSelector((state) => state.majors);
   const listSelectMajor = MapOptions(listMajors);
   return (
