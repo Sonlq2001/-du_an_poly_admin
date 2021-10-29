@@ -5,8 +5,8 @@ import { Formik, Form, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { unwrapResult } from '@reduxjs/toolkit';
-import AlertMessage from './../../../components/AlertMessage/AlertMessage';
-import { WrapContent } from './../../../styles/common/common-styles';
+import AlertMessage from 'components/AlertMessage/AlertMessage';
+import { WrapContent } from 'styles/common/common-styles';
 import {
   GroupUpload,
   BoxUpload,
@@ -14,15 +14,15 @@ import {
   HeaderUpload,
 } from './UploadExcelScreen.styles';
 
-import { Button } from './../../../components/Button/Button';
-import ElementSelect from './../../../components/FormElements/ElementSelect/ElementSelect';
+import { Button } from 'components/Button/Button';
+import ElementSelect from 'components/FormElements/ElementSelect/ElementSelect';
 import { schema, initForm } from './../helpers/upload.helpers';
-import ElementInputFile from './../../../components/FormElements/ElementInput/ElementInputFile';
+import ElementInputFile from 'components/FormElements/ElementInput/ElementInputFile';
 import {
   postImportFileExcel,
   getSemesters,
 } from './../redux/uploadExcel.slice';
-import { MapOptions } from './../../../helpers/convert/map-options';
+import { MapOptions } from 'helpers/convert/map-options';
 const UploadExcelScreen = () => {
   const dispatch = useDispatch();
   useEffect(() => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import { From, GroupButton } from './Refuse.styles';
-import { Button } from './../../../../../components/Button/Button';
+import { Button } from 'components/Button/Button';
 import { useDispatch } from 'react-redux';
 import { ApproveProduct } from '../../../redux/product.slice';
 import { unwrapResult } from '@reduxjs/toolkit';

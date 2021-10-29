@@ -9,7 +9,7 @@ import {
   PageSingInRight,
   FormLogin,
 } from './SignInScreen.styles';
-import LogoFpt from './../../../../assets/images/logo.png';
+import LogoFpt from 'assets/images/logo.png';
 import { postAccessToken } from './../../redux/auth.slice';
 
 const SignInScreen = () => {

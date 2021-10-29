@@ -12,7 +12,7 @@ import {
   Tr,
   Td,
   Tbody,
-} from '../../../components/Table/TableCustom';
+} from 'components/Table/TableCustom';
 
 import {
   WrapContent,
@@ -25,17 +25,17 @@ import {
   BoxActionTable,
   GroupPagination,
   EmptyResult,
-} from './../../../styles/common/common-styles';
+} from 'styles/common/common-styles';
 import { getMajors } from './../redux/majors.slice';
-import Loading from './../../../components/Loading/Loading';
-import GroupAlert from './../../../components/AlertMessage/AlertMessage';
-import { Button } from './../../../components/Button/Button';
-import PopupOverlay from '../../../components/PopupOverlay/PopupOverlay';
+import Loading from 'components/Loading/Loading';
+import GroupAlert from 'components/AlertMessage/AlertMessage';
+import { Button } from 'components/Button/Button';
+import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import ActionMajors from './../components/ActionMajors/ActionMajors';
 import { initForm } from './../helpers/majors.helpers';
-import { TablePagination } from '../../../components/Pagination/Pagination';
+import { TablePagination } from 'components/Pagination/Pagination';
 import RemoveMajors from './../components/RemoveMajors/RemoveMajors';
-import EmptyResultImage from './../../../assets/images/empty-result.gif';
+import EmptyResultImage from 'assets/images/empty-result.gif';
 
 const MajorsScreen = () => {
   const dispatch = useDispatch();

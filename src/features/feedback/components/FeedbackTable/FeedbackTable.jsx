@@ -2,10 +2,7 @@ import React, { useState, memo } from 'react';
 import { BsTrash } from 'react-icons/bs';
 import { MdModeEdit } from 'react-icons/md';
 
-import {
-  WrapContent,
-  GroupPagination,
-} from './../../../../styles/common/common-styles';
+import { WrapContent, GroupPagination } from 'styles/common/common-styles';
 import {
   TableCustom,
   Thead,
@@ -13,9 +10,9 @@ import {
   Tr,
   Td,
   Tbody,
-} from '../../../../components/Table/TableCustom';
-import { TablePagination } from './../../../../components/Pagination/Pagination';
-import { Button } from './../../../../components/Button/Button';
+} from 'components/Table/TableCustom';
+import { TablePagination } from 'components/Pagination/Pagination';
+import { Button } from 'components/Button/Button';
 import {
   BoxActionTable,
   GroupFeedback,

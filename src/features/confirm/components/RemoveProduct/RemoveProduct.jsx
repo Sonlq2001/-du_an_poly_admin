@@ -1,5 +1,5 @@
 import React from 'react';
-import PopupOverlay from './../../../../components/PopupOverlay/PopupOverlay';
+import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import { MessagePopup } from './RemoveProduct.styles';
 const RemoveProduct = ({ item, open, setOpen }) => {
   const handleRemoveProduct = () => {};

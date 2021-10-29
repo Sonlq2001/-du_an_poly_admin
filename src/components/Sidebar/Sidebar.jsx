@@ -3,9 +3,9 @@ import { RiDashboardLine } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 
 import { WrapSidebar, ListMenu, ItemLink } from './Sidebar.styles';
-import LogoFpt from './../../assets/images/logo.png';
-import { sidebars } from './../../routes/sidebars.constants';
-import { DASHBOARD_PATH } from './../../features/dashboard/constants/dashboard.paths';
+import LogoFpt from 'assets/images/logo.png';
+import { sidebars } from 'routes/sidebars.constants';
+import { DASHBOARD_PATH } from 'features/dashboard/constants/dashboard.paths';
 
 const Sidebar = () => {
   return (

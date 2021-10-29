@@ -1,4 +1,4 @@
-import api from './../../../api/api';
+import api from 'api/api';
 
 import { AUTH_ENDPOINT } from './../constants/auth.endpoints';
 

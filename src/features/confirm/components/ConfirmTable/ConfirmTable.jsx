@@ -5,7 +5,7 @@ import { BsTrash } from 'react-icons/bs';
 import { MdModeEdit } from 'react-icons/md';
 import { BiExit } from 'react-icons/bi';
 
-import { WrapContent } from './../../../../styles/common/common-styles';
+import { WrapContent } from 'styles/common/common-styles';
 import {
   TableCustom,
   Thead,
@@ -13,12 +13,12 @@ import {
   Th,
   Tbody,
   Td,
-} from './../../../../components/Table/TableCustom';
+} from 'components/Table/TableCustom';
 
-import { Button } from './../../../../components/Button/Button';
-import { TablePagination } from './../../../../components/Pagination/Pagination';
+import { Button } from 'components/Button/Button';
+import { TablePagination } from 'components/Pagination/Pagination';
 import { GroupPagination, GroupAction, BoxMain } from './ConfirmTable.styles';
-import PopupOverlay from './../../../../components/PopupOverlay/PopupOverlay';
+import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import ReviewProduct from './../Review/ReviewProduct';
 import RemoveProduct from './../RemoveProduct/RemoveProduct';
 import ActionProduct from '../ActionProduct/ActionProduct';
@@ -27,7 +27,7 @@ import { productUpdate, ApproveProduct } from '../../redux/product.slice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import GroupAlert from './../../../../components/AlertMessage/AlertMessage';
-import Refuse from './../ActionProduct/refuse/Refuse';
+import Refuse from '../ActionProduct/refuse/Refuse';
 const ConfirmTable = ({ data }) => {
   // teacher_id
   // useLogin.id id đăng nhập
