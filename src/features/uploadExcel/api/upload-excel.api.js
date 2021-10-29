@@ -1,4 +1,4 @@
-import api from './../../../api/api';
+import api from 'api/api';
 
 import { UPLOAD_EXCEL_ENDPOINTS } from './../constants/upload-excel.endpoints';
 

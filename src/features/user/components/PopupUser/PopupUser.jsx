@@ -1,8 +1,8 @@
 import React, { memo } from 'react';
 
-import ElementCheckbox from './../../../../components/FormElements/ElementCheckbox/ElementCheckbox';
+import ElementCheckbox from 'components/FormElements/ElementCheckbox/ElementCheckbox';
 import { GroupField, GroupRole } from './PopupUser.styles';
-import { Button } from './../../../../components/Button/Button';
+import { Button } from 'components/Button/Button';
 
 const PopupUser = ({ content, setOpen }) => {
   return (

@@ -8,7 +8,7 @@ import {
   BoxControl,
   BoxSearchInput,
   InputSearch,
-} from './../../../../styles/common/common-styles';
+} from 'styles/common/common-styles';
 import UserTable from './../../components/UserTable/UserTable';
 import { DATA_FAKE } from '../../constants/user.constants';
 

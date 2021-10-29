@@ -10,18 +10,18 @@ import {
   Th,
   Tbody,
   Td,
-} from '../../../../components/Table/TableCustom';
+} from 'components/Table/TableCustom';
 import { BoxActionTable } from './UserTable.styles';
-import { TablePagination } from '../../../../components/Pagination/Pagination';
-import HightLightText from './../../../../components/HightLightText/HightLightText';
-import PopupOverlay from '../../../../components/PopupOverlay/PopupOverlay';
+import { TablePagination } from 'components/Pagination/Pagination';
+import HightLightText from 'components/HightLightText/HightLightText';
+import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import PopupUser from '../../components/PopupUser/PopupUser';
-import { Button } from '../../../../components/Button/Button';
+import { Button } from 'components/Button/Button';
 import {
   WrapContent,
   HeaderTable,
   GroupPagination,
-} from '../../../../styles/common/common-styles';
+} from 'styles/common/common-styles';
 
 const UserTable = ({ data }) => {
   const [isPopup, setIsPopup] = useState(false);

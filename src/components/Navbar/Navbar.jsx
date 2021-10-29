@@ -20,8 +20,8 @@ import {
   GroupNotification,
   ListNotification,
 } from './Navbar.styles';
-import { LIST_ROUTES } from './../../routes/routes.config';
-import { postLogout } from './../../features/auth/redux/auth.slice';
+import { LIST_ROUTES } from 'routes/routes.config';
+import { postLogout } from 'features/auth/redux/auth.slice';
 
 const FAKE_NOTIFICATION = [
   {
