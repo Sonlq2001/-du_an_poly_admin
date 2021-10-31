@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import { From, GroupButton } from './Refuse.styles';
 import { Button } from 'components/Button/Button';
 import { useDispatch } from 'react-redux';
-import { ApproveProduct } from '../../../redux/product.slice';
+import { approveProduct } from '../../../redux/product.slice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 const Refuse = ({ item, setItemRefuse }) => {
@@ -29,7 +29,7 @@ const Refuse = ({ item, setItemRefuse }) => {
         message: values.reason,
       };
       setItemRefuse(false);
-      dispatch(ApproveProduct(detail))
+      dispatch(approveProduct(detail))
         .then(unwrapResult)
         .then(() => toast.success('Từ chối thành công !'))
         .catch((error) => toast.error(error.name[0]))
