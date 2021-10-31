@@ -1,14 +1,22 @@
 import api from 'api/api';
 import { PRODUCT_PATH } from './../constants/confirm.paths';
-export const getAll = () => {
+
+const getListProduct = () => {
   return api.get(PRODUCT_PATH.LIST);
 };
-export const update = (product) => {
+
+const putStatusProduct = (product) => {
   console.log('produc', product);
 };
-export const products_Approve = (data) => {
+const postProductApprove = (data) => {
   return api.post(
     PRODUCT_PATH.APPROVE.replace(':id', data.id.toString()),
     data
   );
+};
+
+export const confirmProductApi = {
+  getListProduct,
+  putStatusProduct,
+  postProductApprove,
 };

@@ -1,22 +1,35 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getAll, products_Approve } from './../api/product.api';
-export const ListProduct = createAsyncThunk('product/list', async () => {
-  const { data } = await getAll();
-  return data;
-});
-export const ApproveProduct = createAsyncThunk(
+import _get from 'lodash.get';
+
+import { confirmProductApi } from './../api/product.api';
+
+export const getListProduct = createAsyncThunk(
+  'confirm/getListProduct',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await confirmProductApi.getListProduct();
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
+    }
+  }
+);
+
+export const approveProduct = createAsyncThunk(
   'product/update',
   async (product) => {
     try {
-      const response = await products_Approve(product);
+      const response = await confirmProductApi.postProductApprove(product);
       if (response) {
         return product;
       }
     } catch (error) {}
   }
 );
+
 const initialState = {
-  listProduct: null,
+  listProduct: [],
+  isProductLoading: false,
 };
 const productSlice = createSlice({
   name: 'product',
@@ -30,23 +43,30 @@ const productSlice = createSlice({
     },
   },
   extraReducers: {
-    [ListProduct.pending]: (state) => {
-      state.listProduct = null;
+    // get list product
+    [getListProduct.pending]: (state) => {
+      state.isProductLoading = true;
     },
-    [ListProduct.fulfilled]: (state, action) => {
+    [getListProduct.fulfilled]: (state, action) => {
+      state.isProductLoading = false;
       state.listProduct = action.payload.data;
     },
-    [ListProduct.rejected]: (state) => {
-      state.listProduct = null;
+    [getListProduct.rejected]: (state) => {
+      state.isProductLoading = false;
     },
-    [ApproveProduct.fulfilled]: (state, action) => {
+
+    [approveProduct.pending]: (state) => {
+      state.isProductLoading = true;
+    },
+    [approveProduct.fulfilled]: (state, action) => {
+      state.isProductLoading = false;
       state.listProduct = state.listProduct.map((item) => {
         if (item.id === action.payload.id) item.status = action.payload.status;
         return item;
       });
     },
-    [ApproveProduct.rejected]: (state) => {
-      state.listProduct = null;
+    [approveProduct.rejected]: (state) => {
+      state.isProductLoading = false;
     },
   },
 });

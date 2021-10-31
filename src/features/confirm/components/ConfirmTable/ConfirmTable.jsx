@@ -3,7 +3,10 @@ import { FiCheck } from 'react-icons/fi';
 import { AiOutlineEye } from 'react-icons/ai';
 import { BsTrash } from 'react-icons/bs';
 import { MdModeEdit } from 'react-icons/md';
-import { BiExit } from 'react-icons/bi';
+import { BiExit, BiDotsVerticalRounded } from 'react-icons/bi';
+import OutsideClickHandler from 'react-outside-click-handler';
+import { toast } from 'react-toastify';
+import _get from 'lodash.get';
 
 import { WrapContent } from 'styles/common/common-styles';
 import {
@@ -17,17 +20,21 @@ import {
 
 import { Button } from 'components/Button/Button';
 import { TablePagination } from 'components/Pagination/Pagination';
-import { GroupPagination, GroupAction, BoxMain } from './ConfirmTable.styles';
+import {
+  GroupPagination,
+  GroupAction,
+  BoxMain,
+  ListAction,
+} from './ConfirmTable.styles';
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import ReviewProduct from './../Review/ReviewProduct';
 import RemoveProduct from './../RemoveProduct/RemoveProduct';
 import ActionProduct from '../ActionProduct/ActionProduct';
 import { useDispatch, useSelector } from 'react-redux';
-import { productUpdate, ApproveProduct } from '../../redux/product.slice';
-import { unwrapResult } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
+import { productUpdate, approveProduct } from '../../redux/product.slice';
 import GroupAlert from './../../../../components/AlertMessage/AlertMessage';
 import Refuse from '../ActionProduct/refuse/Refuse';
+
 const ConfirmTable = ({ data }) => {
   // teacher_id
   // useLogin.id id đăng nhập
@@ -39,6 +46,7 @@ const ConfirmTable = ({ data }) => {
   const [itemRemove, setItemRemove] = useState(null);
   const [refuse, setRefuse] = useState(null);
   const [itemRefuse, setItemRefuse] = useState(false);
+  const [isShowAction, setIsShowAction] = useState(null);
   const [product, setProduct] = useState({
     id: '',
     name: '',
@@ -61,7 +69,7 @@ const ConfirmTable = ({ data }) => {
   const handleChangePage = (values) => {
     setPagination({ ...pagination, ...values });
   };
-  const Review = (item) => {
+  const review = (item) => {
     setProduct(item);
     setOpen(!open);
   };
@@ -73,120 +81,119 @@ const ConfirmTable = ({ data }) => {
     setUpdateProd(item);
     setItemUpdate(true);
   };
-  const handleConfirm = (item) => {
-    const detail = {
+
+  const handleConfirm = async (item) => {
+    const productUpdateStatus = {
       id: item.id,
-      status: item.status + 1,
+      status: 1,
       message: null,
     };
-    console.log('object', detail);
-    dispatch(ApproveProduct(detail))
-      .then(unwrapResult)
-      .then(() => toast.success('Phê duyệt thành công !'))
-      .catch((error) => toast.error('Thất Bại '))
-      .finally(() => setOpen(false));
-    // dispatch(productUpdate(detail));
+    const response = await dispatch(approveProduct(productUpdateStatus));
+    if (approveProduct.fulfilled.match(response)) {
+      toast.success('Chấp nhận thành công !');
+    } else {
+      toast.error(_get(response.payload, 'name[0]'));
+    }
   };
+
   const handleRefuse = (item) => {
     setRefuse(item);
     setItemRefuse(true);
   };
+
   return (
     <WrapContent>
       <BoxMain>
         <TableCustom className="table-confirm">
           <Thead>
             <Tr>
-              <Th sort={false}>STT</Th>
-              <Th>Tên đề tài </Th>
-              <Th>Lớp</Th>
-              <Th>Môn </Th>
-              <Th className="fix-th">Kỳ học </Th>
-              <Th>Thành viên </Th>
-              <Th sort={false}>Action</Th>
+              <Th sort>STT</Th>
+              <Th sort>Tên đề tài</Th>
+              <Th sort>Lớp</Th>
+              <Th sort>Môn</Th>
+              <Th className="fix-th" sort>
+                Kỳ học
+              </Th>
+              <Th sort>Thành viên</Th>
+              <Th align="right">Action</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {data
-              ? data.map((item, index) => {
-                  return (
-                    <Tr key={index}>
-                      <Td> {index + 1}</Td>
-                      <Td>{item.name} </Td>
-                      <Td>{item.class} </Td>
-                      <Td>{item.subject && item.subject.name} </Td>
-                      <Td> </Td>
-                      <Td>
-                        {item.students &&
-                          item.students.map((element, i) => {
-                            return (
-                              <li key={i}>
-                                {element.name} - {element.student_code}
-                              </li>
-                            );
-                          })}
-                      </Td>
-                      <Td>
-                        <GroupAction>
-                          {item.status === 2 ? (
-                            <Button
-                              icon={<MdModeEdit />}
-                              size="small"
-                              color="warning"
-                              onClick={() => update(item)}
-                              // cập nhật
-                            />
-                          ) : (
-                            <Button
-                              icon={<FiCheck />}
-                              size="small"
-                              color="success"
-                              onClick={() => handleConfirm(item)}
-                              // phê duyệt
-                              disabled={
-                                item.status === 1 &&
-                                useLogin.id &&
-                                useLogin.id === item.teacher_id &&
-                                item.teacher_id
-                              }
-                            />
-                          )}
-                          <Button
-                            icon={<AiOutlineEye />}
-                            size="small"
-                            color="info"
-                            onClick={() => Review(item)}
-                            // review
-                          />
-                          {item.status === 2 ? (
-                            <Button
-                              icon={<BsTrash />}
-                              size="small"
-                              color="danger"
-                              onClick={() => removeProduct(item)}
+            {data.map((item, index) => {
+              return (
+                <Tr key={index}>
+                  <Td> {index + 1}</Td>
+                  <Td>{item.name} </Td>
+                  <Td>{item.class} </Td>
+                  <Td>{item.subject && item.subject.name} </Td>
+                  <Td> </Td>
+                  <Td>
+                    {item.students &&
+                      item.students.map((element, i) => {
+                        return (
+                          <li key={i}>
+                            {element.name} - {element.student_code}
+                          </li>
+                        );
+                      })}
+                  </Td>
+                  <Td>
+                    <GroupAction>
+                      <span
+                        className="show-action"
+                        onClick={() => setIsShowAction(item.id)}
+                      >
+                        <BiDotsVerticalRounded />
+                      </span>
 
-                              // xóa
-                            />
-                          ) : (
-                            <Button
-                              icon={<BiExit />}
-                              size="small"
-                              color="danger"
-                              onClick={() => handleRefuse(item)}
-                              // disabled={
-                              //   item.status === 1 &&
-                              //   useLogin.id &&
-                              //   useLogin.id === item.teacher_id
-                              // }
-                              // từ trối
-                            />
-                          )}
-                        </GroupAction>
-                      </Td>
-                    </Tr>
-                  );
-                })
-              : ''}
+                      {item.id === isShowAction && (
+                        <OutsideClickHandler
+                          onOutsideClick={() => setIsShowAction(null)}
+                        >
+                          <ListAction>
+                            <div
+                              className={`item-action ${
+                                item.status === 1 ? 'disabled' : ''
+                              }`}
+                              onClick={() => handleConfirm(item)}
+                            >
+                              <span className="icon-action">
+                                <FiCheck />
+                              </span>
+                              Chấp nhận
+                            </div>
+                            <div
+                              className="item-action"
+                              onClick={() => {
+                                review(item);
+                                setOpen(true);
+                              }}
+                            >
+                              <span className="icon-action">
+                                <AiOutlineEye />
+                              </span>
+                              Xem trước
+                            </div>
+                            <div className="item-action">
+                              <span className="icon-action">
+                                <MdModeEdit />
+                              </span>
+                              Sửa
+                            </div>
+                            <div className="item-action">
+                              <span className="icon-action">
+                                <BiExit />
+                              </span>
+                              Từ chối
+                            </div>
+                          </ListAction>
+                        </OutsideClickHandler>
+                      )}
+                    </GroupAction>
+                  </Td>
+                </Tr>
+              );
+            })}
           </Tbody>
         </TableCustom>
         <GroupPagination>

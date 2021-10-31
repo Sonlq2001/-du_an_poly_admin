@@ -100,7 +100,7 @@ const majorsSlice = createSlice({
     },
 
     // put majors
-    [putMajors.pending]: (state, action) => {
+    [putMajors.pending]: (state) => {
       state.isMajorsLoading = true;
     },
     [putMajors.fulfilled]: (state, action) => {

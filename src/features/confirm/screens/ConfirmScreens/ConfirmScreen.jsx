@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from 'react';
 import Select from 'react-select';
-import { ListProduct } from './../../redux/product.slice';
+import { getListProduct } from './../../redux/product.slice';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   WrapContent,
@@ -13,29 +13,28 @@ import {
 
 import ConfirmTable from './../../components/ConfirmTable/ConfirmTable';
 import Loading from 'components/Loading/Loading';
-import { unwrapResult } from '@reduxjs/toolkit';
 import { getSemesters } from '../../../uploadExcel/redux/uploadExcel.slice';
 import { MapOptions } from '../../../../helpers/convert/map-options';
 const ConfirmScreen = () => {
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
-  const { listProduct } = useSelector((state) => state.product);
+  const { listProduct, isProductLoading } = useSelector(
+    (state) => state.product
+  );
   const { listSemester } = useSelector((state) => state.uploadExcel);
   const listSelectOptionSemester = MapOptions(listSemester);
   useEffect(() => {
     dispatch(getSemesters());
-    dispatch(ListProduct())
-      .then(unwrapResult)
-      .finally(() => setIsLoading(true));
+    dispatch(getListProduct());
   }, [dispatch]);
   // change kỳ học
   const HandlerSemester = (data) => {
     console.log('data', data);
   };
 
-  if (!isLoading) {
-    <Loading />;
+  if (isProductLoading) {
+    return <Loading />;
   }
+
   return (
     <>
       <TitleMain> Danh sách sản phẩm </TitleMain>
@@ -134,7 +133,7 @@ const ConfirmScreen = () => {
           </BoxControl>
         </BoxSearchInput>
       </WrapContent>
-      <ConfirmTable data={listProduct ? listProduct : []} />
+      <ConfirmTable data={listProduct} />
     </>
   );
 };
