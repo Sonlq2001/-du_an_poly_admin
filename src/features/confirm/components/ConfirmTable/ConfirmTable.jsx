@@ -173,11 +173,11 @@ const ConfirmTable = ({ data }) => {
                               size="small"
                               color="danger"
                               onClick={() => handleRefuse(item)}
-                              disabled={
-                                item.status === 1 &&
-                                useLogin.id &&
-                                useLogin.id === item.teacher_id
-                              }
+                              // disabled={
+                              //   item.status === 1 &&
+                              //   useLogin.id &&
+                              //   useLogin.id === item.teacher_id
+                              // }
                               // từ trối
                             />
                           )}
