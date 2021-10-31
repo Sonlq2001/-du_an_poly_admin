@@ -51,7 +51,6 @@ const MajorsScreen = () => {
   const [itemMajors, setItemMajors] = useState(initForm);
   const [isDialogDeleteMajor, setIsDialogDeleteMajor] = useState(false);
   const [listChecked, setListChecked] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
 
   const fetchData = useCallback(() => {
     dispatch(getMajors());
@@ -122,10 +121,7 @@ const MajorsScreen = () => {
 
       <WrapContent>
         <HeaderTable>
-          <Button
-            disabled={isLoading || !listChecked.length}
-            onClick={handleRemoveAll}
-          >
+          <Button disabled={!listChecked.length} onClick={handleRemoveAll}>
             Xóa tất cả
           </Button>
           <Button
@@ -220,11 +216,7 @@ const MajorsScreen = () => {
         setOpen={setIsDialogActionMajor}
         title={itemMajors?.id ? 'Sửa Chuyên Ngành' : 'Thêm Chuyên Ngành '}
       >
-        <ActionMajors
-          item={itemMajors}
-          setOpen={setIsDialogActionMajor}
-          setIsLoading={setIsLoading}
-        />
+        <ActionMajors item={itemMajors} setOpen={setIsDialogActionMajor} />
       </PopupOverlay>
 
       {/* overlay remove */}

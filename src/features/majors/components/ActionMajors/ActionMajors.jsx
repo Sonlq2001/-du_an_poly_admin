@@ -11,7 +11,7 @@ import ElementInput from 'components/FormElements/ElementInput/ElementInput';
 import { Button } from 'components/Button/Button';
 import { postMajors, putMajors } from './../../redux/majors.slice';
 
-const ActionMajors = ({ item, setOpen, setIsLoading }) => {
+const ActionMajors = ({ item, setOpen }) => {
   const dispatch = useDispatch();
 
   return (
@@ -23,14 +23,12 @@ const ActionMajors = ({ item, setOpen, setIsLoading }) => {
         onSubmit={async (values, { resetForm }) => {
           const dispatchAction = item?.name ? putMajors : postMajors;
           const response = await dispatch(dispatchAction(values));
-          setIsLoading(true);
           if (dispatchAction.fulfilled.match(response)) {
             toast.success('Thành công !');
           } else {
             toast.error(_get(response.payload, 'name[0]'));
           }
           setOpen(false);
-          setIsLoading(false);
           resetForm();
         }}
       >
