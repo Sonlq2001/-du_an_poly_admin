@@ -62,10 +62,9 @@ const MajorsScreen = () => {
   }, [fetchData]);
   const { listMajors, isMajorsLoading } = useSelector((state) => state.majors);
 
-  const isCheckedAll = useMemo(
-    () => listMajors.every((i) => listChecked.includes(i.id)),
-    [listMajors, listChecked]
-  );
+  const isCheckedAll = useMemo(() => {
+    return listMajors.every((i) => listChecked.includes(i.id));
+  }, [listMajors, listChecked]);
 
   const handleCheckedAll = (isChecked) => {
     if (isChecked) {
@@ -93,7 +92,9 @@ const MajorsScreen = () => {
       if (removeMajors.fulfilled.match(response)) {
         toast.success('Xóa thành công !');
       } else {
+        toast.error('Xóa thất bại !');
       }
+      setListChecked([]);
     });
   };
 

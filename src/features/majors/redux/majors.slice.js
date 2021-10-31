@@ -76,7 +76,6 @@ const majorsSlice = createSlice({
     // create majors
     [postMajors.pending]: (state) => {
       state.isMajorsLoading = true;
-      state.isLoading = true;
     },
     [postMajors.fulfilled]: (state, action) => {
       state.isMajorsLoading = false;
