@@ -34,7 +34,9 @@ export const ButtonCustom = styled.button`
     color: var(--white-color);
     display: inline-block;
   }
-
+  &:disabled:hover {
+    cursor: not-allowed;
+  }
   .icon-btn {
     display: inline-block;
     transform: translateY(2px);

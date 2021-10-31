@@ -78,6 +78,7 @@ export const GroupDetail = styled.div`
 
 // group detail
 export const ImageSlice = styled.div`
+  padding-top: 1rem;
   & .slick-dots li {
     width: 70px;
     height: 70px;
@@ -99,6 +100,10 @@ export const ImageSlice = styled.div`
     image-resolution: center;
     image-rendering: pixelated;
     border-radius: 5px;
+  }
+  & .slider_galleries {
+    font-size: 1.5rem;
+    color: #e96969;
   }
 `;
 

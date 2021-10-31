@@ -1,14 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getAll, update } from './../api/product.api';
+import { getAll, products_Approve } from './../api/product.api';
 export const ListProduct = createAsyncThunk('product/list', async () => {
   const { data } = await getAll();
   return data;
 });
-export const updateProduct = createAsyncThunk(
+export const ApproveProduct = createAsyncThunk(
   'product/update',
   async (product) => {
-    const response = await update(product);
-    console.log('redux', response);
+    try {
+      const response = await products_Approve(product);
+      if (response) {
+        return product;
+      }
+    } catch (error) {}
   }
 );
 const initialState = {
@@ -20,7 +24,7 @@ const productSlice = createSlice({
   reducers: {
     productUpdate(state, action) {
       state.listProduct = state.listProduct.map((item) => {
-        if (item.id === action.payload) item.status = 1;
+        if (item.id === action.payload.id) item.status = action.payload.status;
         return item;
       });
     },
@@ -32,7 +36,16 @@ const productSlice = createSlice({
     [ListProduct.fulfilled]: (state, action) => {
       state.listProduct = action.payload.data;
     },
-    [ListProduct.pending]: (state) => {
+    [ListProduct.rejected]: (state) => {
+      state.listProduct = null;
+    },
+    [ApproveProduct.fulfilled]: (state, action) => {
+      state.listProduct = state.listProduct.map((item) => {
+        if (item.id === action.payload.id) item.status = action.payload.status;
+        return item;
+      });
+    },
+    [ApproveProduct.rejected]: (state) => {
       state.listProduct = null;
     },
   },
