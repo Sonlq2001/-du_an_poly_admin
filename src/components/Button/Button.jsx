@@ -11,7 +11,7 @@ export const Button = ({
   size,
   icon,
   type,
-  component,
+  loading = false,
 }) => {
   let colorButton = '';
   switch (color) {
@@ -54,9 +54,12 @@ export const Button = ({
       disabled={disabled}
       type={type}
     >
-      {icon && (
-        <span className={`icon-btn ${children ? '' : 'active'}`}>{icon}</span>
-      )}
+      {icon &&
+        (loading ? (
+          <span className="loader"></span>
+        ) : (
+          <span className={`icon-btn ${children ? '' : 'active'}`}>{icon}</span>
+        ))}
 
       {children && <span className="text-btn">{children}</span>}
     </ButtonCustom>

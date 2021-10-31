@@ -1,6 +1,5 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useState, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { unwrapResult } from '@reduxjs/toolkit';
 import { IoMdAdd } from 'react-icons/io';
 import { BsTrash } from 'react-icons/bs';
 import { MdModeEdit } from 'react-icons/md';
@@ -26,33 +25,79 @@ import {
   GroupPagination,
   EmptyResult,
 } from 'styles/common/common-styles';
-import { getMajors } from './../redux/majors.slice';
 import Loading from 'components/Loading/Loading';
-import GroupAlert from 'components/AlertMessage/AlertMessage';
 import { Button } from 'components/Button/Button';
-import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
-import ActionMajors from './../components/ActionMajors/ActionMajors';
-import { initForm } from './../helpers/majors.helpers';
 import { TablePagination } from 'components/Pagination/Pagination';
+import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
+import CheckboxSingle from 'components/FormElements/ElementCheckbox/CheckboxSingle';
+
+import GroupAlert from 'components/AlertMessage/AlertMessage';
+import ActionMajors from './../components/ActionMajors/ActionMajors';
 import RemoveMajors from './../components/RemoveMajors/RemoveMajors';
+import { initForm } from './../helpers/majors.helpers';
+import { getMajors, removeMajors } from './../redux/majors.slice';
 import EmptyResultImage from 'assets/images/empty-result.gif';
+import { toast } from 'react-toastify';
+
+const headerCells = [
+  { label: 'STT', field: 'id', sort: true },
+  { label: 'Tên Chuyên Ngành', field: 'id', sort: true },
+  { label: 'Thao tác', field: 'id', sort: false, align: 'right' },
+];
 
 const MajorsScreen = () => {
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
   const [isDialogActionMajor, setIsDialogActionMajor] = useState(false);
   const [itemMajors, setItemMajors] = useState(initForm);
   const [isDialogDeleteMajor, setIsDialogDeleteMajor] = useState(false);
+  const [listChecked, setListChecked] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    dispatch(getMajors())
-      .then(unwrapResult)
-      .finally(() => setIsLoading(true));
+  const fetchData = useCallback(() => {
+    dispatch(getMajors());
   }, [dispatch]);
 
-  const { listMajors } = useSelector((state) => state.majors);
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+  const { listMajors, isMajorsLoading } = useSelector((state) => state.majors);
 
-  if (!isLoading) {
+  const isCheckedAll = useMemo(
+    () => listMajors.every((i) => listChecked.includes(i.id)),
+    [listMajors, listChecked]
+  );
+
+  const handleCheckedAll = (isChecked) => {
+    if (isChecked) {
+      setListChecked(
+        Array.from(new Set([...listChecked, ...listMajors.map((i) => i.id)]))
+      );
+    } else {
+      setListChecked(
+        listChecked.filter((id) => !listMajors.find((i) => i.id === id))
+      );
+    }
+  };
+
+  const handleChangeChecked = (itemId) => {
+    if (listChecked.includes(itemId)) {
+      setListChecked(listChecked.filter((id) => id !== itemId));
+    } else {
+      setListChecked([...listChecked, itemId]);
+    }
+  };
+
+  const handleRemoveAll = () => {
+    listChecked.forEach(async (id) => {
+      const response = await dispatch(removeMajors(id));
+      if (removeMajors.fulfilled.match(response)) {
+        toast.success('Xóa thành công !');
+      } else {
+      }
+    });
+  };
+
+  if (isMajorsLoading) {
     return <Loading />;
   }
   return (
@@ -77,6 +122,12 @@ const MajorsScreen = () => {
       <WrapContent>
         <HeaderTable>
           <Button
+            disabled={isLoading || !listChecked.length}
+            onClick={handleRemoveAll}
+          >
+            Xóa tất cả
+          </Button>
+          <Button
             icon={<IoMdAdd />}
             color="primary"
             onClick={() => {
@@ -93,16 +144,28 @@ const MajorsScreen = () => {
             <TableCustom>
               <Thead>
                 <Tr>
-                  <Th sort={false}>STT</Th>
-                  <Th>Tên Chuyên Ngành</Th>
-                  <Th sort={false} align="right">
-                    Thao tác
+                  <Th>
+                    <CheckboxSingle
+                      checked={isCheckedAll}
+                      onChange={(e) => handleCheckedAll(e.target.checked)}
+                    />
                   </Th>
+                  {headerCells.map((cell) => (
+                    <Th key={cell.label} sort={cell.sort} align={cell.align}>
+                      {cell.label}
+                    </Th>
+                  ))}
                 </Tr>
               </Thead>
               <Tbody>
                 {listMajors.map((item, index) => (
                   <Tr key={item.id}>
+                    <Td>
+                      <CheckboxSingle
+                        checked={listChecked.includes(item.id)}
+                        onChange={() => handleChangeChecked(item.id)}
+                      />
+                    </Td>
                     <Td>{index + 1}</Td>
                     <Td>{item.name}</Td>
                     <Td>
@@ -156,7 +219,11 @@ const MajorsScreen = () => {
         setOpen={setIsDialogActionMajor}
         title={itemMajors?.id ? 'Sửa Chuyên Ngành' : 'Thêm Chuyên Ngành '}
       >
-        <ActionMajors item={itemMajors} setOpen={setIsDialogActionMajor} />
+        <ActionMajors
+          item={itemMajors}
+          setOpen={setIsDialogActionMajor}
+          setIsLoading={setIsLoading}
+        />
       </PopupOverlay>
 
       {/* overlay remove */}

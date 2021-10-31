@@ -44,4 +44,25 @@ export const ButtonCustom = styled.button`
   .icon-btn.active {
     margin: 0;
   }
+
+  /* loading css */
+  .loader {
+    border: 2px solid ${({ color }) => color || 'var(--blue-color'};
+    border-top: 2px solid var(--white-color);
+    border-right: 2px solid var(--white-color);
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-right: 5px;
+  }
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 `;

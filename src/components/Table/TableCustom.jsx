@@ -18,7 +18,7 @@ export const Tr = ({ children, className }) => {
   return <TableTr className={className}>{children}</TableTr>;
 };
 
-export const Th = ({ children, sort, className, align }) => {
+export const Th = ({ children, sort = false, className, align, onClick }) => {
   let alignTh = '';
   switch (align) {
     case 'right':
@@ -30,9 +30,13 @@ export const Th = ({ children, sort, className, align }) => {
     default:
       alignTh = 'left';
   }
-  const isSort = sort === undefined ? true : false;
-  return isSort ? (
-    <TableTh sort={isSort} className={className} alignText={alignTh}>
+  return sort ? (
+    <TableTh
+      sort={sort}
+      className={className}
+      alignText={alignTh}
+      onClick={onClick ? onClick : () => {}}
+    >
       {children}
     </TableTh>
   ) : (
