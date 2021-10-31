@@ -28,7 +28,7 @@ const ActionProductType = ({ item, setOpen }) => {
             dispatch(postProductType(values))
               .then(unwrapResult)
               .then(() => toast.success('Thêm thành công !'))
-              .catch((error) => toast.error(error.name[0]))
+              .catch((error) => toast.error('có lỗi'))
               .finally(() => {
                 setOpen(false);
                 resetForm();

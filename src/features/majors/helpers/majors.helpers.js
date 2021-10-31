@@ -5,5 +5,7 @@ export const initForm = {
 };
 
 export const schema = Yup.object().shape({
-  name: Yup.string().required('Vui lòng nhập tên chuyên ngành'),
+  name: Yup.string()
+    .required('Vui lòng nhập tên chuyên ngành')
+    .min(5, 'Tối thiểu 5 ký tự'),
 });
