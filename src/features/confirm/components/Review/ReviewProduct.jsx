@@ -18,6 +18,7 @@ import {
   ContentPost,
   GroupAttach,
   ItemAttach,
+  Video,
   // BoxYoutube,
 } from './ReviewProduct.styles';
 import { MdContentPaste } from 'react-icons/md';
@@ -110,6 +111,24 @@ const ReviewProduct = ({ data }) => {
                 <MdContentPaste />
                 <span>Bài viết giới thiệu</span>
               </TitleMain>
+              <Video className="video">
+                <ReactPlayer
+                  controls
+                  volume
+                  style={
+                    ({ padding: 10 },
+                    { margin_top: 50 },
+                    { border_radius: 100 })
+                  }
+                  height="260px"
+                  width="80%"
+                  playbackRate
+                  previewTabIndex="10"
+                  playIcon
+                  onReady={() => console.log('play')}
+                  url={data.video_url}
+                />
+              </Video>
               <ContentPost
                 dangerouslySetInnerHTML={{
                   __html: data.description,

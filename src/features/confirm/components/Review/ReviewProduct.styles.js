@@ -137,6 +137,10 @@ export const TitleMain = styled.h3`
     margin-left: 1rem;
   }
 `;
+export const Video = styled.div`
+  margin-top: 10px;
+  border-radius: 10px;
+`;
 
 export const GroupBox = styled.div`
   &:not(:first-child) {
