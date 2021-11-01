@@ -74,40 +74,37 @@ const majorsSlice = createSlice({
     },
 
     // create majors
-    [postMajors.pending]: (state) => {
-      state.isMajorsLoading = true;
-    },
     [postMajors.fulfilled]: (state, action) => {
       state.isMajorsLoading = false;
-      state.listMajors = [...state.listMajors, action.payload.data];
+      if (state.listMajors) {
+        state.listMajors = [...state.listMajors, action.payload.data];
+      }
     },
     [postMajors.rejected]: (state) => {
       state.isMajorsLoading = false;
     },
 
     // remove majors
-    [removeMajors.pending]: (state, action) => {
-      state.isMajorsLoading = true;
-    },
     [removeMajors.fulfilled]: (state, action) => {
       state.isMajorsLoading = false;
-      state.listMajors = state.listMajors.filter(
-        (item) => item.id !== action.payload
-      );
+      if (state.listMajors) {
+        state.listMajors = state.listMajors.filter(
+          (item) => item.id !== action.payload
+        );
+      }
     },
     [removeMajors.rejected]: (state) => {
       state.isMajorsLoading = false;
     },
 
     // put majors
-    [putMajors.pending]: (state) => {
-      state.isMajorsLoading = true;
-    },
     [putMajors.fulfilled]: (state, action) => {
       state.isMajorsLoading = false;
-      state.listMajors = state.listMajors.map((item) =>
-        item.id === action.payload.data.id ? action.payload.data : item
-      );
+      if (state.listMajors) {
+        state.listMajors = state.listMajors.map((item) =>
+          item.id === action.payload.data.id ? action.payload.data : item
+        );
+      }
     },
     [putMajors.rejected]: (state) => {
       state.isMajorsLoading = false;
