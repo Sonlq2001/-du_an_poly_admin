@@ -44,6 +44,11 @@ export const ListAction = styled.div`
     background-color: hsl(0deg 0% 93%);
     color: hsl(0deg 0% 40% / 40%);
     cursor: no-drop;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  .item-action .disabled :hover {
+    cursor: not-allowed;
   }
 `;
 

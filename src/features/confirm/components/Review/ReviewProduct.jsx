@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Slider from 'react-slick';
-
+import ReactPlayer from 'react-player';
 import {
   Content,
   MainReview,

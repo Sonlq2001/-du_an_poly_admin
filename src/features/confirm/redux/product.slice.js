@@ -21,7 +21,7 @@ export const approveProduct = createAsyncThunk(
     try {
       const response = await confirmProductApi.postProductApprove(product);
       if (response) {
-        return product;
+        return response.data;
       }
     } catch (error) {}
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ButtonCustom } from './Buttons.styles';
-
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 export const Button = ({
   children,
   color,
@@ -56,7 +56,10 @@ export const Button = ({
     >
       {icon &&
         (loading ? (
-          <span className="loader"></span>
+          <span className={`icon-btn loader ${children ? '' : 'active'}`}>
+            {' '}
+            <AiOutlineLoading3Quarters />
+          </span>
         ) : (
           <span className={`icon-btn ${children ? '' : 'active'}`}>{icon}</span>
         ))}

@@ -46,6 +46,14 @@ export const ButtonCustom = styled.button`
   .icon-btn.active {
     margin: 0;
   }
+<<<<<<< HEAD
+  .loader {
+    width: 15px;
+    height: 15px;
+    animation: spin 2s linear infinite;
+  }
+
+=======
 
   /* loading css */
   .loader {
@@ -59,6 +67,7 @@ export const ButtonCustom = styled.button`
     display: inline-block;
     margin-right: 5px;
   }
+>>>>>>> origin
   @keyframes spin {
     0% {
       transform: rotate(0deg);

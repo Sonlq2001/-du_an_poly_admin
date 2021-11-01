@@ -6,7 +6,12 @@ import { useDispatch } from 'react-redux';
 import { approveProduct } from '../../../redux/product.slice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-const Refuse = ({ item, setItemRefuse }) => {
+const Refuse = ({
+  item,
+  setItemRefuse,
+  setLoadingButtonRemove,
+  setIdLoadingRemove,
+}) => {
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
@@ -31,7 +36,11 @@ const Refuse = ({ item, setItemRefuse }) => {
       setItemRefuse(false);
       dispatch(approveProduct(detail))
         .then(unwrapResult)
-        .then(() => toast.success('Từ chối thành công !'))
+        .then(
+          () =>
+            toast.success('Từ chối thành công !') +
+            setLoadingButtonRemove(false)
+        )
         .catch((error) => toast.error(error.name[0]))
         .finally(() => setItemRefuse(false));
     },

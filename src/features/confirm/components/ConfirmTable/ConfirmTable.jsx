@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react';
 import { FiCheck } from 'react-icons/fi';
-import { AiOutlineEye } from 'react-icons/ai';
+import { AiOutlineEye, AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { BsTrash } from 'react-icons/bs';
 import { MdModeEdit } from 'react-icons/md';
 import { BiExit, BiDotsVerticalRounded } from 'react-icons/bi';
@@ -44,6 +44,11 @@ const ConfirmTable = ({ data }) => {
   const [openRemove, setOpenRemove] = useState(false);
   const [ItemUpdate, setItemUpdate] = useState(false);
   const [itemRemove, setItemRemove] = useState(null);
+  const [loadingButton, setLoadingButton] = useState(false);
+  const [idLoading, setIdLoading] = useState(null);
+  const [loadingButtonRemove, setLoadingButtonRemove] = useState(null);
+  const [idLoadingRemove, setIdLoadingRemove] = useState(null);
+
   const [refuse, setRefuse] = useState(null);
   const [itemRefuse, setItemRefuse] = useState(false);
   const [isShowAction, setIsShowAction] = useState(null);
@@ -100,7 +105,6 @@ const ConfirmTable = ({ data }) => {
     setRefuse(item);
     setItemRefuse(true);
   };
-
   return (
     <WrapContent>
       <BoxMain>
@@ -180,7 +184,10 @@ const ConfirmTable = ({ data }) => {
                               </span>
                               Sửa
                             </div>
-                            <div className="item-action">
+                            <div
+                              className="item-action"
+                              onClick={() => handleRefuse(item)}
+                            >
                               <span className="icon-action">
                                 <BiExit />
                               </span>
@@ -239,7 +246,12 @@ const ConfirmTable = ({ data }) => {
         size="md"
         title="Lý do "
       >
-        <Refuse item={refuse} setItemRefuse={setItemRefuse} />
+        <Refuse
+          item={refuse}
+          setItemRefuse={setItemRefuse}
+          setLoadingButtonRemove={setLoadingButtonRemove}
+          setIdLoadingRemove={setIdLoadingRemove}
+        />
       </PopupOverlay>
       <GroupAlert />
     </WrapContent>
