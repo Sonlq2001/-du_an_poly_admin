@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import _get from 'lodash.get';
 
 import { majorsApi } from '../api/majors.api';
 
@@ -9,8 +10,7 @@ export const getMajors = createAsyncThunk(
       const response = await majorsApi.getMajors();
       return response.data;
     } catch (error) {
-      const msgError = error.response.data.errors;
-      return rejectWithValue(msgError);
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
@@ -22,8 +22,7 @@ export const postMajors = createAsyncThunk(
       const response = await majorsApi.postMajors(majors);
       return response.data;
     } catch (error) {
-      const msgError = error.response.data.errors;
-      return rejectWithValue(msgError);
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
@@ -35,8 +34,7 @@ export const removeMajors = createAsyncThunk(
       await majorsApi.removeMajors(id);
       return id;
     } catch (error) {
-      const msgError = error.response.data.errors;
-      return rejectWithValue(msgError);
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
@@ -48,14 +46,14 @@ export const putMajors = createAsyncThunk(
       const response = await majorsApi.putMajors(majors);
       return response.data;
     } catch (error) {
-      const msgError = error.response.data.errors;
-      return rejectWithValue(msgError);
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
 
 const initialState = {
-  listMajors: null,
+  listMajors: [],
+  isMajorsLoading: false,
 };
 
 const majorsSlice = createSlice({
@@ -63,36 +61,56 @@ const majorsSlice = createSlice({
   initialState,
 
   extraReducers: {
+    // list majors
     [getMajors.pending]: (state) => {
-      state.listMajors = null;
+      state.isMajorsLoading = true;
     },
     [getMajors.fulfilled]: (state, action) => {
+      state.isMajorsLoading = false;
       state.listMajors = action.payload.data;
     },
     [getMajors.rejected]: (state) => {
-      state.listMajors = null;
+      state.isMajorsLoading = false;
+    },
+
+    // create majors
+    [postMajors.pending]: (state) => {
+      state.isMajorsLoading = true;
     },
     [postMajors.fulfilled]: (state, action) => {
+      state.isMajorsLoading = false;
       state.listMajors = [...state.listMajors, action.payload.data];
     },
     [postMajors.rejected]: (state) => {
-      state.listMajors = null;
+      state.isMajorsLoading = false;
+    },
+
+    // remove majors
+    [removeMajors.pending]: (state, action) => {
+      state.isMajorsLoading = true;
     },
     [removeMajors.fulfilled]: (state, action) => {
+      state.isMajorsLoading = false;
       state.listMajors = state.listMajors.filter(
         (item) => item.id !== action.payload
       );
     },
     [removeMajors.rejected]: (state) => {
-      state.listMajors = null;
+      state.isMajorsLoading = false;
+    },
+
+    // put majors
+    [putMajors.pending]: (state) => {
+      state.isMajorsLoading = true;
     },
     [putMajors.fulfilled]: (state, action) => {
+      state.isMajorsLoading = false;
       state.listMajors = state.listMajors.map((item) =>
         item.id === action.payload.data.id ? action.payload.data : item
       );
     },
     [putMajors.rejected]: (state) => {
-      state.listMajors = null;
+      state.isMajorsLoading = false;
     },
   },
 });

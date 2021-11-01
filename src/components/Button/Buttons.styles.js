@@ -46,12 +46,28 @@ export const ButtonCustom = styled.button`
   .icon-btn.active {
     margin: 0;
   }
+<<<<<<< HEAD
   .loader {
     width: 15px;
     height: 15px;
     animation: spin 2s linear infinite;
   }
 
+=======
+
+  /* loading css */
+  .loader {
+    border: 2px solid ${({ color }) => color || 'var(--blue-color'};
+    border-top: 2px solid var(--white-color);
+    border-right: 2px solid var(--white-color);
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-right: 5px;
+  }
+>>>>>>> origin
   @keyframes spin {
     0% {
       transform: rotate(0deg);

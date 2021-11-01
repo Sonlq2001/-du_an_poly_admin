@@ -10,9 +10,41 @@ export const BoxMain = styled.div`
 `;
 
 export const GroupAction = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  text-align: right;
+  position: relative;
+  .show-action {
+    cursor: pointer;
+    font-size: 2rem;
+  }
+`;
+
+export const ListAction = styled.div`
+  position: absolute;
+  top: -2rem;
+  right: 3rem;
+  background-color: var(--white-color);
+  box-shadow: 0 0 1rem var(--eee-color);
+  border-radius: 5px;
+  z-index: 0;
+  overflow: hidden;
+  .item-action {
+    white-space: nowrap;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    &:hover {
+      background-color: var(--eee-color);
+    }
+  }
+  .icon-action {
+    padding-right: 7px;
+  }
+  .item-action.disabled {
+    background-color: hsl(0deg 0% 93%);
+    color: hsl(0deg 0% 40% / 40%);
+    cursor: no-drop;
+  }
 `;
 
 export const GroupPagination = styled.div`

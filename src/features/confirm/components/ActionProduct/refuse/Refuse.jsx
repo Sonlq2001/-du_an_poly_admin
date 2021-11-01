@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import { From, GroupButton } from './Refuse.styles';
 import { Button } from 'components/Button/Button';
 import { useDispatch } from 'react-redux';
-import { ApproveProduct } from '../../../redux/product.slice';
+import { approveProduct } from '../../../redux/product.slice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 const Refuse = ({
@@ -34,9 +34,13 @@ const Refuse = ({
         message: values.reason,
       };
       setItemRefuse(false);
+<<<<<<< HEAD
       setLoadingButtonRemove(true);
       setIdLoadingRemove(item.id);
       dispatch(ApproveProduct(detail))
+=======
+      dispatch(approveProduct(detail))
+>>>>>>> origin
         .then(unwrapResult)
         .then(
           () =>

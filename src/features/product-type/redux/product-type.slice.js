@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import _get from 'lodash.get';
 
 import { productTypeApi } from './../api/product-type.api';
 
@@ -24,8 +25,7 @@ export const postProductType = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      const msgError = error.response.data.errors;
-      return rejectWithValue(msgError);
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
@@ -59,7 +59,7 @@ export const deleteProductType = createAsyncThunk(
 );
 
 const initialState = {
-  listProductType: null,
+  listProductType: [],
 };
 
 const productTypeSlice = createSlice({
@@ -67,13 +67,13 @@ const productTypeSlice = createSlice({
   initialState,
   extraReducers: {
     [getProductType.pending]: (state) => {
-      state.listProductType = null;
+      state.listProductType = [];
     },
     [getProductType.fulfilled]: (state, action) => {
       state.listProductType = action.payload.product_types;
     },
     [getProductType.rejected]: (state) => {
-      state.listProductType = null;
+      state.listProductType = [];
     },
 
     [postProductType.fulfilled]: (state, action) => {
