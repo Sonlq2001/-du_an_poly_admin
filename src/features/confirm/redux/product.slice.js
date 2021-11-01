@@ -10,7 +10,7 @@ export const ApproveProduct = createAsyncThunk(
     try {
       const response = await products_Approve(product);
       if (response) {
-        return product;
+        return response.data;
       }
     } catch (error) {}
   }

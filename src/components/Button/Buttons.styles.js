@@ -46,4 +46,18 @@ export const ButtonCustom = styled.button`
   .icon-btn.active {
     margin: 0;
   }
+  .loader {
+    width: 15px;
+    height: 15px;
+    animation: spin 2s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 `;

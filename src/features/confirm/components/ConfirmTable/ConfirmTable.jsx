@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react';
 import { FiCheck } from 'react-icons/fi';
-import { AiOutlineEye } from 'react-icons/ai';
+import { AiOutlineEye, AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { BsTrash } from 'react-icons/bs';
 import { MdModeEdit } from 'react-icons/md';
 import { BiExit } from 'react-icons/bi';
@@ -37,6 +37,11 @@ const ConfirmTable = ({ data }) => {
   const [openRemove, setOpenRemove] = useState(false);
   const [ItemUpdate, setItemUpdate] = useState(false);
   const [itemRemove, setItemRemove] = useState(null);
+  const [loadingButton, setLoadingButton] = useState(false);
+  const [idLoading, setIdLoading] = useState(null);
+  const [loadingButtonRemove, setLoadingButtonRemove] = useState(null);
+  const [idLoadingRemove, setIdLoadingRemove] = useState(null);
+
   const [refuse, setRefuse] = useState(null);
   const [itemRefuse, setItemRefuse] = useState(false);
   const [product, setProduct] = useState({
@@ -79,10 +84,17 @@ const ConfirmTable = ({ data }) => {
       status: item.status + 1,
       message: null,
     };
+    setLoadingButton(true);
+    setIdLoading(item.id);
     console.log('object', detail);
     dispatch(ApproveProduct(detail))
       .then(unwrapResult)
-      .then(() => toast.success('Phê duyệt thành công !'))
+      .then(
+        () =>
+          toast.success('Phê duyệt thành công !') +
+          setLoadingButton(false) +
+          setIdLoading(item.id)
+      )
       .catch((error) => toast.error('Thất Bại '))
       .finally(() => setOpen(false));
     // dispatch(productUpdate(detail));
@@ -91,6 +103,7 @@ const ConfirmTable = ({ data }) => {
     setRefuse(item);
     setItemRefuse(true);
   };
+  console.log('loadingButton', loadingButton);
   return (
     <WrapContent>
       <BoxMain>
@@ -139,6 +152,7 @@ const ConfirmTable = ({ data }) => {
                           ) : (
                             <Button
                               icon={<FiCheck />}
+                              loading={loadingButton && idLoading === item.id}
                               size="small"
                               color="success"
                               onClick={() => handleConfirm(item)}
@@ -170,6 +184,10 @@ const ConfirmTable = ({ data }) => {
                           ) : (
                             <Button
                               icon={<BiExit />}
+                              loading={
+                                loadingButtonRemove &&
+                                idLoadingRemove === item.id
+                              }
                               size="small"
                               color="danger"
                               onClick={() => handleRefuse(item)}
@@ -232,7 +250,12 @@ const ConfirmTable = ({ data }) => {
         size="md"
         title="Lý do "
       >
-        <Refuse item={refuse} setItemRefuse={setItemRefuse} />
+        <Refuse
+          item={refuse}
+          setItemRefuse={setItemRefuse}
+          setLoadingButtonRemove={setLoadingButtonRemove}
+          setIdLoadingRemove={setIdLoadingRemove}
+        />
       </PopupOverlay>
       <GroupAlert />
     </WrapContent>
