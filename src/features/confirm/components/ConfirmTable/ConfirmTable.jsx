@@ -184,7 +184,10 @@ const ConfirmTable = ({ data }) => {
                               </span>
                               Sửa
                             </div>
-                            <div className="item-action">
+                            <div
+                              className="item-action"
+                              onClick={() => handleRefuse(item)}
+                            >
                               <span className="icon-action">
                                 <BiExit />
                               </span>
