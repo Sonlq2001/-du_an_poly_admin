@@ -1,9 +1,9 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useState, useMemo } from 'react';
 import { IoMdAdd } from 'react-icons/io';
 import { useDispatch, useSelector } from 'react-redux';
-import { unwrapResult } from '@reduxjs/toolkit';
 import { BsTrash } from 'react-icons/bs';
 import { MdModeEdit } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
 import {
   TableCustom,
@@ -32,8 +32,12 @@ import { TablePagination } from 'components/Pagination/Pagination';
 import Loading from 'components/Loading/Loading';
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import GroupAlert from 'components/AlertMessage/AlertMessage';
+import CheckboxSingle from 'components/FormElements/ElementCheckbox/CheckboxSingle';
 
-import { getProductType } from './../../redux/product-type.slice';
+import {
+  getProductType,
+  deleteProductType,
+} from './../../redux/product-type.slice';
 import EmptyResultImage from 'assets/images/empty-result.gif';
 import { initForm } from './../../helpers/product-type.helpers';
 import ActionProductType from './../../components/ActionProductType/ActionProductType';
@@ -41,21 +45,59 @@ import RemoveProductType from './../../components/RemoveProductType/RemoveProduc
 
 const ProductTypeScreen = () => {
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
   const [itemProductType, setItemProductType] = useState(initForm);
   const [isDialogProductType, setIsDialogProductType] = useState(false);
   const [isDialogProductTypeRemove, setIsDialogProductTypeRemove] =
     useState(false);
+  const [listChecked, setListChecked] = useState([]);
 
   useEffect(() => {
-    dispatch(getProductType())
-      .then(unwrapResult)
-      .finally(() => setIsLoading(true));
+    dispatch(getProductType());
   }, [dispatch]);
 
-  const { listProductType } = useSelector((state) => state.productType);
+  const { listProductType, isListProductTypeLoading } = useSelector(
+    (state) => state.productType
+  );
 
-  if (!isLoading) {
+  const isCheckedAll = useMemo(() => {
+    return listProductType.every((i) => listChecked.includes(i.id));
+  }, [listProductType, listChecked]);
+
+  const handleCheckedAll = (isChecked) => {
+    if (isChecked) {
+      setListChecked(
+        Array.from(
+          new Set([...listChecked, ...listProductType.map((i) => i.id)])
+        )
+      );
+    } else {
+      setListChecked(
+        listChecked.filter((id) => !listProductType.find((i) => i.id === id))
+      );
+    }
+  };
+
+  const handleChangeChecked = (itemId) => {
+    if (listChecked.includes(itemId)) {
+      setListChecked(listChecked.filter((id) => id !== itemId));
+    } else {
+      setListChecked([...listChecked, itemId]);
+    }
+  };
+
+  const handleRemoveAll = () => {
+    listChecked.forEach(async (id) => {
+      const response = await dispatch(deleteProductType(id));
+      if (deleteProductType.fulfilled.match(response)) {
+        toast.success('Xóa thành công !');
+      } else {
+        toast.error('Xóa thất bại !');
+      }
+      setListChecked([]);
+    });
+  };
+
+  if (isListProductTypeLoading) {
     return <Loading />;
   }
 
@@ -80,6 +122,9 @@ const ProductTypeScreen = () => {
 
       <WrapContent>
         <HeaderTable>
+          <Button disabled={!listChecked.length} onClick={handleRemoveAll}>
+            Xóa tất cả
+          </Button>
           <Button
             icon={<IoMdAdd />}
             color="primary"
@@ -97,16 +142,26 @@ const ProductTypeScreen = () => {
             <TableCustom>
               <Thead>
                 <Tr>
-                  <Th sort={false}>STT</Th>
-                  <Th>Tên Danh Mục</Th>
-                  <Th sort={false} align="right">
-                    Thao tác
+                  <Th>
+                    <CheckboxSingle
+                      checked={isCheckedAll}
+                      onChange={(e) => handleCheckedAll(e.target.checked)}
+                    />
                   </Th>
+                  <Th sort>STT</Th>
+                  <Th sort>Tên Danh Mục</Th>
+                  <Th align="right">Thao tác</Th>
                 </Tr>
               </Thead>
               <Tbody>
                 {listProductType.map((row, index) => (
                   <Tr key={row.id}>
+                    <Td>
+                      <CheckboxSingle
+                        checked={listChecked.includes(row.id)}
+                        onChange={() => handleChangeChecked(row.id)}
+                      />
+                    </Td>
                     <Td>{index + 1}</Td>
                     <Td>{row.name}</Td>
                     <Td>
