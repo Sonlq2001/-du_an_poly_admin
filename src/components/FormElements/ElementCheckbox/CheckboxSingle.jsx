@@ -8,12 +8,12 @@ const CheckboxSingle = ({ checked, onChange }) => {
   return (
     <CheckboxSingleStyles>
       <input
-        class="checkbox-single"
+        className="checkbox-single"
         type="checkbox"
         checked={checked}
         onChange={onChange ? onChange : () => {}}
       />
-      <span class="fake-checkbox">
+      <span className="fake-checkbox">
         <span className="icon-checkbox">
           <FaCheck />
         </span>
