@@ -14,9 +14,12 @@ const postProductApprove = (data) => {
     data
   );
 };
-
+const productRemove = (id)=>{
+  return api.delete(PRODUCT_PATH.REMOVE.replace(':id', id.toString()))
+}
 export const confirmProductApi = {
   getListProduct,
   putStatusProduct,
   postProductApprove,
+  productRemove
 };

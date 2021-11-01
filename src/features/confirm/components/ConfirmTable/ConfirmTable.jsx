@@ -2,6 +2,7 @@ import React, { memo, useState } from 'react';
 import { FiCheck } from 'react-icons/fi';
 import { AiOutlineEye, AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { BsTrash } from 'react-icons/bs';
+import { RiDeleteBinFill } from 'react-icons/ri';
 import { MdModeEdit } from 'react-icons/md';
 import { BiExit, BiDotsVerticalRounded } from 'react-icons/bi';
 import OutsideClickHandler from 'react-outside-click-handler';
@@ -159,6 +160,10 @@ const ConfirmTable = ({ data }) => {
                               className={`item-action ${
                                 item.status === 1 ? 'disabled' : ''
                               }`}
+                              disabled={
+                                item.status === 1 &&
+                                useLogin.id === item.teacher.id
+                              }
                               onClick={() => handleConfirm(item)}
                             >
                               <span className="icon-action">
@@ -192,6 +197,15 @@ const ConfirmTable = ({ data }) => {
                                 <BiExit />
                               </span>
                               Từ chối
+                            </div>
+                            <div
+                              className="item-action"
+                              onClick={() => removeProduct(item)}
+                            >
+                              <span className="icon-action">
+                                <RiDeleteBinFill />
+                              </span>
+                              Xóa
                             </div>
                           </ListAction>
                         </OutsideClickHandler>

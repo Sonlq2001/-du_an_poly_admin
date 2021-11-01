@@ -4,4 +4,5 @@ export const CONFIRM_PATH = {
 export const PRODUCT_PATH = {
   LIST: '/products',
   APPROVE: '/products_approve/:id',
+  REMOVE: '/product/delete/:id',
 };

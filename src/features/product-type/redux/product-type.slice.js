@@ -10,8 +10,7 @@ export const getProductType = createAsyncThunk(
       const response = await productTypeApi.getProductTypes();
       return response.data;
     } catch (error) {
-      const msgError = error.response.data.errors;
-      return rejectWithValue(msgError);
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
@@ -39,8 +38,7 @@ export const putProductType = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      const msgError = error.response.data.errors;
-      return rejectWithValue(msgError);
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
@@ -52,56 +50,72 @@ export const deleteProductType = createAsyncThunk(
       productTypeApi.deleteProductTypes(id);
       return id;
     } catch (error) {
-      const msgError = error.response.data.errors;
-      return rejectWithValue(msgError);
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
 
 const initialState = {
   listProductType: [],
+  isListProductTypeLoading: false,
 };
 
 const productTypeSlice = createSlice({
   name: 'product-type',
   initialState,
   extraReducers: {
+    // get product type
     [getProductType.pending]: (state) => {
-      state.listProductType = [];
+      state.isListProductTypeLoading = true;
     },
     [getProductType.fulfilled]: (state, action) => {
+      state.isListProductTypeLoading = false;
       state.listProductType = action.payload.product_types;
     },
     [getProductType.rejected]: (state) => {
-      state.listProductType = [];
+      state.isListProductTypeLoading = false;
     },
 
+    // post product type
     [postProductType.fulfilled]: (state, action) => {
-      state.listProductType = [
-        ...state.listProductType,
-        action.payload.product_type,
-      ];
+      state.isListProductTypeLoading = false;
+      if (state.listProductType) {
+        state.listProductType = [
+          ...state.listProductType,
+          action.payload.product_type,
+        ];
+      }
     },
     [postProductType.rejected]: (state) => {
-      state.listProductType = null;
+      state.isListProductTypeLoading = false;
     },
+
+    // delete product type
     [deleteProductType.fulfilled]: (state, action) => {
-      state.listProductType = state.listProductType.filter(
-        (item) => item.id !== action.payload
-      );
+      state.isListProductTypeLoading = false;
+      if (state.listProductType) {
+        state.listProductType = state.listProductType.filter(
+          (item) => item.id !== action.payload
+        );
+      }
     },
     [deleteProductType.rejected]: (state) => {
-      state.listProductType = null;
+      state.isListProductTypeLoading = false;
     },
+
+    // put product type
     [putProductType.fulfilled]: (state, action) => {
-      state.listProductType = state.listProductType.map((item) =>
-        item.id === action.payload.product_type.id
-          ? action.payload.product_type
-          : item
-      );
+      state.isListProductTypeLoading = false;
+      if (state.listProductType) {
+        state.listProductType = state.listProductType.map((item) =>
+          item.id === action.payload.product_type.id
+            ? action.payload.product_type
+            : item
+        );
+      }
     },
     [putProductType.rejected]: (state) => {
-      state.listProductType = null;
+      state.isListProductTypeLoading = false;
     },
   },
 });
