@@ -93,40 +93,18 @@ const ConfirmTable = ({ data }) => {
       status: 1,
       message: null,
     };
-<<<<<<< HEAD
-    setLoadingButton(true);
-    setIdLoading(item.id);
-    console.log('object', detail);
-    dispatch(ApproveProduct(detail))
-      .then(unwrapResult)
-      .then(
-        () =>
-          toast.success('Phê duyệt thành công !') +
-          setLoadingButton(false) +
-          setIdLoading(item.id)
-      )
-      .catch((error) => toast.error('Thất Bại '))
-      .finally(() => setOpen(false));
-    // dispatch(productUpdate(detail));
-=======
     const response = await dispatch(approveProduct(productUpdateStatus));
     if (approveProduct.fulfilled.match(response)) {
       toast.success('Chấp nhận thành công !');
     } else {
       toast.error(_get(response.payload, 'name[0]'));
     }
->>>>>>> origin
   };
 
   const handleRefuse = (item) => {
     setRefuse(item);
     setItemRefuse(true);
   };
-<<<<<<< HEAD
-  console.log('loadingButton', loadingButton);
-=======
-
->>>>>>> origin
   return (
     <WrapContent>
       <BoxMain>
@@ -145,93 +123,6 @@ const ConfirmTable = ({ data }) => {
             </Tr>
           </Thead>
           <Tbody>
-<<<<<<< HEAD
-            {data
-              ? data.map((item, index) => {
-                  return (
-                    <Tr key={index}>
-                      <Td> {index + 1}</Td>
-                      <Td>{item.name} </Td>
-                      <Td>{item.class} </Td>
-                      <Td>{item.subject && item.subject.name} </Td>
-                      <Td> </Td>
-                      <Td>
-                        {item.students &&
-                          item.students.map((element, i) => {
-                            return (
-                              <li key={i}>
-                                {element.name} - {element.student_code}
-                              </li>
-                            );
-                          })}
-                      </Td>
-                      <Td>
-                        <GroupAction>
-                          {item.status === 2 ? (
-                            <Button
-                              icon={<MdModeEdit />}
-                              size="small"
-                              color="warning"
-                              onClick={() => update(item)}
-                              // cập nhật
-                            />
-                          ) : (
-                            <Button
-                              icon={<FiCheck />}
-                              loading={loadingButton && idLoading === item.id}
-                              size="small"
-                              color="success"
-                              onClick={() => handleConfirm(item)}
-                              // phê duyệt
-                              disabled={
-                                item.status === 1 &&
-                                useLogin.id &&
-                                useLogin.id === item.teacher_id &&
-                                item.teacher_id
-                              }
-                            />
-                          )}
-                          <Button
-                            icon={<AiOutlineEye />}
-                            size="small"
-                            color="info"
-                            onClick={() => Review(item)}
-                            // review
-                          />
-                          {item.status === 2 ? (
-                            <Button
-                              icon={<BsTrash />}
-                              size="small"
-                              color="danger"
-                              onClick={() => removeProduct(item)}
-
-                              // xóa
-                            />
-                          ) : (
-                            <Button
-                              icon={<BiExit />}
-                              loading={
-                                loadingButtonRemove &&
-                                idLoadingRemove === item.id
-                              }
-                              size="small"
-                              color="danger"
-                              onClick={() => handleRefuse(item)}
-                              // disabled={
-                              //   item.status === 1 &&
-                              //   useLogin.id &&
-                              //   useLogin.id === item.teacher_id
-                              // }
-                              // từ trối
-                            />
-                          )}
-                        </GroupAction>
-                      </Td>
-                    </Tr>
-                  );
-                })
-              : ''}
-=======
             {data.map((item, index) => {
               return (
                 <Tr key={index}>
@@ -293,7 +184,10 @@ const ConfirmTable = ({ data }) => {
                               </span>
                               Sửa
                             </div>
-                            <div className="item-action">
+                            <div
+                              className="item-action"
+                              onClick={() => handleRefuse(item)}
+                            >
                               <span className="icon-action">
                                 <BiExit />
                               </span>
@@ -307,7 +201,6 @@ const ConfirmTable = ({ data }) => {
                 </Tr>
               );
             })}
->>>>>>> origin
           </Tbody>
         </TableCustom>
         <GroupPagination>

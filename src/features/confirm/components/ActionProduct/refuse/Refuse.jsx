@@ -34,13 +34,7 @@ const Refuse = ({
         message: values.reason,
       };
       setItemRefuse(false);
-<<<<<<< HEAD
-      setLoadingButtonRemove(true);
-      setIdLoadingRemove(item.id);
-      dispatch(ApproveProduct(detail))
-=======
       dispatch(approveProduct(detail))
->>>>>>> origin
         .then(unwrapResult)
         .then(
           () =>

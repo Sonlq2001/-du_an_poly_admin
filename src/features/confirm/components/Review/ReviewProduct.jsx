@@ -24,7 +24,6 @@ import { MdContentPaste } from 'react-icons/md';
 import { GrAttachment } from 'react-icons/gr';
 import { LIST_SLIDE } from './../../constants/ReviewConstants';
 const ReviewProduct = ({ data }) => {
-  console.log(data);
   const settings = {
     customPaging: function (i) {
       return (
