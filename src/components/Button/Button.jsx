@@ -11,10 +11,6 @@ export const Button = ({
   size,
   icon,
   type,
-<<<<<<< HEAD
-  component,
-=======
->>>>>>> origin
   loading = false,
 }) => {
   let colorButton = '';
