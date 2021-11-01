@@ -4,6 +4,7 @@ import { AiOutlineSave } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { unwrapResult } from '@reduxjs/toolkit';
+import _get from 'lodash.get';
 
 import { ContentForm, GroupAction } from './ActionProductType.styles';
 import { schema } from '../../helpers/product-type.helpers';
@@ -28,11 +29,15 @@ const ActionProductType = ({ item, setOpen }) => {
             dispatch(postProductType(values))
               .then(unwrapResult)
               .then(() => toast.success('Thêm thành công !'))
-              .catch((error) => toast.error('có lỗi'))
+              .catch((error) => {
+                const msg = _get(error, 'product_type.name');
+                toast.error(msg[0]);
+              })
               .finally(() => {
                 setOpen(false);
                 resetForm();
               });
+            // error?.product_type?.name[0])
           } else {
             dispatch(putProductType(values))
               .then(unwrapResult)

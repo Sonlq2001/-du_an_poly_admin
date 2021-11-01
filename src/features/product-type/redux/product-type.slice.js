@@ -24,8 +24,14 @@ export const postProductType = createAsyncThunk(
         product_type: value,
       });
       return response.data;
-    } catch (error) {
-      return rejectWithValue(_get(error.response.data, 'errors', ''));
+    } catch (err) {
+      const error = _get(err.response.data, 'errors', '');
+      if (!error) {
+        throw error;
+      } else {
+        return rejectWithValue(error);
+      }
+      // return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
@@ -82,9 +88,9 @@ const productTypeSlice = createSlice({
         action.payload.product_type,
       ];
     },
-    [postProductType.rejected]: (state) => {
-      state.listProductType = null;
-    },
+    // [postProductType.rejected]: (state) => {
+    //   state.listProductType = null;
+    // },
     [deleteProductType.fulfilled]: (state, action) => {
       state.listProductType = state.listProductType.filter(
         (item) => item.id !== action.payload
