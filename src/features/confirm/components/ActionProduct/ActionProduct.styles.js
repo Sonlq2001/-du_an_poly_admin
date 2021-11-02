@@ -49,8 +49,37 @@ export const ContentForm = styled.div`
     overflow: visible;
     width: 25.2rem;
     font-size: 14px;
+    position: relative;
   }
-
+  & .from-group .box-select .inputE {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 1px solid #c1bcbc;
+    border-radius: 5px;
+    margin-right: 4px;
+    font-size: 14px;
+    font-weight: 200;
+    background-color: var(--bg-input);
+    margin-bottom: 1rem;
+  }
+  & .from-group .box-select .remove {
+    padding: 4px 2px;
+    border: none;
+    background: none;
+    color: gray;
+    font-size: 2rem;
+    position: absolute;
+    right: 6px;
+    top: 45%;
+    transform: translateY(-50%);
+  }
+  & .from-group .box-select .add {
+    width: 100%;
+    border-radius: 7px;
+    border: 1px dashed gray;
+    padding: 0.7rem;
+    margin: 5px 0px;
+  }
   .css-26l3qy-menu {
     overflow: visible;
   }
