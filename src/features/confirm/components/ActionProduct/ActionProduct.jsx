@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
 import ElementInput from 'components/FormElements/ElementInput/ElementInput';
 import ElementSelect from 'components/FormElements/ElementSelect/ElementSelect';
@@ -12,12 +12,31 @@ import {
 } from './ActionProduct.styles';
 import { AiOutlineSave, AiOutlineDelete } from 'react-icons/ai';
 import { BsImageFill } from 'react-icons/bs';
+import { RiDeleteBin2Line } from 'react-icons/ri';
 import { schema } from './../../helpers/product.helpers';
 import Editor from './Editor/Editor';
-const ActionProduct = ({ data, setOpen }) => {
-  const handleChangeDescription = (description) => {
-    console.log('ở đây', description);
+const ActionProduct = ({
+  data,
+  setOpen,
+  groupStudents,
+  setGroupStudents,
+  listProductType,
+}) => {
+  const handleChangeDescription = (description) => {};
+  let email = [];
+  const EmailChange = (e, index) => {
+    email = [...groupStudents];
+    email[index] = e.target.value;
+    setGroupStudents(email);
   };
+  const remove = (i) => {
+    setGroupStudents(groupStudents.filter((element, index) => index !== i));
+  };
+  const optionSelect =
+    listProductType &&
+    listProductType.map((item) => {
+      return { ...item, label: item.name, value: item.id };
+    });
   return (
     <>
       <Formik
@@ -25,7 +44,9 @@ const ActionProduct = ({ data, setOpen }) => {
         initialValues={data}
         validationSchema={schema}
         onSubmit={(values) => {
-          console.log('lưu', values);
+          // values.students = [...groupStudents];
+          const student = [...groupStudents];
+          console.log('lưu', student);
         }}
       >
         {({ handleSubmit }) => {
@@ -76,31 +97,48 @@ const ActionProduct = ({ data, setOpen }) => {
                   />
                 </div>
                 <div className="from-group">
-                  <label htmlFor="">Product id </label>
+                  <label htmlFor="">Loại sản phẩm </label>
                   <div className="box-select">
                     <ElementSelect
                       className="select"
-                      name="major_id"
-                      placeholder="Chọn giảng viên"
-                      options={[
-                        { value: '1', label: 'Thiết kế đồ họa ' },
-                        { value: '2', label: 'Thiết kế Website' },
-                      ]}
+                      name="product_types"
+                      placeholder="Loại sản phẩm "
+                      options={optionSelect}
                     />
                   </div>
                 </div>
                 <div className="from-group">
                   <label htmlFor="">Thành viên </label>
                   <div className="box-select">
-                    <ElementSelect
-                      className="select"
-                      name="major_id"
-                      placeholder="Chọn Thành viên "
-                      options={[
-                        { value: '1', label: 'Thiết kế đồ họa ' },
-                        { value: '2', label: 'Thiết kế Website' },
-                      ]}
-                    />
+                    {groupStudents
+                      ? groupStudents.map((item, index) => {
+                          return (
+                            <div className="select" key={index}>
+                              <input
+                                className="inputE"
+                                type="email"
+                                placeholder="email"
+                                value={item}
+                                onChange={(e) => EmailChange(e, index)}
+                              />
+                              <button
+                                className="remove"
+                                type="button"
+                                onClick={() => remove(index)}
+                              >
+                                <RiDeleteBin2Line />
+                              </button>
+                            </div>
+                          );
+                        })
+                      : ''}
+                    <button
+                      type="button"
+                      className="add"
+                      onClick={() => setGroupStudents([...groupStudents, ''])}
+                    >
+                      Thêm +
+                    </button>
                   </div>
                 </div>
                 <div className="list" hidden>

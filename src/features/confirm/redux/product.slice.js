@@ -17,11 +17,13 @@ export const getListProduct = createAsyncThunk(
 
 export const approveProduct = createAsyncThunk(
   'product/update',
-  async (product) => {
+  async (product, { rejectWithValue }) => {
     try {
-      const response = await confirmProductApi.postProductApprove(product);
+      await confirmProductApi.postProductApprove(product);
       return product;
-    } catch (error) {}
+    } catch (error) {
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
+    }
   }
 );
 export const removeProduct = createAsyncThunk(
@@ -29,15 +31,25 @@ export const removeProduct = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await confirmProductApi.productRemove(id);
-      return response.data;
+      return response.data.info.id;
     } catch (error) {
       return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
+export const getProductType = createAsyncThunk(
+  'product/productType',
+  async () => {
+    try {
+      const response = await confirmProductApi.productTypes();
+      return response.data;
+    } catch (e) {}
+  }
+);
 const initialState = {
   listProduct: [],
   isProductLoading: false,
+  listProductType: [],
 };
 const productSlice = createSlice({
   name: 'product',
@@ -76,6 +88,15 @@ const productSlice = createSlice({
     [approveProduct.rejected]: (state) => {
       state.isProductLoading = false;
     },
+    [removeProduct.fulfilled]: (state, action) => {
+      state.listProduct = state.listProduct.filter(
+        (item) => item.id !== action.payload
+      );
+    },
+    [getProductType.fulfilled]: (state, action) => {
+      state.listProductType = action.payload.product_types;
+    },
+    [getProductType.rejected]: (state, action) => {},
   },
 });
 export const { productUpdate } = productSlice.actions;

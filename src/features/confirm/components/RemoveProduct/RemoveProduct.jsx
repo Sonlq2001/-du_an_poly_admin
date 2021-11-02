@@ -4,18 +4,17 @@ import { MessagePopup } from './RemoveProduct.styles';
 import { useDispatch } from 'react-redux';
 import { removeProduct } from 'features/confirm/redux/product.slice';
 import { toast } from 'react-toastify';
+import { unwrapResult } from '@reduxjs/toolkit';
 import _get from 'lodash.get';
 const RemoveProduct = ({ item, open, setOpen }) => {
   const dispatch = useDispatch();
   const handleRemoveProduct = () => {
     setOpen(false);
-    // const response = dispatch(removeProduct(item.id));
-    // if (removeProduct.fulfilled.match(response)) {
-    //   toast.success('Xóa  thành công !');
-    //   setOpen(false);
-    // } else {
-    //   toast.error(_get(response.payload, 'name[0]'));
-    // }
+    dispatch(removeProduct(item?.id))
+      .then(unwrapResult)
+      .then(toast.success('Xóa thành công !'))
+      .catch((err) => toast.error(_get('Thất Bại ! ', 'name[0]')))
+      .finally(() => setOpen(false));
   };
   return (
     <PopupOverlay
