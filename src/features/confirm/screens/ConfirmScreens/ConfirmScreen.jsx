@@ -26,11 +26,15 @@ const ConfirmScreen = () => {
   const ProductTypes = useCallback(() => {
     dispatch(getProductType());
   }, [dispatch]);
+  const ProductList = useCallback(() => {
+    dispatch(getListProduct());
+  }, [dispatch]);
+
   useEffect(() => {
     dispatch(getSemesters());
-    dispatch(getListProduct());
+    ProductList();
     ProductTypes();
-  }, [dispatch, ProductTypes]);
+  }, [dispatch, ProductTypes, ProductList]);
   // change kỳ học
   const HandlerSemester = (data) => {
     console.log('data', data);

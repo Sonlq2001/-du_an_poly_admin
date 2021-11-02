@@ -1,7 +1,6 @@
 import React, { memo, useState } from 'react';
 import { FiCheck } from 'react-icons/fi';
-import { AiOutlineEye, AiOutlineLoading3Quarters } from 'react-icons/ai';
-import { BsTrash } from 'react-icons/bs';
+import { AiOutlineEye } from 'react-icons/ai';
 import { RiDeleteBinFill } from 'react-icons/ri';
 import { MdModeEdit } from 'react-icons/md';
 import { BiExit, BiDotsVerticalRounded } from 'react-icons/bi';
@@ -18,8 +17,6 @@ import {
   Tbody,
   Td,
 } from 'components/Table/TableCustom';
-
-import { Button } from 'components/Button/Button';
 import { TablePagination } from 'components/Pagination/Pagination';
 import {
   GroupPagination,
@@ -32,7 +29,7 @@ import ReviewProduct from './../Review/ReviewProduct';
 import RemoveProduct from './../RemoveProduct/RemoveProduct';
 import ActionProduct from '../ActionProduct/ActionProduct';
 import { useDispatch, useSelector } from 'react-redux';
-import { productUpdate, approveProduct } from '../../redux/product.slice';
+import { approveProduct } from '../../redux/product.slice';
 import GroupAlert from './../../../../components/AlertMessage/AlertMessage';
 import Refuse from '../ActionProduct/refuse/Refuse';
 
@@ -40,16 +37,12 @@ const ConfirmTable = ({ data, listProductType }) => {
   // teacher_id
   // useLogin.id id đăng nhập
   const dispatch = useDispatch();
-  const { useLogin, accessToken } = useSelector((state) => state.auth);
+  const { useLogin } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
   const [openRemove, setOpenRemove] = useState(false);
   const [ItemUpdate, setItemUpdate] = useState(false);
   const [itemRemove, setItemRemove] = useState(null);
   const [groupStudents, setGroupStudents] = useState([]);
-  const [loadingButton, setLoadingButton] = useState(false);
-  const [idLoading, setIdLoading] = useState(null);
-  const [loadingButtonRemove, setLoadingButtonRemove] = useState(null);
-  const [idLoadingRemove, setIdLoadingRemove] = useState(null);
 
   const [refuse, setRefuse] = useState(null);
   const [itemRefuse, setItemRefuse] = useState(false);
@@ -274,12 +267,7 @@ const ConfirmTable = ({ data, listProductType }) => {
         size="md"
         title="Lý do "
       >
-        <Refuse
-          item={refuse}
-          setItemRefuse={setItemRefuse}
-          setLoadingButtonRemove={setLoadingButtonRemove}
-          setIdLoadingRemove={setIdLoadingRemove}
-        />
+        <Refuse item={refuse} setItemRefuse={setItemRefuse} />
       </PopupOverlay>
       <GroupAlert />
     </WrapContent>
