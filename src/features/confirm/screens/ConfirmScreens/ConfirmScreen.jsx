@@ -30,7 +30,7 @@ const ConfirmScreen = () => {
     dispatch(getSemesters());
     dispatch(getListProduct());
     ProductTypes();
-  }, [dispatch]);
+  }, [dispatch, ProductTypes]);
   // change kỳ học
   const HandlerSemester = (data) => {
     console.log('data', data);
