@@ -30,13 +30,13 @@ const Refuse = ({ item, setItemRefuse }) => {
         status: 0,
         message: values.reason,
       };
+      setItemRefuse(false);
       const response = await dispatch(approveProduct(detail));
       if (approveProduct.fulfilled.match(response)) {
         toast.success('Từ chối thành công !');
       } else {
         toast.error(_get(response.payload, 'name[0]'));
       }
-      setItemRefuse(false);
     },
   });
   return (
