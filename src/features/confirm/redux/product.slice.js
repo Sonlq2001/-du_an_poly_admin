@@ -75,9 +75,6 @@ const productSlice = createSlice({
       state.isProductLoading = false;
     },
 
-    [approveProduct.pending]: (state) => {
-      state.isProductLoading = true;
-    },
     [approveProduct.fulfilled]: (state, action) => {
       state.listProduct = state.listProduct.map((item) => {
         if (item.id === action.payload.id) item.status = action.payload.status;
@@ -88,6 +85,7 @@ const productSlice = createSlice({
     [approveProduct.rejected]: (state) => {
       state.isProductLoading = false;
     },
+
     [removeProduct.fulfilled]: (state, action) => {
       state.listProduct = state.listProduct.filter(
         (item) => item.id !== action.payload

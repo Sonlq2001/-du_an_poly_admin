@@ -1,17 +1,14 @@
 import React from 'react';
 import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import _get from 'lodash.get';
+
 import { From, GroupButton } from './Refuse.styles';
 import { Button } from 'components/Button/Button';
-import { useDispatch } from 'react-redux';
 import { approveProduct } from '../../../redux/product.slice';
-import { unwrapResult } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
-const Refuse = ({
-  item,
-  setItemRefuse,
-  setLoadingButtonRemove,
-  setIdLoadingRemove,
-}) => {
+
+const Refuse = ({ item, setItemRefuse }) => {
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
@@ -26,23 +23,20 @@ const Refuse = ({
       }
       return errors;
     },
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       // status là từ chối
       const detail = {
         id: item.id,
         status: 0,
         message: values.reason,
       };
+      const response = await dispatch(approveProduct(detail));
+      if (approveProduct.fulfilled.match(response)) {
+        toast.success('Từ chối thành công !');
+      } else {
+        toast.error(_get(response.payload, 'name[0]'));
+      }
       setItemRefuse(false);
-      dispatch(approveProduct(detail))
-        .then(unwrapResult)
-        .then(
-          () =>
-            toast.success('Từ chối thành công !') +
-            setLoadingButtonRemove(false)
-        )
-        .catch((error) => toast.error(error.name[0]))
-        .finally(() => setItemRefuse(false));
     },
   });
   return (

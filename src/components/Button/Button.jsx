@@ -57,7 +57,6 @@ export const Button = ({
       {icon &&
         (loading ? (
           <span className={`icon-btn loader ${children ? '' : 'active'}`}>
-            {' '}
             <AiOutlineLoading3Quarters />
           </span>
         ) : (

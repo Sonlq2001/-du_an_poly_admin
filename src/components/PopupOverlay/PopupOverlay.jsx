@@ -5,6 +5,7 @@ import {
   ContentPopupOverlay,
   ActionPopup,
   ContentPopup,
+  LoadingBtn,
 } from './PopupOverlay.styles';
 import { Button } from 'components/Button/Button';
 
@@ -18,6 +19,7 @@ const PopupOverlay = ({
   size,
   textOk,
   onOk,
+  loading = false,
 }) => {
   let sizePopup = '';
   switch (size) {
@@ -61,6 +63,7 @@ const PopupOverlay = ({
                 color="primary"
                 onClick={() => onOk()}
               >
+                {/* {loading && <LoadingBtn></LoadingBtn>} */}
                 {textOk ? textOk : 'Lưu'}
               </Button>
             </ActionPopup>
