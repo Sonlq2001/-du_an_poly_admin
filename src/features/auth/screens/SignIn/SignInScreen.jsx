@@ -17,7 +17,9 @@ const SignInScreen = () => {
 
   const responseGoogle = (response) => {
     const { accessToken } = response;
-    dispatch(postAccessToken(accessToken));
+    if (accessToken) {
+      dispatch(postAccessToken(accessToken));
+    }
   };
 
   return (

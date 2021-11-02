@@ -1,6 +1,6 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useCallback } from 'react';
 import Select from 'react-select';
-import { getListProduct } from './../../redux/product.slice';
+import { getListProduct, getProductType } from './../../redux/product.slice';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   WrapContent,
@@ -17,14 +17,19 @@ import { getSemesters } from '../../../uploadExcel/redux/uploadExcel.slice';
 import { MapOptions } from '../../../../helpers/convert/map-options';
 const ConfirmScreen = () => {
   const dispatch = useDispatch();
-  const { listProduct, isProductLoading } = useSelector(
+  const { listProduct, isProductLoading, listProductType } = useSelector(
     (state) => state.product
   );
+
   const { listSemester } = useSelector((state) => state.uploadExcel);
   const listSelectOptionSemester = MapOptions(listSemester);
+  const ProductTypes = useCallback(() => {
+    dispatch(getProductType());
+  }, [dispatch]);
   useEffect(() => {
     dispatch(getSemesters());
     dispatch(getListProduct());
+    ProductTypes();
   }, [dispatch]);
   // change kỳ học
   const HandlerSemester = (data) => {
@@ -133,7 +138,7 @@ const ConfirmScreen = () => {
           </BoxControl>
         </BoxSearchInput>
       </WrapContent>
-      <ConfirmTable data={listProduct} />
+      <ConfirmTable data={listProduct} listProductType={listProductType} />
     </>
   );
 };

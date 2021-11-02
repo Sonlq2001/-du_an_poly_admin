@@ -1,5 +1,5 @@
 import api from 'api/api';
-import { PRODUCT_PATH } from './../constants/confirm.paths';
+import { PRODUCT_PATH, PRODUCT_TYPE } from './../constants/confirm.paths';
 
 const getListProduct = () => {
   return api.get(PRODUCT_PATH.LIST);
@@ -14,12 +14,16 @@ const postProductApprove = (data) => {
     data
   );
 };
-const productRemove = (id)=>{
-  return api.delete(PRODUCT_PATH.REMOVE.replace(':id', id.toString()))
-}
+const productRemove = (id) => {
+  return api.delete(PRODUCT_PATH.REMOVE.replace(':id', id.toString()));
+};
+const productTypes = () => {
+  return api.get(PRODUCT_TYPE.LIST);
+};
 export const confirmProductApi = {
   getListProduct,
   putStatusProduct,
   postProductApprove,
-  productRemove
+  productRemove,
+  productTypes,
 };

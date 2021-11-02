@@ -11,11 +11,8 @@ export const postAccessToken = createAsyncThunk(
       const response = await authApi.postAccessToken({
         access_token: accessToken,
       });
-      console.log('auth', response);
       return response.data;
-    } catch (error) {
-      console.log('errors ', error);
-    }
+    } catch (error) {}
   }
 );
 
@@ -40,9 +37,14 @@ const authSlice = createSlice({
       state.accessToken = null;
     },
     [postAccessToken.fulfilled]: (state, action) => {
-      const { email, avatar, id } = action.payload.user;
-      state.accessToken = action.payload.access_token;
-      state.useLogin = { avatar, email, id };
+      if (
+        action.payload.hasOwnProperty('access_token') &&
+        action.payload.hasOwnProperty('user')
+      ) {
+        const { email, avatar, id } = action?.payload.user;
+        state.accessToken = action?.payload.access_token;
+        state.useLogin = { avatar, email, id };
+      }
     },
     [postAccessToken.rejected]: (state) => {
       state.accessToken = null;

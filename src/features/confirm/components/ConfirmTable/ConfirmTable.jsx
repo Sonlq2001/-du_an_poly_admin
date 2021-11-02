@@ -36,7 +36,7 @@ import { productUpdate, approveProduct } from '../../redux/product.slice';
 import GroupAlert from './../../../../components/AlertMessage/AlertMessage';
 import Refuse from '../ActionProduct/refuse/Refuse';
 
-const ConfirmTable = ({ data }) => {
+const ConfirmTable = ({ data, listProductType }) => {
   // teacher_id
   // useLogin.id id đăng nhập
   const dispatch = useDispatch();
@@ -45,6 +45,7 @@ const ConfirmTable = ({ data }) => {
   const [openRemove, setOpenRemove] = useState(false);
   const [ItemUpdate, setItemUpdate] = useState(false);
   const [itemRemove, setItemRemove] = useState(null);
+  const [groupStudents, setGroupStudents] = useState([]);
   const [loadingButton, setLoadingButton] = useState(false);
   const [idLoading, setIdLoading] = useState(null);
   const [loadingButtonRemove, setLoadingButtonRemove] = useState(null);
@@ -86,6 +87,10 @@ const ConfirmTable = ({ data }) => {
   const update = (item) => {
     setUpdateProd(item);
     setItemUpdate(true);
+    const email = item.students.map((item) => {
+      return item.email;
+    });
+    setGroupStudents(email);
   };
 
   const handleConfirm = async (item) => {
@@ -183,7 +188,10 @@ const ConfirmTable = ({ data }) => {
                               </span>
                               Xem trước
                             </div>
-                            <div className="item-action">
+                            <div
+                              className="item-action"
+                              onClick={() => update(item)}
+                            >
                               <span className="icon-action">
                                 <MdModeEdit />
                               </span>
@@ -251,7 +259,13 @@ const ConfirmTable = ({ data }) => {
         title="Cập nhật  sản phẩm  "
         scroll
       >
-        <ActionProduct data={updateProduct} setOpen={setItemUpdate} />
+        <ActionProduct
+          data={updateProduct && updateProduct}
+          setOpen={setItemUpdate}
+          groupStudents={groupStudents}
+          setGroupStudents={setGroupStudents}
+          listProductType={listProductType}
+        />
       </PopupOverlay>
       {/* từ trối sản phẩm  */}
       <PopupOverlay
