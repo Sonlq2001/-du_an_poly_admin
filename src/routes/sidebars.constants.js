@@ -66,6 +66,12 @@ export const sidebars = [
         path: FEEDBACK_PATH.LIST,
         icon: <MdMailOutline />,
       },
+      {
+        id: 'id_page_role',
+        navigationTitle: 'Role',
+        path: '/role',
+        icon: <MdMailOutline />,
+      },
     ],
   },
   {
