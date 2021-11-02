@@ -1,20 +1,23 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import _get from 'lodash.get';
+
 import { removeSubject } from '../../redux/subject.slice';
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
-
 import { MessagePopup } from './RemoveSubject.styles';
-import { useDispatch } from 'react-redux';
-import { unwrapResult } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
 
 const RemoveSubject = ({ item, open, setOpen }) => {
   const dispatch = useDispatch();
 
-  const handleRemove = () => {
-    dispatch(removeSubject(item.id))
-      .then(unwrapResult)
-      .then(toast.success('Xóa môn học thành công !'))
-      .finally(() => setOpen(false));
+  const handleRemove = async () => {
+    const response = await dispatch(removeSubject(item?.id));
+    if (removeSubject.fulfilled.match(response)) {
+      toast.success('Xóa thành công !');
+    } else {
+      toast.error(_get(response.payload, 'name[0]'));
+    }
+    setOpen(false);
   };
 
   return (

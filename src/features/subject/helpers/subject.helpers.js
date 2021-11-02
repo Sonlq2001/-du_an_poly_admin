@@ -8,7 +8,7 @@ export const schema = Yup.object().shape({
     .min(8, 'Ký tự phải lớn hơn 8')
     .required('Vui lòng nhập mã số sinh viên !'),
 
-  major_id: Yup.string().required('Vui lòng chọn giảng viên !'),
+  major_id: Yup.string().required('Vui lòng chọn chuyên ngành !'),
 });
 
 export const initForm = {

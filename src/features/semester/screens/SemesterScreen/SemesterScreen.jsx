@@ -1,9 +1,9 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useState, useMemo } from 'react';
 import { IoMdAdd } from 'react-icons/io';
 import { useDispatch, useSelector } from 'react-redux';
-import { unwrapResult } from '@reduxjs/toolkit';
 import { BsTrash } from 'react-icons/bs';
 import { MdModeEdit } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
 import {
   TableCustom,
@@ -32,8 +32,9 @@ import { TablePagination } from 'components/Pagination/Pagination';
 import Loading from 'components/Loading/Loading';
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import GroupAlert from 'components/AlertMessage/AlertMessage';
+import CheckboxSingle from 'components/FormElements/ElementCheckbox/CheckboxSingle';
 
-import { getSemester } from './../../redux/semester.slice';
+import { getSemester, removeSemester } from './../../redux/semester.slice';
 import EmptyResultImage from 'assets/images/empty-result.gif';
 import { initForm } from './../../helpers/semester.helpers';
 import ActionSemester from './../../components/ActionSemester/ActionSemester';
@@ -41,20 +42,56 @@ import RemoveSemester from './../../components/RemoveSemester/RemoveSemester';
 
 const SemesterScreen = () => {
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
   const [itemSemester, setItemSemester] = useState(initForm);
   const [isDialogSemester, setIsDialogSemester] = useState(false);
   const [isDialogSemesterRemove, setIsDialogSemesterRemove] = useState(false);
+  const [listChecked, setListChecked] = useState([]);
 
   useEffect(() => {
-    dispatch(getSemester())
-      .then(unwrapResult)
-      .finally(() => setIsLoading(true));
+    dispatch(getSemester());
   }, [dispatch]);
 
-  const { listSemester } = useSelector((state) => state.semester);
+  const { listSemester, isListSemesterLoading } = useSelector(
+    (state) => state.semester
+  );
 
-  if (!isLoading) {
+  const isCheckedAll = useMemo(() => {
+    return listSemester.every((i) => listChecked.includes(i.id));
+  }, [listSemester, listChecked]);
+
+  const handleCheckedAll = (isChecked) => {
+    if (isChecked) {
+      setListChecked(
+        Array.from(new Set([...listChecked, ...listSemester.map((i) => i.id)]))
+      );
+    } else {
+      setListChecked(
+        listChecked.filter((id) => !listSemester.find((i) => i.id === id))
+      );
+    }
+  };
+
+  const handleChangeChecked = (itemId) => {
+    if (listChecked.includes(itemId)) {
+      setListChecked(listChecked.filter((id) => id !== itemId));
+    } else {
+      setListChecked([...listChecked, itemId]);
+    }
+  };
+
+  const handleRemoveAll = () => {
+    listChecked.forEach(async (id) => {
+      const response = await dispatch(removeSemester(id));
+      if (removeSemester.fulfilled.match(response)) {
+        toast.success('Xóa thành công !');
+      } else {
+        toast.error('Xóa thất bại !');
+      }
+      setListChecked([]);
+    });
+  };
+
+  if (isListSemesterLoading) {
     return <Loading />;
   }
 
@@ -79,6 +116,9 @@ const SemesterScreen = () => {
 
       <WrapContent>
         <HeaderTable>
+          <Button disabled={!listChecked.length} onClick={handleRemoveAll}>
+            Xóa tất cả
+          </Button>
           <Button
             icon={<IoMdAdd />}
             color="primary"
@@ -96,16 +136,26 @@ const SemesterScreen = () => {
             <TableCustom>
               <Thead>
                 <Tr>
-                  <Th sort={false}>STT</Th>
-                  <Th>Kỳ học</Th>
-                  <Th sort={false} align="right">
-                    Thao tác
+                  <Th>
+                    <CheckboxSingle
+                      checked={isCheckedAll}
+                      onChange={(e) => handleCheckedAll(e.target.checked)}
+                    />
                   </Th>
+                  <Th sort>STT</Th>
+                  <Th sort>Kỳ học</Th>
+                  <Th align="right">Thao tác</Th>
                 </Tr>
               </Thead>
               <Tbody>
                 {listSemester.map((row, index) => (
                   <Tr key={row.id}>
+                    <Td>
+                      <CheckboxSingle
+                        checked={listChecked.includes(row.id)}
+                        onChange={() => handleChangeChecked(row.id)}
+                      />
+                    </Td>
                     <Td>{index + 1}</Td>
                     <Td>{row.name}</Td>
                     <Td>
