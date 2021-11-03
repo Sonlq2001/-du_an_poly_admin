@@ -50,8 +50,12 @@ export const ButtonCustom = styled.button`
   /* loading css */
   .loader {
     border: 2px solid ${({ color }) => color || 'var(--blue-color'};
-    border-top: 2px solid var(--white-color);
-    border-right: 2px solid var(--white-color);
+    border-top: 2px solid
+      ${({ color }) =>
+        color !== '#fff' ? 'var(--white-color)' : 'var(--blue-color)'};
+    border-right: 2px solid
+      ${({ color }) =>
+        color !== '#fff' ? 'var(--white-color)' : 'var(--blue-color)'};
     border-radius: 50%;
     width: 1.5rem;
     height: 1.5rem;

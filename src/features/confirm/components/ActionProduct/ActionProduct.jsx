@@ -1,5 +1,9 @@
 import React from 'react';
 import { Formik } from 'formik';
+import { BsImageFill } from 'react-icons/bs';
+import { AiOutlineSave, AiOutlineDelete } from 'react-icons/ai';
+import { RiDeleteBin2Line } from 'react-icons/ri';
+
 import ElementInput from 'components/FormElements/ElementInput/ElementInput';
 import ElementSelect from 'components/FormElements/ElementSelect/ElementSelect';
 import { Button } from 'components/Button/Button';
@@ -10,11 +14,9 @@ import {
   ListImage,
   ImageItem,
 } from './ActionProduct.styles';
-import { AiOutlineSave, AiOutlineDelete } from 'react-icons/ai';
-import { BsImageFill } from 'react-icons/bs';
-import { RiDeleteBin2Line } from 'react-icons/ri';
 import { schema } from './../../helpers/product.helpers';
 import Editor from './Editor/Editor';
+
 const ActionProduct = ({
   data,
   setOpen,
@@ -29,14 +31,17 @@ const ActionProduct = ({
     email[index] = e.target.value;
     setGroupStudents(email);
   };
+
   const remove = (i) => {
     setGroupStudents(groupStudents.filter((element, index) => index !== i));
   };
+
   const optionSelect =
     listProductType &&
     listProductType.map((item) => {
       return { ...item, label: item.name, value: item.id };
     });
+
   return (
     <>
       <Formik
@@ -157,13 +162,13 @@ const ActionProduct = ({
                       </span>
                     </li>
                     <li>
-                      Nguyễn Hữu Sơn{' '}
+                      Nguyễn Hữu Sơn
                       <span>
                         <AiOutlineDelete />
                       </span>
                     </li>
                     <li>
-                      Nguyễn Hữu Sơn{' '}
+                      Nguyễn Hữu Sơn
                       <span>
                         <AiOutlineDelete />
                       </span>
@@ -174,7 +179,6 @@ const ActionProduct = ({
                 <GroupImage className="image">
                   <label htmlFor="img" className="img">
                     <span className="icon">
-                      {' '}
                       <BsImageFill />
                     </span>
                     <span>
