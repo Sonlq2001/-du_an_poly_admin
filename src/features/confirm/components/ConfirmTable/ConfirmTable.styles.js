@@ -50,6 +50,26 @@ export const ListAction = styled.div`
   .item-action .disabled :hover {
     cursor: not-allowed;
   }
+
+  .loader {
+    border: 2px solid var(--eee-color);
+    border-top: 2px solid var(--blue-color);
+    border-right: 2px solid var(--blue-color);
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-right: 7px;
+  }
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 `;
 
 export const GroupPagination = styled.div`

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { AiOutlineSave } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
@@ -16,6 +16,7 @@ import {
 
 const ActionProductType = ({ item, setOpen }) => {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <>
@@ -24,6 +25,7 @@ const ActionProductType = ({ item, setOpen }) => {
         initialValues={item}
         validationSchema={schema}
         onSubmit={async (values, { resetForm }) => {
+          setIsLoading(true);
           const dispatchAction = item?.name ? putProductType : postProductType;
           const response = await dispatch(dispatchAction(values));
           if (dispatchAction.fulfilled.match(response)) {
@@ -33,6 +35,7 @@ const ActionProductType = ({ item, setOpen }) => {
           }
           setOpen(false);
           resetForm();
+          setIsLoading(false);
         }}
       >
         {({ handleSubmit }) => {
@@ -62,6 +65,7 @@ const ActionProductType = ({ item, setOpen }) => {
                   icon={<AiOutlineSave />}
                   type="submit"
                   onClick={() => handleSubmit()}
+                  loading={isLoading}
                 >
                   Lưu
                 </Button>

@@ -23,7 +23,7 @@ export const ContentPopupOverlay = styled.div`
   z-index: 10;
   background-color: var(--white-color);
   border-radius: 5px;
-  padding: 2rem 1rem 2rem 2.5rem;
+  padding: 2rem;
   height: ${({ scroll }) => (scroll ? '95%' : 'auto')};
   opacity: 0;
   visibility: hidden;
@@ -47,7 +47,7 @@ export const ContentPopup = styled.div`
   overflow-y: ${({ scroll }) => (scroll ? 'scroll' : 'visible')};
   width: 100%;
   max-height: ${({ scroll }) => (scroll ? '90%' : 'auto')};
-  padding: 2rem 1rem 0 0;
+  padding-top: 2rem;
   &::-webkit-scrollbar {
     width: 5px;
     height: 5rem;
@@ -63,24 +63,4 @@ export const ActionPopup = styled.div`
   display: flex;
   justify-content: flex-end;
   border-top: 1px solid var(--eee-color);
-`;
-
-export const LoadingBtn = styled.span`
-  border: 2px solid ${({ color }) => color || 'var(--blue-color'};
-  border-top: 2px solid var(--white-color);
-  border-right: 2px solid var(--white-color);
-  border-radius: 50%;
-  width: 1.5rem;
-  height: 1.5rem;
-  animation: spin 1s linear infinite;
-  display: inline-block;
-  margin-right: 5px;
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
 `;

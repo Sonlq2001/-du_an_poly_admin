@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import _get from 'lodash.get';
@@ -9,7 +9,10 @@ import { removeMajors } from './../../redux/majors.slice';
 
 const RemoveMajors = ({ item, open, setOpen }) => {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleRemoveMajors = async () => {
+    setIsLoading(true);
     const response = await dispatch(removeMajors(item?.id));
     if (removeMajors.fulfilled.match(response)) {
       toast.success('Xóa thành công !');
@@ -17,6 +20,7 @@ const RemoveMajors = ({ item, open, setOpen }) => {
       toast.error(_get(response.payload, 'name[0]'));
     }
     setOpen(false);
+    setIsLoading(false);
   };
 
   return (
@@ -27,6 +31,7 @@ const RemoveMajors = ({ item, open, setOpen }) => {
         isAction
         textOk="Đồng ý"
         onOk={handleRemoveMajors}
+        loading={isLoading}
       >
         <MessagePopup>Bạn có thực sư muốn xóa nội dung này !</MessagePopup>
       </PopupOverlay>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { AiOutlineSave } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
@@ -13,6 +13,7 @@ import { postMajors, putMajors } from './../../redux/majors.slice';
 
 const ActionMajors = ({ item, setOpen }) => {
   const dispatch = useDispatch();
+  const [isLoading, setLoading] = useState(false);
 
   return (
     <>
@@ -21,6 +22,7 @@ const ActionMajors = ({ item, setOpen }) => {
         initialValues={item}
         validationSchema={schema}
         onSubmit={async (values, { resetForm }) => {
+          setLoading(true);
           const dispatchAction = item?.name ? putMajors : postMajors;
           const response = await dispatch(dispatchAction(values));
           if (dispatchAction.fulfilled.match(response)) {
@@ -29,6 +31,7 @@ const ActionMajors = ({ item, setOpen }) => {
             toast.error(_get(response.payload, 'name[0]'));
           }
           setOpen(false);
+          setLoading(false);
           resetForm();
         }}
       >
@@ -59,6 +62,7 @@ const ActionMajors = ({ item, setOpen }) => {
                   icon={<AiOutlineSave />}
                   type="submit"
                   onClick={() => handleSubmit()}
+                  loading={isLoading}
                 >
                   Lưu
                 </Button>

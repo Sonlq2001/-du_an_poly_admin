@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { ButtonCustom } from './Buttons.styles';
-import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 export const Button = ({
   children,
   color,
@@ -46,6 +45,7 @@ export const Button = ({
       sizeButton = { fontSize: '1.5rem', padding: '10px 12px' };
   }
   const isLink = href === undefined ? true : false;
+
   return isLink ? (
     <ButtonCustom
       color={colorButton}
@@ -54,14 +54,13 @@ export const Button = ({
       disabled={disabled}
       type={type}
     >
-      {icon &&
-        (loading ? (
-          <span className={`icon-btn loader ${children ? '' : 'active'}`}>
-            <AiOutlineLoading3Quarters />
-          </span>
-        ) : (
-          <span className={`icon-btn ${children ? '' : 'active'}`}>{icon}</span>
-        ))}
+      {!loading && (
+        <span className={`icon-btn ${children ? '' : 'active'}`}>{icon}</span>
+      )}
+
+      {loading && (
+        <span className={`icon-btn loader ${children ? '' : 'active'}`}></span>
+      )}
 
       {children && <span className="text-btn">{children}</span>}
     </ButtonCustom>
