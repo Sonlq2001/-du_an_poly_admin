@@ -64,3 +64,23 @@ export const ActionPopup = styled.div`
   justify-content: flex-end;
   border-top: 1px solid var(--eee-color);
 `;
+
+export const LoadingBtn = styled.span`
+  border: 2px solid ${({ color }) => color || 'var(--blue-color'};
+  border-top: 2px solid var(--white-color);
+  border-right: 2px solid var(--white-color);
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  margin-right: 5px;
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;

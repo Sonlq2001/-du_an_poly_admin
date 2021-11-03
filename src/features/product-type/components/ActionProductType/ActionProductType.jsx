@@ -3,7 +3,6 @@ import { Formik } from 'formik';
 import { AiOutlineSave } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import { unwrapResult } from '@reduxjs/toolkit';
 import _get from 'lodash.get';
 
 import { ContentForm, GroupAction } from './ActionProductType.styles';
@@ -24,30 +23,16 @@ const ActionProductType = ({ item, setOpen }) => {
         enableReinitialize
         initialValues={item}
         validationSchema={schema}
-        onSubmit={(values, { resetForm }) => {
-          if (item?.name === '') {
-            dispatch(postProductType(values))
-              .then(unwrapResult)
-              .then(() => toast.success('Thêm thành công !'))
-              .catch((error) => {
-                const msg = _get(error, 'product_type.name');
-                toast.error(msg[0]);
-              })
-              .finally(() => {
-                setOpen(false);
-                resetForm();
-              });
-            // error?.product_type?.name[0])
+        onSubmit={async (values, { resetForm }) => {
+          const dispatchAction = item?.name ? putProductType : postProductType;
+          const response = await dispatch(dispatchAction(values));
+          if (dispatchAction.fulfilled.match(response)) {
+            toast.success('Thành công !');
           } else {
-            dispatch(putProductType(values))
-              .then(unwrapResult)
-              .then(() => toast.success('Sửa thành công !'))
-              .catch((error) => toast.error(error.name[0]))
-              .finally(() => {
-                resetForm();
-                setOpen(false);
-              });
+            toast.error(_get(response.payload, 'name[0]'));
           }
+          setOpen(false);
+          resetForm();
         }}
       >
         {({ handleSubmit }) => {

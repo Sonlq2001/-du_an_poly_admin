@@ -1,52 +1,41 @@
 import React, { memo, useEffect } from 'react';
 import { Formik } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import { unwrapResult } from '@reduxjs/toolkit';
+import { AiOutlineSave } from 'react-icons/ai';
+import _get from 'lodash.get';
 
 import { ContentForm, GroupAction } from './ActionSubject.styles';
 import ElementInput from 'components/FormElements/ElementInput/ElementInput';
 import ElementSelect from 'components/FormElements/ElementSelect/ElementSelect';
 import { Button } from 'components/Button/Button';
-import { AiOutlineSave } from 'react-icons/ai';
 import { schema } from './../../helpers/subject.helpers';
 
 import { postSubject, putSubject } from './../../redux/subject.slice.js';
 import { getMajors } from 'features/majors/redux/majors.slice';
-import { MapOptions } from 'helpers/convert/map-options';
-import { initForm } from './../../helpers/subject.helpers';
 
-const ActionSubject = ({ item, setOpen }) => {
+const ActionSubject = ({ item, setOpen, options }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getMajors());
   }, [dispatch]);
-  const { listMajors } = useSelector((state) => state.majors);
-  const listSelectMajor = MapOptions(listMajors);
+
   return (
     <>
       <Formik
         enableReinitialize
         initialValues={item}
         validationSchema={schema}
-        onSubmit={(values, { resetForm }) => {
-          if (item?.name === '') {
-            dispatch(postSubject(values))
-              .then(unwrapResult)
-              .then(() => toast.success('Thêm thành công !'))
-              .finally(() => {
-                resetForm({ ...initForm });
-                setOpen(false);
-              });
+        onSubmit={async (values, { resetForm }) => {
+          const dispatchAction = item?.name ? putSubject : postSubject;
+          const response = await dispatch(dispatchAction(values));
+          if (dispatchAction.fulfilled.match(response)) {
+            toast.success('Thành công !');
           } else {
-            dispatch(putSubject(values))
-              .then(unwrapResult)
-              .then(() => toast.success('Cập nhật  thành công !'))
-              .finally(() => {
-                resetForm({ ...initForm });
-                setOpen(false);
-              });
+            toast.error(_get(response.payload, 'name[0]'));
           }
+          setOpen(false);
+          resetForm();
         }}
       >
         {({ handleSubmit }) => {
@@ -59,7 +48,7 @@ const ActionSubject = ({ item, setOpen }) => {
                     className="select"
                     name="major_id"
                     placeholder="Chọn chuyên ngành"
-                    options={listSelectMajor ? listSelectMajor : []}
+                    options={options || []}
                   />
                 </div>
               </div>

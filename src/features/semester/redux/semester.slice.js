@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import _get from 'lodash.get';
 
 import { semesterApi } from '../api/semester.api';
 
@@ -9,8 +10,7 @@ export const getSemester = createAsyncThunk(
       const response = await semesterApi.getSemester();
       return response.data;
     } catch (error) {
-      const msgError = error.response.data.errors;
-      return rejectWithValue(msgError);
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
@@ -22,8 +22,7 @@ export const postSemester = createAsyncThunk(
       const response = await semesterApi.postSemester(value);
       return response.data;
     } catch (error) {
-      const msgError = error.response.data.errors;
-      return rejectWithValue(msgError);
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
@@ -35,8 +34,7 @@ export const removeSemester = createAsyncThunk(
       await semesterApi.removeSemester(id);
       return id;
     } catch (error) {
-      const msgError = error.response.data.errors;
-      return rejectWithValue(msgError);
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
@@ -48,14 +46,14 @@ export const putSemester = createAsyncThunk(
       const response = await semesterApi.putSemester(value);
       return response.data;
     } catch (error) {
-      const msgError = error.response.data.errors;
-      return rejectWithValue(msgError);
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
 
 const initialState = {
-  listSemester: null,
+  listSemester: [],
+  isListSemesterLoading: false,
 };
 
 const semesterSlice = createSlice({
@@ -63,36 +61,44 @@ const semesterSlice = createSlice({
   initialState,
 
   extraReducers: {
+    // get semester
     [getSemester.pending]: (state) => {
-      state.listSemester = null;
+      state.isListSemesterLoading = true;
     },
     [getSemester.fulfilled]: (state, action) => {
+      state.isListSemesterLoading = false;
       state.listSemester = action.payload.semesters;
     },
     [getSemester.rejected]: (state) => {
-      state.listSemester = null;
+      state.isListSemesterLoading = false;
     },
+
+    // post semester
     [postSemester.fulfilled]: (state, action) => {
       state.listSemester = [...state.listSemester, action.payload];
     },
     [postSemester.rejected]: (state) => {
-      state.listSemester = null;
+      state.isListSemesterLoading = false;
     },
+
+    // remove semester
     [removeSemester.fulfilled]: (state, action) => {
       state.listSemester = state.listSemester.filter(
         (item) => item.id !== action.payload
       );
     },
     [removeSemester.rejected]: (state) => {
-      state.listSemester = null;
+      state.isListSemesterLoading = false;
     },
+
+    // put semester
     [putSemester.fulfilled]: (state, action) => {
       state.listSemester = state.listSemester.map((item) =>
         item.id === action.payload[0].id ? action.payload[0] : item
       );
     },
     [putSemester.rejected]: (state) => {
-      state.listSemester = null;
+      state.isListSemesterLoading = false;
     },
   },
 });
