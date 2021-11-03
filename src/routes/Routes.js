@@ -18,13 +18,13 @@ const WrapRoute = ({
   const isExact = exact || false;
   const { accessToken } = useSelector((state) => state.auth);
 
-  // if (!accessToken && !isAuthRoute) {
-  //   return <Redirect to={AUTH_ROUTE} />;
-  // }
+  if (!accessToken && !isAuthRoute) {
+    return <Redirect to={AUTH_ROUTE} />;
+  }
 
-  // if (accessToken && isAuthRoute) {
-  //   return <Redirect to={ROOT_ROUTE} />;
-  // }
+  if (accessToken && isAuthRoute) {
+    return <Redirect to={ROOT_ROUTE} />;
+  }
 
   return (
     <Route
