@@ -10,10 +10,12 @@ import { PAGE404_ROUTES } from './../features/page404/routes/page404.routes';
 import { PRODUCT_TYPE_ROUTES } from './../features/product-type/routes/product-type.routes';
 import { SEMESTER_ROUTES } from './../features/semester/routes/semester.routes';
 import { ROLE_ROUTES } from './../features/role/routes/Role.routes';
+import { PERMISSIONS_ROUTES } from 'features/permissions/routes/Permissions.routes';
 export const ROOT_ROUTE = '/';
 export const AUTH_ROUTE = '/sign-in';
 
 export const LIST_ROUTES = [
+  ...PERMISSIONS_ROUTES,
   ...ROLE_ROUTES,
   ...SEMESTER_ROUTES,
   ...PRODUCT_TYPE_ROUTES,
