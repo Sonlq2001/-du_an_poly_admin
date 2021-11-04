@@ -50,10 +50,10 @@ const headerCells = [
 
 const RoleScreen = () => {
   const dispatch = useDispatch();
-  const [isDialogActionRole,setIsDialogActionRole] = useState(false);
+  const [isDialogActionRole, setIsDialogActionRole] = useState(false);
   const [itemRole, setItemRole] = useState(initForm);
   const [isDialogDeleteRole, setIsDialogDeleteRole] = useState(false);
-  const [listChecked, setListChecked] = useState([])
+  const [listChecked, setListChecked] = useState([]);
   const fetchData = useCallback(() => {
     dispatch(getRole());
   }, [dispatch]);
@@ -63,7 +63,7 @@ const RoleScreen = () => {
   }, [dispatch]);
   const { listRole, isRoleLoading } = useSelector((state) => state.role);
   const isCheckedAll = useMemo(() => {
-    // return listRole.every((i) => listChecked.includes(i.id));
+    return listRole && listRole.every((i) => listChecked.includes(i.id));
   }, [listRole, listChecked]);
 
   const handleCheckedAll = (isChecked) => {
@@ -213,7 +213,7 @@ const RoleScreen = () => {
 
       {/* overlay edit and add */}
       <PopupOverlay
-        open={isDialogActionRole  }
+        open={isDialogActionRole}
         setOpen={setIsDialogActionRole}
         title={itemRole?.id ? 'Sửa Chuyên Ngành' : 'Thêm Chuyên Ngành '}
       >
