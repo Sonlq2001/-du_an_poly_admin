@@ -1,6 +1,10 @@
-import React, { memo, useEffect, useCallback } from 'react';
+import React, { memo, useEffect, useCallback, useState } from 'react';
 import Select from 'react-select';
-import { getListProduct, getProductType } from './../../redux/product.slice';
+import {
+  getListProduct,
+  getProductType,
+  getDetail,
+} from './../../redux/product.slice';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   WrapContent,
@@ -11,16 +15,20 @@ import {
   InputSearch,
 } from 'styles/common/common-styles';
 
+import { useParams } from 'react-router';
 import ConfirmTable from './../../components/ConfirmTable/ConfirmTable';
+import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import Loading from 'components/Loading/Loading';
 import { getSemesters } from '../../../uploadExcel/redux/uploadExcel.slice';
 import { MapOptions } from '../../../../helpers/convert/map-options';
+import ReviewProduct from 'features/confirm/components/Review/ReviewProduct';
 const ConfirmScreen = () => {
   const dispatch = useDispatch();
-  const { listProduct, isProductLoading, listProductType } = useSelector(
-    (state) => state.product
-  );
+  const { path } = useParams();
+  const { listProduct, isProductLoading, listProductType, productDetail } =
+    useSelector((state) => state.product);
 
+  const [open, setOpen] = useState(true);
   const { listSemester } = useSelector((state) => state.uploadExcel);
   const listSelectOptionSemester = MapOptions(listSemester);
   const ProductTypes = useCallback(() => {
@@ -35,6 +43,9 @@ const ConfirmScreen = () => {
     ProductList();
     ProductTypes();
   }, [dispatch, ProductTypes, ProductList]);
+  useEffect(() => {
+    dispatch(getDetail(path));
+  }, [dispatch, path]);
   // change kỳ học
   const HandlerSemester = (data) => {
     console.log('data', data);
@@ -142,7 +153,26 @@ const ConfirmScreen = () => {
           </BoxControl>
         </BoxSearchInput>
       </WrapContent>
-      <ConfirmTable data={listProduct} listProductType={listProductType} />
+
+      <ConfirmTable
+        data={listProduct}
+        listProductType={listProductType}
+        productDetail={productDetail}
+      />
+      {productDetail && (
+        <PopupOverlay
+          open={open}
+          setOpen={setOpen}
+          size="xl"
+          title="Chi Tiết Sản Phẩm "
+          scroll
+        >
+          <ReviewProduct
+            data={productDetail && productDetail}
+            setOpen={setOpen}
+          />
+        </PopupOverlay>
+      )}
     </>
   );
 };

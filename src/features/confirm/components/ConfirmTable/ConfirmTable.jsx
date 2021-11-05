@@ -125,7 +125,7 @@ const ConfirmTable = ({ data, listProductType }) => {
             {data.map((item, index) => {
               return (
                 <Tr key={index}>
-                  <Td> {index + 1}</Td>
+                  <Td> {item.id}</Td>
                   <Td>{item.name} </Td>
                   <Td>{item.class} </Td>
                   <Td>{item.subject && item.subject.name} </Td>
@@ -236,7 +236,7 @@ const ConfirmTable = ({ data, listProductType }) => {
         title="Chi Tiết Sản Phẩm "
         scroll
       >
-        <ReviewProduct data={product} />
+        <ReviewProduct data={product} setOpen={setOpen}/>
       </PopupOverlay>
       {/* xóa sản phẩm  */}
       <RemoveProduct

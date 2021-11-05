@@ -7,7 +7,7 @@ const ConfirmScreen = lazy(() =>
 
 const CONFIRM_SCREEN = {
   id: 'id_confirm',
-  path: CONFIRM_PATH.LIST,
+  path: `${CONFIRM_PATH.LIST}/:path?`,
   component: ConfirmScreen,
   pageTitle: 'Quản trị sản phẩm',
 };

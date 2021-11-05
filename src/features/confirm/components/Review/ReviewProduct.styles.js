@@ -33,6 +33,48 @@ export const ContentReview = styled.div`
     line-height: 2.5rem;
     color: var(--txt-color);
   }
+  & button.btn-item {
+    background-color: #e6e6e6;
+    padding: 10px 7px;
+    margin: 5px;
+    color: #404040;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.6rem;
+  }
+
+  & button.btn-item:disabled {
+    /* background-color: #ffffff; */
+    color: #66636366;
+  }
+  & button.btn-item:disabled:hover {
+    cursor: not-allowed;
+  }
+  & button.btn-item .loading {
+    width: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
+    padding: 2px 0px;
+  }
+  & button.btn-item .loading .loader {
+    border: 2px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 2px solid #3498db;
+    width: 16px;
+    height: 16px;
+
+    animation: spin 2s linear infinite;
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
 `;
 
 export const TitleProject = styled.h1`

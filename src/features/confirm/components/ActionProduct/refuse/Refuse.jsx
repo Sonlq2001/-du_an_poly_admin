@@ -8,7 +8,7 @@ import { From, GroupButton } from './Refuse.styles';
 import { Button } from 'components/Button/Button';
 import { approveProduct } from '../../../redux/product.slice';
 
-const Refuse = ({ item, setItemRefuse }) => {
+const Refuse = ({ item, setItemRefuse, setLoadingRefuse }) => {
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
@@ -31,9 +31,11 @@ const Refuse = ({ item, setItemRefuse }) => {
         message: values.reason,
       };
       setItemRefuse(false);
+      setLoadingRefuse(true);
       const response = await dispatch(approveProduct(detail));
       if (approveProduct.fulfilled.match(response)) {
         toast.success('Từ chối thành công !');
+        setLoadingRefuse(false);
       } else {
         toast.error(_get(response.payload, 'name[0]'));
       }
