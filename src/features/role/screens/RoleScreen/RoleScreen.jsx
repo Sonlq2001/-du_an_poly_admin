@@ -59,8 +59,8 @@ const RoleScreen = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getRole());
-  }, [dispatch]);
+    fetchData();
+  }, [dispatch, fetchData]);
   const { listRole, isRoleLoading } = useSelector((state) => state.role);
   const isCheckedAll = useMemo(() => {
     return listRole && listRole.every((i) => listChecked.includes(i.id));

@@ -1,16 +1,15 @@
 import styled from 'styled-components';
-export const From = styled.form`
-  padding: 0px 15px 0px 0px;
+export const WrapFrom = styled.div`
+  overflow-x: hidden;
+  position: relative;
   & textarea {
     display: block;
-    max-width: 100%;
-    min-width: 100%;
-    min-height: 100px;
-    max-height: 150px;
-    margin-left: 10px;
+    width: 100%;
+    min-height: 15rem;
     border-radius: 5px;
-    border: 1px solid gray;
-    padding: 0.5rem;
+    border: none;
+    background-color: var(--bg-tr-table);
+    padding: 1rem;
   }
   & label {
     font-size: 1.4rem;
@@ -21,10 +20,11 @@ export const From = styled.form`
     background-color: var(--ddd-color);
     border-radius: 5px;
   }
-  & .errors {
-    padding-left: 1rem;
-    padding-top: 0.3rem;
-    color: red;
+  & .error-message {
+    font-size: 1.3rem;
+    color: var(--red-color);
+    bottom: 2.5rem;
+    position: absolute;
   }
 `;
 export const GroupButton = styled.div`

@@ -51,6 +51,7 @@ const MajorsScreen = () => {
   const [itemMajors, setItemMajors] = useState(initForm);
   const [isDialogDeleteMajor, setIsDialogDeleteMajor] = useState(false);
   const [listChecked, setListChecked] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchData = useCallback(() => {
     dispatch(getMajors());
@@ -87,12 +88,14 @@ const MajorsScreen = () => {
 
   const handleRemoveAll = () => {
     listChecked.forEach(async (id) => {
+      setIsLoading(true);
       const response = await dispatch(removeMajors(id));
       if (removeMajors.fulfilled.match(response)) {
         toast.success('Xóa thành công !');
       } else {
         toast.error('Xóa thất bại !');
       }
+      setIsLoading(false);
       setListChecked([]);
     });
   };
@@ -121,7 +124,11 @@ const MajorsScreen = () => {
 
       <WrapContent>
         <HeaderTable>
-          <Button disabled={!listChecked.length} onClick={handleRemoveAll}>
+          <Button
+            disabled={!listChecked.length}
+            loading={isLoading}
+            onClick={handleRemoveAll}
+          >
             Xóa tất cả
           </Button>
           <Button

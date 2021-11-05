@@ -43,6 +43,7 @@ const ConfirmTable = ({ data, listProductType }) => {
   const [ItemUpdate, setItemUpdate] = useState(false);
   const [itemRemove, setItemRemove] = useState(null);
   const [groupStudents, setGroupStudents] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [refuse, setRefuse] = useState(null);
   const [itemRefuse, setItemRefuse] = useState(false);
@@ -69,14 +70,17 @@ const ConfirmTable = ({ data, listProductType }) => {
   const handleChangePage = (values) => {
     setPagination({ ...pagination, ...values });
   };
+
   const review = (item) => {
     setProduct(item);
     setOpen(!open);
   };
+
   const removeProduct = (item) => {
     setOpenRemove(true);
     setItemRemove(item);
   };
+
   const update = (item) => {
     setUpdateProd(item);
     setItemUpdate(true);
@@ -87,6 +91,7 @@ const ConfirmTable = ({ data, listProductType }) => {
   };
 
   const handleConfirm = async (item) => {
+    setIsLoading(true);
     const productUpdateStatus = {
       id: item.id,
       status: 1,
@@ -98,12 +103,14 @@ const ConfirmTable = ({ data, listProductType }) => {
     } else {
       toast.error(_get(response.payload, 'name[0]'));
     }
+    setIsLoading(false);
   };
 
   const handleRefuse = (item) => {
     setRefuse(item);
     setItemRefuse(true);
   };
+
   return (
     <WrapContent>
       <BoxMain>
@@ -164,9 +171,13 @@ const ConfirmTable = ({ data, listProductType }) => {
                               }
                               onClick={() => handleConfirm(item)}
                             >
-                              <span className="icon-action">
-                                <FiCheck />
-                              </span>
+                              {isLoading ? (
+                                <span className="loader"></span>
+                              ) : (
+                                <span className="icon-action">
+                                  <FiCheck />
+                                </span>
+                              )}
                               Chấp nhận
                             </div>
                             <div
@@ -228,6 +239,7 @@ const ConfirmTable = ({ data, listProductType }) => {
           />
         </GroupPagination>
       </BoxMain>
+
       {/* chi tiết sản phẩm  */}
       <PopupOverlay
         open={open}
@@ -238,12 +250,14 @@ const ConfirmTable = ({ data, listProductType }) => {
       >
         <ReviewProduct data={product} />
       </PopupOverlay>
+
       {/* xóa sản phẩm  */}
       <RemoveProduct
         open={openRemove}
         setOpen={setOpenRemove}
         item={itemRemove}
       />
+
       {/* cập nhật sản phẩm  */}
       <PopupOverlay
         open={ItemUpdate}
@@ -260,15 +274,17 @@ const ConfirmTable = ({ data, listProductType }) => {
           listProductType={listProductType}
         />
       </PopupOverlay>
+
       {/* từ trối sản phẩm  */}
       <PopupOverlay
         open={itemRefuse}
         setOpen={setItemRefuse}
         size="md"
-        title="Lý do "
+        title="Lý do ?"
       >
         <Refuse item={refuse} setItemRefuse={setItemRefuse} />
       </PopupOverlay>
+
       <GroupAlert />
     </WrapContent>
   );
