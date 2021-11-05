@@ -5,7 +5,6 @@ import {
   ContentPopupOverlay,
   ActionPopup,
   ContentPopup,
-  LoadingBtn,
 } from './PopupOverlay.styles';
 import { Button } from 'components/Button/Button';
 

@@ -5,8 +5,6 @@ import ReactPlayer from 'react-player';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import _get from 'lodash.get';
-import { AiOutlineLoading3Quarters, AiOutlineLoading } from 'react-icons/ai';
-import { BiLoaderCircle } from 'react-icons/bi';
 import {
   Content,
   MainReview,
