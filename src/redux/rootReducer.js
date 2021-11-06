@@ -10,7 +10,7 @@ import majorsReducer from './../features/majors/redux/majors.slice';
 import productTypeReducer from './../features/product-type/redux/product-type.slice';
 import semesterReducer from './../features/semester/redux/semester.slice';
 import roleReducer from 'features/role/redux/role.slice';
-
+import permissionsReducer from 'features/permissions/redux/permissions.slice';
 const rootReducer = combineReducers({
   user: useReducer,
   auth: authReducer,
@@ -21,7 +21,8 @@ const rootReducer = combineReducers({
   majors: majorsReducer,
   productType: productTypeReducer,
   semester: semesterReducer,
-  role :roleReducer
+  role :roleReducer,
+  permisstions: permissionsReducer,
 });
 
 export default rootReducer;

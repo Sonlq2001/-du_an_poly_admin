@@ -72,6 +72,12 @@ export const sidebars = [
         path: '/role',
         icon: <MdMailOutline />,
       },
+      {
+        id: 'id_page_permissions',
+        navigationTitle: 'permissions',
+        path: '/permissions',
+        icon: <MdMailOutline />,
+      },
     ],
   },
   {
