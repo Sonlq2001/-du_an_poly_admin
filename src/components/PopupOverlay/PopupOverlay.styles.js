@@ -20,7 +20,7 @@ export const ContentPopupOverlay = styled.div`
   left: 50%;
   top: ${({ scroll }) => (scroll ? '40%' : '30%')};
   transform: translate(-50%, -50%);
-  z-index: 10;
+  z-index: 100;
   background-color: var(--white-color);
   border-radius: 5px;
   padding: 2rem;

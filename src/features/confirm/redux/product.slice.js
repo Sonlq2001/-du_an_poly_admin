@@ -46,10 +46,17 @@ export const getProductType = createAsyncThunk(
     } catch (e) {}
   }
 );
+export const getDetail = createAsyncThunk('product/detail', async (id) => {
+  try {
+    const response = await confirmProductApi.detailProduct(id);
+    return response.data.data;
+  } catch (error) {}
+});
 const initialState = {
   listProduct: [],
   isProductLoading: false,
   listProductType: [],
+  productDetail: {},
 };
 const productSlice = createSlice({
   name: 'product',
@@ -95,6 +102,13 @@ const productSlice = createSlice({
       state.listProductType = action.payload.product_types;
     },
     [getProductType.rejected]: (state, action) => {},
+    // chi tiết sản Phẩm
+    [getDetail.fulfilled]: (state, action) => {
+      state.productDetail = action.payload;
+    },
+    [getDetail.rejected]: (state, action) => {
+      console.log('lỗi');
+    },
   },
 });
 export const { productUpdate } = productSlice.actions;

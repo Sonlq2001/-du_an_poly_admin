@@ -20,10 +20,14 @@ const productRemove = (id) => {
 const productTypes = () => {
   return api.get(PRODUCT_TYPE.LIST);
 };
+const detailProduct = (id) => {
+  return api.get(PRODUCT_PATH.DETAIL.replace(':id', id.toString()));
+};
 export const confirmProductApi = {
   getListProduct,
   putStatusProduct,
   postProductApprove,
   productRemove,
   productTypes,
+  detailProduct,
 };
