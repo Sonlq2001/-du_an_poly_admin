@@ -78,6 +78,12 @@ export const sidebars = [
         path: '/permissions',
         icon: <MdMailOutline />,
       },
+      {
+        id: 'id_page_permissions',
+        navigationTitle: 'Quản Trị Bộ Môn ',
+        path: '/category_subject',
+        icon: <MdMailOutline />,
+      },
     ],
   },
   {
