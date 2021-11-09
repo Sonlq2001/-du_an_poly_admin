@@ -29,13 +29,15 @@ import ReviewProduct from './../Review/ReviewProduct';
 import RemoveProduct from './../RemoveProduct/RemoveProduct';
 import ActionProduct from '../ActionProduct/ActionProduct';
 import { useDispatch, useSelector } from 'react-redux';
-import { approveProduct } from '../../redux/product.slice';
+import { approveProduct, productUpdate } from '../../redux/product.slice';
 import GroupAlert from './../../../../components/AlertMessage/AlertMessage';
 import Refuse from '../ActionProduct/refuse/Refuse';
 
 const ConfirmTable = ({ data, listProductType }) => {
-  // teacher_id
-  // useLogin.id id đăng nhập
+  const HandleSort = (name) => {
+    dispatch(productUpdate(name));
+  };
+
   const dispatch = useDispatch();
   const { useLogin } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
@@ -117,14 +119,24 @@ const ConfirmTable = ({ data, listProductType }) => {
         <TableCustom className="table-confirm">
           <Thead>
             <Tr>
-              <Th sort>STT</Th>
-              <Th sort>Tên đề tài</Th>
-              <Th sort>Lớp</Th>
-              <Th sort>Môn</Th>
+              <Th sort onClick={() => HandleSort('id')}>
+                STT
+              </Th>
+              <Th sort onClick={() => HandleSort('name')}>
+                Tên đề tài
+              </Th>
+              <Th sort onClick={() => HandleSort('class')}>
+                Lớp
+              </Th>
+              <Th sort onClick={() => HandleSort('subject')}>
+                Môn
+              </Th>
               <Th className="fix-th" sort>
                 Kỳ học
               </Th>
-              <Th sort>Thành viên</Th>
+              <Th sort onClick={() => HandleSort('students')}>
+                Thành viên
+              </Th>
               <Th align="right">Action</Th>
             </Tr>
           </Thead>
@@ -248,7 +260,7 @@ const ConfirmTable = ({ data, listProductType }) => {
         title="Chi Tiết Sản Phẩm "
         scroll
       >
-        <ReviewProduct data={product} setOpen={setOpen}/>
+        <ReviewProduct data={product} setOpen={setOpen} />
       </PopupOverlay>
 
       {/* xóa sản phẩm  */}

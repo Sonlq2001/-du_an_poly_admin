@@ -57,15 +57,22 @@ const initialState = {
   isProductLoading: false,
   listProductType: [],
   productDetail: {},
+  sortedField: 'ASC',
 };
 const productSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
     productUpdate(state, action) {
-      state.listProduct = state.listProduct.map((item) => {
-        if (item.id === action.payload.id) item.status = action.payload.status;
-        return item;
+      state.listProduct = state.listProduct.sort((a, b) => {
+        if (state.sortedField === 'ASC') {
+          state.sortedField = 'DSC';
+          return a[action.payload] > b[action.payload] ? 1 : -1;
+        }
+        if (state.sortedField === 'DSC') {
+          state.sortedField = 'ASC';
+          return a[action.payload] < b[action.payload] ? 1 : -1;
+        }
       });
     },
   },
@@ -87,6 +94,7 @@ const productSlice = createSlice({
         if (item.id === action.payload.id) item.status = action.payload.status;
         return item;
       });
+      state.productDetail.status = action.payload.status;
       state.isProductLoading = false;
     },
     [approveProduct.rejected]: (state) => {
