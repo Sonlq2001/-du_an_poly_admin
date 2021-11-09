@@ -15,11 +15,11 @@ export const getListCategorySubject = createAsyncThunk(
   }
 );
 
-export const postSubject = createAsyncThunk(
+export const postCategorySubject = createAsyncThunk(
   'category_subject/postSubject',
   async (newSubject, { rejectWithValue }) => {
     try {
-      const response = await subjectApi.postCategorySubject(newSubject);
+      const response = await subjectApi.postCategorySubjects(newSubject);
       return response.data;
     } catch (error) {
       return rejectWithValue(_get(error.response.data, 'errors', ''));
@@ -27,7 +27,7 @@ export const postSubject = createAsyncThunk(
   }
 );
 
-export const removeSubject = createAsyncThunk(
+export const removeCategorySubject = createAsyncThunk(
   'category_subject/removeSubject',
   async (id, { rejectWithValue }) => {
     try {
@@ -39,7 +39,7 @@ export const removeSubject = createAsyncThunk(
   }
 );
 
-export const putSubject = createAsyncThunk(
+export const putCategorySubject = createAsyncThunk(
   'category_subject/update',
   async (subject, { rejectWithValue }) => {
     try {
@@ -72,33 +72,33 @@ const subjectSlice = createSlice({
     },
 
     // post subject
-    [postSubject.fulfilled]: (state, action) => {
+    [postCategorySubject.fulfilled]: (state, action) => {
       state.listCategorySubject = [
         ...state.listCategorySubject,
         action.payload.data,
       ];
     },
-    [postSubject.rejected]: (state) => {
+    [postCategorySubject.rejected]: (state) => {
       state.isListSubjectLoading = false;
     },
 
     // remove subject
-    [removeSubject.fulfilled]: (state, action) => {
+    [removeCategorySubject.fulfilled]: (state, action) => {
       state.listCategorySubject = state.listCategorySubject.filter(
         (item) => item.id !== action.payload
       );
     },
-    [removeSubject.rejected]: (state) => {
+    [removeCategorySubject.rejected]: (state) => {
       state.isListSubjectLoading = false;
     },
 
     // put subject
-    [putSubject.fulfilled]: (state, action) => {
+    [putCategorySubject.fulfilled]: (state, action) => {
       state.listCategorySubject = state.listCategorySubject.map((item) =>
         item.id === action.payload.data.id ? action.payload.data : item
       );
     },
-    [putSubject.rejected]: (state) => {
+    [putCategorySubject.rejected]: (state) => {
       state.isListSubjectLoading = false;
     },
   },

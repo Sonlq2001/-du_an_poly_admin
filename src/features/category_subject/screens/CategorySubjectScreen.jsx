@@ -40,9 +40,9 @@ import EmptyResultImage from 'assets/images/empty-result.gif';
 import { getListUser } from 'features/user/redux/user.slice';
 import {
   getListCategorySubject,
-  removeSubject,
+  removeCategorySubject,
 } from '../redux/category_subject.slice';
-import { initForm } from './../helpers/subject.helpers';
+import { initForm } from '../helpers/subject.helpers';
 import { MapOptions } from 'helpers/convert/map-options';
 
 const CategorySubjectScreen = () => {
@@ -99,8 +99,8 @@ const CategorySubjectScreen = () => {
 
   const handleRemoveAll = () => {
     listChecked.forEach(async (id) => {
-      const response = await dispatch(removeSubject(id));
-      if (removeSubject.fulfilled.match(response)) {
+      const response = await dispatch(removeCategorySubject(id));
+      if (removeCategorySubject.fulfilled.match(response)) {
         toast.success('Xóa thành công !');
       } else {
         toast.error('Xóa thất bại !');
@@ -171,7 +171,6 @@ const CategorySubjectScreen = () => {
                   <Th sort>STT</Th>
                   <Th sort>Tên Bộ Môn</Th>
                   <Th sort>Mã Code</Th>
-                  <Th sort>Chủ Nhiệm</Th>
                   <Th align="right">Thao tác</Th>
                 </Tr>
               </Thead>
@@ -187,7 +186,6 @@ const CategorySubjectScreen = () => {
                     <Td>{index + 1}</Td>
                     <Td>{row.name}</Td>
                     <Td>{row.code}</Td>
-                    <Td>{row.user && row.user.email}</Td>
                     <Td>
                       <BoxActionTable>
                         <Button

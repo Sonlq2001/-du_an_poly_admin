@@ -5,7 +5,7 @@ import { CATEGORY_SUBJECT_PATH } from './../constants/subject.paths';
 const getListCategorySubject = () => {
   return api.get(CATEGORY_SUBJECT_PATH.LIST);
 };
-const postCategorySubject = (data) => {
+const postCategorySubjects = (data) => {
   return api.post(CATEGORY_SUBJECT_PATH.POST, data);
 };
 const removeCategorySubject = (id) => {
@@ -20,7 +20,7 @@ const putCategorySubject = (data) => {
 
 export const subjectApi = {
   getListCategorySubject,
-  postCategorySubject,
+  postCategorySubjects,
   removeCategorySubject,
   putCategorySubject,
 };
