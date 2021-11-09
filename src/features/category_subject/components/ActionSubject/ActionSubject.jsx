@@ -11,7 +11,10 @@ import ElementSelect from 'components/FormElements/ElementSelect/ElementSelect';
 import { Button } from 'components/Button/Button';
 import { schema } from './../../helpers/subject.helpers';
 
-import { postSubject, putSubject } from './../../redux/subject.slice.js';
+import {
+  postSubject,
+  putSubject,
+} from './../../redux/category_subject.slice.js';
 import { getMajors } from 'features/majors/redux/majors.slice';
 
 const ActionSubject = ({ item, setOpen, options }) => {

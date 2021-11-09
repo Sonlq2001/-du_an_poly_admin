@@ -15,4 +15,5 @@ export const initForm = {
   name: '',
   code: '',
   major_id: '',
+  catesubject_id: '',
 };

@@ -14,7 +14,7 @@ import { schema } from './../../helpers/subject.helpers';
 import { postSubject, putSubject } from './../../redux/subject.slice.js';
 import { getMajors } from 'features/majors/redux/majors.slice';
 
-const ActionSubject = ({ item, setOpen, options }) => {
+const ActionSubject = ({ item, setOpen, options, optionCate }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getMajors());
@@ -49,6 +49,17 @@ const ActionSubject = ({ item, setOpen, options }) => {
                     name="major_id"
                     placeholder="Chọn chuyên ngành"
                     options={options || []}
+                  />
+                </div>
+              </div>
+              <div className="from-group">
+                <label htmlFor="">Bộ môn </label>
+                <div className="box-select">
+                  <ElementSelect
+                    className="select"
+                    name="catesubject_id"
+                    placeholder="Chọn Bộ Môn "
+                    options={optionCate || []}
                   />
                 </div>
               </div>

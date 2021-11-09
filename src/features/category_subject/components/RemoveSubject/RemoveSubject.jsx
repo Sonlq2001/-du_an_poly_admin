@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import _get from 'lodash.get';
 
-import { removeSubject } from '../../redux/subject.slice';
+import { removeSubject } from '../../redux/category_subject.slice';
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import { MessagePopup } from './RemoveSubject.styles';
 

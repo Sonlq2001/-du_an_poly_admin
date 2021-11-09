@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import _get from 'lodash.get';
 
-import { subjectApi } from './../api/subject.api.js';
+import { subjectApi } from '../api/subject.api.js';
 
-export const getListSubject = createAsyncThunk(
-  'subject/getListSubject',
+export const getListCategorySubject = createAsyncThunk(
+  'category_subject/getListSubject',
   async (_, { rejectWithValue }) => {
     try {
       const response = await subjectApi.getListCategorySubject();
@@ -16,7 +16,7 @@ export const getListSubject = createAsyncThunk(
 );
 
 export const postSubject = createAsyncThunk(
-  'subject/postSubject',
+  'category_subject/postSubject',
   async (newSubject, { rejectWithValue }) => {
     try {
       const response = await subjectApi.postCategorySubject(newSubject);
@@ -28,7 +28,7 @@ export const postSubject = createAsyncThunk(
 );
 
 export const removeSubject = createAsyncThunk(
-  'subject/removeSubject',
+  'category_subject/removeSubject',
   async (id, { rejectWithValue }) => {
     try {
       await subjectApi.removeCategorySubject(id);
@@ -40,7 +40,7 @@ export const removeSubject = createAsyncThunk(
 );
 
 export const putSubject = createAsyncThunk(
-  'subject/update',
+  'category_subject/update',
   async (subject, { rejectWithValue }) => {
     try {
       const response = await subjectApi.putCategorySubject(subject);
@@ -56,18 +56,18 @@ const initialState = {
   isListSubjectLoading: false,
 };
 const subjectSlice = createSlice({
-  name: 'subject',
+  name: 'category_subject',
   initialState,
   extraReducers: {
     // get list subject
-    [getListSubject.pending]: (state) => {
+    [getListCategorySubject.pending]: (state) => {
       state.isListSubjectLoading = true;
     },
-    [getListSubject.fulfilled]: (state, action) => {
+    [getListCategorySubject.fulfilled]: (state, action) => {
       state.isListSubjectLoading = false;
       state.listCategorySubject = action.payload.data;
     },
-    [getListSubject.rejected]: (state) => {
+    [getListCategorySubject.rejected]: (state) => {
       state.isListSubjectLoading = false;
     },
 
@@ -103,5 +103,5 @@ const subjectSlice = createSlice({
     },
   },
 });
-const { reducer: Category_subjectReducer } = subjectSlice;
-export default Category_subjectReducer;
+const { reducer: category_subjectReducer } = subjectSlice;
+export default category_subjectReducer;

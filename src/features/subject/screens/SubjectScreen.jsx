@@ -41,7 +41,7 @@ import { getMajors } from 'features/majors/redux/majors.slice';
 import { getListSubject, removeSubject } from './../redux/subject.slice';
 import { initForm } from './../helpers/subject.helpers';
 import { MapOptions } from 'helpers/convert/map-options';
-
+import { getListCategorySubject } from 'features/category_subject/redux/category_subject.slice';
 const SubjectScreen = () => {
   const dispatch = useDispatch();
   const [itemSubject, setItemSubject] = useState(initForm);
@@ -49,24 +49,25 @@ const SubjectScreen = () => {
   const [isDialogSubjectRemove, setIsDialogSubjectRemove] = useState(false);
   const [listChecked, setListChecked] = useState([]);
 
-  const { listSubject, listMajors, isListSubjectLoading } = useSelector(
-    (state) => ({
+  const { listSubject, listMajors, isListSubjectLoading, listCategorySubject } =
+    useSelector((state) => ({
       listSubject: state.subject.listSubject,
       isListSubjectLoading: state.subject.isListSubjectLoading,
 
       listMajors: state.majors.listMajors,
-    })
-  );
+      listCategorySubject: state.category_subject.listCategorySubject,
+    }));
 
   useEffect(() => {
     dispatch(getListSubject());
     dispatch(getMajors());
+    dispatch(getListCategorySubject());
   }, [dispatch]);
-
   const listSelectMajor = MapOptions(listMajors);
+  const optionCate = MapOptions(listCategorySubject);
 
   const isCheckedAll = useMemo(() => {
-    return listSubject.every((i) => listChecked.includes(i.id));
+    return listSubject && listSubject.every((i) => listChecked.includes(i.id));
   }, [listSubject, listChecked]);
 
   const handleCheckedAll = (isChecked) => {
@@ -100,7 +101,7 @@ const SubjectScreen = () => {
       setListChecked([]);
     });
   };
-
+  console.log('listSubject', listSubject);
   if (isListSubjectLoading) {
     return <Loading />;
   }
@@ -162,6 +163,8 @@ const SubjectScreen = () => {
                   </Th>
                   <Th sort>STT</Th>
                   <Th sort>Tên Danh Mục</Th>
+                  <Th sort>Tên Chuyên Ngành </Th>
+                  <Th sort>Tên Bộ Môn </Th>
                   <Th align="right">Thao tác</Th>
                 </Tr>
               </Thead>
@@ -176,6 +179,8 @@ const SubjectScreen = () => {
                     </Td>
                     <Td>{index + 1}</Td>
                     <Td>{row.name}</Td>
+                    <Td>{row.majors && row.majors.name}</Td>
+                    <Td>{row.cate_subejct && row.cate_subejct.name}</Td>
                     <Td>
                       <BoxActionTable>
                         <Button
@@ -228,6 +233,7 @@ const SubjectScreen = () => {
             item={itemSubject}
             setOpen={setIsDialogSubject}
             options={listSelectMajor}
+            optionCate={optionCate}
           />
         </PopupOverlay>
 
