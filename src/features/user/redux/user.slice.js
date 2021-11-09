@@ -1,14 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import api from './../../../api/api';
-
-export const fetchData = createAsyncThunk('user/fetchData', async () => {
-  const response = await api.get('/products');
-  return response.data;
+import { getApiUser } from './../api/user.api';
+export const getListUser = createAsyncThunk('user/fetchData', async () => {
+  try {
+    const response = await getApiUser.getUser();
+    return response.data.users;
+  } catch (error) {}
 });
 
 const initialState = {
-  data: [],
+  listUser: [],
   loading: false,
 };
 
@@ -16,14 +17,14 @@ const useSlice = createSlice({
   name: 'user',
   initialState,
   extraReducers: {
-    [fetchData.pending]: (state) => {
+    [getListUser.pending]: (state) => {
       state.loading = true;
     },
-    [fetchData.fulfilled]: (state, action) => {
+    [getListUser.fulfilled]: (state, action) => {
       state.loading = false;
-      state.data = action.payload;
+      state.listUser = action.payload;
     },
-    [fetchData.rejected]: (state) => {
+    [getListUser.rejected]: (state) => {
       state.loading = true;
     },
   },

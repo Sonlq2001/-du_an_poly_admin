@@ -37,46 +37,55 @@ import ActionSubject from '../components/ActionSubject/ActionSubject';
 import RemoveSubject from '../components/RemoveSubject/RemoveSubject';
 
 import EmptyResultImage from 'assets/images/empty-result.gif';
-import { getMajors } from 'features/majors/redux/majors.slice';
-import { getListSubject, removeSubject } from './../redux/subject.slice';
+import { getListUser } from 'features/user/redux/user.slice';
+import {
+  getListCategorySubject,
+  removeSubject,
+} from '../redux/category_subject.slice';
 import { initForm } from './../helpers/subject.helpers';
 import { MapOptions } from 'helpers/convert/map-options';
-import { getListCategorySubject } from 'features/category_subject/redux/category_subject.slice';
-const SubjectScreen = () => {
+
+const CategorySubjectScreen = () => {
   const dispatch = useDispatch();
   const [itemSubject, setItemSubject] = useState(initForm);
   const [isDialogSubject, setIsDialogSubject] = useState(false);
   const [isDialogSubjectRemove, setIsDialogSubjectRemove] = useState(false);
   const [listChecked, setListChecked] = useState([]);
 
-  const { listSubject, listMajors, isListSubjectLoading, listCategorySubject } =
-    useSelector((state) => ({
-      listSubject: state.subject.listSubject,
-      isListSubjectLoading: state.subject.isListSubjectLoading,
-      listMajors: state.majors.listMajors,
+  const { listCategorySubject, listUser, isListSubjectLoading } = useSelector(
+    (state) => ({
       listCategorySubject: state.category_subject.listCategorySubject,
-    }));
+      isListSubjectLoading: state.subject.isListSubjectLoading,
+
+      listUser: state.user.listUser,
+    })
+  );
 
   useEffect(() => {
-    dispatch(getListSubject());
-    dispatch(getMajors());
     dispatch(getListCategorySubject());
+    dispatch(getListUser());
   }, [dispatch]);
-  const listSelectMajor = MapOptions(listMajors);
-  const optionCategorySubject = MapOptions(listCategorySubject);
-
+  const listSelectMajor = MapOptions(listUser);
+  console.log('listCategorySubject', listCategorySubject);
   const isCheckedAll = useMemo(() => {
-    return listSubject && listSubject.every((i) => listChecked.includes(i.id));
-  }, [listSubject, listChecked]);
+    return (
+      listCategorySubject &&
+      listCategorySubject.every((i) => listChecked.includes(i.id))
+    );
+  }, [listCategorySubject, listChecked]);
 
   const handleCheckedAll = (isChecked) => {
     if (isChecked) {
       setListChecked(
-        Array.from(new Set([...listChecked, ...listSubject.map((i) => i.id)]))
+        Array.from(
+          new Set([...listChecked, ...listCategorySubject.map((i) => i.id)])
+        )
       );
     } else {
       setListChecked(
-        listChecked.filter((id) => !listSubject.find((i) => i.id === id))
+        listChecked.filter(
+          (id) => !listCategorySubject.find((i) => i.id === id)
+        )
       );
     }
   };
@@ -100,6 +109,7 @@ const SubjectScreen = () => {
       setListChecked([]);
     });
   };
+
   if (isListSubjectLoading) {
     return <Loading />;
   }
@@ -148,7 +158,7 @@ const SubjectScreen = () => {
             Thêm
           </Button>
         </HeaderTable>
-        {listSubject && listSubject.length > 0 ? (
+        {listCategorySubject && listCategorySubject.length > 0 ? (
           <>
             <TableCustom>
               <Thead>
@@ -160,14 +170,14 @@ const SubjectScreen = () => {
                     />
                   </Th>
                   <Th sort>STT</Th>
-                  <Th sort>Tên Danh Mục</Th>
-                  <Th sort>Tên Chuyên Ngành </Th>
-                  <Th sort>Tên Bộ Môn </Th>
+                  <Th sort>Tên Bộ Môn</Th>
+                  <Th sort>Mã Code</Th>
+                  <Th sort>Chủ Nhiệm</Th>
                   <Th align="right">Thao tác</Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {listSubject.map((row, index) => (
+                {listCategorySubject.map((row, index) => (
                   <Tr key={row.id}>
                     <Td>
                       <CheckboxSingle
@@ -177,8 +187,8 @@ const SubjectScreen = () => {
                     </Td>
                     <Td>{index + 1}</Td>
                     <Td>{row.name}</Td>
-                    <Td>{row.majors && row.majors.name}</Td>
-                    <Td>{row.cate_subejct && row.cate_subejct.name}</Td>
+                    <Td>{row.code}</Td>
+                    <Td>{row.user && row.user.email}</Td>
                     <Td>
                       <BoxActionTable>
                         <Button
@@ -225,13 +235,12 @@ const SubjectScreen = () => {
         <PopupOverlay
           open={isDialogSubject}
           setOpen={setIsDialogSubject}
-          title={itemSubject?.id ? 'Sửa Môn Học' : 'Thêm Môn Học '}
+          title={itemSubject?.id ? 'Sửa Bộ Môn ' : 'Thêm Bộ Môn  '}
         >
           <ActionSubject
             item={itemSubject}
             setOpen={setIsDialogSubject}
             options={listSelectMajor}
-            optionCategorySubject={optionCategorySubject}
           />
         </PopupOverlay>
 
@@ -247,4 +256,4 @@ const SubjectScreen = () => {
   );
 };
 
-export default memo(SubjectScreen);
+export default memo(CategorySubjectScreen);
