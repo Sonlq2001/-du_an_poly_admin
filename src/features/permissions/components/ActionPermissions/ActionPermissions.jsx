@@ -7,11 +7,13 @@ import { unwrapResult } from '@reduxjs/toolkit';
 
 import { ContentForm, GroupAction } from './ActionPermissions.styles';
 
-import { schema } from '../../helpers/permissions.helpers'
+import { schema } from '../../helpers/permissions.helpers';
 import ElementInput from '../../../../components/FormElements/ElementInput/ElementInput';
 import { Button } from '../../../../components/Button/Button';
-import { postPermissions, putPermissions } from './../../redux/permissions.slice';
-
+import {
+  postPermissions,
+  putPermissions,
+} from './../../redux/permissions.slice';
 
 const ActionPermissions = ({ item, setOpen }) => {
   const dispatch = useDispatch();
