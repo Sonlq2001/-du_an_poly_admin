@@ -53,7 +53,6 @@ const SubjectScreen = () => {
     useSelector((state) => ({
       listSubject: state.subject.listSubject,
       isListSubjectLoading: state.subject.isListSubjectLoading,
-
       listMajors: state.majors.listMajors,
       listCategorySubject: state.category_subject.listCategorySubject,
     }));
@@ -64,7 +63,7 @@ const SubjectScreen = () => {
     dispatch(getListCategorySubject());
   }, [dispatch]);
   const listSelectMajor = MapOptions(listMajors);
-  const optionCate = MapOptions(listCategorySubject);
+  const optionCategorySubject = MapOptions(listCategorySubject);
 
   const isCheckedAll = useMemo(() => {
     return listSubject && listSubject.every((i) => listChecked.includes(i.id));
@@ -101,7 +100,6 @@ const SubjectScreen = () => {
       setListChecked([]);
     });
   };
-  console.log('listSubject', listSubject);
   if (isListSubjectLoading) {
     return <Loading />;
   }
@@ -233,7 +231,7 @@ const SubjectScreen = () => {
             item={itemSubject}
             setOpen={setIsDialogSubject}
             options={listSelectMajor}
-            optionCate={optionCate}
+            optionCategorySubject={optionCategorySubject}
           />
         </PopupOverlay>
 
