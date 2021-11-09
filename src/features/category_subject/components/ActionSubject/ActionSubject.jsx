@@ -12,8 +12,8 @@ import { Button } from 'components/Button/Button';
 import { schema } from './../../helpers/subject.helpers';
 
 import {
-  postSubject,
-  putSubject,
+  postCategorySubject,
+  putCategorySubject,
 } from './../../redux/category_subject.slice.js';
 import { getMajors } from 'features/majors/redux/majors.slice';
 
@@ -36,7 +36,9 @@ const ActionSubject = ({ item, setOpen, options }) => {
             user_id: values.user_id,
             code: values.code,
           };
-          const dispatchAction = item?.name ? putSubject : postSubject;
+          const dispatchAction = item?.name
+            ? putCategorySubject
+            : postCategorySubject;
           const response = await dispatch(dispatchAction(data));
           if (dispatchAction.fulfilled.match(response)) {
             toast.success('Thành công !');
