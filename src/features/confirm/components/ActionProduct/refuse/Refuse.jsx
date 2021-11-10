@@ -29,7 +29,6 @@ const Refuse = ({ item, setItemRefuse, setLoadingRefuse }) => {
           status: 1,
           message: values.message,
         };
-
         const response = await dispatch(approveProduct(detail));
         if (approveProduct.fulfilled.match(response)) {
           toast.success('Từ chối thành công !');

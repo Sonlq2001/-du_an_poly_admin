@@ -30,6 +30,7 @@ import { approveProduct } from 'features/confirm/redux/product.slice';
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import Refuse from '../ActionProduct/refuse/Refuse';
 const ReviewProduct = ({ data, setOpen }) => {
+  console.log(data);
   const dispatch = useDispatch();
   const { useLogin } = useSelector((state) => state.auth);
   const [itemRefuse, setItemRefuse] = useState(false);
@@ -55,10 +56,10 @@ const ReviewProduct = ({ data, setOpen }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
-  const handleConfirm = async (id) => {
+  const handleConfirm = async (data) => {
     const productUpdateStatus = {
-      id: id,
-      status: 1,
+      id: data.id,
+      status: data.status + 1,
       message: null,
     };
     setLoadingApprove(true);
@@ -96,21 +97,26 @@ const ReviewProduct = ({ data, setOpen }) => {
             )}
           </ImageSlice>
           <ContentReview className="col-6">
-            {data.status !== 2 ? (
+            {data.status !== 3 && useLogin.id === data.teacher_id ? (
               <>
+                {/* chấp nhận  */}
                 <button
                   className="btn-item"
-                  disabled={data.status === 1}
-                  onClick={() => handleConfirm(data.id)}
+                  disabled={
+                    data.status === 2 && useLogin.id === data.teacher_id
+                  }
+                  onClick={() => handleConfirm(data)}
                 >
                   {loadingApprove ? (
                     <div className="loading">
-                      <div className="loader"></div>
+                      <div className="loader"> </div>
                     </div>
                   ) : (
-                    '  Chấp nhân'
+                    (data.status === 1 && 'châp nhận lần 1',
+                    data.status === 2 && 'châp nhận lần 2')
                   )}
                 </button>{' '}
+                {/* từ trối */}
                 <button
                   className="btn-item"
                   disabled={data.teacher_id !== useLogin.id}
@@ -121,19 +127,19 @@ const ReviewProduct = ({ data, setOpen }) => {
                       <div className="loader"></div>
                     </div>
                   ) : (
-                    '  Từ Chối'
+                    'Từ Chối'
                   )}
                 </button>
+                {/* xóa  */}
                 <button
                   className="btn-item"
-                  disabled={data.teacher_id !== useLogin.id}
+                  hidden={data.teacher_id !== useLogin.id}
                 >
-                  {' '}
-                  Xóa{' '}
+                  Xóa
                 </button>
               </>
             ) : (
-              ''
+              <div> </div>
             )}
             <TitleProject> {data.name} </TitleProject>
 

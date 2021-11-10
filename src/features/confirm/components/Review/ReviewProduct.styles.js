@@ -65,7 +65,7 @@ export const ContentReview = styled.div`
     width: 16px;
     height: 16px;
 
-    animation: spin 2s linear infinite;
+    animation: spin 1s linear infinite;
     @keyframes spin {
       0% {
         transform: rotate(0deg);
