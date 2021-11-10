@@ -37,7 +37,6 @@ const ConfirmTable = ({ data, listProductType }) => {
   const HandleSort = (name) => {
     dispatch(productUpdate(name));
   };
-
   const dispatch = useDispatch();
   const { useLogin } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
@@ -174,18 +173,15 @@ const ConfirmTable = ({ data, listProductType }) => {
                         >
                           <ListAction>
                             {/* chấp nhận  */}
-                            {item.status === 3 ? (
-                              ''
-                            ) : (
+                            {item.status === 1 && (
+                              // giảng viên phê duyệt
                               <div
-                                // className={`item-action`}
+                                className={`item-action`}
                                 className={`item-action ${
-                                  item.status === 2 ? 'disabled' : ''
-                                }`}
-                                disabled={
-                                  item.status === 2 &&
                                   useLogin.id === item.teacher.id
-                                }
+                                    ? ''
+                                    : 'disabled'
+                                }`}
                                 onClick={() => handleConfirm(item)}
                               >
                                 {isLoading ? (
@@ -195,10 +191,31 @@ const ConfirmTable = ({ data, listProductType }) => {
                                     <FiCheck />
                                   </span>
                                 )}
-                                {item.status === 1 && '  Chấp nhận lần 1 '}
-                                {item.status === 2 && '  Chấp nhận lần 2 '}
+                                Chấp nhận lần 1
                               </div>
                             )}
+                            {item.status === 2 && (
+                              // chủ nhiệm phê duyệt
+                              <div
+                                className={`item-action`}
+                                className={`item-action ${
+                                  useLogin.id === item.cate_subject.user_id
+                                    ? ''
+                                    : 'disabled'
+                                }`}
+                                onClick={() => handleConfirm(item)}
+                              >
+                                {isLoading ? (
+                                  <span className="loader"></span>
+                                ) : (
+                                  <span className="icon-action">
+                                    <FiCheck />
+                                  </span>
+                                )}
+                                Chấp nhận lần 2
+                              </div>
+                            )}
+
                             {/* xem trươcs */}
                             <div
                               className="item-action"
