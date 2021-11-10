@@ -56,6 +56,7 @@ const SubjectScreen = () => {
       listMajors: state.majors.listMajors,
       listCategorySubject: state.category_subject.listCategorySubject,
     }));
+  console.log('listSubject', listSubject);
 
   useEffect(() => {
     dispatch(getListSubject());
@@ -160,7 +161,8 @@ const SubjectScreen = () => {
                     />
                   </Th>
                   <Th sort>STT</Th>
-                  <Th sort>Tên Danh Mục</Th>
+                  <Th sort>Tên Môn Học</Th>
+                  <Th sort>Mã Môn </Th>
                   <Th sort>Tên Chuyên Ngành </Th>
                   <Th sort>Tên Bộ Môn </Th>
                   <Th align="right">Thao tác</Th>
@@ -177,6 +179,7 @@ const SubjectScreen = () => {
                     </Td>
                     <Td>{index + 1}</Td>
                     <Td>{row.name}</Td>
+                    <Td>{row.code}</Td>
                     <Td>{row.majors && row.majors.name}</Td>
                     <Td>{row.cate_subejct && row.cate_subejct.name}</Td>
                     <Td>
