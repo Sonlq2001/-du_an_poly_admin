@@ -27,7 +27,6 @@ const ConfirmScreen = () => {
   const { path } = useParams();
   const { listProduct, isProductLoading, listProductType, productDetail } =
     useSelector((state) => state.product);
-
   const [open, setOpen] = useState(true);
   const { listSemester } = useSelector((state) => state.uploadExcel);
   const listSelectOptionSemester = MapOptions(listSemester);

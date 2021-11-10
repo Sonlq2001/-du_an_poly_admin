@@ -94,7 +94,7 @@ const ConfirmTable = ({ data, listProductType }) => {
     setIsLoading(true);
     const productUpdateStatus = {
       id: item.id,
-      status: 1,
+      status: item.status + 1,
       message: null,
     };
     const response = await dispatch(approveProduct(productUpdateStatus));
@@ -161,25 +161,33 @@ const ConfirmTable = ({ data, listProductType }) => {
                           onOutsideClick={() => setIsShowAction(null)}
                         >
                           <ListAction>
-                            <div
-                              className={`item-action ${
-                                item.status === 1 ? 'disabled' : ''
-                              }`}
-                              disabled={
-                                item.status === 1 &&
-                                useLogin.id === item.teacher.id
-                              }
-                              onClick={() => handleConfirm(item)}
-                            >
-                              {isLoading ? (
-                                <span className="loader"></span>
-                              ) : (
-                                <span className="icon-action">
-                                  <FiCheck />
-                                </span>
-                              )}
-                              Chấp nhận
-                            </div>
+                            {/* chấp nhận  */}
+                            {item.status === 3 ? (
+                              ''
+                            ) : (
+                              <div
+                                // className={`item-action`}
+                                className={`item-action ${
+                                  item.status === 2 ? 'disabled' : ''
+                                }`}
+                                disabled={
+                                  item.status === 2 &&
+                                  useLogin.id === item.teacher.id
+                                }
+                                onClick={() => handleConfirm(item)}
+                              >
+                                {isLoading ? (
+                                  <span className="loader"></span>
+                                ) : (
+                                  <span className="icon-action">
+                                    <FiCheck />
+                                  </span>
+                                )}
+                                {item.status === 1 && '  Chấp nhận lần 1 '}
+                                {item.status === 2 && '  Chấp nhận lần 2 '}
+                              </div>
+                            )}
+                            {/* xem trươcs */}
                             <div
                               className="item-action"
                               onClick={() => {
@@ -192,6 +200,7 @@ const ConfirmTable = ({ data, listProductType }) => {
                               </span>
                               Xem trước
                             </div>
+                            {/* cập nhật  */}
                             <div
                               className="item-action"
                               onClick={() => update(item)}
@@ -201,6 +210,7 @@ const ConfirmTable = ({ data, listProductType }) => {
                               </span>
                               Sửa
                             </div>
+                            {/* từ trối */}
                             <div
                               className="item-action"
                               onClick={() => handleRefuse(item)}
@@ -210,6 +220,7 @@ const ConfirmTable = ({ data, listProductType }) => {
                               </span>
                               Từ chối
                             </div>
+                            {/* xóa  */}
                             <div
                               className="item-action"
                               onClick={() => removeProduct(item)}
@@ -248,7 +259,7 @@ const ConfirmTable = ({ data, listProductType }) => {
         title="Chi Tiết Sản Phẩm "
         scroll
       >
-        <ReviewProduct data={product} setOpen={setOpen}/>
+        <ReviewProduct data={product} setOpen={setOpen} />
       </PopupOverlay>
 
       {/* xóa sản phẩm  */}

@@ -62,11 +62,8 @@ const productSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
-    productUpdate(state, action) {
-      state.listProduct = state.listProduct.map((item) => {
-        if (item.id === action.payload.id) item.status = action.payload.status;
-        return item;
-      });
+    convertProduct(state) {
+      console.log('listProduct', state.listProduct);
     },
   },
   extraReducers: {
@@ -76,7 +73,9 @@ const productSlice = createSlice({
     },
     [getListProduct.fulfilled]: (state, action) => {
       state.isProductLoading = false;
-      state.listProduct = action.payload.data;
+      state.listProduct = action.payload.data.filter(
+        (item) => item.status !== 0
+      );
     },
     [getListProduct.rejected]: (state) => {
       state.isProductLoading = false;
@@ -111,6 +110,6 @@ const productSlice = createSlice({
     },
   },
 });
-export const { productUpdate } = productSlice.actions;
+export const { convertProduct } = productSlice.actions;
 const { reducer: productReducer } = productSlice;
 export default productReducer;
