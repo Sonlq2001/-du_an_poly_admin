@@ -56,8 +56,6 @@ const SubjectScreen = () => {
       listMajors: state.majors.listMajors,
       listCategorySubject: state.category_subject.listCategorySubject,
     }));
-  console.log('listSubject', listSubject);
-
   useEffect(() => {
     dispatch(getListSubject());
     dispatch(getMajors());
