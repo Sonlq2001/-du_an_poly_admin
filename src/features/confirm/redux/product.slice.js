@@ -83,7 +83,9 @@ const productSlice = createSlice({
     },
     [getListProduct.fulfilled]: (state, action) => {
       state.isProductLoading = false;
-      state.listProduct = action.payload.data;
+      state.listProduct = action.payload.data.filter(
+        (item) => item.status !== 0
+      );
     },
     [getListProduct.rejected]: (state) => {
       state.isProductLoading = false;
@@ -119,6 +121,6 @@ const productSlice = createSlice({
     },
   },
 });
-export const { productUpdate } = productSlice.actions;
+export const { convertProduct, productUpdate } = productSlice.actions;
 const { reducer: productReducer } = productSlice;
 export default productReducer;

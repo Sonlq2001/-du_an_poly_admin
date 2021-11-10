@@ -26,7 +26,7 @@ const Refuse = ({ item, setItemRefuse, setLoadingRefuse }) => {
         setIsLoading(true);
         const detail = {
           id: item.id,
-          status: 0,
+          status: 1,
           message: values.message,
         };
 
