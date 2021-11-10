@@ -13,7 +13,7 @@ const putStatusProduct = (product) => {
   console.log('product', product);
 };
 const postProductApprove = (data) => {
-  if (data.status === 2) {
+  if (data.status === 2 || data.status === 1) {
     return api.post(
       PRODUCT_PATH.APPROVE.replace(':id', data.id.toString()),
       data
