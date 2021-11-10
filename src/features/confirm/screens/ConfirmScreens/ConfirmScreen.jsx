@@ -22,6 +22,7 @@ import Loading from 'components/Loading/Loading';
 import { getSemesters } from '../../../uploadExcel/redux/uploadExcel.slice';
 import { MapOptions } from '../../../../helpers/convert/map-options';
 import ReviewProduct from 'features/confirm/components/Review/ReviewProduct';
+import { Redirect } from 'react-router';
 const ConfirmScreen = () => {
   const dispatch = useDispatch();
   const { path } = useParams();
@@ -54,7 +55,9 @@ const ConfirmScreen = () => {
   if (isProductLoading) {
     return <Loading />;
   }
-
+  if (!listProduct) {
+    <Redirect to="/sign-in" />;
+  }
   return (
     <>
       <TitleMain> Danh sách sản phẩm </TitleMain>
