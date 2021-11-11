@@ -83,9 +83,11 @@ const productSlice = createSlice({
     },
     [getListProduct.fulfilled]: (state, action) => {
       state.isProductLoading = false;
-      state.listProduct = action.payload.data.filter(
-        (item) => item.status !== 0
-      );
+      if (Array.isArray(action.payload.data)) {
+        state.listProduct = action.payload.data.filter(
+          (item) => item.status !== 0
+        );
+      }
     },
     [getListProduct.rejected]: (state) => {
       state.isProductLoading = false;

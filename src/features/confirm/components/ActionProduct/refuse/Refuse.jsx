@@ -9,7 +9,12 @@ import { WrapFrom, GroupButton } from './Refuse.styles';
 import { Button } from 'components/Button/Button';
 import { approveProduct } from '../../../redux/product.slice';
 
-const Refuse = ({ item, setItemRefuse, setLoadingRefuse }) => {
+const Refuse = ({
+  item,
+  setItemRefuse,
+  setLoadingRefuse,
+  setDisableButton,
+}) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -37,6 +42,7 @@ const Refuse = ({ item, setItemRefuse, setLoadingRefuse }) => {
         }
         setIsLoading(false);
         setItemRefuse(false);
+        setDisableButton(false);
         resetForm({ message: '' });
       }}
     >

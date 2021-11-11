@@ -19,13 +19,13 @@ const postProductApprove = (data) => {
       data
     );
   } else if (data.status === 3) {
-    // const test = {
-    //   status: data.status,
-    //   message: data.message,
-    // };
+    const test = {
+      status: data.status,
+      message: data.message,
+    };
     return api.put(
       CHAIRMAN_APPROVE_PATH.CHAIRMAN_APPROVE.replace(':id', data.id.toString()),
-      data
+      test
     );
   }
 };

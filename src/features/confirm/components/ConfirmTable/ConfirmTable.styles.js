@@ -43,12 +43,20 @@ export const ListAction = styled.div`
   .item-action.disabled {
     background-color: hsl(0deg 0% 93%);
     color: hsl(0deg 0% 40% / 40%);
-    cursor: no-drop;
-    cursor: not-allowed;
     pointer-events: none;
   }
-  .item-action .disabled :hover {
+  & button {
+    width: 100%;
+    border: none;
+    background-color: var(--white-color);
+  }
+  & button:disabled {
+    background-color: #efecec;
+  }
+  & button:disabled:hover {
+    width: 100%;
     cursor: not-allowed;
+    box-shadow: 0 0 1rem var(--eee-color);
   }
 
   .loader {
