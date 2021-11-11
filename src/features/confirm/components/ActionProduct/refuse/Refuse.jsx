@@ -37,12 +37,14 @@ const Refuse = ({
         const response = await dispatch(approveProduct(detail));
         if (approveProduct.fulfilled.match(response)) {
           toast.success('Từ chối thành công !');
+          setDisableButton(false);
         } else {
           toast.error(_get(response.payload, 'name[0]'));
+          setDisableButton(false);
         }
         setIsLoading(false);
         setItemRefuse(false);
-        setDisableButton(false);
+
         resetForm({ message: '' });
       }}
     >
