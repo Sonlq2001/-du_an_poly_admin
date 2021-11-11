@@ -29,13 +29,13 @@ const PopupUser = ({ content, setOpen }) => {
         <label htmlFor="" className="label-field">
           Vai trò
         </label>
-        <GroupRole>
+        {/* <GroupRole>
           <ElementCheckbox label="Giảng viên" name="role1" id="role1" />
           <ElementCheckbox label="Giáo vụ" name="role2" id="role2" />
           <ElementCheckbox label="Admin" name="role3" id="role3" />
           <ElementCheckbox label="Quyền 1" name="role4" id="role4" />
           <ElementCheckbox label="Quyền 2" name="role5" id="role5" />
-        </GroupRole>
+        </GroupRole> */}
       </GroupField>
 
       <GroupField>

@@ -17,7 +17,6 @@ const WrapRoute = ({
   const RouteLayout = layout || DefaultLayout;
   const isExact = exact || false;
   const { accessToken } = useSelector((state) => state.auth);
-
   if (!accessToken && !isAuthRoute) {
     return <Redirect to={AUTH_ROUTE} />;
   }

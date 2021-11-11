@@ -37,7 +37,7 @@ import ActionSubject from '../components/ActionSubject/ActionSubject';
 import RemoveSubject from '../components/RemoveSubject/RemoveSubject';
 
 import EmptyResultImage from 'assets/images/empty-result.gif';
-import { getListUser } from 'features/user/redux/user.slice';
+import { getUsers } from 'features/user/redux/user.slice';
 import {
   getListCategorySubject,
   removeCategorySubject,
@@ -63,7 +63,7 @@ const CategorySubjectScreen = () => {
 
   useEffect(() => {
     dispatch(getListCategorySubject());
-    dispatch(getListUser());
+    dispatch(getUsers());
   }, [dispatch]);
   const listSelectMajor = MapOptions(listUser);
   const isCheckedAll = useMemo(() => {

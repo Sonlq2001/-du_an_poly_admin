@@ -23,7 +23,7 @@ const rootReducer = combineReducers({
   productType: productTypeReducer,
   semester: semesterReducer,
   role: roleReducer,
-  permisstions: permissionsReducer,
+  permission: permissionsReducer,
   category_subject: category_subjectReducer,
 });
 

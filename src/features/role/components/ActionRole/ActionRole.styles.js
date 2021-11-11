@@ -2,21 +2,23 @@ import styled from 'styled-components';
 
 export const ContentForm = styled.div`
   padding-right: 1rem;
-  & .from-group {
+  & .form-group {
     padding-bottom: 2rem;
     display: flex;
     justify-content: space-between;
   }
-  .from-group + .from-group {
+  .form-group + .form-group {
     margin-top: 1.5rem;
   }
-  & .from-group label {
+  & .form-group label {
     margin-right: 2rem;
+    min-width: 13rem;
+    white-space: nowrap;
     line-height: 3rem;
     font-size: 15px;
     color: gray;
   }
-  & .from-group > input {
+  & .form-group > input {
     width: 25rem;
     border-radius: 5px;
     font-size: 14px;
@@ -29,7 +31,7 @@ export const ContentForm = styled.div`
       border: 2px solid #165bf3;
     }
   }
-  & .from-group .select {
+  & .form-group .select {
     position: relative;
     overflow: visible;
     width: 25.2rem;
@@ -43,4 +45,9 @@ export const GroupAction = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 4rem;
+`;
+export const GroupRole = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 `;
