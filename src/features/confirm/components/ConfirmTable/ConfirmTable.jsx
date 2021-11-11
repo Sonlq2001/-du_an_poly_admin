@@ -176,7 +176,6 @@ const ConfirmTable = ({ data, listProductType }) => {
                             {item.status === 1 && (
                               // giảng viên phê duyệt
                               <div
-                                className={`item-action`}
                                 className={`item-action ${
                                   useLogin.id === item.teacher.id
                                     ? ''
@@ -240,15 +239,39 @@ const ConfirmTable = ({ data, listProductType }) => {
                               Sửa
                             </div>
                             {/* từ trối */}
-                            <div
-                              className="item-action"
-                              onClick={() => handleRefuse(item)}
-                            >
-                              <span className="icon-action">
-                                <BiExit />
-                              </span>
-                              Từ chối
-                            </div>
+                            {item.status === 2 && (
+                              <div
+                                className="item-action "
+                                className={`item-action ${
+                                  useLogin.id === item.teacher.id ||
+                                  useLogin.id === item.cate_subject.user_id
+                                    ? ''
+                                    : 'disabled'
+                                } `}
+                                onClick={() => handleRefuse(item)}
+                              >
+                                <span className="icon-action">
+                                  <BiExit />
+                                </span>
+                                Từ chối
+                              </div>
+                            )}
+                            {item.status === 3 && (
+                              <div
+                                className="item-action "
+                                className={`item-action ${
+                                  useLogin.id !== item.cate_subject.user_id
+                                    ? 'disabled'
+                                    : ''
+                                } `}
+                                onClick={() => handleRefuse(item)}
+                              >
+                                <span className="icon-action">
+                                  <BiExit />
+                                </span>
+                                Từ chối
+                              </div>
+                            )}
                             {/* xóa  */}
                             <div
                               className="item-action"

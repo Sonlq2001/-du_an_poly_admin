@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactQuill from 'react-quill';
-import { WarEditor } from '../Editor.styles';
+import { WarEditor } from './Editor.styles';
 import EditorToolbar, { formats, modules } from './CustomEditor';
 const Editor = ({ value, changeDescription }) => {
   const ChangeEditor = (data) => {

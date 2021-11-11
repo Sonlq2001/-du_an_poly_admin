@@ -13,6 +13,7 @@ export const WarEditor = styled.div`
   }
   & .ql-editor {
     border: 1px solid #ccc;
+    font-size: 1.5rem;
   }
   & .ql-toolbar {
     border-radius: 0.5em;
