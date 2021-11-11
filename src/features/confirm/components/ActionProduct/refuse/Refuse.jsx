@@ -29,7 +29,6 @@ const Refuse = ({ item, setItemRefuse, setLoadingRefuse }) => {
           status: 1,
           message: values.message,
         };
-
         const response = await dispatch(approveProduct(detail));
         if (approveProduct.fulfilled.match(response)) {
           toast.success('Từ chối thành công !');
@@ -67,6 +66,7 @@ const Refuse = ({ item, setItemRefuse, setLoadingRefuse }) => {
                   color="primary"
                   size="lg"
                   loading={isLoading}
+                  disabled={isLoading}
                 >
                   Đồng ý
                 </Button>
