@@ -57,15 +57,22 @@ const initialState = {
   isProductLoading: false,
   listProductType: [],
   productDetail: {},
+  sortedField: 'ASC',
 };
 const productSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
     productUpdate(state, action) {
-      state.listProduct = state.listProduct.map((item) => {
-        if (item.id === action.payload.id) item.status = action.payload.status;
-        return item;
+      state.listProduct = state.listProduct.sort((a, b) => {
+        if (state.sortedField === 'ASC') {
+          state.sortedField = 'DSC';
+          return a[action.payload] > b[action.payload] ? 1 : -1;
+        }
+        if (state.sortedField === 'DSC') {
+          state.sortedField = 'ASC';
+          return a[action.payload] < b[action.payload] ? 1 : -1;
+        }
       });
     },
   },
@@ -76,7 +83,9 @@ const productSlice = createSlice({
     },
     [getListProduct.fulfilled]: (state, action) => {
       state.isProductLoading = false;
-      state.listProduct = action.payload.data;
+      state.listProduct = action.payload.data.filter(
+        (item) => item.status !== 0
+      );
     },
     [getListProduct.rejected]: (state) => {
       state.isProductLoading = false;
@@ -111,6 +120,6 @@ const productSlice = createSlice({
     },
   },
 });
-export const { productUpdate } = productSlice.actions;
+export const { convertProduct, productUpdate } = productSlice.actions;
 const { reducer: productReducer } = productSlice;
 export default productReducer;

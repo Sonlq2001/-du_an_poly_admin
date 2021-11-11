@@ -184,7 +184,6 @@ const ReviewProduct = ({ data, setOpen }) => {
                 <Video className="video">
                   <ReactPlayer
                     controls
-                    volume
                     style={
                       ({ padding: 10 },
                       { margin_top: 50 },

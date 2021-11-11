@@ -86,6 +86,12 @@ export const sidebars = [
         path: PERMISSIONS_PATH.LIST,
         icon: <GiMagnifyingGlass />,
       },
+      {
+        id: 'id_page_permissions',
+        navigationTitle: 'Quản Trị Bộ Môn ',
+        path: '/category_subject',
+        icon: <MdMailOutline />,
+      },
     ],
   },
   {

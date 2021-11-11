@@ -11,10 +11,13 @@ import ElementSelect from 'components/FormElements/ElementSelect/ElementSelect';
 import { Button } from 'components/Button/Button';
 import { schema } from './../../helpers/subject.helpers';
 
-import { postSubject, putSubject } from './../../redux/subject.slice.js';
+import {
+  postCategorySubject,
+  putCategorySubject,
+} from './../../redux/category_subject.slice.js';
 import { getMajors } from 'features/majors/redux/majors.slice';
 
-const ActionSubject = ({ item, setOpen, options, optionCategorySubject }) => {
+const ActionSubject = ({ item, setOpen, options }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getMajors());
@@ -27,8 +30,16 @@ const ActionSubject = ({ item, setOpen, options, optionCategorySubject }) => {
         initialValues={item}
         validationSchema={schema}
         onSubmit={async (values, { resetForm }) => {
-          const dispatchAction = item?.name ? putSubject : postSubject;
-          const response = await dispatch(dispatchAction(values));
+          const data = {
+            id: values.id,
+            name: values.name,
+            user_id: values.user_id,
+            code: values.code,
+          };
+          const dispatchAction = item?.name
+            ? putCategorySubject
+            : postCategorySubject;
+          const response = await dispatch(dispatchAction(data));
           if (dispatchAction.fulfilled.match(response)) {
             toast.success('Thành công !');
           } else {
@@ -42,38 +53,27 @@ const ActionSubject = ({ item, setOpen, options, optionCategorySubject }) => {
           return (
             <ContentForm>
               <div className="from-group">
-                <label htmlFor="">Chuyên Ngành </label>
+                <label htmlFor="">Giảng Viên </label>
                 <div className="box-select">
                   <ElementSelect
                     className="select"
-                    name="major_id"
-                    placeholder="Chọn chuyên ngành"
+                    name="user_id"
+                    placeholder="Chọn Giảng Viên "
                     options={options || []}
                   />
                 </div>
               </div>
               <div className="from-group">
-                <label htmlFor="">Bộ môn </label>
-                <div className="box-select">
-                  <ElementSelect
-                    className="select"
-                    name="catesubject_id"
-                    placeholder="Chọn Bộ Môn "
-                    options={optionCategorySubject || []}
-                  />
-                </div>
-              </div>
-              <div className="from-group">
-                <label htmlFor=""> Môn Học </label>
+                <label htmlFor=""> Tên Bộ Môn </label>
                 <ElementInput
                   type="text"
-                  placeholder="Tên chuyên ngành"
+                  placeholder="Tên Bộ Môn "
                   name="name"
                 />
               </div>
               <div className="from-group">
-                <label htmlFor=""> Mã Môn </label>
-                <ElementInput type="text" placeholder="Mã Môn" name="code" />
+                <label htmlFor=""> Mã Bô Môn </label>
+                <ElementInput type="text" placeholder="Mã Bô Môn" name="code" />
               </div>
 
               <GroupAction>

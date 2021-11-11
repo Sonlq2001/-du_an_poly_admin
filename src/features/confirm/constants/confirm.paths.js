@@ -7,6 +7,9 @@ export const PRODUCT_PATH = {
   REMOVE: '/products/:id',
   DETAIL: '/products/:id',
 };
+export const CHAIRMAN_APPROVE_PATH = {
+  CHAIRMAN_APPROVE: '/chairman_approved/:id',
+};
 export const PRODUCT_TYPE = {
   LIST: '/product_types',
 };
