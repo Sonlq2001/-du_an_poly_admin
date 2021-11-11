@@ -2,7 +2,7 @@ import api from '../../../api/api';
 
 import { PERMISSIONS_ENDPOINT } from '../constants/permissions.endpoints';
 
-const getPer = () => {
+const getPermissions = () => {
   return api.get(PERMISSIONS_ENDPOINT.GET_PERMISSIONS);
 };
 
@@ -18,13 +18,16 @@ const removePermissions = (id) => {
 
 const putPermissions = (value) => {
   return api.put(
-    PERMISSIONS_ENDPOINT.PUT_PERMISSIONS.replace(':id', value.id.toString()),
+    PERMISSIONS_ENDPOINT.PUT_PERMISSIONS.replace(
+      ':id',
+      value.permissions.id.toString()
+    ),
     value
   );
 };
 
 export const permissionsApi = {
-  getPer,
+  getPermissions,
   postPermissions,
   removePermissions,
   putPermissions,

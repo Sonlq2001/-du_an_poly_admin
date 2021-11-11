@@ -1,18 +1,21 @@
-import { BsBag, BsChat } from 'react-icons/bs';
+import { BsBag, BsChat, BsPersonPlus } from 'react-icons/bs';
 import { FiBookOpen, FiUsers, FiType } from 'react-icons/fi';
 import { MdMailOutline } from 'react-icons/md';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { RiSettings4Line } from 'react-icons/ri';
 import { BiBookAlt, BiSitemap } from 'react-icons/bi';
+import { GiMagnifyingGlass } from 'react-icons/gi';
 
 import { CONFIRM_PATH } from './../features/confirm/constants/confirm.paths';
 import { MAJORS_PATH } from './../features/majors/constants/majors.paths';
 import { SUBJECT_PATH } from './../features/subject/constants/subject.paths';
 import { UPLOAD_EXCEL_PATH } from './../features/uploadExcel/constants/upload-excel.paths';
-import { USER_PATH } from './../features/user/constants/user.paths';
+import { USER_PATHS } from './../features/user/constants/user.paths';
 import { FEEDBACK_PATH } from './../features/feedback/constants/feedback.paths';
 import { PRODUCT_TYPE_PATH } from './../features/product-type/constants/product-type.paths';
 import { SEMESTER_PATH } from './../features/semester/constants/semester.paths';
+import { ROLE_PATHS } from './../features/role/constants/role.paths';
+import { PERMISSIONS_PATH } from './../features/permissions/constants/permissions.paths';
 
 export const sidebars = [
   {
@@ -35,12 +38,6 @@ export const sidebars = [
         navigationTitle: 'Quản trị chuyên ngành',
         path: MAJORS_PATH.LIST,
         icon: <FiBookOpen />,
-      },
-      {
-        id: 'id_page_user',
-        navigationTitle: 'Quản trị user',
-        path: USER_PATH.LIST,
-        icon: <FiUsers />,
       },
       {
         id: 'id_page_subject',
@@ -66,17 +63,28 @@ export const sidebars = [
         path: FEEDBACK_PATH.LIST,
         icon: <MdMailOutline />,
       },
+    ],
+  },
+  {
+    title: 'Phân quyền',
+    items: [
+      {
+        id: 'id_page_user',
+        navigationTitle: 'Quản trị user',
+        path: USER_PATHS.LIST,
+        icon: <FiUsers />,
+      },
       {
         id: 'id_page_role',
-        navigationTitle: 'Role',
-        path: '/role',
-        icon: <MdMailOutline />,
+        navigationTitle: 'Quản trị vai trò',
+        path: ROLE_PATHS.LIST,
+        icon: <BsPersonPlus />,
       },
       {
         id: 'id_page_permissions',
-        navigationTitle: 'permissions',
-        path: '/permissions',
-        icon: <MdMailOutline />,
+        navigationTitle: 'Quản trị quyền',
+        path: PERMISSIONS_PATH.LIST,
+        icon: <GiMagnifyingGlass />,
       },
     ],
   },

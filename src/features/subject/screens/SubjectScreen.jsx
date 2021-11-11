@@ -161,7 +161,7 @@ const SubjectScreen = () => {
                     />
                   </Th>
                   <Th sort>STT</Th>
-                  <Th sort>Tên Danh Mục</Th>
+                  <Th sort>Tên Môn Học</Th>
                   <Th align="right">Thao tác</Th>
                 </Tr>
               </Thead>

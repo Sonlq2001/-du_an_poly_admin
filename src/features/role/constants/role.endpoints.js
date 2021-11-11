@@ -1,6 +1,7 @@
-export const ROLE_ENDPOINT = {
-  GET_SEMESTERS: '/roles',
-  POST_SEMESTERS: '/roles',
-  PUT_SEMESTERS: '/roles/:id',
-  DELETE_SEMESTERS: '/roles/:id',
+export const ROLE_ENDPOINTS = {
+  GET_ROLES: '/roles',
+  GET_ROLE_DETAIL: '/roles/:id',
+  POST_ROLE: '/roles',
+  PUT_ROLE: '/roles/:id',
+  DELETE_ROLE: '/roles/:id',
 };

@@ -21,8 +21,8 @@ const rootReducer = combineReducers({
   majors: majorsReducer,
   productType: productTypeReducer,
   semester: semesterReducer,
-  role :roleReducer,
-  permisstions: permissionsReducer,
+  role: roleReducer,
+  permission: permissionsReducer,
 });
 
 export default rootReducer;

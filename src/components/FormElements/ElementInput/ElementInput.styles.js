@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
 export const BoxInputField = styled.div`
+  & + & {
+    margin-top: 2rem;
+  }
+  width: 100%;
   .label-field {
     font-size: 1.4rem;
     display: block;
@@ -12,12 +16,14 @@ export const BoxInputField = styled.div`
     padding: 1rem;
     border: none;
     border: 1px solid var(--ddd-color);
-    width: 25rem;
+    width: 100%;
     height: 4rem;
   }
 
   .input-field:hover {
-    border: 1px solid var(--blue-bold-color);
+    border: 1px solid
+      ${({ disabled }) =>
+        disabled ? 'var(--ddd-color)' : 'var(--blue-bold-color)'};
     box-shadow: 0 0 1rem rgba(234 34 234 / 10%);
   }
 

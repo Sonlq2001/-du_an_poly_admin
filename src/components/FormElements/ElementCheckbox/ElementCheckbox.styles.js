@@ -3,14 +3,14 @@ import styled from 'styled-components';
 export const BoxCheckbox = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 1.5rem;
-  & + & {
-    margin-left: 2rem;
-  }
-  .label-filed {
+  margin: 2rem 2rem 0 0;
+  .label-checkbox {
     font-size: 1.4rem;
-    margin-right: 1rem;
     cursor: pointer;
+    min-width: 10rem;
+    margin-right: 2rem;
+    white-space: nowrap;
+    user-select: none;
   }
   .checkbox-field {
     appearance: none;

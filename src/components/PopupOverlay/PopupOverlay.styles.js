@@ -32,7 +32,7 @@ export const ContentPopupOverlay = styled.div`
   transition: ease-in-out 0.4s;
   overflow: visible;
   &.active {
-    top: ${({ scroll }) => (scroll ? '50%' : '40%')};
+    top: ${({ scroll }) => (scroll ? '50%' : '48%')};
     opacity: 1;
     visibility: visible;
   }
