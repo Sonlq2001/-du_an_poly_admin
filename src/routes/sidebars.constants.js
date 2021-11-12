@@ -63,6 +63,12 @@ export const sidebars = [
         path: FEEDBACK_PATH.LIST,
         icon: <MdMailOutline />,
       },
+      {
+        id: 'id_page_category_subject',
+        navigationTitle: 'Quản Trị Bộ Môn ',
+        path: '/category_subject',
+        icon: <MdMailOutline />,
+      },
     ],
   },
   {
@@ -85,12 +91,6 @@ export const sidebars = [
         navigationTitle: 'Quản trị quyền',
         path: PERMISSIONS_PATH.LIST,
         icon: <GiMagnifyingGlass />,
-      },
-      {
-        id: 'id_page_permissions',
-        navigationTitle: 'Quản Trị Bộ Môn ',
-        path: '/category_subject',
-        icon: <MdMailOutline />,
       },
     ],
   },

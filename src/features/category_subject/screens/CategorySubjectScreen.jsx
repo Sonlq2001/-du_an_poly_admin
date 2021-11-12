@@ -52,14 +52,13 @@ const CategorySubjectScreen = () => {
   const [isDialogSubjectRemove, setIsDialogSubjectRemove] = useState(false);
   const [listChecked, setListChecked] = useState([]);
 
-  const { listCategorySubject, listUser, isListSubjectLoading } = useSelector(
-    (state) => ({
+  const { listCategorySubject, listUser, isCategorySubjectLoading } =
+    useSelector((state) => ({
       listCategorySubject: state.category_subject.listCategorySubject,
-      isListSubjectLoading: state.subject.isListSubjectLoading,
+      isCategorySubjectLoading: state.category_subject.isCategorySubjectLoading,
 
       listUser: state.user.listUser,
-    })
-  );
+    }));
 
   useEffect(() => {
     dispatch(getListCategorySubject());
@@ -108,8 +107,8 @@ const CategorySubjectScreen = () => {
       setListChecked([]);
     });
   };
-
-  if (isListSubjectLoading) {
+  console.log('isCategorySubjectLoading', isCategorySubjectLoading);
+  if (isCategorySubjectLoading) {
     return <Loading />;
   }
   return (

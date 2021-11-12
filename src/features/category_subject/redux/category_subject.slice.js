@@ -53,22 +53,22 @@ export const putCategorySubject = createAsyncThunk(
 
 const initialState = {
   listCategorySubject: [],
-  isListSubjectLoading: false,
+  isCategorySubjectLoading: false,
 };
-const subjectSlice = createSlice({
+const Category_subjectSlice = createSlice({
   name: 'category_subject',
   initialState,
   extraReducers: {
     // get list subject
     [getListCategorySubject.pending]: (state) => {
-      state.isListSubjectLoading = true;
+      state.isCategorySubjectLoading = true;
     },
     [getListCategorySubject.fulfilled]: (state, action) => {
-      state.isListSubjectLoading = false;
+      state.isCategorySubjectLoading = false;
       state.listCategorySubject = action.payload.data;
     },
     [getListCategorySubject.rejected]: (state) => {
-      state.isListSubjectLoading = false;
+      state.isCategorySubjectLoading = false;
     },
 
     // post subject
@@ -103,5 +103,5 @@ const subjectSlice = createSlice({
     },
   },
 });
-const { reducer: category_subjectReducer } = subjectSlice;
+const { reducer: category_subjectReducer } = Category_subjectSlice;
 export default category_subjectReducer;

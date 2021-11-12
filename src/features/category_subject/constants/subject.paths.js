@@ -4,3 +4,6 @@ export const CATEGORY_SUBJECT_PATH = {
   REMOVE: '/categories_subjects/:id',
   UPDATE: '/categories_subjects/:id',
 };
+export const CATEGORY_ROUTER_PATH = {
+  LIST: '/category_subject',
+};
