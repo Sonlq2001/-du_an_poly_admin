@@ -1,11 +1,11 @@
 import { lazy } from 'react';
 
-import { SUBJECT_PATH } from '../constants/subject.paths';
+import { CATEGORY_ROUTER_PATH } from '../constants/subject.paths';
 
 const CATEGORY_SUBJECT_SCREEN = {
   id: 'id_subject',
   pageTitle: 'Quản trị môn học',
-  path: '/category_subject',
+  path: CATEGORY_ROUTER_PATH.LIST,
   component: lazy(() => import('../screens/CategorySubjectScreen')),
 };
 
