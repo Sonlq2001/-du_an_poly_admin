@@ -5,7 +5,7 @@ import _get from 'lodash.get';
 
 import PopupOverlay from '../../../../components/PopupOverlay/PopupOverlay';
 import { MessagePopup } from './RemoveRole.styles';
-import { removeRoles } from './../../redux/role.slice';
+import { removeRoles } from '../../redux/role.slice';
 
 const RemoveRole = ({ item, open, setOpen }) => {
   const dispatch = useDispatch();

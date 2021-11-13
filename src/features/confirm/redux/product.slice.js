@@ -68,8 +68,7 @@ const productSlice = createSlice({
         if (state.sortedField === 'ASC') {
           state.sortedField = 'DSC';
           return a[action.payload] > b[action.payload] ? 1 : -1;
-        }
-        if (state.sortedField === 'DSC') {
+        } else {
           state.sortedField = 'ASC';
           return a[action.payload] < b[action.payload] ? 1 : -1;
         }

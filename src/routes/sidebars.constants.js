@@ -14,7 +14,7 @@ import { USER_PATHS } from './../features/user/constants/user.paths';
 import { FEEDBACK_PATH } from './../features/feedback/constants/feedback.paths';
 import { PRODUCT_TYPE_PATH } from './../features/product-type/constants/product-type.paths';
 import { SEMESTER_PATH } from './../features/semester/constants/semester.paths';
-import { ROLE_PATHS } from './../features/role/constants/role.paths';
+import { ROLE_PATHS } from '../features/role/constants/role.paths';
 import { PERMISSIONS_PATH } from './../features/permissions/constants/permissions.paths';
 
 export const sidebars = [

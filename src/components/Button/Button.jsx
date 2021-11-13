@@ -14,6 +14,7 @@ export const Button = ({
   loading = false,
   to,
   className,
+  target = '_blank',
 }) => {
   let colorButton = '';
   switch (color) {
@@ -54,10 +55,15 @@ export const Button = ({
   let componentButton = null;
   if (href) {
     componentButton = (
-      <ButtonCustom color={colorButton} size={sizeButton} className={className}>
-        <a href={href} target="_blank" rel="noreferrer" className="text-btn">
+      <ButtonCustom
+        href={href}
+        color={colorButton}
+        size={sizeButton}
+        className={className}
+      >
+        <a href={href} target={target} rel="noreferrer">
           <span className="icon-btn">{icon}</span>
-          {children}
+          <span className={`${children && 'text-btn'}`}>{children}</span>
         </a>
       </ButtonCustom>
     );

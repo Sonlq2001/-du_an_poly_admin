@@ -125,7 +125,7 @@ const MajorsScreen = () => {
       <WrapContent>
         <HeaderTable>
           <Button
-            disabled={!listChecked.length}
+            disabled={!listChecked.length || isLoading}
             loading={isLoading}
             onClick={handleRemoveAll}
           >

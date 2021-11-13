@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect } from 'react';
 import Select from 'react-select';
 import { MdModeEdit } from 'react-icons/md';
 import { BsTrash } from 'react-icons/bs';
@@ -27,11 +27,9 @@ import {
 } from 'styles/common/common-styles';
 import HightLightText from 'components/HightLightText/HightLightText';
 import { TablePagination } from 'components/Pagination/Pagination';
-import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import { Button } from 'components/Button/Button';
 import Loading from 'components/Loading/Loading';
 
-import ActionUser from '../../components/ActionUser/ActionUser';
 import { getUsers } from './../../redux/user.slice';
 import EmptyResultImage from 'assets/images/empty-result.gif';
 import { USER_PATHS } from './../../constants/user.paths';
@@ -39,7 +37,6 @@ import avatarEmpty from 'assets/images/empty-avatar.png';
 
 const UserScreen = () => {
   const dispatch = useDispatch();
-  const [isDialogActionUser, setIsDialogActionUser] = useState(false);
 
   useEffect(() => {
     dispatch(getUsers());
@@ -173,15 +170,6 @@ const UserScreen = () => {
             onPageChange={() => null}
           />
         </GroupPagination>
-
-        <PopupOverlay
-          open={isDialogActionUser}
-          setOpen={setIsDialogActionUser}
-          title={'Sửa User'}
-          size="md"
-        >
-          <ActionUser setOpen={setIsDialogActionUser} />
-        </PopupOverlay>
       </WrapContent>
     </>
   );
