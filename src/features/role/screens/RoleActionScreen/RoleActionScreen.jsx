@@ -13,7 +13,7 @@ import {
   BoxSearchInput,
 } from 'styles/common/common-styles';
 import ElementInput from 'components/FormElements/ElementInput/ElementInput';
-import { initForm, schema } from './../../helpers/role.helpers';
+import { initForm, schema } from '../../helpers/role.helpers';
 import ElementCheckbox from 'components/FormElements/ElementCheckbox/ElementCheckbox';
 import { Button } from 'components/Button/Button';
 import Loading from 'components/Loading/Loading';
@@ -26,7 +26,7 @@ import {
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getPermissions } from 'features/permissions/redux/permissions.slice';
-import { postRole, getRoleDetail, putRole } from './../../redux/role.slice';
+import { postRole, getRoleDetail, putRole } from '../../redux/role.slice';
 
 const RoleActionScreen = () => {
   const dispatch = useDispatch();
@@ -75,7 +75,6 @@ const RoleActionScreen = () => {
           initialValues={initFormData}
           onSubmit={async (values) => {
             setIsLoading(true);
-            console.log(values);
             const dispatchAction = id ? putRole : postRole;
             const response = await dispatch(
               dispatchAction({
@@ -119,6 +118,7 @@ const RoleActionScreen = () => {
                     color="primary"
                     icon={<AiOutlineSave />}
                     loading={isLoading}
+                    disabled={isLoading}
                   >
                     Lưu
                   </Button>

@@ -1,11 +1,11 @@
 import { Suspense } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import DefaultLayout from './../layouts/DefaultLayout/DefaultLayout';
 import { LIST_ROUTES } from './routes.config';
 import Loading from './../components/Loading/Loading';
-import { AUTH_ROUTE, ROOT_ROUTE } from './routes.config';
+import LoginRedirect from 'features/auth/helpers/LoginRedirect';
 
 const WrapRoute = ({
   component: Component,
@@ -18,11 +18,7 @@ const WrapRoute = ({
   const isExact = exact || false;
   const { accessToken } = useSelector((state) => state.auth);
   if (!accessToken && !isAuthRoute) {
-    return <Redirect to={AUTH_ROUTE} />;
-  }
-
-  if (accessToken && isAuthRoute) {
-    return <Redirect to={ROOT_ROUTE} />;
+    return <LoginRedirect />;
   }
 
   return (

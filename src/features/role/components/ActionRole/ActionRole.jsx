@@ -11,7 +11,7 @@ import { Button } from 'components/Button/Button';
 
 import { ContentForm, GroupAction, GroupRole } from './ActionRole.styles';
 import { schema } from '../../helpers/role.helpers';
-import { postRole, putRole } from './../../redux/role.slice';
+import { postRole, putRole } from '../../redux/role.slice';
 
 const arrayRole = [
   { label: 'Giảng viên', value: 1 },

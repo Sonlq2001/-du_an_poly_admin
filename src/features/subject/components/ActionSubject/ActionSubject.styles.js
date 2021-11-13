@@ -1,28 +1,23 @@
 import styled from 'styled-components';
-export const Title = styled.h3`
-  padding-bottom: 1rem;
-  margin-bottom: 3rem;
-  font-size: 17px;
-  font-weight: 550;
-  border-bottom: 2px solid var(--eee-color);
-`;
+
 export const ContentForm = styled.div`
-  padding-right: 1rem;
-  & .from-group {
+  & .form-group {
     padding-bottom: 2rem;
     display: flex;
     justify-content: space-between;
   }
-  .from-group + .from-group {
+  .form-group + .form-group {
     margin-top: 1.5rem;
   }
-  & .from-group label {
+  & .form-group label {
     margin-right: 2rem;
     line-height: 3rem;
     font-size: 15px;
     color: gray;
+    width: 40%;
+    white-space: nowrap;
   }
-  & .from-group > input {
+  & .form-group > input {
     width: 25rem;
     border-radius: 5px;
     font-size: 14px;
@@ -35,15 +30,9 @@ export const ContentForm = styled.div`
       border: 2px solid #165bf3;
     }
   }
-  & .from-group .select {
-    position: relative;
-    overflow: visible;
-    width: 25.2rem;
-    font-size: 14px;
-  }
-
-  .css-26l3qy-menu {
-    overflow: visible;
+  .box-select {
+    width: 100%;
+    font-size: 1.4rem;
   }
 `;
 

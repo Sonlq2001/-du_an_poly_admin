@@ -11,10 +11,13 @@ import {
 } from './SignInScreen.styles';
 import LogoFpt from 'assets/images/logo.png';
 import { postAccessToken } from './../../redux/auth.slice';
+import useRedirectAfterLogin from './../../hooks/useRedirectAfterLogin';
 
 const SignInScreen = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  useRedirectAfterLogin();
+
   const responseGoogle = (response) => {
     const { accessToken } = response;
     if (accessToken) {

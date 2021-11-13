@@ -4,7 +4,7 @@ export const ButtonCustom = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: ${({ size, to }) => (to ? '0' : size.padding)};
+  padding: ${({ size, to, href }) => (to || href ? '0' : size.padding)};
   border-radius: 5px;
   background-color: ${({ color, disabled }) => (disabled ? '#eee' : color)};
   color: ${({ disabled, color }) => {

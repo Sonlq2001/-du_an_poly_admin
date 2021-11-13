@@ -46,6 +46,7 @@ const SemesterScreen = () => {
   const [isDialogSemester, setIsDialogSemester] = useState(false);
   const [isDialogSemesterRemove, setIsDialogSemesterRemove] = useState(false);
   const [listChecked, setListChecked] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     dispatch(getSemester());
@@ -81,12 +82,14 @@ const SemesterScreen = () => {
 
   const handleRemoveAll = () => {
     listChecked.forEach(async (id) => {
+      setIsLoading(true);
       const response = await dispatch(removeSemester(id));
       if (removeSemester.fulfilled.match(response)) {
         toast.success('Xóa thành công !');
       } else {
         toast.error('Xóa thất bại !');
       }
+      setIsLoading(false);
       setListChecked([]);
     });
   };
@@ -116,7 +119,11 @@ const SemesterScreen = () => {
 
       <WrapContent>
         <HeaderTable>
-          <Button disabled={!listChecked.length} onClick={handleRemoveAll}>
+          <Button
+            disabled={!listChecked.length || isLoading}
+            onClick={handleRemoveAll}
+            loading={isLoading}
+          >
             Xóa tất cả
           </Button>
           <Button

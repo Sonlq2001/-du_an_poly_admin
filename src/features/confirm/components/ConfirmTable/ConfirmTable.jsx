@@ -37,6 +37,7 @@ const ConfirmTable = ({ data, listProductType }) => {
   const HandleSort = (name) => {
     dispatch(productUpdate(name));
   };
+  console.log(data);
   const dispatch = useDispatch();
   const { useLogin } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
@@ -203,7 +204,8 @@ const ConfirmTable = ({ data, listProductType }) => {
                               <button
                                 className="item-action"
                                 disabled={
-                                  useLogin.id === item.cate_subject.user_id &&
+                                  useLogin.id === item.cate_subject &&
+                                  item.cate_subject.user_id &&
                                   !disableButton
                                     ? false
                                     : true
@@ -249,7 +251,8 @@ const ConfirmTable = ({ data, listProductType }) => {
                               <button
 
                                 disabled={
-                                  useLogin.id === item.cate_subject.user_id ||
+                                  (useLogin.id === item.cate_subject &&
+                                    item.cate_subject.user_id) ||
                                   (useLogin.id === item.teacher_id &&
                                     !disableButton)
                                     ? false
@@ -270,7 +273,8 @@ const ConfirmTable = ({ data, listProductType }) => {
                               <button
                                 disabled={
                                   useLogin.id === item.teacher_id ||
-                                  (useLogin.id === item.cate_subject.user_id &&
+                                  (useLogin.id === item.cate_subject &&
+                                    item.cate_subject.user_id &&
                                     !disableButton)
                                     ? false
                                     : true
@@ -289,7 +293,8 @@ const ConfirmTable = ({ data, listProductType }) => {
                             {item.status === 3 && (
                               <button
                                 disabled={
-                                  useLogin.id === item.cate_subject.user_id &&
+                                  useLogin.id === item.cate_subject &&
+                                  item.cate_subject.user_id &&
                                   !disableButton
                                     ? false
                                     : true

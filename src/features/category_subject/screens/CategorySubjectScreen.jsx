@@ -51,6 +51,7 @@ const CategorySubjectScreen = () => {
   const [isDialogSubject, setIsDialogSubject] = useState(false);
   const [isDialogSubjectRemove, setIsDialogSubjectRemove] = useState(false);
   const [listChecked, setListChecked] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { listCategorySubject, listUser, isCategorySubjectLoading } =
     useSelector((state) => ({
@@ -98,16 +99,18 @@ const CategorySubjectScreen = () => {
 
   const handleRemoveAll = () => {
     listChecked.forEach(async (id) => {
+      setIsLoading(true);
       const response = await dispatch(removeCategorySubject(id));
       if (removeCategorySubject.fulfilled.match(response)) {
         toast.success('Xóa thành công !');
       } else {
         toast.error('Xóa thất bại !');
       }
+      setIsLoading(false);
       setListChecked([]);
     });
   };
-  console.log('isCategorySubjectLoading', isCategorySubjectLoading);
+
   if (isCategorySubjectLoading) {
     return <Loading />;
   }
@@ -142,7 +145,11 @@ const CategorySubjectScreen = () => {
       </WrapContent>
       <WrapContent>
         <HeaderTable>
-          <Button disabled={!listChecked.length} onClick={handleRemoveAll}>
+          <Button
+            disabled={!listChecked.length || isLoading}
+            loading={isLoading}
+            onClick={handleRemoveAll}
+          >
             Xóa tất cả
           </Button>
           <Button

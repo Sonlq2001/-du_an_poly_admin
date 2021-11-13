@@ -1,4 +1,4 @@
-export const PATH_AUTH = {
+export const AUTH_PATHS = {
   SIGN_IN: '/sign-in',
   AUTH_TOKEN: '/auth/google',
 };

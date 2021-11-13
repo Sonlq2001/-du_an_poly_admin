@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -16,6 +16,7 @@ import { getMajors } from 'features/majors/redux/majors.slice';
 
 const ActionSubject = ({ item, setOpen, options, optionCategorySubject }) => {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     dispatch(getMajors());
   }, [dispatch]);
@@ -27,13 +28,15 @@ const ActionSubject = ({ item, setOpen, options, optionCategorySubject }) => {
         initialValues={item}
         validationSchema={schema}
         onSubmit={async (values, { resetForm }) => {
+          setIsLoading(true);
           const dispatchAction = item?.name ? putSubject : postSubject;
           const response = await dispatch(dispatchAction(values));
           if (dispatchAction.fulfilled.match(response)) {
             toast.success('Thành công !');
           } else {
-            toast.error(_get(response.payload, 'name[0]'));
+            toast.error(_get(response.payload, 'code[0]'));
           }
+          setIsLoading(false);
           setOpen(false);
           resetForm();
         }}
@@ -41,8 +44,8 @@ const ActionSubject = ({ item, setOpen, options, optionCategorySubject }) => {
         {({ handleSubmit }) => {
           return (
             <ContentForm>
-              <div className="from-group">
-                <label htmlFor="">Chuyên Ngành </label>
+              <div className="form-group">
+                <label htmlFor="">Chuyên Ngành</label>
                 <div className="box-select">
                   <ElementSelect
                     className="select"
@@ -52,18 +55,18 @@ const ActionSubject = ({ item, setOpen, options, optionCategorySubject }) => {
                   />
                 </div>
               </div>
-              <div className="from-group">
-                <label htmlFor="">Bộ môn </label>
+              <div className="form-group">
+                <label htmlFor="">Bộ Môn</label>
                 <div className="box-select">
                   <ElementSelect
                     className="select"
                     name="catesubject_id"
-                    placeholder="Chọn Bộ Môn "
+                    placeholder="Chọn bộ môn "
                     options={optionCategorySubject || []}
                   />
                 </div>
               </div>
-              <div className="from-group">
+              <div className="form-group">
                 <label htmlFor=""> Môn Học </label>
                 <ElementInput
                   type="text"
@@ -71,7 +74,7 @@ const ActionSubject = ({ item, setOpen, options, optionCategorySubject }) => {
                   name="name"
                 />
               </div>
-              <div className="from-group">
+              <div className="form-group">
                 <label htmlFor=""> Mã Môn </label>
                 <ElementInput type="text" placeholder="Mã Môn" name="code" />
               </div>
@@ -91,6 +94,8 @@ const ActionSubject = ({ item, setOpen, options, optionCategorySubject }) => {
                   icon={<AiOutlineSave />}
                   type="submit"
                   onClick={() => handleSubmit()}
+                  loading={isLoading}
+                  disabled={isLoading}
                 >
                   Lưu
                 </Button>

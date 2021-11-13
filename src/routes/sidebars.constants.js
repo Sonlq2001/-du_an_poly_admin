@@ -3,7 +3,7 @@ import { FiBookOpen, FiUsers, FiType } from 'react-icons/fi';
 import { MdMailOutline } from 'react-icons/md';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { RiSettings4Line } from 'react-icons/ri';
-import { BiBookAlt, BiSitemap } from 'react-icons/bi';
+import { BiBookAlt, BiSitemap, BiBook } from 'react-icons/bi';
 import { GiMagnifyingGlass } from 'react-icons/gi';
 
 import { CONFIRM_PATH } from './../features/confirm/constants/confirm.paths';
@@ -14,7 +14,7 @@ import { USER_PATHS } from './../features/user/constants/user.paths';
 import { FEEDBACK_PATH } from './../features/feedback/constants/feedback.paths';
 import { PRODUCT_TYPE_PATH } from './../features/product-type/constants/product-type.paths';
 import { SEMESTER_PATH } from './../features/semester/constants/semester.paths';
-import { ROLE_PATHS } from './../features/role/constants/role.paths';
+import { ROLE_PATHS } from '../features/role/constants/role.paths';
 import { PERMISSIONS_PATH } from './../features/permissions/constants/permissions.paths';
 
 export const sidebars = [
@@ -41,7 +41,7 @@ export const sidebars = [
       },
       {
         id: 'id_page_subject',
-        navigationTitle: 'Quản môn học',
+        navigationTitle: 'Quản trị môn học',
         path: SUBJECT_PATH.LIST,
         icon: <BiBookAlt />,
       },
@@ -65,9 +65,9 @@ export const sidebars = [
       },
       {
         id: 'id_page_category_subject',
-        navigationTitle: 'Quản Trị Bộ Môn ',
+        navigationTitle: 'Quản trị bộ môn ',
         path: '/category_subject',
-        icon: <MdMailOutline />,
+        icon: <BiBook />,
       },
     ],
   },
