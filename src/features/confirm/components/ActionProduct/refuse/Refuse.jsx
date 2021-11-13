@@ -58,7 +58,7 @@ const Refuse = ({
                 placeholder="Nội dung..."
                 onChange={handleChange}
                 onBlur={handleBlur}
-                maxlength="51"
+                maxLength="51"
                 rows="3"
                 value={values.message}
               ></textarea>

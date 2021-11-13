@@ -39,7 +39,7 @@ import { initForm } from 'features/role/helpers/role.helpers';
 import { getRole } from 'features/role/redux/role.slice';
 import { removeRoles } from 'features/role/redux/role.slice';
 import EmptyResultImage from 'assets/images/empty-result.gif';
-import { ROLE_PATHS } from './../../constants/role.paths';
+import { ROLE_PATHS } from '../../constants/role.paths';
 
 const headerCells = [
   { label: 'STT', field: 'id', sort: true },

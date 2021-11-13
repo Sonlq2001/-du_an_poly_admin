@@ -128,8 +128,7 @@ const ReviewProduct = ({ data, setOpen }) => {
                   className="btn-item"
                   disabled={data.teacher_id !== useLogin.id}
                 >
-                  {' '}
-                  Xóa{' '}
+                  Xóa
                 </button>
               </>
             ) : (
@@ -192,7 +191,7 @@ const ReviewProduct = ({ data, setOpen }) => {
                     height="260px"
                     width="80%"
                     playbackRate
-                    previewTabIndex="10"
+                    previewTabIndex={10}
                     playIcon
                     onReady={() => console.log('play')}
                     url={data.video_url}
@@ -215,7 +214,7 @@ const ReviewProduct = ({ data, setOpen }) => {
                 <GroupAttach>
                   <ItemAttach>
                     <div className="title-attach">Link github:</div>
-                    <a target="_blank" href="!#">
+                    <a target="_blank" href="!#" rel="noreferrer">
                       https://caodang.fpt.edu.vn/tin-tuc-poly/nu-sinh-fpoly-tay-nguyen-dat-chung-chi-cuoc-thi-vo-dich-thiet-ke-do-hoa-the-gioi.html
                     </a>
                   </ItemAttach>
@@ -224,6 +223,7 @@ const ReviewProduct = ({ data, setOpen }) => {
                     <a
                       target="_blank"
                       href={data.resource_url && data.resource_url}
+                      rel="noreferrer"
                     >
                       {data.resource_url && data.resource_url}
                     </a>

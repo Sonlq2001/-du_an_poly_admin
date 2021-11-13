@@ -1,16 +1,14 @@
 import styled from 'styled-components';
 
 export const ContentForm = styled.div`
-  padding-right: 1rem;
   & .from-group {
     padding-bottom: 2rem;
     display: flex;
     justify-content: space-between;
   }
-  .from-group + .from-group {
-    margin-top: 1.5rem;
-  }
   & .from-group label {
+    width: 40%;
+    white-space: nowrap;
     margin-right: 2rem;
     line-height: 3rem;
     font-size: 15px;
@@ -28,15 +26,6 @@ export const ContentForm = styled.div`
     :focus {
       border: 2px solid #165bf3;
     }
-  }
-  & .from-group .select {
-    position: relative;
-    overflow: visible;
-    width: 25.2rem;
-    font-size: 14px;
-  }
-  .css-26l3qy-menu {
-    overflow: visible;
   }
 `;
 export const GroupAction = styled.div`

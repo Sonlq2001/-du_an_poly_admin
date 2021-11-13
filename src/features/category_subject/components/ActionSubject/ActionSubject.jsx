@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { Formik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -19,6 +19,7 @@ import { getMajors } from 'features/majors/redux/majors.slice';
 
 const ActionSubject = ({ item, setOpen, options }) => {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     dispatch(getMajors());
   }, [dispatch]);
@@ -36,6 +37,7 @@ const ActionSubject = ({ item, setOpen, options }) => {
             user_id: values.user_id,
             code: values.code,
           };
+          setIsLoading(true);
           const dispatchAction = item?.name
             ? putCategorySubject
             : postCategorySubject;
@@ -45,6 +47,7 @@ const ActionSubject = ({ item, setOpen, options }) => {
           } else {
             toast.error(_get(response.payload, 'name[0]'));
           }
+          setIsLoading(false);
           setOpen(false);
           resetForm();
         }}
@@ -52,7 +55,7 @@ const ActionSubject = ({ item, setOpen, options }) => {
         {({ handleSubmit }) => {
           return (
             <ContentForm>
-              <div className="from-group">
+              <div className="form-group">
                 <label htmlFor="">Giảng Viên </label>
                 <div className="box-select">
                   <ElementSelect
@@ -63,7 +66,7 @@ const ActionSubject = ({ item, setOpen, options }) => {
                   />
                 </div>
               </div>
-              <div className="from-group">
+              <div className="form-group">
                 <label htmlFor=""> Tên Bộ Môn </label>
                 <ElementInput
                   type="text"
@@ -71,7 +74,7 @@ const ActionSubject = ({ item, setOpen, options }) => {
                   name="name"
                 />
               </div>
-              <div className="from-group">
+              <div className="form-group">
                 <label htmlFor=""> Mã Bô Môn </label>
                 <ElementInput type="text" placeholder="Mã Bô Môn" name="code" />
               </div>
@@ -91,6 +94,8 @@ const ActionSubject = ({ item, setOpen, options }) => {
                   icon={<AiOutlineSave />}
                   type="submit"
                   onClick={() => handleSubmit()}
+                  loading={isLoading}
+                  disabled={isLoading}
                 >
                   Lưu
                 </Button>

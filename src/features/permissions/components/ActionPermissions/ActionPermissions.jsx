@@ -105,6 +105,7 @@ const ActionPermissions = ({ item, setOpen }) => {
                   type="submit"
                   onClick={() => handleSubmit()}
                   loading={isLoading}
+                  disabled={isLoading}
                 >
                   Lưu
                 </Button>

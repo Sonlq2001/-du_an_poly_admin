@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { AiOutlineSave } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
@@ -13,6 +13,7 @@ import { postSemester, putSemester } from './../../redux/semester.slice';
 
 const ActionSemester = ({ item, setOpen }) => {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <>
@@ -21,6 +22,7 @@ const ActionSemester = ({ item, setOpen }) => {
         initialValues={item}
         validationSchema={schema}
         onSubmit={async (values, { resetForm }) => {
+          setIsLoading(true);
           const dispatchAction = item?.name ? putSemester : postSemester;
           const response = await dispatch(dispatchAction(values));
           if (dispatchAction.fulfilled.match(response)) {
@@ -28,6 +30,7 @@ const ActionSemester = ({ item, setOpen }) => {
           } else {
             toast.error(_get(response.payload, 'name[0]'));
           }
+          setIsLoading(false);
           setOpen(false);
           resetForm();
         }}
@@ -59,6 +62,8 @@ const ActionSemester = ({ item, setOpen }) => {
                   icon={<AiOutlineSave />}
                   type="submit"
                   onClick={() => handleSubmit()}
+                  loading={isLoading}
+                  disabled={isLoading}
                 >
                   Lưu
                 </Button>

@@ -25,6 +25,7 @@ import { getUserDetail, putUsers } from './../../redux/user.slice';
 import avatarEmpty from 'assets/images/empty-avatar.png';
 import { getRole } from 'features/role/redux/role.slice';
 import { initForm } from './../../helpers/user.helpers';
+import { USER_PATHS } from './../../constants/user.paths';
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -72,7 +73,7 @@ const UserProfile = () => {
           onSubmit={async (values) => {
             setIsLoading(true);
             const actionDispatch = id ? putUsers : putUsers;
-            await dispatch(
+            const response = await dispatch(
               actionDispatch({
                 id: values.id,
                 user: {
@@ -80,9 +81,9 @@ const UserProfile = () => {
                 },
               })
             );
-            // if (actionDispatch.fulfilled.match(response)) {
-            //   history.push('/user');
-            // }
+            if (actionDispatch.fulfilled.match(response)) {
+              history.push(USER_PATHS.LIST);
+            }
             setIsLoading(false);
           }}
         >
@@ -142,7 +143,11 @@ const UserProfile = () => {
               </GroupProfile>
 
               <FormButton>
-                <Button color="primary" loading={isLoading}>
+                <Button
+                  color="primary"
+                  loading={isLoading}
+                  disabled={isLoading}
+                >
                   Lưu
                 </Button>
               </FormButton>
