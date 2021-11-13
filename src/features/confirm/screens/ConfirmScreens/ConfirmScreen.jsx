@@ -51,7 +51,7 @@ const ConfirmScreen = () => {
   const HandlerSemester = (data) => {
     console.log('data', data);
   };
-
+  console.log('listProduct', listProduct);
   if (isProductLoading) {
     return <Loading />;
   }

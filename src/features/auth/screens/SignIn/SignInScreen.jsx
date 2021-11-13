@@ -2,7 +2,7 @@ import React from 'react';
 import { AiOutlineGoogle } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import GoogleLogin from 'react-google-login';
-
+import { useHistory } from 'react-router-dom';
 import {
   PageSingIn,
   PageSingInLeft,
@@ -14,11 +14,11 @@ import { postAccessToken } from './../../redux/auth.slice';
 
 const SignInScreen = () => {
   const dispatch = useDispatch();
-
+  const history = useHistory();
   const responseGoogle = (response) => {
     const { accessToken } = response;
     if (accessToken) {
-      dispatch(postAccessToken(accessToken));
+      dispatch(postAccessToken(accessToken)).then(() => history.goBack());
     }
   };
 

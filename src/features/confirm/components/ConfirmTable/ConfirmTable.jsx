@@ -247,6 +247,7 @@ const ConfirmTable = ({ data, listProductType }) => {
                             {/* từ trối */}
                             {item.status === 1 && (
                               <button
+
                                 disabled={
                                   useLogin.id === item.cate_subject.user_id ||
                                   (useLogin.id === item.teacher_id &&
