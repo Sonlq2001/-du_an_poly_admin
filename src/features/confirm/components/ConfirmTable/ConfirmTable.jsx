@@ -203,13 +203,13 @@ const ConfirmTable = ({ data, listProductType }) => {
                               // chủ nhiệm phê duyệt
                               <button
                                 className="item-action"
-                                disabled={
-                                  useLogin.id === item.cate_subject &&
-                                  item.cate_subject.user_id &&
-                                  !disableButton
-                                    ? false
-                                    : true
-                                }
+                                // disabled={
+                                //   useLogin.id === item.cate_subject &&
+                                //   item.cate_subject.user_id &&
+                                //   !disableButton
+                                //     ? false
+                                //     : true
+                                // }
                                 onClick={() => handleConfirm(item)}
                               >
                                 {isLoading ? (
@@ -249,7 +249,6 @@ const ConfirmTable = ({ data, listProductType }) => {
                             {/* từ trối */}
                             {item.status === 1 && (
                               <button
-
                                 disabled={
                                   (useLogin.id === item.cate_subject &&
                                     item.cate_subject.user_id) ||
