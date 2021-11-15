@@ -217,7 +217,7 @@ const ConfirmTable = ({ data, listProductType }) => {
                                     <FiCheck />
                                   </span>
                                 )}
-                                Chấp nhận lần 2
+                                Chấp nhận lần 3
                               </button>
                             )}
 
@@ -272,7 +272,7 @@ const ConfirmTable = ({ data, listProductType }) => {
                                   (useLogin.id === item.cate_subject.user_id &&
                                     !disableButton)
                                     ? false
-                                    : true
+                                    : false
                                 }
                                 className="item-action "
                                 onClick={() =>
