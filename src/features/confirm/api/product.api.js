@@ -3,6 +3,7 @@ import {
   PRODUCT_PATH,
   PRODUCT_TYPE,
   CHAIRMAN_APPROVE_PATH,
+  CAMPUSES_PATH,
 } from './../constants/confirm.paths';
 
 const getListProduct = () => {
@@ -38,6 +39,9 @@ const productTypes = () => {
 const detailProduct = (id) => {
   return api.get(PRODUCT_PATH.DETAIL.replace(':id', id.toString()));
 };
+const getCampus = () => {
+  return api.get(CAMPUSES_PATH.LIST);
+};
 export const confirmProductApi = {
   getListProduct,
   putStatusProduct,
@@ -45,4 +49,5 @@ export const confirmProductApi = {
   productRemove,
   productTypes,
   detailProduct,
+  getCampus,
 };

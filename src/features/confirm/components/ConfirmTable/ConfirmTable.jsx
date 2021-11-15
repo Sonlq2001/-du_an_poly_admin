@@ -37,7 +37,6 @@ const ConfirmTable = ({ data, listProductType }) => {
   const HandleSort = (name) => {
     dispatch(productUpdate(name));
   };
-  console.log('data', data);
   const dispatch = useDispatch();
   const { useLogin } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
