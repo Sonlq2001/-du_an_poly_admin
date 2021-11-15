@@ -120,8 +120,7 @@ const ConfirmScreen = () => {
               className="select-option input-search"
               options={
                 ({ label: 'All', value: 1 },
-                
-                 ? listSelectOptionSemester : [])
+                listSelectOptionSemester ? listSelectOptionSemester : [])
               }
               placeholder="Tìm theo kì học"
               onChange={(e) => HandlerSemester(e)}
