@@ -20,6 +20,7 @@ const SignInScreen = () => {
 
   const responseGoogle = (response) => {
     const { accessToken } = response;
+    const createCookies = (name, value, exdays) => {};
     if (accessToken) {
       dispatch(postAccessToken(accessToken)).then(() => history.goBack());
     }

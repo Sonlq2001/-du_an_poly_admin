@@ -7,10 +7,16 @@ import { authApi } from './../api/auth.api';
 export const postAccessToken = createAsyncThunk(
   'auth/postAccessToken',
   async (accessToken) => {
+    var d = new Date();
+    d.setTime(d.getTime());
+    var expires = d.toUTCString();
     try {
       const response = await authApi.postAccessToken({
         access_token: accessToken,
       });
+      console.log('expires', d);
+      document.cookie =
+        `access_token=${response.data.access_token} ` + `;expires=${d}`;
       return response.data;
     } catch (error) {}
   }
@@ -19,6 +25,7 @@ export const postAccessToken = createAsyncThunk(
 export const postLogout = createAsyncThunk('auth/postLogout', async () => {
   try {
     await authApi.postLogout();
+    document.cookie = `access_token="";expires=0`;
     localStorage.clear();
   } catch (error) {}
 });
