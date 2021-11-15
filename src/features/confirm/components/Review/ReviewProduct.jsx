@@ -30,13 +30,13 @@ import { approveProduct } from 'features/confirm/redux/product.slice';
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import Refuse from '../ActionProduct/refuse/Refuse';
 const ReviewProduct = ({ data, setOpen }) => {
-  console.log(data);
   const dispatch = useDispatch();
   const { useLogin } = useSelector((state) => state.auth);
   const [itemRefuse, setItemRefuse] = useState(false);
   const [refuse, setRefuse] = useState(null);
   const [loadingApprove, setLoadingApprove] = useState(false);
   const [loadingRefuse, setLoadingRefuse] = useState(false);
+  const [disableButton, setDisableButton] = useState(false);
   const settings = {
     customPaging: function (i) {
       return (
@@ -62,11 +62,13 @@ const ReviewProduct = ({ data, setOpen }) => {
       status: data.status + 1,
       message: null,
     };
+    setDisableButton(true);
     setLoadingApprove(true);
     const response = await dispatch(approveProduct(productUpdateStatus));
     if (approveProduct.fulfilled.match(response)) {
       toast.success('Chấp nhận thành công !');
       setLoadingApprove(false);
+      setDisableButton(false);
       setOpen(false);
     } else {
       toast.error(_get(response.payload, 'name[0]'));
@@ -75,6 +77,7 @@ const ReviewProduct = ({ data, setOpen }) => {
   const handleRefuse = (item) => {
     setRefuse(item);
     setItemRefuse(true);
+    setDisableButton(true);
   };
   return (
     <>
@@ -91,31 +94,38 @@ const ReviewProduct = ({ data, setOpen }) => {
               </Slider>
             ) : (
               <div className="slider_galleries">
-                {' '}
-                <img src={data.image && data.image} alt="" />{' '}
+                <img src={data.image && data.image} alt="" />
               </div>
             )}
           </ImageSlice>
           <ContentReview className="col-6">
-            {data.status !== 3 && useLogin.id === data.teacher_id ? (
+            {data.status !== 3 ? (
               <>
                 {/* chấp nhận  */}
-                <button
-                  className="btn-item"
-                  disabled={
-                    data.status === 2 && useLogin.id === data.teacher_id
-                  }
-                  onClick={() => handleConfirm(data)}
-                >
-                  {loadingApprove ? (
-                    <div className="loading">
-                      <div className="loader"> </div>
+                {data.status === 1 && (
+                  <button
+                    disabled={useLogin.id !== data.teacher_id}
+                    className="btn-item"
+                    onClick={() => handleConfirm(data)}
+                  >
+                    <div className="test">
+                      {' '}
+                      <span for="" className="loading"></span>
+                      Chấp nhận lần 1
                     </div>
-                  ) : (
-                    (data.status === 1 && 'châp nhận lần 1',
-                    data.status === 2 && 'châp nhận lần 2')
-                  )}
-                </button>{' '}
+                  </button>
+                )}
+                {data.status === 2 && (
+                  <button
+                    className="btn-item"
+                    onClick={() => handleConfirm(data)}
+                  >
+                    <div className="test">
+                      <span for="" className="loading"></span>
+                      Chấp nhận lần 2
+                    </div>
+                  </button>
+                )}
                 {/* từ trối */}
                 <button
                   className="btn-item"
@@ -124,7 +134,7 @@ const ReviewProduct = ({ data, setOpen }) => {
                 >
                   {loadingRefuse ? (
                     <div className="loading">
-                      <div className="loader"></div>
+                      <div className="loader"> </div>
                     </div>
                   ) : (
                     'Từ Chối'
@@ -162,7 +172,7 @@ const ReviewProduct = ({ data, setOpen }) => {
             </BoxProject>
             <BoxProject>
               <LabelProject>Giảng viên hướng dẫn:</LabelProject>
-              {data.teacher && data.teacher.name} -{' '}
+              {data.teacher && data.teacher.name} -
               {data.teacher && data.teacher.email}
             </BoxProject>
             <BoxProject>
@@ -246,11 +256,13 @@ const ReviewProduct = ({ data, setOpen }) => {
         setOpen={setItemRefuse}
         size="md"
         title="Lý do "
+        setDisableButton={setDisableButton}
       >
         <Refuse
           item={refuse}
           setItemRefuse={setItemRefuse}
           setLoadingRefuse={setLoadingRefuse}
+          setDisableButton={setDisableButton}
         />
       </PopupOverlay>
     </>

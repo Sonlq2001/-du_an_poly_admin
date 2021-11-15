@@ -19,6 +19,7 @@ const PopupOverlay = ({
   textOk,
   onOk,
   loading = false,
+  setDisableButton,
 }) => {
   let sizePopup = '';
   switch (size) {
@@ -39,7 +40,7 @@ const PopupOverlay = ({
     <div>
       <GroupPopupOverlay
         className={`${open ? 'active' : ''}`}
-        onClick={() => setOpen(!open)}
+        onClick={() => setOpen(!open) + setDisableButton(false)}
       >
         <ContentPopupOverlay
           className={`${open ? 'active' : ''}`}

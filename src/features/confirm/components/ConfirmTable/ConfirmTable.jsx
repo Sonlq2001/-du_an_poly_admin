@@ -343,6 +343,7 @@ const ConfirmTable = ({ data, listProductType }) => {
         size="xl"
         title="Chi Tiết Sản Phẩm "
         scroll
+        setDisableButton={setDisableButton}
       >
         <ReviewProduct data={product} setOpen={setOpen} />
       </PopupOverlay>
@@ -361,6 +362,7 @@ const ConfirmTable = ({ data, listProductType }) => {
         size="xl"
         title="Cập nhật  sản phẩm  "
         scroll
+        setDisableButton={setDisableButton}
       >
         <ActionProduct
           data={updateProduct && updateProduct}
@@ -377,6 +379,7 @@ const ConfirmTable = ({ data, listProductType }) => {
         setOpen={setItemRefuse}
         size="md"
         title="Lý do ?"
+        setDisableButton={setDisableButton}
       >
         <Refuse
           item={refuse}
