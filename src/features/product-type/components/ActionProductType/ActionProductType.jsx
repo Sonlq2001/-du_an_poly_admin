@@ -33,8 +33,8 @@ const ActionProductType = ({ item, setOpen }) => {
           } else {
             toast.error(_get(response.payload, 'name[0]'));
           }
-          setOpen(false);
           resetForm();
+          setOpen(false);
           setIsLoading(false);
         }}
       >
@@ -66,6 +66,7 @@ const ActionProductType = ({ item, setOpen }) => {
                   type="submit"
                   onClick={() => handleSubmit()}
                   loading={isLoading}
+                  disabled={isLoading}
                 >
                   Lưu
                 </Button>

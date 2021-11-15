@@ -62,8 +62,8 @@ const PopupOverlay = ({
                 color="primary"
                 onClick={() => onOk()}
                 loading={loading}
+                disabled={loading}
               >
-                {/* {loading && <LoadingBtn></LoadingBtn>} */}
                 {textOk ? textOk : 'Lưu'}
               </Button>
             </ActionPopup>

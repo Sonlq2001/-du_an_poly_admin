@@ -9,7 +9,12 @@ import { WrapFrom, GroupButton } from './Refuse.styles';
 import { Button } from 'components/Button/Button';
 import { approveProduct } from '../../../redux/product.slice';
 
-const Refuse = ({ item, setItemRefuse, setLoadingRefuse }) => {
+const Refuse = ({
+  item,
+  setItemRefuse,
+  setLoadingRefuse,
+  setDisableButton,
+}) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -32,11 +37,14 @@ const Refuse = ({ item, setItemRefuse, setLoadingRefuse }) => {
         const response = await dispatch(approveProduct(detail));
         if (approveProduct.fulfilled.match(response)) {
           toast.success('Từ chối thành công !');
+          setDisableButton(false);
         } else {
           toast.error(_get(response.payload, 'name[0]'));
+          setDisableButton(false);
         }
         setIsLoading(false);
         setItemRefuse(false);
+
         resetForm({ message: '' });
       }}
     >
@@ -50,7 +58,7 @@ const Refuse = ({ item, setItemRefuse, setLoadingRefuse }) => {
                 placeholder="Nội dung..."
                 onChange={handleChange}
                 onBlur={handleBlur}
-                maxlength="51"
+                maxLength="51"
                 rows="3"
                 value={values.message}
               ></textarea>
@@ -66,6 +74,7 @@ const Refuse = ({ item, setItemRefuse, setLoadingRefuse }) => {
                   color="primary"
                   size="lg"
                   loading={isLoading}
+                  disabled={isLoading}
                 >
                   Đồng ý
                 </Button>

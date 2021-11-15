@@ -2,7 +2,7 @@ import React from 'react';
 import { AiOutlineGoogle } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import GoogleLogin from 'react-google-login';
-
+import { useHistory } from 'react-router-dom';
 import {
   PageSingIn,
   PageSingInLeft,
@@ -11,14 +11,17 @@ import {
 } from './SignInScreen.styles';
 import LogoFpt from 'assets/images/logo.png';
 import { postAccessToken } from './../../redux/auth.slice';
+import useRedirectAfterLogin from './../../hooks/useRedirectAfterLogin';
 
 const SignInScreen = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+  useRedirectAfterLogin();
 
   const responseGoogle = (response) => {
     const { accessToken } = response;
     if (accessToken) {
-      dispatch(postAccessToken(accessToken));
+      dispatch(postAccessToken(accessToken)).then(() => history.goBack());
     }
   };
 

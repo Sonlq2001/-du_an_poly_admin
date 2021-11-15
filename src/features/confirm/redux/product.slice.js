@@ -68,8 +68,7 @@ const productSlice = createSlice({
         if (state.sortedField === 'ASC') {
           state.sortedField = 'DSC';
           return a[action.payload] > b[action.payload] ? 1 : -1;
-        }
-        if (state.sortedField === 'DSC') {
+        } else {
           state.sortedField = 'ASC';
           return a[action.payload] < b[action.payload] ? 1 : -1;
         }
@@ -83,9 +82,11 @@ const productSlice = createSlice({
     },
     [getListProduct.fulfilled]: (state, action) => {
       state.isProductLoading = false;
-      state.listProduct = action.payload.data.filter(
-        (item) => item.status !== 0
-      );
+      if (Array.isArray(action.payload.data)) {
+        state.listProduct = action.payload.data.filter(
+          (item) => item.status !== 0
+        );
+      }
     },
     [getListProduct.rejected]: (state) => {
       state.isProductLoading = false;
@@ -96,7 +97,6 @@ const productSlice = createSlice({
         if (item.id === action.payload.id) item.status = action.payload.status;
         return item;
       });
-      state.productDetail.status = action.payload.status;
       state.isProductLoading = false;
     },
     [approveProduct.rejected]: (state) => {

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IoMdAdd } from 'react-icons/io';
 import { BsTrash } from 'react-icons/bs';
 import { MdModeEdit } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
 import {
   TableCustom,
@@ -28,11 +29,9 @@ import {
 import Loading from 'components/Loading/Loading';
 import { Button } from 'components/Button/Button';
 import { TablePagination } from 'components/Pagination/Pagination';
-import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import CheckboxSingle from 'components/FormElements/ElementCheckbox/CheckboxSingle';
 
 import GroupAlert from 'components/AlertMessage/AlertMessage';
-import ActionRole from 'features/role/components/ActionRole/ActionRole';
 import RemoveRole from 'features/role/components/RemoveRole/RemoveRole';
 
 import { initForm } from 'features/role/helpers/role.helpers';
@@ -40,20 +39,21 @@ import { initForm } from 'features/role/helpers/role.helpers';
 import { getRole } from 'features/role/redux/role.slice';
 import { removeRoles } from 'features/role/redux/role.slice';
 import EmptyResultImage from 'assets/images/empty-result.gif';
-import { toast } from 'react-toastify';
+import { ROLE_PATHS } from '../../constants/role.paths';
 
 const headerCells = [
   { label: 'STT', field: 'id', sort: true },
-  { label: 'Tên Chuyên Ngành', field: 'id', sort: true },
+  { label: 'Vai trò', field: 'id', sort: true },
   { label: 'Thao tác', field: 'id', sort: false, align: 'right' },
 ];
 
 const RoleScreen = () => {
   const dispatch = useDispatch();
-  const [isDialogActionRole, setIsDialogActionRole] = useState(false);
   const [itemRole, setItemRole] = useState(initForm);
   const [isDialogDeleteRole, setIsDialogDeleteRole] = useState(false);
   const [listChecked, setListChecked] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+
   const fetchData = useCallback(() => {
     dispatch(getRole());
   }, [dispatch]);
@@ -61,9 +61,16 @@ const RoleScreen = () => {
   useEffect(() => {
     fetchData();
   }, [dispatch, fetchData]);
-  const { listRole, isRoleLoading } = useSelector((state) => state.role);
+
+  const { listRole, isListRoleLoading } = useSelector((state) => ({
+    listRole: state.role.listRole,
+    isListRoleLoading: state.role.isListRoleLoading,
+  }));
+
   const isCheckedAll = useMemo(() => {
-    return listRole && listRole.every((i) => listChecked.includes(i.id));
+    return (
+      listRole?.length > 0 && listRole.every((i) => listChecked.includes(i.id))
+    );
   }, [listRole, listChecked]);
 
   const handleCheckedAll = (isChecked) => {
@@ -88,22 +95,25 @@ const RoleScreen = () => {
 
   const handleRemoveAll = () => {
     listChecked.forEach(async (id) => {
+      setLoading(true);
       const response = await dispatch(removeRoles(id));
       if (removeRoles.fulfilled.match(response)) {
         toast.success('Xóa thành công !');
       } else {
         toast.error('Xóa thất bại !');
       }
+      setLoading(false);
       setListChecked([]);
     });
   };
 
-  if (isRoleLoading) {
+  if (isListRoleLoading) {
     return <Loading />;
   }
+
   return (
     <>
-      <TitleMain>Chuyên ngành</TitleMain>
+      <TitleMain>Vai trò</TitleMain>
       <WrapContent>
         <TitleControl>Tìm kiếm</TitleControl>
         <BoxSearchInput>
@@ -122,16 +132,17 @@ const RoleScreen = () => {
 
       <WrapContent>
         <HeaderTable>
-          <Button disabled={!listChecked.length} onClick={handleRemoveAll}>
+          <Button
+            disabled={!listChecked.length || isLoading}
+            onClick={handleRemoveAll}
+            loading={isLoading}
+          >
             Xóa tất cả
           </Button>
           <Button
+            to={ROLE_PATHS.ROLE_ACTION_ADD}
             icon={<IoMdAdd />}
             color="primary"
-            onClick={() => {
-              setIsDialogActionRole(true);
-              setItemRole(initForm);
-            }}
           >
             Thêm
           </Button>
@@ -172,10 +183,10 @@ const RoleScreen = () => {
                           color="warning"
                           icon={<MdModeEdit />}
                           size="small"
-                          onClick={() => {
-                            setIsDialogActionRole(true);
-                            setItemRole(item);
-                          }}
+                          to={ROLE_PATHS.ROLE_ACTION_EDIT.replace(
+                            ':id',
+                            item.id
+                          )}
                         />
                         <Button
                           color="danger"
@@ -210,15 +221,6 @@ const RoleScreen = () => {
           </EmptyResult>
         )}
       </WrapContent>
-
-      {/* overlay edit and add */}
-      <PopupOverlay
-        open={isDialogActionRole}
-        setOpen={setIsDialogActionRole}
-        title={itemRole?.id ? 'Sửa Chuyên Ngành' : 'Thêm Chuyên Ngành '}
-      >
-        <ActionRole item={itemRole} setOpen={setIsDialogActionRole} />
-      </PopupOverlay>
 
       {/* overlay remove */}
       <RemoveRole

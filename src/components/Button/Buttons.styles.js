@@ -4,13 +4,13 @@ export const ButtonCustom = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: ${({ size }) => size.padding};
+  padding: ${({ size, to, href }) => (to || href ? '0' : size.padding)};
   border-radius: 5px;
   background-color: ${({ color, disabled }) => (disabled ? '#eee' : color)};
   color: ${({ disabled, color }) => {
     if (disabled) {
       return '#6666';
-    } else if (color === '#fff') {
+    } else if (color === '#fff' || color === '#f7f7f7') {
       return 'var(--text-color)';
     } else {
       return 'var(--white-color)';
@@ -23,16 +23,27 @@ export const ButtonCustom = styled.button`
   & + & {
     margin-left: 1rem;
   }
-
+  .text-btn {
+    padding-left: 5px;
+  }
   &:hover {
     opacity: ${({ disabled }) => (disabled ? 1 : 0.9)};
-    background-color: ${({ color }) =>
-      color === '#fff' ? 'var(--eee-color)' : ''};
+    background-color: ${({ color }) => {
+      switch (color) {
+        case '#fff':
+          return 'var(--eee-color)';
+        case '#f7f7f7':
+          return 'var(--eee-color)';
+        default:
+          break;
+      }
+    }};
   }
 
   a {
     color: var(--white-color);
-    display: inline-block;
+    display: block;
+    padding: ${({ size }) => size.padding};
   }
   &:disabled:hover {
     cursor: not-allowed;
@@ -40,7 +51,6 @@ export const ButtonCustom = styled.button`
   .icon-btn {
     display: inline-block;
     transform: translateY(2px);
-    margin-right: 5px;
   }
 
   .icon-btn.active {

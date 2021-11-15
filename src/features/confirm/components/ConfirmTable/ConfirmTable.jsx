@@ -37,7 +37,6 @@ const ConfirmTable = ({ data, listProductType }) => {
   const HandleSort = (name) => {
     dispatch(productUpdate(name));
   };
-
   const dispatch = useDispatch();
   const { useLogin } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
@@ -50,6 +49,7 @@ const ConfirmTable = ({ data, listProductType }) => {
   const [refuse, setRefuse] = useState(null);
   const [itemRefuse, setItemRefuse] = useState(false);
   const [isShowAction, setIsShowAction] = useState(null);
+  const [disableButton, setDisableButton] = useState(false);
   const [product, setProduct] = useState({
     id: '',
     name: '',
@@ -94,6 +94,7 @@ const ConfirmTable = ({ data, listProductType }) => {
 
   const handleConfirm = async (item) => {
     setIsLoading(true);
+    setDisableButton(true);
     const productUpdateStatus = {
       id: item.id,
       status: item.status + 1,
@@ -106,6 +107,7 @@ const ConfirmTable = ({ data, listProductType }) => {
       toast.error(_get(response.payload, 'name[0]'));
     }
     setIsLoading(false);
+    setDisableButton(false);
   };
 
   const handleRefuse = (item) => {
@@ -174,17 +176,37 @@ const ConfirmTable = ({ data, listProductType }) => {
                         >
                           <ListAction>
                             {/* chấp nhận  */}
-                            {item.status === 3 ? (
-                              ''
-                            ) : (
-                              <div
-                                // className={`item-action`}
-                                className={`item-action ${
-                                  item.status === 2 ? 'disabled' : ''
-                                }`}
+                            {item.status === 1 && (
+                              // giảng viên phê duyệt
+                              <button
                                 disabled={
-                                  item.status === 2 &&
-                                  useLogin.id === item.teacher.id
+                                  useLogin.id === item.teacher_id &&
+                                  !disableButton
+                                    ? false
+                                    : true
+                                }
+                                className="item-action"
+                                onClick={() => handleConfirm(item)}
+                              >
+                                {isLoading ? (
+                                  <span className="loader"></span>
+                                ) : (
+                                  <span className="icon-action">
+                                    <FiCheck />
+                                  </span>
+                                )}
+                                Chấp nhận lần 1
+                              </button>
+                            )}
+                            {item.status === 2 && (
+                              // chủ nhiệm phê duyệt
+                              <button
+                                className="item-action"
+                                disabled={
+                                  useLogin.id === item.cate_subject.user_id &&
+                                  !disableButton
+                                    ? false
+                                    : true
                                 }
                                 onClick={() => handleConfirm(item)}
                               >
@@ -195,10 +217,10 @@ const ConfirmTable = ({ data, listProductType }) => {
                                     <FiCheck />
                                   </span>
                                 )}
-                                {item.status === 1 && '  Chấp nhận lần 1 '}
-                                {item.status === 2 && '  Chấp nhận lần 2 '}
-                              </div>
+                                Chấp nhận lần 2
+                              </button>
                             )}
+
                             {/* xem trươcs */}
                             <div
                               className="item-action"
@@ -223,15 +245,66 @@ const ConfirmTable = ({ data, listProductType }) => {
                               Sửa
                             </div>
                             {/* từ trối */}
-                            <div
-                              className="item-action"
-                              onClick={() => handleRefuse(item)}
-                            >
-                              <span className="icon-action">
-                                <BiExit />
-                              </span>
-                              Từ chối
-                            </div>
+                            {item.status === 1 && (
+                              <button
+                                disabled={
+                                  useLogin.id === item.cate_subject.user_id ||
+                                  (useLogin.id === item.teacher_id &&
+                                    !disableButton)
+                                    ? false
+                                    : true
+                                }
+                                className="item-action "
+                                onClick={() =>
+                                  handleRefuse(item) + setDisableButton(true)
+                                }
+                              >
+                                <span className="icon-action">
+                                  <BiExit />
+                                </span>
+                                Từ chối
+                              </button>
+                            )}
+                            {item.status === 2 && (
+                              <button
+                                disabled={
+                                  useLogin.id === item.teacher_id ||
+                                  (useLogin.id === item.cate_subject.user_id &&
+                                    !disableButton)
+                                    ? false
+                                    : true
+                                }
+                                className="item-action "
+                                onClick={() =>
+                                  handleRefuse(item) + setDisableButton(true)
+                                }
+                              >
+                                <span className="icon-action">
+                                  <BiExit />
+                                </span>
+                                Từ chối
+                              </button>
+                            )}
+                            {item.status === 3 && (
+                              <button
+                                disabled={
+                                  useLogin.id === item.cate_subject.user_id &&
+                                  !disableButton
+                                    ? false
+                                    : true
+                                }
+                                className="item-action "
+                                onClick={() =>
+                                  handleRefuse(item) + setDisableButton(true)
+                                }
+                              >
+                                <span className="icon-action">
+                                  <BiExit />
+                                </span>
+                                Từ chối
+                              </button>
+                            )}
+
                             {/* xóa  */}
                             <div
                               className="item-action"
@@ -305,7 +378,11 @@ const ConfirmTable = ({ data, listProductType }) => {
         size="md"
         title="Lý do ?"
       >
-        <Refuse item={refuse} setItemRefuse={setItemRefuse} />
+        <Refuse
+          item={refuse}
+          setItemRefuse={setItemRefuse}
+          setDisableButton={setDisableButton}
+        />
       </PopupOverlay>
 
       <GroupAlert />

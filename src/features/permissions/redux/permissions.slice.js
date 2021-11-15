@@ -1,17 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import _get from 'lodash.get';
 
 import { permissionsApi } from '../api/permissions.api';
 
 export const getPermissions = createAsyncThunk(
   'permissions/getPermissions',
   async (_, { rejectWithValue }) => {
-    
     try {
-      const response = await permissionsApi.getPer();
+      const response = await permissionsApi.getPermissions();
       return response.data.data;
     } catch (error) {
-      const msgError = error.response.data.errors;
-      return rejectWithValue(msgError);
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
@@ -20,11 +19,12 @@ export const postPermissions = createAsyncThunk(
   'permissions/postPermissions',
   async (value, { rejectWithValue }) => {
     try {
-      const response = await permissionsApi.postPermissions(value);
+      const response = await permissionsApi.postPermissions({
+        permissions: value,
+      });
       return response.data;
     } catch (error) {
-      const msgError = error.response.data.errors;
-      return rejectWithValue(msgError);
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
@@ -36,8 +36,7 @@ export const removePermissions = createAsyncThunk(
       await permissionsApi.removePermissions(id);
       return id;
     } catch (error) {
-      const msgError = error.response.data.errors;
-      return rejectWithValue(msgError);
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
@@ -46,18 +45,19 @@ export const putPermissions = createAsyncThunk(
   'permissions/putPermissions',
   async (value, { rejectWithValue }) => {
     try {
-      const response = await permissionsApi.putPermissions(value);
+      const response = await permissionsApi.putPermissions({
+        permissions: value,
+      });
       return response.data;
     } catch (error) {
-      const msgError = error.response.data.errors;
-      return rejectWithValue(msgError);
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
 
 const initialState = {
-  listPermissions: [],
-  loadingPermissions : false
+  listPermission: [],
+  isListPermissionLoading: false,
 };
 
 const permissionsSlice = createSlice({
@@ -65,38 +65,44 @@ const permissionsSlice = createSlice({
   initialState,
 
   extraReducers: {
+    // get permissions
     [getPermissions.pending]: (state) => {
-      state.loadingPermissions = true;
+      state.isListPermissionLoading = true;
     },
     [getPermissions.fulfilled]: (state, action) => {
-      state.listPermissions = action.payload;
-      state.loadingPermissions = false;
+      state.listPermission = action.payload;
+      state.isListPermissionLoading = false;
     },
     [getPermissions.rejected]: (state) => {
-      state.listPermissions = [];
-      state.loadingPermissions = false;
+      state.isListPermissionLoading = false;
     },
+
+    // post permission
     [postPermissions.fulfilled]: (state, action) => {
-      state.listPermissions = [...state.listPermissions, action.payload];
+      state.listPermission = [...state.listPermission, action.payload.data];
     },
     [postPermissions.rejected]: (state) => {
-      state.listPermissions = null;
+      state.isListPermissionLoading = false;
     },
+
+    // remove permission
     [removePermissions.fulfilled]: (state, action) => {
-      state.listPermissions = state.listPermissions.filter(
+      state.listPermission = state.listPermission.filter(
         (item) => item.id !== action.payload
       );
     },
     [removePermissions.rejected]: (state) => {
-      state.listPermissions = null;
+      state.isListPermissionLoading = false;
     },
+
+    // put permission
     [putPermissions.fulfilled]: (state, action) => {
-      state.listPermissions = state.listPermissions.map((item) =>
-        item.id === action.payload[0].id ? action.payload[0] : item
+      state.listPermission = state.listPermission.map((item) =>
+        item.id === action.payload.data.id ? action.payload.data : item
       );
     },
     [putPermissions.rejected]: (state) => {
-      state.listPermissions = null;
+      state.isListPermissionLoading = false;
     },
   },
 });

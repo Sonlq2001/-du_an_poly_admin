@@ -50,6 +50,7 @@ const ProductTypeScreen = () => {
   const [isDialogProductTypeRemove, setIsDialogProductTypeRemove] =
     useState(false);
   const [listChecked, setListChecked] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     dispatch(getProductType());
@@ -87,12 +88,14 @@ const ProductTypeScreen = () => {
 
   const handleRemoveAll = () => {
     listChecked.forEach(async (id) => {
+      setIsLoading(true);
       const response = await dispatch(deleteProductType(id));
       if (deleteProductType.fulfilled.match(response)) {
         toast.success('Xóa thành công !');
       } else {
         toast.error('Xóa thất bại !');
       }
+      setIsLoading(false);
       setListChecked([]);
     });
   };
@@ -122,7 +125,11 @@ const ProductTypeScreen = () => {
 
       <WrapContent>
         <HeaderTable>
-          <Button disabled={!listChecked.length} onClick={handleRemoveAll}>
+          <Button
+            disabled={!listChecked.length || isLoading}
+            onClick={handleRemoveAll}
+            Loading={isLoading}
+          >
             Xóa tất cả
           </Button>
           <Button

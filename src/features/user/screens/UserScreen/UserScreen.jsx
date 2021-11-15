@@ -1,6 +1,18 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import Select from 'react-select';
+import { MdModeEdit } from 'react-icons/md';
+import { BsTrash } from 'react-icons/bs';
+import { IoMdAdd } from 'react-icons/io';
+import { useDispatch, useSelector } from 'react-redux';
 
+import {
+  TableCustom,
+  Thead,
+  Tr,
+  Th,
+  Tbody,
+  Td,
+} from 'components/Table/TableCustom';
 import {
   WrapContent,
   TitleMain,
@@ -8,14 +20,40 @@ import {
   BoxControl,
   BoxSearchInput,
   InputSearch,
+  GroupPagination,
+  BoxActionTable,
+  HeaderTable,
+  EmptyResult,
 } from 'styles/common/common-styles';
-import UserTable from './../../components/UserTable/UserTable';
-import { DATA_FAKE } from '../../constants/user.constants';
+import HightLightText from 'components/HightLightText/HightLightText';
+import { TablePagination } from 'components/Pagination/Pagination';
+import { Button } from 'components/Button/Button';
+import Loading from 'components/Loading/Loading';
+
+import { getUsers } from './../../redux/user.slice';
+import EmptyResultImage from 'assets/images/empty-result.gif';
+import { USER_PATHS } from './../../constants/user.paths';
+import avatarEmpty from 'assets/images/empty-avatar.png';
 
 const UserScreen = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUsers());
+  }, [dispatch]);
+
+  const { isListUserLoading, listUser } = useSelector((state) => ({
+    isListUserLoading: state.user.isListUserLoading,
+    listUser: state.user.listUser,
+  }));
+
+  if (isListUserLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
-      <TitleMain>Chuyên ngành</TitleMain>
+      <TitleMain>User</TitleMain>
       <WrapContent>
         <TitleControl>Tìm kiếm</TitleControl>
         <BoxSearchInput>
@@ -48,8 +86,91 @@ const UserScreen = () => {
         </BoxSearchInput>
       </WrapContent>
 
-      {/* <UserControlTable /> */}
-      <UserTable data={DATA_FAKE} />
+      <WrapContent>
+        <HeaderTable>
+          <Button color="primary">Tải file excel</Button>
+
+          <Button color="primary" icon={<IoMdAdd />}>
+            Thêm
+          </Button>
+        </HeaderTable>
+
+        {listUser && listUser.length > 0 ? (
+          <TableCustom>
+            <Thead>
+              <Tr>
+                <Th sort>STT</Th>
+                <Th sort>Tên</Th>
+                <Th sort>Ảnh</Th>
+                <Th sort>Email</Th>
+                <Th sort>MSSV</Th>
+                <Th sort>Vai trò</Th>
+                <Th align="right">Thao tác</Th>
+              </Tr>
+            </Thead>
+
+            <Tbody>
+              {listUser.map((row, index) => {
+                return (
+                  <Tr key={row.id}>
+                    <Td>{index + 1}</Td>
+                    <Td>{row.name}</Td>
+                    <Td>
+                      <img
+                        src={row?.avatar || avatarEmpty}
+                        width="50px"
+                        height="50px"
+                        alt=""
+                      />
+                    </Td>
+                    <Td>{row.email}</Td>
+                    <Td>{row?.student_code || '-'}</Td>
+                    <Td>
+                      {row?.roles.map((item) => (
+                        <HightLightText key={item.id}>
+                          {item.name}
+                        </HightLightText>
+                      ))}
+                    </Td>
+                    <Td>
+                      <BoxActionTable>
+                        <Button
+                          color="warning"
+                          to={USER_PATHS.USER_PROFILE.replace(/:id/, row.id)}
+                          icon={<MdModeEdit />}
+                          size="small"
+                        />
+
+                        <Button
+                          color="danger"
+                          disabled={true}
+                          size="small"
+                          icon={<BsTrash />}
+                        />
+                      </BoxActionTable>
+                    </Td>
+                  </Tr>
+                );
+              })}
+            </Tbody>
+          </TableCustom>
+        ) : (
+          <EmptyResult>
+            <div>Không có kết quả nào</div>
+            <img src={EmptyResultImage} alt="" />
+          </EmptyResult>
+        )}
+
+        <GroupPagination>
+          <TablePagination
+            pageLengthMenu={[20, 50, 100]}
+            page={10}
+            pageLength={100}
+            totalRecords={10}
+            onPageChange={() => null}
+          />
+        </GroupPagination>
+      </WrapContent>
     </>
   );
 };

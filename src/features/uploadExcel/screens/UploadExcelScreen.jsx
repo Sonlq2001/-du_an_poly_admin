@@ -1,10 +1,9 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { GrFormUpload } from 'react-icons/gr';
 import { MdCloudUpload } from 'react-icons/md';
 import { Formik, Form, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { unwrapResult } from '@reduxjs/toolkit';
 import AlertMessage from 'components/AlertMessage/AlertMessage';
 import { WrapContent } from 'styles/common/common-styles';
 import {
@@ -23,8 +22,10 @@ import {
   getSemesters,
 } from './../redux/uploadExcel.slice';
 import { MapOptions } from 'helpers/convert/map-options';
+
 const UploadExcelScreen = () => {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     dispatch(getSemesters());
   }, [dispatch]);
@@ -37,16 +38,20 @@ const UploadExcelScreen = () => {
         enableReinitialize
         initialValues={initForm}
         validationSchema={schema}
-        onSubmit={(values, { resetForm }) => {
+        onSubmit={async (values, { resetForm }) => {
+          setIsLoading(true);
           const valueForm = new FormData();
           valueForm.append('campus_id', 1);
           valueForm.append('semester_id', values.semester_id);
           valueForm.append('excel', values.excel);
-          dispatch(postImportFileExcel(valueForm))
-            .then(unwrapResult)
-            .then(() => toast.success('Upload file thành công !'))
-            .catch(() => toast.error('Upload file không thành công !'))
-            .finally(() => resetForm({ semester_id: null, excel: null }));
+          const response = await dispatch(postImportFileExcel(valueForm));
+          if (postImportFileExcel.fulfilled.match(response)) {
+            toast.success('Upload file thành công !');
+          } else {
+            toast.error('Upload file không thành công !');
+          }
+          setIsLoading(false);
+          resetForm({ semester_id: null, excel: null });
         }}
       >
         {({ touched, errors, values }) => {
@@ -59,8 +64,14 @@ const UploadExcelScreen = () => {
               <GroupUpload>
                 <HeaderUpload>
                   <h3 className="title-upload">Danh sách điểm</h3>
-                  <Button type="button" size="small" color="success">
-                    <a href="http://api.duanpoly.ml/api/export"> File Mẫu </a>
+                  <Button
+                    type="button"
+                    size="small"
+                    color="success"
+                    target="_parent"
+                    href="http://api.duanpoly.ml/api/export"
+                  >
+                    File Mẫu
                   </Button>
                 </HeaderUpload>
                 <div className="group-select">
@@ -121,6 +132,8 @@ const UploadExcelScreen = () => {
                     icon={<MdCloudUpload />}
                     size="medium"
                     color="primary"
+                    loading={isLoading}
+                    disabled={isLoading}
                   >
                     Upload
                   </Button>

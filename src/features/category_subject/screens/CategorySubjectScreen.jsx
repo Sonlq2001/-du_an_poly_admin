@@ -37,7 +37,7 @@ import ActionSubject from '../components/ActionSubject/ActionSubject';
 import RemoveSubject from '../components/RemoveSubject/RemoveSubject';
 
 import EmptyResultImage from 'assets/images/empty-result.gif';
-import { getListUser } from 'features/user/redux/user.slice';
+import { getUsers } from 'features/user/redux/user.slice';
 import {
   getListCategorySubject,
   removeCategorySubject,
@@ -51,19 +51,19 @@ const CategorySubjectScreen = () => {
   const [isDialogSubject, setIsDialogSubject] = useState(false);
   const [isDialogSubjectRemove, setIsDialogSubjectRemove] = useState(false);
   const [listChecked, setListChecked] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { listCategorySubject, listUser, isListSubjectLoading } = useSelector(
-    (state) => ({
+  const { listCategorySubject, listUser, isCategorySubjectLoading } =
+    useSelector((state) => ({
       listCategorySubject: state.category_subject.listCategorySubject,
-      isListSubjectLoading: state.subject.isListSubjectLoading,
+      isCategorySubjectLoading: state.category_subject.isCategorySubjectLoading,
 
       listUser: state.user.listUser,
-    })
-  );
+    }));
 
   useEffect(() => {
     dispatch(getListCategorySubject());
-    dispatch(getListUser());
+    dispatch(getUsers());
   }, [dispatch]);
   const listSelectMajor = MapOptions(listUser);
   const isCheckedAll = useMemo(() => {
@@ -99,17 +99,19 @@ const CategorySubjectScreen = () => {
 
   const handleRemoveAll = () => {
     listChecked.forEach(async (id) => {
+      setIsLoading(true);
       const response = await dispatch(removeCategorySubject(id));
       if (removeCategorySubject.fulfilled.match(response)) {
         toast.success('Xóa thành công !');
       } else {
         toast.error('Xóa thất bại !');
       }
+      setIsLoading(false);
       setListChecked([]);
     });
   };
 
-  if (isListSubjectLoading) {
+  if (isCategorySubjectLoading) {
     return <Loading />;
   }
   return (
@@ -143,7 +145,11 @@ const CategorySubjectScreen = () => {
       </WrapContent>
       <WrapContent>
         <HeaderTable>
-          <Button disabled={!listChecked.length} onClick={handleRemoveAll}>
+          <Button
+            disabled={!listChecked.length || isLoading}
+            loading={isLoading}
+            onClick={handleRemoveAll}
+          >
             Xóa tất cả
           </Button>
           <Button

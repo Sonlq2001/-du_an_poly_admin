@@ -38,17 +38,17 @@ const ResetCss = () => {
 		}
 		.error-group .err-msg {
 			position: absolute;
-			color: var(--red-color);
+			color: var(--red-color) !important;
 			font-size: 1.3rem;
 			padding-top: 5px;
 		}
 		.error-group .form-field {
 			font-size: 1.3rem;
 			border: 1px solid var(--red-color) !important;
-			background-color: var(--red-bg-err);
+			background-color: var(--red-bg-err) !important;
 		}
 		.error-group .label-field {
-			color: var(--red-color);
+			color: var(--red-color) !important;
 		}
 	`;
 };

@@ -4,7 +4,7 @@ import { useField, ErrorMessage } from 'formik';
 
 import { BoxSelect } from './ElementSelect.styles';
 
-const ElementSelect = ({ label, options, placeholder, ...props }) => {
+const ElementSelect = ({ label, options, placeholder, isMulti, ...props }) => {
   const [field, meta, helpers] = useField(props);
   const classError = meta.touched && meta.error;
   const valueSelected = options.find((option) => option.value === field.value);
@@ -27,15 +27,15 @@ const ElementSelect = ({ label, options, placeholder, ...props }) => {
         </label>
       )}
       <Select
+        {...field}
+        {...props}
         className="select-option"
         options={options}
         placeholder={placeholder}
         name={field.name}
-        {...field}
         value={valueSelected || null}
         onChange={handleSelect}
         onBlur={() => helpers.setTouched(true)}
-        {...props}
       />
 
       <ErrorMessage name={field.name} component="span" className="err-msg" />
