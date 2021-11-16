@@ -52,7 +52,7 @@ export const FormLogin = styled.div`
     justify-content: center;
     border: none;
     background-color: var(--pink-color);
-    margin-top: 4rem;
+    margin-top: 3rem;
     border-radius: 5px;
     padding: 1rem 0;
     color: var(--white-color);
@@ -64,5 +64,20 @@ export const FormLogin = styled.div`
 
   .button-form:hover {
     opacity: 0.9;
+  }
+  .group-select {
+    position: relative;
+    font-size: 1.4rem;
+    margin-top: 1.5rem;
+  }
+  .msg-error {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -2rem;
+    font-size: 1.3rem;
+    color: var(--red-color);
+    margin-top: 1rem;
+    font-weight: 500;
   }
 `;

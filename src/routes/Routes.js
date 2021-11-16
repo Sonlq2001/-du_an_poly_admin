@@ -12,12 +12,13 @@ const WrapRoute = ({
   path,
   layout,
   exact,
-  isAuthRoute,
+  isPrivateRoute,
 }) => {
   const RouteLayout = layout || DefaultLayout;
   const isExact = exact || false;
-  const { accessToken } = useSelector((state) => state.auth);
-  if (!accessToken && !isAuthRoute) {
+  const isSignedIn = useSelector((state) => !!state.auth.accessToken);
+
+  if (isPrivateRoute && !isSignedIn) {
     return <LoginRedirect />;
   }
 

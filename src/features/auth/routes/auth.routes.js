@@ -6,7 +6,6 @@ export const SIGN_IN_SCREEN = {
   path: AUTH_PATHS.SIGN_IN,
   component: lazy(() => import('./../screens/SignIn/SignInScreen')),
   layout: AuthLayout,
-  isAuthRoute: true,
 };
 
 export const AUTH_ROUTES = [SIGN_IN_SCREEN];

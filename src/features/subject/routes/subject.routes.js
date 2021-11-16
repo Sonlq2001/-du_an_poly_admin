@@ -7,6 +7,7 @@ const SUBJECT_SCREEN = {
   pageTitle: 'Quản trị môn học',
   path: SUBJECT_PATH.LIST,
   component: lazy(() => import('./../screens/SubjectScreen')),
+  isPrivateRoute: true,
 };
 
 export const SUBJECT_ROUTES = [SUBJECT_SCREEN];
