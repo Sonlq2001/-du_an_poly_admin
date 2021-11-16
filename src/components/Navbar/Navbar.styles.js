@@ -112,6 +112,9 @@ export const NavControl = styled.div`
     transform: rotate(-135deg);
     cursor: pointer;
   }
+
+  @media (max-width: 1999.98px) {
+  }
 `;
 
 export const ListAction = styled.ul`

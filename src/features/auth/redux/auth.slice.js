@@ -1,18 +1,22 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
+import _get from 'lodash.get';
 
 import { authApi } from './../api/auth.api';
 
 export const postAccessToken = createAsyncThunk(
   'auth/postAccessToken',
-  async (accessToken) => {
+  async (data, { rejectWithValue }) => {
     try {
       const response = await authApi.postAccessToken({
-        access_token: accessToken,
+        campus_code: data.codeCampus,
+        access_token: data.accessToken,
       });
       return response.data;
-    } catch (error) {}
+    } catch (error) {
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
+    }
   }
 );
 
@@ -33,19 +37,17 @@ const authSlice = createSlice({
   initialState,
   reducer: {},
   extraReducers: {
+    // login
     [postAccessToken.pending]: (state) => {
       state.accessToken = null;
     },
     [postAccessToken.fulfilled]: (state, action) => {
-      if (
-        action.payload.hasOwnProperty('access_token') &&
-        action.payload.hasOwnProperty('user')
-      ) {
-        const { email, avatar, id } = action?.payload.user;
-        state.accessToken = action?.payload.access_token;
-        state.useLogin = { avatar, email, id };
-      }
+      const { email, avatar, id } = action?.payload.user;
+      state.accessToken = action?.payload.access_token;
+      state.useLogin = { avatar, email, id };
     },
+
+    // logout
     [postAccessToken.rejected]: (state) => {
       state.accessToken = null;
     },

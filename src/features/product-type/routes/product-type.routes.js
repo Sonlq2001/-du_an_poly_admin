@@ -9,6 +9,7 @@ const PRODUCT_TYPE_SCREEN = {
     import('./../screens/ProductTypeScreen/ProductTypeScreen')
   ),
   pageTitle: 'Quản trị danh mục',
+  isPrivateRoute: true,
 };
 
 export const PRODUCT_TYPE_ROUTES = [PRODUCT_TYPE_SCREEN];

@@ -49,8 +49,16 @@ const Navbar = () => {
   const location = useLocation();
   const params = useParams();
 
-  const { pageTitle: ReduxPageTitle } = useSelector((state) => state.common);
-  const { useLogin, accessToken } = useSelector((state) => state.auth);
+  const {
+    pageTitle: ReduxPageTitle,
+    useLogin,
+    accessToken,
+  } = useSelector((state) => ({
+    pageTitle: state.common.pageTitle,
+    useLogin: state.auth.useLogin,
+    accessToken: state.auth.accessToken,
+  }));
+
   const pageTitle = useMemo(() => {
     return (
       ReduxPageTitle ||
@@ -64,7 +72,7 @@ const Navbar = () => {
     );
   }, [params, location.pathname, ReduxPageTitle]);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     dispatch(postLogout());
   };
 

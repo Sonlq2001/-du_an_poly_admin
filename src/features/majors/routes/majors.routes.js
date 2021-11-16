@@ -7,6 +7,7 @@ const MAJORS_SCREEN = {
   path: MAJORS_PATH.LIST,
   component: lazy(() => import('./../screens/MajorsScreen')),
   pageTitle: 'Quản trị chuyên ngành',
+  isPrivateRoute: true,
 };
 
 export const MAJORS_ROUTES = [MAJORS_SCREEN];
