@@ -198,7 +198,6 @@ const MajorsScreen = () => {
                 ))}
               </Tbody>
             </TableCustom>
-
             <GroupPagination>
               <TablePagination
                 pageLengthMenu={[20, 50, 100]}
