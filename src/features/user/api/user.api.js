@@ -6,6 +6,9 @@ const getUsers = () => {
   return api.get(USER_ENDPOINTS.GET_USERS);
 };
 
+const postUser = (data) => {
+  return api.post(USER_ENDPOINTS.POST_USER, data);
+};
 const putUser = (value) => {
   return api.put(USER_ENDPOINTS.PUT_USER.replace(':id', value.id), value);
 };
@@ -18,4 +21,5 @@ export const userApi = {
   getUsers,
   putUser,
   getUserDetail,
+  postUser,
 };

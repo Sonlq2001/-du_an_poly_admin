@@ -11,7 +11,6 @@ import productTypeReducer from 'features/product-type/redux/product-type.slice';
 import semesterReducer from 'features/semester/redux/semester.slice';
 import roleReducer from 'features/role/redux/role.slice';
 import permissionsReducer from 'features/permissions/redux/permissions.slice';
-import category_subjectReducer from 'features/category_subject/redux/category_subject.slice';
 import campusesReducer from 'features/campuses/redux/campuses.slice';
 
 const rootReducer = combineReducers({
@@ -26,7 +25,6 @@ const rootReducer = combineReducers({
   semester: semesterReducer,
   role: roleReducer,
   permission: permissionsReducer,
-  category_subject: category_subjectReducer,
   campuses: campusesReducer,
 });
 
