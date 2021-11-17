@@ -1,14 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
+import _get from 'lodash.get';
 
 import { authApi } from './../api/auth.api';
 
 export const postAccessToken = createAsyncThunk(
   'auth/postAccessToken',
-  async (accessToken) => {
+  async (data, { rejectWithValue }) => {
     try {
-      const response = await authApi.postAccessToken(accessToken);
+      const response = await authApi.postAccessToken({
+        campus_code: data.codeCampus,
+        access_token: data.accessToken,
+      });
       return response.data;
     } catch (error) {
       return error.response.data.errors;
@@ -42,6 +46,7 @@ const authSlice = createSlice({
   initialState,
   reducer: {},
   extraReducers: {
+    // login
     [postAccessToken.pending]: (state) => {
       state.accessToken = null;
     },
@@ -56,6 +61,8 @@ const authSlice = createSlice({
 
       // }
     },
+
+    // logout
     [postAccessToken.rejected]: (state) => {
       state.accessToken = null;
     },

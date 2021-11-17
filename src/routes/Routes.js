@@ -5,18 +5,20 @@ import DefaultLayout from './../layouts/DefaultLayout/DefaultLayout';
 import { LIST_ROUTES } from './routes.config';
 import Loading from './../components/Loading/Loading';
 import LoginRedirect from 'features/auth/helpers/LoginRedirect';
+import { useSelector } from 'react-redux';
 
 const WrapRoute = ({
   component: Component,
   path,
   layout,
   exact,
-  isAuthRoute,
+  isPrivateRoute,
 }) => {
   const RouteLayout = layout || DefaultLayout;
   const isExact = exact || false;
-  const { accessToken } = store.getState().auth;
-  if (!accessToken && !isAuthRoute) {
+  const isSignedIn = useSelector((state) => !!state.auth.accessToken);
+
+  if (isPrivateRoute && !isSignedIn) {
     return <LoginRedirect />;
   }
   return (

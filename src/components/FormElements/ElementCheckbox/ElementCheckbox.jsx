@@ -32,24 +32,25 @@ const ElementCheckbox = ({ id, data, name, ...props }) => {
 
   return (
     <>
-      {data.map((item) => {
-        return (
-          <BoxCheckbox key={item.id}>
-            <label htmlFor={item.id} className="label-filed label-checkbox">
-              {item.name}
-            </label>
-            <input
-              type="checkbox"
-              className="checkbox-field"
-              id={item.id}
-              name={name}
-              value={item.id}
-              checked={mixArray.includes(item.id)}
-              onChange={handleChange}
-            />
-          </BoxCheckbox>
-        );
-      })}
+      {data &&
+        data.map((item) => {
+          return (
+            <BoxCheckbox key={item.id}>
+              <label htmlFor={item.id} className="label-filed label-checkbox">
+                {item.name}
+              </label>
+              <input
+                type="checkbox"
+                className="checkbox-field"
+                id={item.id}
+                name={name}
+                value={item.id}
+                checked={mixArray.includes(item.id)}
+                onChange={handleChange}
+              />
+            </BoxCheckbox>
+          );
+        })}
     </>
   );
 };

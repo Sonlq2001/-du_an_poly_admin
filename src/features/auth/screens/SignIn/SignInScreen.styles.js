@@ -52,7 +52,7 @@ export const FormLogin = styled.div`
     justify-content: center;
     border: none;
     background-color: var(--pink-color);
-    margin-top: 4rem;
+    margin-top: 3rem;
     border-radius: 5px;
     padding: 1rem 0;
     color: var(--white-color);
@@ -70,6 +70,22 @@ export const FormLogin = styled.div`
     font-size: 1.3rem;
     color: red;
     float: left;
+  }
+  .loader {
+    height: 17px;
+    margin-left: 15px;
+    width: 17px;
+    border-radius: 50%;
+    border-top: 2px solid blue;
+    animation: spin 1s infinite linear;
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
   }
 `;
 export const BoxSelect = styled.div`
@@ -99,8 +115,8 @@ export const BoxSelect = styled.div`
     border: none;
   }
   .error {
-    padding-top: 1rem;
-    font-size: 1.3rem;
+    padding: 1.3rem 0rem;
+    font-size: 1.2rem;
     color: red;
   }
 `;

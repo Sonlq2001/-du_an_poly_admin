@@ -15,6 +15,7 @@ const ROLE_ACTION_ADD_SCREEN = {
   component: lazy(() => import('../screens/RoleActionScreen/RoleActionScreen')),
   pageTitle: 'Quản trị vai trò',
   exact: true,
+  isPrivateRoute: true,
 };
 
 const ROLE_ACTION_EDIT_SCREEN = {
@@ -22,6 +23,7 @@ const ROLE_ACTION_EDIT_SCREEN = {
   path: ROLE_PATHS.ROLE_ACTION_EDIT,
   component: lazy(() => import('../screens/RoleActionScreen/RoleActionScreen')),
   pageTitle: 'Quản trị vai trò',
+  isPrivateRoute: true,
 };
 
 export const ROLE_ROUTES = [

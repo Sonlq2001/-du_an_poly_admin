@@ -1,10 +1,9 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiOutlineGoogle } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import GoogleLogin from 'react-google-login';
-import { useHistory } from 'react-router-dom';
-
 import Select from 'react-select';
+
 import {
   PageSingIn,
   PageSingInLeft,
@@ -13,41 +12,48 @@ import {
   BoxSelect,
 } from './SignInScreen.styles';
 import LogoFpt from 'assets/images/logo.png';
-import { postAccessToken, getCampus } from './../../redux/auth.slice';
 import useRedirectAfterLogin from './../../hooks/useRedirectAfterLogin';
-import { MapOptionsCampuses } from 'helpers/convert/map-options';
+import { postAccessToken } from './../../redux/auth.slice';
+import { getCampuses } from 'features/campuses/redux/campuses.slice';
+
 const SignInScreen = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
-  const { messenger } = useSelector((state) => state.auth);
-  const [Campuses_Code, setCampusesCode] = useState(null);
-  const [message, setMessage] = useState(false);
-  const [messageLogin, setMessageLogin] = useState(messenger);
-  const { listCampuses } = useSelector((state) => state.auth);
-  const optionCampuses = MapOptionsCampuses(listCampuses);
 
-  const fetchCampuses = useCallback(() => {
-    dispatch(getCampus());
-  }, [dispatch]);
-  useEffect(() => {
-    dispatch(getCampus());
-  }, [dispatch, fetchCampuses]);
+  const [codeCampus, setCodeCampus] = useState(null);
+  const [message, setMessage] = useState(false);
 
   useRedirectAfterLogin();
+
+  useEffect(() => {
+    dispatch(getCampuses());
+  }, [dispatch]);
+
+  const { listCampuses } = useSelector((state) => ({
+    listCampuses: state.campuses.listCampuses.map((campus) => ({
+      label: campus.name,
+      value: campus.code,
+    })),
+  }));
+  const { messenger } = useSelector((state) => state.auth);
   const responseGoogle = (response) => {
     const { accessToken } = response;
-    const data = { campus_code: Campuses_Code, access_token: accessToken };
-    setMessageLogin('');
-    if (!Campuses_Code) {
+    if (accessToken) {
+      dispatch(
+        postAccessToken({
+          codeCampus,
+          accessToken,
+        })
+      );
+    }
+  };
+
+  const handleClickLogin = () => {
+    if (!codeCampus) {
       setMessage(true);
-    } else {
-      dispatch(postAccessToken(data))
-        .then(() => history.push('/'))
-        .catch((error) => setMessageLogin(error.response.data.errors));
     }
   };
   const handleCampuses = (data) => {
-    setCampusesCode(data.value);
+    setCodeCampus(data.value);
     setMessage(false);
   };
   return (
@@ -62,30 +68,36 @@ const SignInScreen = () => {
               onChange={(e) => handleCampuses(e)}
               className="select-option input-search"
               placeholder="Lựa chọn cơ sở "
-              options={optionCampuses}
+              options={listCampuses || []}
             />
             {message && <p className="error">Vui lòng chọn cơ sở </p>}
           </BoxSelect>
           <GoogleLogin
             clientId={process.env.REACT_APP_CLIENT_ID}
-            render={(renderProps) => (
-              <button
-                className="button-form"
-                onClick={renderProps.onClick}
-                disabled={renderProps.disabled}
-              >
-                <span className="icon-form">
-                  <AiOutlineGoogle />
-                </span>
-                Google
-              </button>
-            )}
+            render={(renderProps) => {
+              return (
+                <button
+                  className="button-form"
+                  onClick={
+                    !message && codeCampus
+                      ? renderProps.onClick
+                      : handleClickLogin
+                  }
+                  disabled={renderProps.disabled}
+                >
+                  <span className="icon-form">
+                    <AiOutlineGoogle />
+                  </span>
+                  Google
+                </button>
+              );
+            }}
             buttonText="Login"
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
             cookiePolicy={'single_host_origin'}
           />
-          {messageLogin && <div className="error"> {messageLogin} </div>}
+          {messenger && <div className="error"> {messenger} !</div>}
         </FormLogin>
       </PageSingInRight>
     </PageSingIn>
