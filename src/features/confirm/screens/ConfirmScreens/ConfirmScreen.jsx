@@ -53,7 +53,7 @@ const ConfirmScreen = () => {
   }, [dispatch, ProductTypes, ProductList]);
   useEffect(() => {
     dispatch(getDetail(path));
-  }, [dispatch, path]);
+  }, [dispatch]);
   // change kỳ học
   const HandlerSemester = (data) => {
     console.log('data', data);

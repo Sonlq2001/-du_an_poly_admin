@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const GroupTale = styled.div`
+  
   overflow-x: auto;
 `;
 export const Table = styled.table`

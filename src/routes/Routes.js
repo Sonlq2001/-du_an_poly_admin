@@ -1,7 +1,6 @@
 import { Suspense } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-
+import store from './../redux/store';
 import DefaultLayout from './../layouts/DefaultLayout/DefaultLayout';
 import { LIST_ROUTES } from './routes.config';
 import Loading from './../components/Loading/Loading';
@@ -16,11 +15,10 @@ const WrapRoute = ({
 }) => {
   const RouteLayout = layout || DefaultLayout;
   const isExact = exact || false;
-  const { accessToken } = useSelector((state) => state.auth);
+  const { accessToken } = store.getState().auth;
   if (!accessToken && !isAuthRoute) {
     return <LoginRedirect />;
   }
-
   return (
     <Route
       exact={isExact}
@@ -33,7 +31,6 @@ const WrapRoute = ({
             </RouteLayout>
           );
         };
-
         return <Content />;
       }}
     />

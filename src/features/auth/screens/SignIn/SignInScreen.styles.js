@@ -65,4 +65,42 @@ export const FormLogin = styled.div`
   .button-form:hover {
     opacity: 0.9;
   }
+  .error {
+    padding-top: 1rem;
+    font-size: 1.3rem;
+    color: red;
+    float: left;
+  }
+`;
+export const BoxSelect = styled.div`
+  padding-top: 2rem;
+  text-align: left;
+  .select-option {
+    font-size: 1.4rem;
+    border-radius: 5px;
+    padding: 2.5px 0;
+    background-color: var(--eee-color);
+  }
+  .css-1s2u09g-control {
+    background-color: var(--eee-color);
+    border: none;
+    height: 100%;
+  }
+  .css-1pahdxg-control {
+    background-color: var(--eee-color);
+    border: none;
+    box-shadow: none;
+  }
+  .css-qc6sy-singleValue {
+    font-size: 1.3rem;
+  }
+  .css-yk16xz-control {
+    background-color: var(--eee-color);
+    border: none;
+  }
+  .error {
+    padding-top: 1rem;
+    font-size: 1.3rem;
+    color: red;
+  }
 `;

@@ -113,7 +113,7 @@ const ReviewProduct = ({ data, setOpen }) => {
                 </button>{' '}
                 <button
                   className="btn-item"
-                  disabled={data.teacher_id !== useLogin.id}
+                  disabled={useLogin?.id !== data.teacher_id}
                   onClick={() => handleRefuse(data)}
                 >
                   {loadingRefuse ? (
@@ -126,7 +126,7 @@ const ReviewProduct = ({ data, setOpen }) => {
                 </button>
                 <button
                   className="btn-item"
-                  disabled={data.teacher_id !== useLogin.id}
+                  disabled={useLogin?.id !== data.teacher_id}
                 >
                   Xóa
                 </button>

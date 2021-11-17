@@ -7,18 +7,12 @@ import { authApi } from './../api/auth.api';
 export const postAccessToken = createAsyncThunk(
   'auth/postAccessToken',
   async (accessToken) => {
-    var d = new Date();
-    d.setTime(d.getTime());
-    var expires = d.toUTCString();
     try {
-      const response = await authApi.postAccessToken({
-        access_token: accessToken,
-      });
-      console.log('expires', d);
-      document.cookie =
-        `access_token=${response.data.access_token} ` + `;expires=${d}`;
+      const response = await authApi.postAccessToken(accessToken);
       return response.data;
-    } catch (error) {}
+    } catch (error) {
+      return error.response.data.errors;
+    }
   }
 );
 
@@ -29,10 +23,18 @@ export const postLogout = createAsyncThunk('auth/postLogout', async () => {
     localStorage.clear();
   } catch (error) {}
 });
+export const getCampus = createAsyncThunk('auth/getCampuses', async () => {
+  try {
+    const response = await authApi.getCampuses();
+    return response.data.campuses;
+  } catch (error) {}
+});
 
 const initialState = {
   accessToken: null,
   useLogin: null,
+  listCampuses: [],
+  messenger: null,
 };
 
 const authSlice = createSlice({
@@ -44,14 +46,15 @@ const authSlice = createSlice({
       state.accessToken = null;
     },
     [postAccessToken.fulfilled]: (state, action) => {
-      if (
-        action.payload.hasOwnProperty('access_token') &&
-        action.payload.hasOwnProperty('user')
-      ) {
-        const { email, avatar, id } = action?.payload.user;
+      if (action.payload.user) {
+        const { email, avatar, id } = action.payload.user;
         state.accessToken = action?.payload.access_token;
         state.useLogin = { avatar, email, id };
+      } else {
+        state.messenger = action.payload;
       }
+
+      // }
     },
     [postAccessToken.rejected]: (state) => {
       state.accessToken = null;
@@ -59,10 +62,18 @@ const authSlice = createSlice({
     [postLogout.fulfilled]: (state) => {
       state.accessToken = null;
       state.useLogin = null;
+      localStorage.clear();
+      state.messenger = '';
     },
     [postLogout.rejected]: (state) => {
       state.accessToken = null;
       state.useLogin = null;
+    },
+    [getCampus.fulfilled]: (state, action) => {
+      state.listCampuses = action.payload;
+    },
+    [getCampus.rejected]: (state, action) => {
+      state.listCampuses = action.payload;
     },
   },
 });

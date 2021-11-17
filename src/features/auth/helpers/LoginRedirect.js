@@ -8,12 +8,13 @@ const LoginRedirect = () => {
 
   return (
     <Redirect
-      to={{
-        pathname: AUTH_PATHS.SIGN_IN,
-        search: qs.stringify({
-          redirect: location.pathname + location.search,
-        }),
-      }}
+      to="/sign-in"
+      // to={{
+      //   pathname: AUTH_PATHS.SIGN_IN,
+      //   search: qs.stringify({
+      //     redirect: location.pathname + location.search,
+      //   }),
+      // }}
     />
   );
 };

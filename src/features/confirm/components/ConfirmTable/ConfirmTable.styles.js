@@ -12,6 +12,7 @@ export const BoxMain = styled.div`
 export const GroupAction = styled.div`
   text-align: right;
   position: relative;
+  z-index: 200;
   .show-action {
     cursor: pointer;
     font-size: 2rem;
