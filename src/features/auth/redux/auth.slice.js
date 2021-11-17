@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
+import _get from 'lodash.get';
 
 import { authApi } from './../api/auth.api';
 
@@ -14,7 +15,7 @@ export const postAccessToken = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      return error.response.data.errors;
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
@@ -26,18 +27,10 @@ export const postLogout = createAsyncThunk('auth/postLogout', async () => {
     localStorage.clear();
   } catch (error) {}
 });
-export const getCampus = createAsyncThunk('auth/getCampuses', async () => {
-  try {
-    const response = await authApi.getCampuses();
-    return response.data.campuses;
-  } catch (error) {}
-});
 
 const initialState = {
   accessToken: null,
   useLogin: null,
-  listCampuses: [],
-  messenger: null,
 };
 
 const authSlice = createSlice({
@@ -50,15 +43,9 @@ const authSlice = createSlice({
       state.accessToken = null;
     },
     [postAccessToken.fulfilled]: (state, action) => {
-      if (action.payload.user) {
-        const { email, avatar, id } = action.payload.user;
-        state.accessToken = action?.payload.access_token;
-        state.useLogin = { avatar, email, id };
-      } else {
-        state.messenger = action.payload;
-      }
-
-      // }
+      const { email, avatar, id } = action.payload.user;
+      state.accessToken = action?.payload.access_token;
+      state.useLogin = { avatar, email, id };
     },
 
     // logout
@@ -74,12 +61,6 @@ const authSlice = createSlice({
     [postLogout.rejected]: (state) => {
       state.accessToken = null;
       state.useLogin = null;
-    },
-    [getCampus.fulfilled]: (state, action) => {
-      state.listCampuses = action.payload;
-    },
-    [getCampus.rejected]: (state, action) => {
-      state.listCampuses = action.payload;
     },
   },
 });

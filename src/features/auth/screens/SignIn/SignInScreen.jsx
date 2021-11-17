@@ -3,6 +3,7 @@ import { AiOutlineGoogle } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import GoogleLogin from 'react-google-login';
 import Select from 'react-select';
+import _get from 'lodash.get';
 
 import {
   PageSingIn,
@@ -20,7 +21,8 @@ const SignInScreen = () => {
   const dispatch = useDispatch();
 
   const [codeCampus, setCodeCampus] = useState(null);
-  const [message, setMessage] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [message, setMessage] = useState('');
 
   useRedirectAfterLogin();
 
@@ -34,28 +36,35 @@ const SignInScreen = () => {
       value: campus.code,
     })),
   }));
-  const { messenger } = useSelector((state) => state.auth);
-  const responseGoogle = (response) => {
+
+  const responseGoogle = async (response) => {
     const { accessToken } = response;
     if (accessToken) {
-      dispatch(
+      const response = await dispatch(
         postAccessToken({
           codeCampus,
           accessToken,
         })
       );
+
+      if (!postAccessToken.fulfilled.match(response)) {
+        setIsError(true);
+        setMessage(_get(response, 'payload', ''));
+      }
     }
   };
 
   const handleClickLogin = () => {
     if (!codeCampus) {
-      setMessage(true);
+      setIsError(true);
+      setMessage('Vui lòng chọn cơ sở');
     }
   };
   const handleCampuses = (data) => {
     setCodeCampus(data.value);
-    setMessage(false);
+    setIsError(false);
   };
+
   return (
     <PageSingIn>
       <PageSingInLeft></PageSingInLeft>
@@ -70,7 +79,7 @@ const SignInScreen = () => {
               placeholder="Lựa chọn cơ sở "
               options={listCampuses || []}
             />
-            {message && <p className="error">Vui lòng chọn cơ sở </p>}
+            {isError && <p className="error">{message}</p>}
           </BoxSelect>
           <GoogleLogin
             clientId={process.env.REACT_APP_CLIENT_ID}
@@ -79,7 +88,7 @@ const SignInScreen = () => {
                 <button
                   className="button-form"
                   onClick={
-                    !message && codeCampus
+                    !isError && codeCampus
                       ? renderProps.onClick
                       : handleClickLogin
                   }
@@ -97,7 +106,6 @@ const SignInScreen = () => {
             onFailure={responseGoogle}
             cookiePolicy={'single_host_origin'}
           />
-          {messenger && <div className="error"> {messenger} !</div>}
         </FormLogin>
       </PageSingInRight>
     </PageSingIn>
