@@ -26,10 +26,10 @@ const Adduser = ({ setOpen }) => {
   const getAll = useCallback(() => {
     dispatch(getCampuses());
     dispatch(getMajors());
-  }, []);
+  }, [dispatch]);
   useEffect(() => {
     getAll();
-  }, [dispatch]);
+  }, [dispatch, getAll]);
   return (
     <>
       <Formik
