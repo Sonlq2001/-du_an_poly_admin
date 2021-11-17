@@ -18,7 +18,6 @@ const WrapRoute = ({
   const isSignedIn = useSelector((state) => !!state.auth.accessToken);
 
   if (isPrivateRoute && !isSignedIn) {
-    console.log('vo day');
     return <LoginRedirect />;
   }
   return (
