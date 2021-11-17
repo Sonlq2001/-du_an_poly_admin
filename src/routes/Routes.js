@@ -1,6 +1,5 @@
 import { Suspense } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import store from './../redux/store';
 import DefaultLayout from './../layouts/DefaultLayout/DefaultLayout';
 import { LIST_ROUTES } from './routes.config';
 import Loading from './../components/Loading/Loading';
