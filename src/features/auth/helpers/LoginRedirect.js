@@ -1,9 +1,20 @@
-import { Redirect } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
+import qs from 'query-string';
 
 import { AUTH_PATHS } from './../constants/auth.paths';
 
 const LoginRedirect = () => {
-  return <Redirect to={AUTH_PATHS.SIGN_IN} />;
+  const location = useLocation();
+  return (
+    <Redirect
+      to={{
+        pathname: AUTH_PATHS.SIGN_IN,
+        search: qs.stringify({
+          redirect: location.pathname + location.search,
+        }),
+      }}
+    />
+  );
 };
 
 export default LoginRedirect;

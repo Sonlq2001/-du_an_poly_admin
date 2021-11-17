@@ -99,7 +99,7 @@ const SubjectScreen = () => {
       setListChecked([]);
     });
   };
-  console.log('subject', listSubject);
+
   if (isListSubjectLoading) {
     return <Loading />;
   }

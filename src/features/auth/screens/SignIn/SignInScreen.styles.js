@@ -1,13 +1,12 @@
 import styled from 'styled-components';
 
-import BgLogin from './../../../../assets/images/bg-login.jpg';
+import BgLogin from 'assets/images/bg-login.jpg';
 
 export const PageSingIn = styled.div`
   display: flex;
   width: 100%;
   height: 100vh;
 `;
-
 export const PageSingInLeft = styled.div`
   width: 65%;
   height: 100%;
@@ -16,12 +15,10 @@ export const PageSingInLeft = styled.div`
   background-size: cover;
   background-position: center;
 `;
-
 export const PageSingInRight = styled.div`
   width: 35%;
   position: relative;
 `;
-
 export const FormLogin = styled.div`
   position: absolute;
   text-align: center;
@@ -29,30 +26,26 @@ export const FormLogin = styled.div`
   top: 15%;
   left: 50%;
   transform: translateX(-50%);
-
   .logo-from {
     width: 18rem;
   }
-
   .des-from {
     font-size: 1.4rem;
     font-family: Arial, sans-serif;
     color: var(--txt-color);
     margin-top: 1rem;
   }
-
   .icon-form {
     font-size: 2rem;
     padding-right: 1rem;
   }
-
   .button-form {
     display: flex;
+    margin-top: 1.5rem;
     align-items: center;
     justify-content: center;
     border: none;
     background-color: var(--pink-color);
-    margin-top: 3rem;
     border-radius: 5px;
     padding: 1rem 0;
     color: var(--white-color);
@@ -61,31 +54,8 @@ export const FormLogin = styled.div`
     font-weight: 500;
     font-size: 1.5rem;
   }
-
   .button-form:hover {
     opacity: 0.9;
-  }
-  .error {
-    padding-top: 1rem;
-    font-size: 1.3rem;
-    color: red;
-    float: left;
-  }
-  .loader {
-    height: 17px;
-    margin-left: 15px;
-    width: 17px;
-    border-radius: 50%;
-    border-top: 2px solid blue;
-    animation: spin 1s infinite linear;
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
-    }
   }
 `;
 export const BoxSelect = styled.div`
@@ -115,7 +85,7 @@ export const BoxSelect = styled.div`
     border: none;
   }
   .error {
-    padding: 1.3rem 0rem;
+    padding-top: 1rem;
     font-size: 1.2rem;
     color: red;
   }

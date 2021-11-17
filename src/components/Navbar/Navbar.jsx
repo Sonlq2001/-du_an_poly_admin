@@ -5,7 +5,7 @@ import { GrTopCorner } from 'react-icons/gr';
 import { BiLogOut } from 'react-icons/bi';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation, useParams, useHistory } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { compile } from 'path-to-regexp';
 
 import {
@@ -45,7 +45,6 @@ const Navbar = () => {
   const [actionUser, setActionUser] = useState(false);
   const [isNotification, setIsNotification] = useState(false);
   const dispatch = useDispatch();
-  const history = useHistory();
   const location = useLocation();
   const params = useParams();
 
@@ -73,10 +72,7 @@ const Navbar = () => {
   }, [params, location.pathname, ReduxPageTitle]);
 
   const handleLogout = async () => {
-    const response = await dispatch(postLogout());
-    if (postLogout.fulfilled.match(response)) {
-      history.push('/sign-in');
-    }
+    dispatch(postLogout());
   };
 
   return (
