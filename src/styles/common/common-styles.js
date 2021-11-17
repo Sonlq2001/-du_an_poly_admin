@@ -74,8 +74,22 @@ export const InputSearch = styled.input`
 export const HeaderTable = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: 2rem;
+  .buttonAction {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 2rem;
+    float-w
+  }
+  .resultSeach {
+    font-size: 1.7rem;
+  }
+  .resultSeach span {
+    font-size: 1.4rem;
+    font-weight: 500;
+  }
 `;
 export const GroupPagination = styled.div`
   display: flex;

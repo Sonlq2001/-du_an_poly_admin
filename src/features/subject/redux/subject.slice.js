@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import _get from 'lodash.get';
 
-import { subjectApi } from './../api/subject.api.js';
+import { subjectApi, sortMajor } from './../api/subject.api.js';
 
 export const getListSubject = createAsyncThunk(
   'subject/getListSubject',
@@ -50,7 +50,14 @@ export const putSubject = createAsyncThunk(
     }
   }
 );
-
+// lọc
+export const SortMajor = createAsyncThunk('subject/sortMajor', async (id) => {
+  try {
+    const response = await sortMajor.sortMajors(id);
+    console.log('response.data.data', response.data.data);
+    return response.data.data;
+  } catch (error) {}
+});
 const initialState = {
   listSubject: [],
   isListSubjectLoading: false,
@@ -96,6 +103,14 @@ const subjectSlice = createSlice({
       );
     },
     [putSubject.rejected]: (state) => {
+      state.isListSubjectLoading = false;
+    },
+    // lọc theo majors
+    [SortMajor.pending]: (state) => {
+      // state.isListSubjectLoading = true;
+    },
+    [SortMajor.fulfilled]: (state, action) => {
+      state.listSubject = action.payload;
       state.isListSubjectLoading = false;
     },
   },

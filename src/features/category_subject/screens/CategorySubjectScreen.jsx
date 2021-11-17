@@ -37,47 +37,54 @@ import ActionSubject from '../components/ActionSubject/ActionSubject';
 import RemoveSubject from '../components/RemoveSubject/RemoveSubject';
 
 import EmptyResultImage from 'assets/images/empty-result.gif';
-import { getMajors } from 'features/majors/redux/majors.slice';
+import { getUsers } from 'features/user/redux/user.slice';
 import {
-  getListSubject,
-  removeSubject,
-  SortMajor,
-} from './../redux/subject.slice';
-import { initForm } from './../helpers/subject.helpers';
+  getListCategorySubject,
+  removeCategorySubject,
+} from '../redux/category_subject.slice';
+import { initForm } from '../helpers/subject.helpers';
 import { MapOptions } from 'helpers/convert/map-options';
-const SubjectScreen = () => {
+
+const CategorySubjectScreen = () => {
   const dispatch = useDispatch();
   const [itemSubject, setItemSubject] = useState(initForm);
   const [isDialogSubject, setIsDialogSubject] = useState(false);
   const [isDialogSubjectRemove, setIsDialogSubjectRemove] = useState(false);
   const [listChecked, setListChecked] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [messengerSort, setMessengerSort] = useState(null);
-  const { listSubject, listMajors, isListSubjectLoading } = useSelector(
-    (state) => ({
-      listSubject: state.subject.listSubject,
-      isListSubjectLoading: state.subject.isListSubjectLoading,
-      listMajors: state.majors.listMajors,
-    })
-  );
-  useEffect(() => {
-    dispatch(getListSubject());
-    dispatch(getMajors());
-  }, [dispatch]);
-  const listSelectMajor = MapOptions(listMajors);
 
+  const { listCategorySubject, listUser, isCategorySubjectLoading } =
+    useSelector((state) => ({
+      listCategorySubject: state.category_subject.listCategorySubject,
+      isCategorySubjectLoading: state.category_subject.isCategorySubjectLoading,
+
+      listUser: state.user.listUser,
+    }));
+
+  useEffect(() => {
+    dispatch(getListCategorySubject());
+    dispatch(getUsers());
+  }, [dispatch]);
+  const listSelectMajor = MapOptions(listUser);
   const isCheckedAll = useMemo(() => {
-    return listSubject && listSubject.every((i) => listChecked.includes(i.id));
-  }, [listSubject, listChecked]);
+    return (
+      listCategorySubject &&
+      listCategorySubject.every((i) => listChecked.includes(i.id))
+    );
+  }, [listCategorySubject, listChecked]);
 
   const handleCheckedAll = (isChecked) => {
     if (isChecked) {
       setListChecked(
-        Array.from(new Set([...listChecked, ...listSubject.map((i) => i.id)]))
+        Array.from(
+          new Set([...listChecked, ...listCategorySubject.map((i) => i.id)])
+        )
       );
     } else {
       setListChecked(
-        listChecked.filter((id) => !listSubject.find((i) => i.id === id))
+        listChecked.filter(
+          (id) => !listCategorySubject.find((i) => i.id === id)
+        )
       );
     }
   };
@@ -93,8 +100,8 @@ const SubjectScreen = () => {
   const handleRemoveAll = () => {
     listChecked.forEach(async (id) => {
       setIsLoading(true);
-      const response = await dispatch(removeSubject(id));
-      if (removeSubject.fulfilled.match(response)) {
+      const response = await dispatch(removeCategorySubject(id));
+      if (removeCategorySubject.fulfilled.match(response)) {
         toast.success('Xóa thành công !');
       } else {
         toast.error('Xóa thất bại !');
@@ -103,19 +110,8 @@ const SubjectScreen = () => {
       setListChecked([]);
     });
   };
-  const handleSortMajos = async (data) => {
-    const majors_id = data.value;
-    if (majors_id === 0) {
-      dispatch(getListSubject());
-      setMessengerSort(null);
-    } else {
-      const response = await dispatch(SortMajor(majors_id));
-      if (SortMajor.fulfilled.match(response)) {
-        setMessengerSort(data.label);
-      }
-    }
-  };
-  if (isListSubjectLoading) {
+
+  if (isCategorySubjectLoading) {
     return <Loading />;
   }
   return (
@@ -141,47 +137,33 @@ const SubjectScreen = () => {
             </label>
             <Select
               className="select-option input-search"
-              options={[{ label: 'All', value: 0 }, ...listSelectMajor] || []}
+              options={listSelectMajor || []}
               placeholder="Chuyên ngành "
-              onChange={(e) => handleSortMajos(e)}
             />
           </BoxControl>
         </BoxSearchInput>
       </WrapContent>
       <WrapContent>
         <HeaderTable>
-          <div>
-            {messengerSort && (
-              <div className="resultSeach">
-                Kết quả:
-                <span>
-                  {messengerSort} ( {listSubject.length} )
-                </span>
-              </div>
-            )}
-          </div>
-          <div className="buttonAction">
-            <Button
-              disabled={!listChecked.length || isLoading}
-              onClick={handleRemoveAll}
-              loading={isLoading}
-            >
-              Xóa tất cả
-            </Button>
-            <Button
-              icon={<IoMdAdd />}
-              color="primary"
-              onClick={() => {
-                setIsDialogSubject(true);
-                setItemSubject(initForm);
-              }}
-            >
-              Thêm
-            </Button>
-          </div>
+          <Button
+            disabled={!listChecked.length || isLoading}
+            loading={isLoading}
+            onClick={handleRemoveAll}
+          >
+            Xóa tất cả
+          </Button>
+          <Button
+            icon={<IoMdAdd />}
+            color="primary"
+            onClick={() => {
+              setIsDialogSubject(true);
+              setItemSubject(initForm);
+            }}
+          >
+            Thêm
+          </Button>
         </HeaderTable>
-
-        {listSubject && listSubject.length > 0 ? (
+        {listCategorySubject && listCategorySubject.length > 0 ? (
           <>
             <TableCustom>
               <Thead>
@@ -193,14 +175,13 @@ const SubjectScreen = () => {
                     />
                   </Th>
                   <Th sort>STT</Th>
-                  <Th sort>Tên Môn Học</Th>
-                  <Th sort>Mã Môn </Th>
-                  {!messengerSort && <Th sort>Tên Chuyên Ngành </Th>}
+                  <Th sort>Tên Bộ Môn</Th>
+                  <Th sort>Mã Code</Th>
                   <Th align="right">Thao tác</Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {listSubject.map((row, index) => (
+                {listCategorySubject.map((row, index) => (
                   <Tr key={row.id}>
                     <Td>
                       <CheckboxSingle
@@ -211,7 +192,6 @@ const SubjectScreen = () => {
                     <Td>{index + 1}</Td>
                     <Td>{row.name}</Td>
                     <Td>{row.code}</Td>
-                    {!messengerSort && <Td>{row.majors && row.majors.name}</Td>}
                     <Td>
                       <BoxActionTable>
                         <Button
@@ -258,7 +238,7 @@ const SubjectScreen = () => {
         <PopupOverlay
           open={isDialogSubject}
           setOpen={setIsDialogSubject}
-          title={itemSubject?.id ? 'Sửa Môn Học' : 'Thêm Môn Học '}
+          title={itemSubject?.id ? 'Sửa Bộ Môn ' : 'Thêm Bộ Môn  '}
         >
           <ActionSubject
             item={itemSubject}
@@ -279,4 +259,4 @@ const SubjectScreen = () => {
   );
 };
 
-export default memo(SubjectScreen);
+export default memo(CategorySubjectScreen);
