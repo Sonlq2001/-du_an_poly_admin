@@ -41,7 +41,6 @@ import { getMajors } from 'features/majors/redux/majors.slice';
 import { getListSubject, removeSubject } from './../redux/subject.slice';
 import { initForm } from './../helpers/subject.helpers';
 import { MapOptions } from 'helpers/convert/map-options';
-import { getListCategorySubject } from 'features/category_subject/redux/category_subject.slice';
 const SubjectScreen = () => {
   const dispatch = useDispatch();
   const [itemSubject, setItemSubject] = useState(initForm);
@@ -50,20 +49,18 @@ const SubjectScreen = () => {
   const [listChecked, setListChecked] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { listSubject, listMajors, isListSubjectLoading, listCategorySubject } =
-    useSelector((state) => ({
+  const { listSubject, listMajors, isListSubjectLoading } = useSelector(
+    (state) => ({
       listSubject: state.subject.listSubject,
       isListSubjectLoading: state.subject.isListSubjectLoading,
       listMajors: state.majors.listMajors,
-      listCategorySubject: state.category_subject.listCategorySubject,
-    }));
+    })
+  );
   useEffect(() => {
     dispatch(getListSubject());
     dispatch(getMajors());
-    dispatch(getListCategorySubject());
   }, [dispatch]);
   const listSelectMajor = MapOptions(listMajors);
-  const optionCategorySubject = MapOptions(listCategorySubject);
 
   const isCheckedAll = useMemo(() => {
     return listSubject && listSubject.every((i) => listChecked.includes(i.id));
@@ -240,7 +237,6 @@ const SubjectScreen = () => {
             item={itemSubject}
             setOpen={setIsDialogSubject}
             options={listSelectMajor}
-            optionCategorySubject={optionCategorySubject}
           />
         </PopupOverlay>
 
