@@ -50,10 +50,10 @@ const ConfirmScreen = () => {
     ProductList();
     ProductTypes();
     CampusesList();
-  }, [dispatch, ProductTypes, ProductList]);
+  }, [dispatch, ProductTypes, ProductList, CampusesList]);
   useEffect(() => {
     dispatch(getDetail(path));
-  }, [dispatch]);
+  }, [dispatch, path]);
   // change kỳ học
   const HandlerSemester = (data) => {
     console.log('data', data);

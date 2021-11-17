@@ -21,7 +21,7 @@ import {
   ListNotification,
 } from './Navbar.styles';
 import { LIST_ROUTES } from 'routes/routes.config';
-import { postLogout, getCampus } from 'features/auth/redux/auth.slice';
+import { postLogout } from 'features/auth/redux/auth.slice';
 
 const FAKE_NOTIFICATION = [
   {
