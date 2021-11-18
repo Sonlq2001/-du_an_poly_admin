@@ -1,20 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-
+import _get from 'lodash.get';
 import { userApi } from './../api/user.api';
-
 export const getUsers = createAsyncThunk('user/getUsers', async () => {
   try {
     const response = await userApi.getUsers();
     return response.data;
   } catch (error) {}
 });
-export const postUsers = createAsyncThunk('user/post', async (user) => {
+export const postUsers = createAsyncThunk('user/post', async (user,{rejectWithValue}) => {
   try {
     const response = await userApi.postUser(user);
     return response.data;
   } catch (error) {
-    console.log('lôi');
-    return error.response.data.errors;
+    return rejectWithValue(_get(error.response.data, 'errors', ''));
   }
 });
 export const putUsers = createAsyncThunk('user/putUsers', async (value) => {

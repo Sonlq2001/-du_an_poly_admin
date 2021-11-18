@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import { AiOutlineSave } from 'react-icons/ai';
 import { toast } from 'react-toastify';
+import _get from 'lodash.get';
 
 import ElementInput from 'components/FormElements/ElementInput/ElementInput';
 import { Button } from 'components/Button/Button';
@@ -26,10 +27,10 @@ const Adduser = ({ setOpen }) => {
   const getAll = useCallback(() => {
     dispatch(getCampuses());
     dispatch(getMajors());
-  }, []);
+  }, [dispatch]);
   useEffect(() => {
     getAll();
-  }, [dispatch]);
+  }, [dispatch,getAll]);
   return (
     <>
       <Formik
@@ -40,15 +41,13 @@ const Adduser = ({ setOpen }) => {
           setLoading(true);
           const response = await dispatch(postUsers(values));
           if (postUsers.fulfilled.match(response)) {
-            toast.success('Thành công !');
-            resetForm();
-            setLoading(false);
-            setOpen(false);
+            toast.success('Thành công !');         
+          }else{
+            toast.error(_get(response.payload, 'code[0]'));
           }
-          if (postUsers.rejected) {
-            setLoading(false);
-            setOpen(true);
-          }
+          resetForm();
+          setLoading(false);
+          setOpen(false);
         }}
       >
         {({ handleSubmit }) => {
