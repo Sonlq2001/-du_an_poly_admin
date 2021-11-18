@@ -25,6 +25,8 @@ import {
   HeaderTable,
   EmptyResult,
 } from 'styles/common/common-styles';
+import GroupAlert from 'components/AlertMessage/AlertMessage';
+
 import HightLightText from 'components/HightLightText/HightLightText';
 import { TablePagination } from 'components/Pagination/Pagination';
 import { Button } from 'components/Button/Button';
@@ -131,7 +133,7 @@ const UserScreen = () => {
                     <Td>{row.email}</Td>
                     <Td>{row?.student_code || '-'}</Td>
                     <Td>
-                      {row?.roles.map((item) => (
+                      {row.roles  && row?.roles.map((item) => (
                         <HightLightText key={item.id}>
                           {item.name}
                         </HightLightText>
@@ -178,6 +180,7 @@ const UserScreen = () => {
           />
         </GroupPagination>
       </WrapContent>
+      <GroupAlert />
     </>
   );
 };
