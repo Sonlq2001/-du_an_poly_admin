@@ -3,7 +3,7 @@ import { FiBookOpen, FiUsers, FiType } from 'react-icons/fi';
 import { MdMailOutline } from 'react-icons/md';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { RiSettings4Line } from 'react-icons/ri';
-import { BiBookAlt, BiSitemap, BiBook } from 'react-icons/bi';
+import { BiBookAlt, BiSitemap } from 'react-icons/bi';
 import { GiMagnifyingGlass } from 'react-icons/gi';
 
 import { CONFIRM_PATH } from './../features/confirm/constants/confirm.paths';
@@ -62,12 +62,6 @@ export const sidebars = [
         navigationTitle: 'Quản trị phản hồi',
         path: FEEDBACK_PATH.LIST,
         icon: <MdMailOutline />,
-      },
-      {
-        id: 'id_page_category_subject',
-        navigationTitle: 'Quản trị bộ môn ',
-        path: '/category_subject',
-        icon: <BiBook />,
       },
     ],
   },

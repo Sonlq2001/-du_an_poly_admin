@@ -19,7 +19,9 @@ export const BoxInputField = styled.div`
     width: 100%;
     height: 4rem;
   }
-
+  .err-msg {
+    font-size: 1em !important;
+  }
   .input-field:hover {
     border: 1px solid
       ${({ disabled }) =>

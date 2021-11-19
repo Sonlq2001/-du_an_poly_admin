@@ -55,17 +55,7 @@ const ActionSubject = ({ item, setOpen, options, optionCategorySubject }) => {
                   />
                 </div>
               </div>
-              <div className="form-group">
-                <label htmlFor="">Bộ Môn</label>
-                <div className="box-select">
-                  <ElementSelect
-                    className="select"
-                    name="catesubject_id"
-                    placeholder="Chọn bộ môn "
-                    options={optionCategorySubject || []}
-                  />
-                </div>
-              </div>
+
               <div className="form-group">
                 <label htmlFor=""> Môn Học </label>
                 <ElementInput

@@ -1,11 +1,10 @@
-import qs from 'query-string';
 import { Redirect, useLocation } from 'react-router-dom';
+import qs from 'query-string';
 
 import { AUTH_PATHS } from './../constants/auth.paths';
 
 const LoginRedirect = () => {
   const location = useLocation();
-
   return (
     <Redirect
       to={{

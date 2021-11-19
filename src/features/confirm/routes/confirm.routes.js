@@ -10,6 +10,7 @@ const CONFIRM_SCREEN = {
   path: `${CONFIRM_PATH.LIST}/:path?`,
   component: ConfirmScreen,
   pageTitle: 'Quản trị sản phẩm',
+  isPrivateRoute: true,
 };
 
 export const CONFIRM_ROUTES = [CONFIRM_SCREEN];

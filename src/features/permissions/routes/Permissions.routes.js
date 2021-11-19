@@ -9,6 +9,7 @@ const PERMISSIONS_SCREEN = {
     import('../screens/PermissionsScreen/PermissionsScreen')
   ),
   pageTitle: 'Quản trị quyền',
+  isPrivateRoute: true,
 };
 
 export const PERMISSIONS_ROUTES = [PERMISSIONS_SCREEN];

@@ -52,12 +52,22 @@ export const getDetail = createAsyncThunk('product/detail', async (id) => {
     return response.data.data;
   } catch (error) {}
 });
+export const getListCampuses = createAsyncThunk(
+  'product/campuses',
+  async () => {
+    try {
+      const response = await confirmProductApi.getCampus();
+      return response.data.campuses;
+    } catch (error) {}
+  }
+);
 const initialState = {
   listProduct: [],
   isProductLoading: false,
   listProductType: [],
   productDetail: {},
   sortedField: 'ASC',
+  listCampuses: [],
 };
 const productSlice = createSlice({
   name: 'product',
@@ -123,6 +133,11 @@ const productSlice = createSlice({
     [getDetail.rejected]: (state, action) => {
       console.log('lỗi');
     },
+    [getListCampuses.pending]: (state) => {},
+    [getListCampuses.fulfilled]: (state, action) => {
+      state.listCampuses = action.payload;
+    },
+    [getListCampuses.pending]: (state, action) => {},
   },
 });
 export const { convertProduct, productUpdate } = productSlice.actions;

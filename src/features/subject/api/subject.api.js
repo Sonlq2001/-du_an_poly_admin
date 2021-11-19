@@ -1,6 +1,6 @@
 import api from 'api/api';
 
-import { SUBJECT_PATH } from './../constants/subject.paths';
+import { SUBJECT_PATH, SORT_PATH } from './../constants/subject.paths';
 
 const getListSubject = () => {
   return api.get(SUBJECT_PATH.LIST);
@@ -20,4 +20,10 @@ export const subjectApi = {
   postSubject,
   removeSubject,
   putSubject,
+};
+const sortMajors = (id) => {
+  return api.get(SORT_PATH.LIST.replace(':id', id.toString()));
+};
+export const sortMajor = {
+  sortMajors,
 };

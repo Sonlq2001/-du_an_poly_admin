@@ -13,3 +13,6 @@ export const CHAIRMAN_APPROVE_PATH = {
 export const PRODUCT_TYPE = {
   LIST: '/product_types',
 };
+export const CAMPUSES_PATH = {
+  LIST: '/campuses',
+};

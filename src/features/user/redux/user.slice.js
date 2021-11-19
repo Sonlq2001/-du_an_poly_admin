@@ -1,14 +1,20 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-
+import _get from 'lodash.get';
 import { userApi } from './../api/user.api';
-
 export const getUsers = createAsyncThunk('user/getUsers', async () => {
   try {
     const response = await userApi.getUsers();
     return response.data;
   } catch (error) {}
 });
-
+export const postUsers = createAsyncThunk('user/post', async (user,{rejectWithValue}) => {
+  try {
+    const response = await userApi.postUser(user);
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(_get(error.response.data, 'errors', ''));
+  }
+});
 export const putUsers = createAsyncThunk('user/putUsers', async (value) => {
   try {
     const response = await userApi.putUser(value);
@@ -30,7 +36,7 @@ const initialState = {
   // users
   listUser: [],
   isListUserLoading: false,
-
+  messenger: null,
   // user
   itemUser: null,
   isItemUserLoading: false,
@@ -62,6 +68,16 @@ const useSlice = createSlice({
     },
     [getUserDetail.rejected]: (state) => {
       state.isItemUserLoading = false;
+    },
+
+    [postUsers.fulfilled]: (state, action) => {
+      if (action.payload.name) {
+        state.listUser = [...state.listUser, action.payload];
+      }
+      state.messenger = action.payload;
+    },
+    [postUsers.rejected]: (state, action) => {
+      state.messenger = action.payload;
     },
   },
 });

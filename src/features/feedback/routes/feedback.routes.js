@@ -7,6 +7,7 @@ const FEEDBACK_SCREEN = {
   path: FEEDBACK_PATH.LIST,
   component: lazy(() => import('./../screens/FeedbackScreen/FeedbackScreen')),
   pageTitle: 'Quản trị phản hồi',
+  isPrivateRoute: true,
 };
 
 export const FEEDBACK_ROUTES = [FEEDBACK_SCREEN];

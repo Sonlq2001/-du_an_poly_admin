@@ -11,6 +11,7 @@ export const DASHBOARD_SCREEN = {
   exact: true,
   component: DashboardScreen,
   pageTitle: 'Dashboard',
+  isPrivateRoute: true,
 };
 
 export const DASHBOARD_ROUTES = [DASHBOARD_SCREEN];

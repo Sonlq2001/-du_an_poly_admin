@@ -4,3 +4,6 @@ export const SUBJECT_PATH = {
   REMOVE: '/subjects/delete/:id',
   UPDATE: '/subjects/update/:id',
 };
+export const SORT_PATH = {
+  LIST: '/majors/:id/subjects',
+};

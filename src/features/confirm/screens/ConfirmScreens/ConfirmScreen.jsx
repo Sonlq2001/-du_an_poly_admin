@@ -4,6 +4,7 @@ import {
   getListProduct,
   getProductType,
   getDetail,
+  getListCampuses,
 } from './../../redux/product.slice';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -31,19 +32,25 @@ const ConfirmScreen = () => {
 
   const [open, setOpen] = useState(true);
   const { listSemester } = useSelector((state) => state.uploadExcel);
+  const { listCampuses } = useSelector((state) => state.product);
   const listSelectOptionSemester = MapOptions(listSemester);
+  const listSelectOptionCampuses = MapOptions(listCampuses);
   const ProductTypes = useCallback(() => {
     dispatch(getProductType());
   }, [dispatch]);
   const ProductList = useCallback(() => {
     dispatch(getListProduct());
   }, [dispatch]);
+  const CampusesList = useCallback(() => {
+    dispatch(getListCampuses());
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(getSemesters());
     ProductList();
     ProductTypes();
-  }, [dispatch, ProductTypes, ProductList]);
+    CampusesList();
+  }, [dispatch, ProductTypes, ProductList, CampusesList]);
   useEffect(() => {
     dispatch(getDetail(path));
   }, [dispatch, path]);
@@ -127,13 +134,7 @@ const ConfirmScreen = () => {
             </label>
             <Select
               className="select-option input-search"
-              options={[
-                { label: 'Hà Nội ', value: 1 },
-                { label: 'Dà Nẵng', value: 2 },
-                { label: 'Tây Nguyên', value: 3 },
-                { label: 'Hồ Chí Minh ', value: 4 },
-                { label: 'cần Thơ  ', value: 5 },
-              ]}
+              options={listSelectOptionCampuses}
               placeholder="Tìm theo Cơ Sở "
             />
           </BoxControl>

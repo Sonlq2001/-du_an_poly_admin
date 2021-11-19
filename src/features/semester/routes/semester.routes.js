@@ -7,6 +7,7 @@ const SEMESTER_SCREEN = {
   path: SEMESTER_PATH.LIST,
   component: lazy(() => import('./../screens/SemesterScreen/SemesterScreen')),
   pageTitle: 'Quản trị kỳ học',
+  isPrivateRoute: true,
 };
 
 export const SEMESTER_ROUTES = [SEMESTER_SCREEN];

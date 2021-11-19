@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 
+export const GroupTale = styled.div`
+  /* overflow-x: auto; */
+`;
 export const Table = styled.table`
   border-collapse: collapse;
   width: 100%;
@@ -16,7 +19,6 @@ export const TableTr = styled.tr`
     font-weight: 500;
     padding: 1rem;
     white-space: nowrap;
-    min-width: 7rem;
     text-align: ${({ alignText }) => alignText};
   }
 
@@ -35,19 +37,21 @@ export const TableTr = styled.tr`
 
 export const TableTh = styled.th`
   position: relative;
-  cursor: pointer;
   text-align: ${({ alignText }) => alignText};
-  &::after {
-    content: '\\2191';
+  & .label-th {
+    padding-right: 2.5rem;
+  }
+  .sort {
     position: absolute;
-    right: 1rem;
+    cursor: pointer;
+  }
+  & .sort::after {
+    content: '\\2191';
     opacity: 0.7;
   }
 
-  &::before {
+  & .sort::before {
     content: '\\2193';
-    position: absolute;
-    right: 1.7rem;
     opacity: 0.7;
   }
 `;

@@ -38,10 +38,13 @@ import RemoveSubject from '../components/RemoveSubject/RemoveSubject';
 
 import EmptyResultImage from 'assets/images/empty-result.gif';
 import { getMajors } from 'features/majors/redux/majors.slice';
-import { getListSubject, removeSubject } from './../redux/subject.slice';
+import {
+  getListSubject,
+  removeSubject,
+  SortMajor,
+} from './../redux/subject.slice';
 import { initForm } from './../helpers/subject.helpers';
 import { MapOptions } from 'helpers/convert/map-options';
-import { getListCategorySubject } from 'features/category_subject/redux/category_subject.slice';
 const SubjectScreen = () => {
   const dispatch = useDispatch();
   const [itemSubject, setItemSubject] = useState(initForm);
@@ -49,21 +52,19 @@ const SubjectScreen = () => {
   const [isDialogSubjectRemove, setIsDialogSubjectRemove] = useState(false);
   const [listChecked, setListChecked] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  const { listSubject, listMajors, isListSubjectLoading, listCategorySubject } =
-    useSelector((state) => ({
+  const [messengerSort, setMessengerSort] = useState(null);
+  const { listSubject, listMajors, isListSubjectLoading } = useSelector(
+    (state) => ({
       listSubject: state.subject.listSubject,
       isListSubjectLoading: state.subject.isListSubjectLoading,
       listMajors: state.majors.listMajors,
-      listCategorySubject: state.category_subject.listCategorySubject,
-    }));
+    })
+  );
   useEffect(() => {
     dispatch(getListSubject());
     dispatch(getMajors());
-    dispatch(getListCategorySubject());
   }, [dispatch]);
   const listSelectMajor = MapOptions(listMajors);
-  const optionCategorySubject = MapOptions(listCategorySubject);
 
   const isCheckedAll = useMemo(() => {
     return listSubject && listSubject.every((i) => listChecked.includes(i.id));
@@ -102,6 +103,18 @@ const SubjectScreen = () => {
       setListChecked([]);
     });
   };
+  const handleSortMajos = async (data) => {
+    const majors_id = data.value;
+    if (majors_id === 0) {
+      dispatch(getListSubject());
+      setMessengerSort(null);
+    } else {
+      const response = await dispatch(SortMajor(majors_id));
+      if (SortMajor.fulfilled.match(response)) {
+        setMessengerSort(data.label);
+      }
+    }
+  };
   if (isListSubjectLoading) {
     return <Loading />;
   }
@@ -128,32 +141,46 @@ const SubjectScreen = () => {
             </label>
             <Select
               className="select-option input-search"
-              options={listSelectMajor || []}
+              options={[{ label: 'All', value: 0 }, ...listSelectMajor] || []}
               placeholder="Chuyên ngành "
+              onChange={(e) => handleSortMajos(e)}
             />
           </BoxControl>
         </BoxSearchInput>
       </WrapContent>
       <WrapContent>
         <HeaderTable>
-          <Button
-            disabled={!listChecked.length || isLoading}
-            onClick={handleRemoveAll}
-            loading={isLoading}
-          >
-            Xóa tất cả
-          </Button>
-          <Button
-            icon={<IoMdAdd />}
-            color="primary"
-            onClick={() => {
-              setIsDialogSubject(true);
-              setItemSubject(initForm);
-            }}
-          >
-            Thêm
-          </Button>
+          <div>
+            {messengerSort && (
+              <div className="resultSeach">
+                Kết quả :
+                <span>
+                &nbsp;  {messengerSort} (   {listSubject.length} )
+                </span>
+              </div>
+            )}
+          </div>
+          <div className="buttonAction">
+            <Button
+              disabled={!listChecked.length || isLoading}
+              onClick={handleRemoveAll}
+              loading={isLoading}
+            >
+              Xóa tất cả
+            </Button>
+            <Button
+              icon={<IoMdAdd />}
+              color="primary"
+              onClick={() => {
+                setIsDialogSubject(true);
+                setItemSubject(initForm);
+              }}
+            >
+              Thêm
+            </Button>
+          </div>
         </HeaderTable>
+
         {listSubject && listSubject.length > 0 ? (
           <>
             <TableCustom>
@@ -168,8 +195,7 @@ const SubjectScreen = () => {
                   <Th sort>STT</Th>
                   <Th sort>Tên Môn Học</Th>
                   <Th sort>Mã Môn </Th>
-                  <Th sort>Tên Chuyên Ngành </Th>
-                  <Th sort>Tên Bộ Môn </Th>
+                  {!messengerSort && <Th sort>Tên Chuyên Ngành </Th>}
                   <Th align="right">Thao tác</Th>
                 </Tr>
               </Thead>
@@ -185,8 +211,7 @@ const SubjectScreen = () => {
                     <Td>{index + 1}</Td>
                     <Td>{row.name}</Td>
                     <Td>{row.code}</Td>
-                    <Td>{row.majors && row.majors.name}</Td>
-                    <Td>{row.cate_subejct && row.cate_subejct.name}</Td>
+                    {!messengerSort && <Td>{row.majors && row.majors.name}</Td>}
                     <Td>
                       <BoxActionTable>
                         <Button
@@ -239,7 +264,6 @@ const SubjectScreen = () => {
             item={itemSubject}
             setOpen={setIsDialogSubject}
             options={listSelectMajor}
-            optionCategorySubject={optionCategorySubject}
           />
         </PopupOverlay>
 

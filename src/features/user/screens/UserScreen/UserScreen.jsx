@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import Select from 'react-select';
 import { MdModeEdit } from 'react-icons/md';
 import { BsTrash } from 'react-icons/bs';
@@ -25,19 +25,23 @@ import {
   HeaderTable,
   EmptyResult,
 } from 'styles/common/common-styles';
+import GroupAlert from 'components/AlertMessage/AlertMessage';
+
 import HightLightText from 'components/HightLightText/HightLightText';
 import { TablePagination } from 'components/Pagination/Pagination';
 import { Button } from 'components/Button/Button';
 import Loading from 'components/Loading/Loading';
+import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 
 import { getUsers } from './../../redux/user.slice';
 import EmptyResultImage from 'assets/images/empty-result.gif';
 import { USER_PATHS } from './../../constants/user.paths';
 import avatarEmpty from 'assets/images/empty-avatar.png';
+import Adduser from 'features/user/components/action/AddUser';
 
 const UserScreen = () => {
   const dispatch = useDispatch();
-
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     dispatch(getUsers());
   }, [dispatch]);
@@ -46,6 +50,9 @@ const UserScreen = () => {
     isListUserLoading: state.user.isListUserLoading,
     listUser: state.user.listUser,
   }));
+  const addUser = () => {
+    setOpen(true);
+  };
 
   if (isListUserLoading) {
     return <Loading />;
@@ -90,7 +97,7 @@ const UserScreen = () => {
         <HeaderTable>
           <Button color="primary">Tải file excel</Button>
 
-          <Button color="primary" icon={<IoMdAdd />}>
+          <Button color="primary" icon={<IoMdAdd />} onClick={() => addUser()}>
             Thêm
           </Button>
         </HeaderTable>
@@ -126,7 +133,7 @@ const UserScreen = () => {
                     <Td>{row.email}</Td>
                     <Td>{row?.student_code || '-'}</Td>
                     <Td>
-                      {row?.roles.map((item) => (
+                      {row.roles  && row?.roles.map((item) => (
                         <HightLightText key={item.id}>
                           {item.name}
                         </HightLightText>
@@ -160,7 +167,9 @@ const UserScreen = () => {
             <img src={EmptyResultImage} alt="" />
           </EmptyResult>
         )}
-
+        <PopupOverlay open={open} setOpen={setOpen} title="Thêm Tài Khoản ">
+          <Adduser setOpen={setOpen} />
+        </PopupOverlay>
         <GroupPagination>
           <TablePagination
             pageLengthMenu={[20, 50, 100]}
@@ -171,6 +180,7 @@ const UserScreen = () => {
           />
         </GroupPagination>
       </WrapContent>
+      <GroupAlert />
     </>
   );
 };

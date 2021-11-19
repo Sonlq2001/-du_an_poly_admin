@@ -129,7 +129,7 @@ const ReviewProduct = ({ data, setOpen }) => {
                 {/* từ trối */}
                 <button
                   className="btn-item"
-                  disabled={data.teacher_id !== useLogin.id}
+                  disabled={useLogin?.id !== data.teacher_id}
                   onClick={() => handleRefuse(data)}
                 >
                   {loadingRefuse ? (
@@ -143,7 +143,7 @@ const ReviewProduct = ({ data, setOpen }) => {
                 {/* xóa  */}
                 <button
                   className="btn-item"
-                  hidden={data.teacher_id !== useLogin.id}
+                  disabled={useLogin?.id !== data.teacher_id}
                 >
                   Xóa
                 </button>
@@ -198,6 +198,15 @@ const ReviewProduct = ({ data, setOpen }) => {
                   <span>Bài viết giới thiệu</span>
                 </TitleMain>
                 <Video className="video">
+                  {/* <iframe
+                    src="https://player.vimeo.com/video/647674602"
+                    width="650"
+                    height="400"
+                    frameborder="0"
+                    webkitallowfullscreen
+                    mozallowfullscreen
+                    allowfullscreen
+                  ></iframe> */}
                   <ReactPlayer
                     controls
                     style={

@@ -1,7 +1,6 @@
 import React from 'react';
 import { FaCheck } from 'react-icons/fa';
 import { useFormikContext } from 'formik';
-
 import { CheckboxSingleStyles } from './ElementCheckbox.styles';
 
 const CheckboxFormSingle = ({ name, ...props }) => {
