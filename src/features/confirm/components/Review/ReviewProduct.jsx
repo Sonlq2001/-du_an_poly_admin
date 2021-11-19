@@ -110,7 +110,7 @@ const ReviewProduct = ({ data, setOpen }) => {
                   >
                     <div className="test">
                       {' '}
-                      <span for="" className="loading"></span>
+                      {disableButton && <span className="loading"></span>}
                       Chấp nhận lần 1
                     </div>
                   </button>
@@ -121,7 +121,7 @@ const ReviewProduct = ({ data, setOpen }) => {
                     onClick={() => handleConfirm(data)}
                   >
                     <div className="test">
-                      <span for="" className="loading"></span>
+                    {disableButton && <span className="loading"></span>}
                       Chấp nhận lần 2
                     </div>
                   </button>
@@ -198,15 +198,6 @@ const ReviewProduct = ({ data, setOpen }) => {
                   <span>Bài viết giới thiệu</span>
                 </TitleMain>
                 <Video className="video">
-                  {/* <iframe
-                    src="https://player.vimeo.com/video/647674602"
-                    width="650"
-                    height="400"
-                    frameborder="0"
-                    webkitallowfullscreen
-                    mozallowfullscreen
-                    allowfullscreen
-                  ></iframe> */}
                   <ReactPlayer
                     controls
                     style={

@@ -278,19 +278,20 @@ const ConfirmTable = ({ data, listProductType }) => {
                                 Từ chối
                               </button>
                             )}
-                            {item.status === 3 && (
-                              <button
-                                disabled={!disableButton ? false : true}
-                                className="item-action "
-                                onClick={() =>
-                                  handleRefuse(item) + setDisableButton(true)
-                                }
-                              >
-                                <span className="icon-action">
-                                  <BiExit />
-                                </span>
-                                Từ chối
-                              </button>
+                            {item.status === 3 && ( ""
+                              // <button
+                              //   disabled={!disableButton ? false : true}
+                              //   hidden={true}
+                              //   className="item-action "
+                              //   onClick={() =>
+                              //     handleRefuse(item) + setDisableButton(true)
+                              //   }
+                              // >
+                              //   <span className="icon-action">
+                              //     <BiExit />
+                              //   </span>
+                              //   Từ chối
+                              // </button>
                             )}
 
                             {/* xóa  */}

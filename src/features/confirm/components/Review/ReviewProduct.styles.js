@@ -37,7 +37,7 @@ export const ContentReview = styled.div`
     background-color: #e6e6e6;
     padding: 10px 7px;
     margin: 5px;
-    color: gray;
+    color: #11070a;
     border: none;
     border-radius: 5px;
     font-size: 1.3rem;
@@ -55,8 +55,8 @@ export const ContentReview = styled.div`
     cursor: not-allowed;
   }
   & button.btn-item .loading {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     margin-right: 8px;
     border-top: 2px solid blue;
