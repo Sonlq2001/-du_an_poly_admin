@@ -20,7 +20,6 @@ export const postSubject = createAsyncThunk(
   async (newSubject, { rejectWithValue }) => {
     try {
       const response = await subjectApi.postSubject(newSubject);
-      console.log("ở đây",response)
       return response.data;
     } catch (error) {
       return rejectWithValue(_get(error.response.data, 'errors', ''));
