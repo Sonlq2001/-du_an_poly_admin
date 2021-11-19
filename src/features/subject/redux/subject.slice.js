@@ -80,6 +80,7 @@ const subjectSlice = createSlice({
 
     // post subject
     [postSubject.fulfilled]: (state, action) => {
+      console.log("ở đây",action.payload)
       state.listSubject = [...state.listSubject, action.payload.data];
     },
     [postSubject.rejected]: (state) => {
