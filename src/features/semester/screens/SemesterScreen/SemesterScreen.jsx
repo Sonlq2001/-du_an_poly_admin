@@ -119,6 +119,14 @@ const SemesterScreen = () => {
 
       <WrapContent>
         <HeaderTable>
+        <div className="resultSeach">
+            {/* {messengerSort && (
+              <span>
+                Kết quả : &nbsp; {messengerSort} ( {listSubject.length} )
+              </span>
+            )} */}
+          </div>
+          <div className="buttonAction">
           <Button
             disabled={!listChecked.length || isLoading}
             onClick={handleRemoveAll}
@@ -136,6 +144,7 @@ const SemesterScreen = () => {
           >
             Thêm
           </Button>
+          </div>
         </HeaderTable>
 
         {listSemester && listSemester.length > 0 ? (

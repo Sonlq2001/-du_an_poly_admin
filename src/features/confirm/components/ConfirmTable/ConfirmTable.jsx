@@ -34,6 +34,7 @@ import GroupAlert from './../../../../components/AlertMessage/AlertMessage';
 import Refuse from '../ActionProduct/refuse/Refuse';
 
 const ConfirmTable = ({ data, listProductType }) => {
+  console.log("data",data)
   const HandleSort = (name) => {
     dispatch(productUpdate(name));
   };
