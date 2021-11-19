@@ -153,9 +153,9 @@ const SubjectScreen = () => {
           <div>
             {messengerSort && (
               <div className="resultSeach">
-                Kết quả:
+                Kết quả :
                 <span>
-                  {messengerSort} ( {listSubject.length} )
+                &nbsp;  {messengerSort} (   {listSubject.length} )
                 </span>
               </div>
             )}

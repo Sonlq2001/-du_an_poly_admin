@@ -181,6 +181,15 @@ const ReviewProduct = ({ data, setOpen }) => {
                   <span>Bài viết giới thiệu</span>
                 </TitleMain>
                 <Video className="video">
+                  {/* <iframe
+                    src="https://player.vimeo.com/video/647674602"
+                    width="650"
+                    height="400"
+                    frameborder="0"
+                    webkitallowfullscreen
+                    mozallowfullscreen
+                    allowfullscreen
+                  ></iframe> */}
                   <ReactPlayer
                     controls
                     style={
