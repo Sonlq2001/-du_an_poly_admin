@@ -61,6 +61,15 @@ export const getListCampuses = createAsyncThunk(
     } catch (error) {}
   }
 );
+export const ProductUser  = createAsyncThunk("product/productUser" , async (user_id)=>{
+    try {
+      const response = await  confirmProductApi.productUser(user_id)
+    return  response.data
+    } catch (error) {
+      
+    }
+    
+})
 const initialState = {
   listProduct: [],
   isProductLoading: false,
@@ -86,6 +95,19 @@ const productSlice = createSlice({
     },
   },
   extraReducers: {
+    // product user 
+    [ProductUser.pending] :(state)=>{
+      state.isProductLoading = true;
+    },
+    [ProductUser.fulfilled] :(state,action)=>{
+      state.isProductLoading = false;
+      if (Array.isArray(action.payload)) {
+        state.listProduct = action.payload
+        .filter(
+          (item) => item.status !== 0
+        );
+      }
+    },
     // get list product
     [getListProduct.pending]: (state) => {
       state.isProductLoading = true;

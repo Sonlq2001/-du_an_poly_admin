@@ -1,8 +1,6 @@
 import React, { memo } from 'react';
 import { useField, ErrorMessage } from 'formik';
-
 import { BoxInputField } from './ElementInput.styles';
-
 const ElementInput = ({
   label,
   id,

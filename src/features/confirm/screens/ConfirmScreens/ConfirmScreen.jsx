@@ -1,10 +1,10 @@
 import React, { memo, useEffect, useCallback, useState } from 'react';
 import Select from 'react-select';
 import {
-  getListProduct,
   getProductType,
   getDetail,
   getListCampuses,
+  ProductUser
 } from './../../redux/product.slice';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -29,7 +29,7 @@ const ConfirmScreen = () => {
   const { path } = useParams();
   const { listProduct, isProductLoading, listProductType, productDetail } =
     useSelector((state) => state.product);
-
+    const {useLogin}  = useSelector((state)=>state.auth)
   const [open, setOpen] = useState(true);
   const { listSemester } = useSelector((state) => state.uploadExcel);
   const { listCampuses } = useSelector((state) => state.product);
@@ -38,19 +38,17 @@ const ConfirmScreen = () => {
   const ProductTypes = useCallback(() => {
     dispatch(getProductType());
   }, [dispatch]);
-  const ProductList = useCallback(() => {
-    dispatch(getListProduct());
-  }, [dispatch]);
+
   const CampusesList = useCallback(() => {
     dispatch(getListCampuses());
   }, [dispatch]);
-
   useEffect(() => {
     dispatch(getSemesters());
-    ProductList();
+
     ProductTypes();
+    dispatch(ProductUser({user_id : useLogin.id}))
     CampusesList();
-  }, [dispatch, ProductTypes, ProductList, CampusesList]);
+  }, [dispatch, ProductTypes, CampusesList ,useLogin]);
   useEffect(() => {
     dispatch(getDetail(path));
   }, [dispatch, path]);
@@ -146,6 +144,7 @@ const ConfirmScreen = () => {
             <Select
               className="select-option input-search"
               options={[
+                {},
                 { label: 'Phê duyệt ', value: 1 },
                 { label: 'Đang chờ ', value: 2 },
               ]}
