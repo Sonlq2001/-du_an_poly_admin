@@ -229,12 +229,7 @@ const ReviewProduct = ({ data, setOpen }) => {
                 </TitleMain>
 
                 <GroupAttach>
-                  <ItemAttach>
-                    <div className="title-attach">Link github:</div>
-                    <a target="_blank" href="!#" rel="noreferrer">
-                      https://caodang.fpt.edu.vn/tin-tuc-poly/nu-sinh-fpoly-tay-nguyen-dat-chung-chi-cuoc-thi-vo-dich-thiet-ke-do-hoa-the-gioi.html
-                    </a>
-                  </ItemAttach>
+                 
                   <ItemAttach>
                     <div className="title-attach">Tài liệu hướng dẫn:</div>
                     <a
