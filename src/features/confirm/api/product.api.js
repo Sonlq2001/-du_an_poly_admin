@@ -42,6 +42,9 @@ const detailProduct = (id) => {
 const getCampus = () => {
   return api.get(CAMPUSES_PATH.LIST);
 };
+const productUser  = (id)=>{
+  return  api.post(PRODUCT_PATH.PRODUCT_USER,id)
+}
 export const confirmProductApi = {
   getListProduct,
   putStatusProduct,
@@ -50,4 +53,5 @@ export const confirmProductApi = {
   productTypes,
   detailProduct,
   getCampus,
+  productUser
 };

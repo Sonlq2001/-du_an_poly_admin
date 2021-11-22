@@ -18,6 +18,7 @@ export const BoxInputField = styled.div`
     border: 1px solid var(--ddd-color);
     width: 100%;
     height: 4rem;
+    background-color: white;
   }
   .err-msg {
     font-size: 1em !important;

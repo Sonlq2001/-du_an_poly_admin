@@ -150,16 +150,19 @@ const SubjectScreen = () => {
       </WrapContent>
       <WrapContent>
         <HeaderTable>
-          <div>
-            {messengerSort && (
+          
+          
               <div className="resultSeach">
-                Kết quả :
+              
+                {messengerSort && ( 
+                   
                 <span>
-                &nbsp;  {messengerSort} (   {listSubject.length} )
+              Kết quả :  &nbsp;  {messengerSort} (   {listSubject.length} )
                 </span>
+                   )}
               </div>
-            )}
-          </div>
+         
+        
           <div className="buttonAction">
             <Button
               disabled={!listChecked.length || isLoading}

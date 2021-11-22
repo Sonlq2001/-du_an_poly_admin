@@ -125,6 +125,14 @@ const ProductTypeScreen = () => {
 
       <WrapContent>
         <HeaderTable>
+        <div className="resultSeach">
+            {/* {messengerSort && (
+              <span>
+                Kết quả : &nbsp; {messengerSort} ( {listSubject.length} )
+              </span>
+            )} */}
+          </div>
+          <div className="buttonAction">
           <Button
             disabled={!listChecked.length || isLoading}
             onClick={handleRemoveAll}
@@ -142,6 +150,7 @@ const ProductTypeScreen = () => {
           >
             Thêm
           </Button>
+          </div>
         </HeaderTable>
 
         {listProductType && listProductType.length > 0 ? (

@@ -40,7 +40,7 @@ const PopupOverlay = ({
     <div>
       <GroupPopupOverlay
         className={`${open ? 'active' : ''}`}
-        onClick={() => setOpen(!open) + setDisableButton(false)}
+        onClick={() => setOpen(!open) +setDisableButton&&  setDisableButton(false)}
       >
         <ContentPopupOverlay
           className={`${open ? 'active' : ''}`}

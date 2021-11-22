@@ -124,6 +124,14 @@ const MajorsScreen = () => {
 
       <WrapContent>
         <HeaderTable>
+        <div className="resultSeach">
+            {/* {messengerSort && (
+              <span>
+                Kết quả : &nbsp; {messengerSort} ( {listSubject.length} )
+              </span>
+            )} */}
+          </div>
+        <div className="buttonAction">
           <Button
             disabled={!listChecked.length || isLoading}
             loading={isLoading}
@@ -141,6 +149,7 @@ const MajorsScreen = () => {
           >
             Thêm
           </Button>
+          </div>
         </HeaderTable>
 
         {listMajors && listMajors.length > 0 ? (
