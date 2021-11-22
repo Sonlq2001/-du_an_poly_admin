@@ -9,6 +9,10 @@ export const Table = styled.table`
   background-color: var(--white-color);
   font-size: 1.4rem;
   text-align: left;
+  .result {
+    margin: 2rem 0rem;
+    text-align: center;
+  }
 `;
 
 export const TableTr = styled.tr`

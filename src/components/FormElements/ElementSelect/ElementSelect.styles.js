@@ -10,4 +10,7 @@ export const BoxSelect = styled.div`
     border: 1px solid var(--red-color);
     background-color: var(--red-bg-err);
   }
+  & .select-option{
+    font-size: 1.4rem;
+  }
 `;

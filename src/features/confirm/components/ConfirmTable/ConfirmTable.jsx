@@ -3,6 +3,7 @@ import { FiCheck } from 'react-icons/fi';
 import { AiOutlineEye } from 'react-icons/ai';
 import { RiDeleteBinFill } from 'react-icons/ri';
 import { MdModeEdit } from 'react-icons/md';
+import {Link}  from  "react-router-dom"
 import { BiExit, BiDotsVerticalRounded } from 'react-icons/bi';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { toast } from 'react-toastify';
@@ -27,14 +28,12 @@ import {
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import ReviewProduct from './../Review/ReviewProduct';
 import RemoveProduct from './../RemoveProduct/RemoveProduct';
-import ActionProduct from '../ActionProduct/ActionProduct';
 import { useDispatch, useSelector } from 'react-redux';
 import { approveProduct, productUpdate } from '../../redux/product.slice';
 import GroupAlert from './../../../../components/AlertMessage/AlertMessage';
 import Refuse from '../ActionProduct/refuse/Refuse';
 
 const ConfirmTable = ({ data, listProductType }) => {
-  console.log("data",data)
   const HandleSort = (name) => {
     dispatch(productUpdate(name));
   };
@@ -42,9 +41,7 @@ const ConfirmTable = ({ data, listProductType }) => {
   const { useLogin } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
   const [openRemove, setOpenRemove] = useState(false);
-  const [ItemUpdate, setItemUpdate] = useState(false);
   const [itemRemove, setItemRemove] = useState(null);
-  const [groupStudents, setGroupStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const [refuse, setRefuse] = useState(null);
@@ -52,13 +49,6 @@ const ConfirmTable = ({ data, listProductType }) => {
   const [isShowAction, setIsShowAction] = useState(null);
   const [disableButton, setDisableButton] = useState(false);
   const [product, setProduct] = useState({
-    id: '',
-    name: '',
-    subject: '',
-    description: '',
-  });
-
-  const [updateProduct, setUpdateProd] = useState({
     id: '',
     name: '',
     subject: '',
@@ -84,14 +74,7 @@ const ConfirmTable = ({ data, listProductType }) => {
     setItemRemove(item);
   };
 
-  const update = (item) => {
-    setUpdateProd(item);
-    setItemUpdate(true);
-    const email = item.students.map((item) => {
-      return item.email;
-    });
-    setGroupStudents(email);
-  };
+
 
   const handleConfirm = async (item) => {
     setIsLoading(true);
@@ -144,7 +127,7 @@ const ConfirmTable = ({ data, listProductType }) => {
             </Tr>
           </Thead>
           <Tbody>
-            {data.map((item, index) => {
+            {data.length ? data.map((item, index) => {
               return (
                 <Tr key={index}>
                   <Td> {item.id}</Td>
@@ -233,12 +216,12 @@ const ConfirmTable = ({ data, listProductType }) => {
                             {/* cập nhật  */}
                             <div
                               className="item-action"
-                              onClick={() => update(item)}
                             >
                               <span className="icon-action">
                                 <MdModeEdit />
                               </span>
-                              Sửa
+                              <Link to={`product/update/${item.id}`} >  Sửa</Link>
+                             
                             </div>
                             {/* từ trối */}
                             {item.status === 1 && (
@@ -311,7 +294,7 @@ const ConfirmTable = ({ data, listProductType }) => {
                   </Td>
                 </Tr>
               );
-            })}
+            }) : <div className = "result"> Chưa có sản phẩm nào !</div>}
           </Tbody>
         </TableCustom>
         <GroupPagination>
@@ -342,24 +325,6 @@ const ConfirmTable = ({ data, listProductType }) => {
         setOpen={setOpenRemove}
         item={itemRemove}
       />
-
-      {/* cập nhật sản phẩm  */}
-      <PopupOverlay
-        open={ItemUpdate}
-        setOpen={setItemUpdate}
-        size="xl"
-        title="Cập nhật  sản phẩm  "
-        scroll
-      >
-        <ActionProduct
-          data={updateProduct && updateProduct}
-          setOpen={setItemUpdate}
-          groupStudents={groupStudents}
-          setGroupStudents={setGroupStudents}
-          listProductType={listProductType}
-        />
-      </PopupOverlay>
-
       {/* từ trối sản phẩm  */}
       <PopupOverlay
         open={itemRefuse}
