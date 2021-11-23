@@ -141,26 +141,7 @@ const ReviewProduct = ({ data, setOpen }) => {
                     'Từ Chối'
                   )}
                 </button>
-<<<<<<< HEAD
-                }
-              {data.status === 2 && 
-                <button
-                  className="btn-item"
-                  disabled={useLogin?.id !== data.teacher_id}
-                  onClick={() => handleRefuse(data)}
-                >
-                  {loadingRefuse ? (
-                    <div className="loading">
-                      <div className="loader"></div>
-                    </div>
-                  ) : (
-                    '  Từ Chối'
-                  )}
-                </button>
-                }
-=======
                 {/* xóa  */}
->>>>>>> 29e0a4c49d6abfd42714a2106d48f1d455853bbf
                 <button
                   className="btn-item"
                   disabled={useLogin?.id !== data.teacher_id}
@@ -249,10 +230,7 @@ const ReviewProduct = ({ data, setOpen }) => {
                 </TitleMain>
 
                 <GroupAttach>
-<<<<<<< HEAD
-=======
                  
->>>>>>> 29e0a4c49d6abfd42714a2106d48f1d455853bbf
                   <ItemAttach>
                     <div className="title-attach">Tài liệu hướng dẫn:</div>
                     <a
