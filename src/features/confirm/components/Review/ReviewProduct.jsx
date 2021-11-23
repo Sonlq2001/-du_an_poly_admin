@@ -37,6 +37,7 @@ const ReviewProduct = ({ data, setOpen }) => {
   const [refuse, setRefuse] = useState(null);
   const [loadingApprove, setLoadingApprove] = useState(false);
   const [loadingRefuse, setLoadingRefuse] = useState(false);
+  const [disableButton, setDisableButton] = useState(false);
   const settings = {
     customPaging: function (i) {
       return (
@@ -56,17 +57,19 @@ const ReviewProduct = ({ data, setOpen }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
-  const handleConfirm = async (id) => {
+  const handleConfirm = async (data) => {
     const productUpdateStatus = {
-      id: id,
-      status: 1,
+      id: data.id,
+      status: data.status + 1,
       message: null,
     };
+    setDisableButton(true);
     setLoadingApprove(true);
     const response = await dispatch(approveProduct(productUpdateStatus));
     if (approveProduct.fulfilled.match(response)) {
       toast.success('Chấp nhận thành công !');
       setLoadingApprove(false);
+      setDisableButton(false);
       setOpen(false);
     } else {
       toast.error(_get(response.payload, 'name[0]'));
@@ -75,6 +78,7 @@ const ReviewProduct = ({ data, setOpen }) => {
   const handleRefuse = (item) => {
     setRefuse(item);
     setItemRefuse(true);
+    setDisableButton(true);
   };
   return (
     <>
@@ -91,49 +95,39 @@ const ReviewProduct = ({ data, setOpen }) => {
               </Slider>
             ) : (
               <div className="slider_galleries">
-                {' '}
-                <img src={data.image && data.image} alt="" />{' '}
+                <img src={data.image && data.image} alt="" />
               </div>
             )}
           </ImageSlice>
           <ContentReview className="col-6">
             {data.status !== 3 ? (
-              <> 
-              {/* status = 1 */}
-              {data.status === 1 && 
-                <button
-                  className="btn-item"
-                  disabled={data.status === 1 && useLogin?.id !== data.teacher_id}
-                  onClick={() => handleConfirm(data.id)}
-                >
-                  {loadingApprove ? (
-                    <div className="loading">
-                      <div className="loader"></div>
+              <>
+                {/* chấp nhận  */}
+                {data.status === 1 && (
+                  <button
+                    disabled={useLogin.id !== data.teacher_id}
+                    className="btn-item"
+                    onClick={() => handleConfirm(data)}
+                  >
+                    <div className="test">
+                      {' '}
+                      {disableButton && <span className="loading"></span>}
+                      Chấp nhận lần 1
                     </div>
-                  ) : (
-                    '  Chấp nhân lần 1'
-                  )}
-                  
-                </button>
-                }
-                {/* status = 2 */}
-                {data.status === 2 && 
-                <button
-                  className="btn-item"
-                  disabled={data.status === 2 && useLogin?.id !== data.teacher_id}
-                  onClick={() => handleConfirm(data.id)}
-                >
-                  {loadingApprove ? (
-                    <div className="loading">
-                      <div className="loader"></div>
+                  </button>
+                )}
+                {data.status === 2 && (
+                  <button
+                    className="btn-item"
+                    onClick={() => handleConfirm(data)}
+                  >
+                    <div className="test">
+                    {disableButton && <span className="loading"></span>}
+                      Chấp nhận lần 2
                     </div>
-                  ) : (
-                    '  Chấp nhân lần 2'
-                  )}
-                  
-                </button>
-                }
-              {data.status === 1 && 
+                  </button>
+                )}
+                {/* từ trối */}
                 <button
                   className="btn-item"
                   disabled={useLogin?.id !== data.teacher_id}
@@ -141,12 +135,13 @@ const ReviewProduct = ({ data, setOpen }) => {
                 >
                   {loadingRefuse ? (
                     <div className="loading">
-                      <div className="loader"></div>
+                      <div className="loader"> </div>
                     </div>
                   ) : (
-                    '  Từ Chối'
+                    'Từ Chối'
                   )}
                 </button>
+<<<<<<< HEAD
                 }
               {data.status === 2 && 
                 <button
@@ -163,6 +158,9 @@ const ReviewProduct = ({ data, setOpen }) => {
                   )}
                 </button>
                 }
+=======
+                {/* xóa  */}
+>>>>>>> 29e0a4c49d6abfd42714a2106d48f1d455853bbf
                 <button
                   className="btn-item"
                   disabled={useLogin?.id !== data.teacher_id}
@@ -171,7 +169,7 @@ const ReviewProduct = ({ data, setOpen }) => {
                 </button>
               </>
             ) : (
-              ''
+              <div> </div>
             )}
             <TitleProject> {data.name} </TitleProject>
 
@@ -194,7 +192,7 @@ const ReviewProduct = ({ data, setOpen }) => {
             </BoxProject>
             <BoxProject>
               <LabelProject>Giảng viên hướng dẫn:</LabelProject>
-              {data.teacher && data.teacher.name} -{' '}
+              {data.teacher && data.teacher.name} -
               {data.teacher && data.teacher.email}
             </BoxProject>
             <BoxProject>
@@ -251,6 +249,10 @@ const ReviewProduct = ({ data, setOpen }) => {
                 </TitleMain>
 
                 <GroupAttach>
+<<<<<<< HEAD
+=======
+                 
+>>>>>>> 29e0a4c49d6abfd42714a2106d48f1d455853bbf
                   <ItemAttach>
                     <div className="title-attach">Tài liệu hướng dẫn:</div>
                     <a
@@ -272,11 +274,13 @@ const ReviewProduct = ({ data, setOpen }) => {
         setOpen={setItemRefuse}
         size="md"
         title="Lý do "
+        setDisableButton={setDisableButton}
       >
         <Refuse
           item={refuse}
           setItemRefuse={setItemRefuse}
           setLoadingRefuse={setLoadingRefuse}
+          setDisableButton={setDisableButton}
         />
       </PopupOverlay>
     </>

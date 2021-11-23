@@ -262,19 +262,20 @@ const ConfirmTable = ({ data, listProductType }) => {
                                 Từ chối
                               </button>
                             )}
-                            {item.status === 3 && (
-                              <button
-                                disabled={!disableButton ? false : true}
-                                className="item-action "
-                                onClick={() =>
-                                  handleRefuse(item) + setDisableButton(true)
-                                }
-                              >
-                                <span className="icon-action">
-                                  <BiExit />
-                                </span>
-                                Từ chối
-                              </button>
+                            {item.status === 3 && ( ""
+                              // <button
+                              //   disabled={!disableButton ? false : true}
+                              //   hidden={true}
+                              //   className="item-action "
+                              //   onClick={() =>
+                              //     handleRefuse(item) + setDisableButton(true)
+                              //   }
+                              // >
+                              //   <span className="icon-action">
+                              //     <BiExit />
+                              //   </span>
+                              //   Từ chối
+                              // </button>
                             )}
 
                             {/* xóa  */}
@@ -315,6 +316,7 @@ const ConfirmTable = ({ data, listProductType }) => {
         size="xl"
         title="Chi Tiết Sản Phẩm "
         scroll
+        setDisableButton={setDisableButton}
       >
         <ReviewProduct data={product} setOpen={setOpen} />
       </PopupOverlay>
@@ -331,6 +333,7 @@ const ConfirmTable = ({ data, listProductType }) => {
         setOpen={setItemRefuse}
         size="md"
         title="Lý do ?"
+        setDisableButton={setDisableButton}
       >
         <Refuse
           item={refuse}

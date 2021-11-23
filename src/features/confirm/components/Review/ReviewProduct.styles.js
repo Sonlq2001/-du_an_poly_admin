@@ -37,10 +37,14 @@ export const ContentReview = styled.div`
     background-color: #e6e6e6;
     padding: 10px 7px;
     margin: 5px;
-    color: #404040;
+    color: #11070a;
     border: none;
     border-radius: 5px;
-    font-size: 1.6rem;
+    font-size: 1.3rem;
+  }
+  & button.btn-item .test {
+    display: flex;
+    justify-content: flex-end;
   }
 
   & button.btn-item:disabled {
@@ -51,21 +55,12 @@ export const ContentReview = styled.div`
     cursor: not-allowed;
   }
   & button.btn-item .loading {
-    width: 70px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.3rem;
-    padding: 2px 0px;
-  }
-  & button.btn-item .loading .loader {
-    border: 2px solid #f3f3f3;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    border-top: 2px solid #3498db;
-    width: 16px;
-    height: 16px;
-
-    animation: spin 2s linear infinite;
+    margin-right: 8px;
+    border-top: 2px solid blue;
+    animation: spin 1s linear infinite;
     @keyframes spin {
       0% {
         transform: rotate(0deg);
@@ -203,6 +198,7 @@ export const GroupAttach = styled.div`
 `;
 
 export const ItemAttach = styled.div`
+
   & + & {
     margin-top: 2rem;
   }
@@ -212,6 +208,11 @@ export const ItemAttach = styled.div`
     font-size: 1.4rem;
     font-weight: 500;
     margin-bottom: 5px;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  & a {
+      padding-right: 10px;
   }
 `;
 
