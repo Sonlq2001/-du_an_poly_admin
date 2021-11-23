@@ -181,15 +181,6 @@ const ReviewProduct = ({ data, setOpen }) => {
                   <span>Bài viết giới thiệu</span>
                 </TitleMain>
                 <Video className="video">
-                  {/* <iframe
-                    src="https://player.vimeo.com/video/647674602"
-                    width="650"
-                    height="400"
-                    frameborder="0"
-                    webkitallowfullscreen
-                    mozallowfullscreen
-                    allowfullscreen
-                  ></iframe> */}
                   <ReactPlayer
                     controls
                     style={
@@ -221,12 +212,6 @@ const ReviewProduct = ({ data, setOpen }) => {
                 </TitleMain>
 
                 <GroupAttach>
-                  <ItemAttach>
-                    <div className="title-attach">Link github:</div>
-                    <a target="_blank" href="!#" rel="noreferrer">
-                      https://caodang.fpt.edu.vn/tin-tuc-poly/nu-sinh-fpoly-tay-nguyen-dat-chung-chi-cuoc-thi-vo-dich-thiet-ke-do-hoa-the-gioi.html
-                    </a>
-                  </ItemAttach>
                   <ItemAttach>
                     <div className="title-attach">Tài liệu hướng dẫn:</div>
                     <a

@@ -59,7 +59,6 @@ const ConfirmScreen = () => {
   if (isProductLoading) {
     return <Loading />;
   }
-
   return (
     <>
       <TitleMain> Danh sách sản phẩm </TitleMain>
