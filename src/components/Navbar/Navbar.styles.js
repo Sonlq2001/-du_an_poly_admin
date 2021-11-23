@@ -91,35 +91,36 @@ export const NavNotification = styled.div`
 export const NavControl = styled.div`
   margin-left: 4rem;
   position: relative;
-
   .box-control {
     display: flex;
     align-items: center;
     font-size: 1.4rem;
     font-weight: 500;
   }
-
   .avatar-user {
     width: 4rem;
     height: 4rem;
     border-radius: 50%;
     margin-right: 2rem;
   }
-
   .icon-drop {
     font-size: 1.4rem;
     margin-left: 4rem;
     transform: rotate(-135deg);
     cursor: pointer;
   }
-
-  @media (max-width: 1999.98px) {
+  @media (max-width: 1199.98px) {
+    .box-name {
+      display: none;
+    }
+    .avatar-user {
+      margin: 0;
+    }
   }
 `;
 
 export const ListAction = styled.ul`
   position: absolute;
-  width: 80%;
   bottom: -210%;
   right: 0;
   width: 100%;
@@ -130,17 +131,14 @@ export const ListAction = styled.ul`
   transition: ease-in 0.3s;
   opacity: 0;
   visibility: hidden;
-
   &.active {
     bottom: -180%;
     opacity: 1;
     visibility: visible;
   }
-
   .item-action + .item-action {
     margin-top: 1rem;
   }
-
   .link-action {
     display: flex;
     align-items: center;
@@ -153,13 +151,14 @@ export const ListAction = styled.ul`
     width: 100%;
     background: transparent;
   }
-
   .link-action:hover {
     background-color: var(--gray1-color);
   }
-
   .icon-action {
     margin-right: 1.5rem;
+  }
+  @media (max-width: 1199.98px) {
+    width: 20rem;
   }
 `;
 

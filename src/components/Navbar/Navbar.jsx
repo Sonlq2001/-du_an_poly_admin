@@ -124,7 +124,7 @@ const Navbar = () => {
             {useLogin && accessToken && (
               <div className="box-control">
                 <img src={useLogin?.avatar} alt="" className="avatar-user" />
-                {useLogin?.email}
+                <span className="box-name">{useLogin?.email}</span>
                 <div
                   className="icon-drop"
                   onClick={() => setActionUser(!actionUser)}
