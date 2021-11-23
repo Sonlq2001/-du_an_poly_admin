@@ -180,7 +180,7 @@ const PermissionsScreen = () => {
                     </Td>
                     <Td>{index + 1}</Td>
                     <Td>{row?.name}</Td>
-                    <Td>{row?.view_permission[0].url}</Td>
+                    <Td>{row?.view_permission[0]?.url ?? '-'}</Td>
                     <Td>
                       <BoxActionTable>
                         <Button

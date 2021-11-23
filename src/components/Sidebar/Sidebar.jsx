@@ -31,25 +31,27 @@ const Sidebar = () => {
             <ListMenu key={sidebar.title}>
               {sidebar.title && (
                 <div className="title-sidebar">
-                  <span className="title-cate">{sidebar.title}</span>
+                  <span className="title-cate">{sidebar?.title ?? ''}</span>
                 </div>
               )}
-              {sidebar?.items.map((sidebarItem) => (
-                <li className="item-menu" key={sidebarItem.id}>
-                  <ItemLink
-                    exact
-                    to={sidebarItem.path}
-                    className="link-menu"
-                    activeClassName="active"
-                  >
-                    {sidebarItem.icon && (
-                      <span className="icon-menu">{sidebarItem.icon}</span>
-                    )}
-
-                    {sidebarItem.navigationTitle}
-                  </ItemLink>
-                </li>
-              ))}
+              {sidebar?.items.map((sidebarItem) => {
+                return (
+                  <li className="item-menu" key={sidebarItem.id}>
+                    <ItemLink
+                      exact
+                      to={sidebarItem.path}
+                      className="link-menu"
+                      activeClassName="active"
+                    >
+                      {sidebarItem.icon && (
+                        <span className="icon-menu">{sidebarItem.icon}</span>
+                      )}
+                      {/* <RiDashboardLine /> */}
+                      {sidebarItem?.navigationTitle ?? ''}
+                    </ItemLink>
+                  </li>
+                );
+              })}
             </ListMenu>
           ))}
         </div>

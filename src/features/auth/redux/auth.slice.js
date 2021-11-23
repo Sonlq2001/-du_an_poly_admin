@@ -31,6 +31,7 @@ export const postLogout = createAsyncThunk('auth/postLogout', async () => {
 const initialState = {
   accessToken: null,
   useLogin: null,
+  permission: [],
 };
 
 const authSlice = createSlice({
@@ -68,7 +69,7 @@ const authSlice = createSlice({
 const authConfig = {
   key: 'auth',
   storage,
-  whitelist: ['accessToken', 'useLogin'],
+  whitelist: ['accessToken', 'useLogin', 'permission'],
 };
 
 export const authReducer = persistReducer(authConfig, authSlice.reducer);
