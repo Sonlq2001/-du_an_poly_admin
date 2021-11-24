@@ -132,6 +132,14 @@ const PermissionsScreen = () => {
 
       <WrapContent>
         <HeaderTable>
+        <div className="resultSeach">
+            {/* {messengerSort && (
+              <span>
+                Kết quả : &nbsp; {messengerSort} ( {listSubject.length} )
+              </span>
+            )} */}
+          </div>
+          <div className="buttonAction">
           <Button
             disabled={!listChecked.length || isLoading}
             onClick={handleRemoveAll}
@@ -149,6 +157,7 @@ const PermissionsScreen = () => {
           >
             Thêm
           </Button>
+          </div>
         </HeaderTable>
 
         {listPermission && listPermission.length > 0 ? (
@@ -180,7 +189,7 @@ const PermissionsScreen = () => {
                     </Td>
                     <Td>{index + 1}</Td>
                     <Td>{row?.name}</Td>
-                    <Td>{row?.view_permission[0].url}</Td>
+                    <Td>{row?.view_permission[0]?.url}</Td>
                     <Td>
                       <BoxActionTable>
                         <Button

@@ -57,7 +57,7 @@ const SemesterScreen = () => {
   );
 
   const isCheckedAll = useMemo(() => {
-    return listSemester.every((i) => listChecked.includes(i.id));
+    return listSemester && listSemester.every((i) => listChecked.includes(i.id));
   }, [listSemester, listChecked]);
 
   const handleCheckedAll = (isChecked) => {
