@@ -44,7 +44,6 @@ const ConfirmScreen = () => {
   }, [dispatch]);
   useEffect(() => {
     dispatch(getSemesters());
-
     ProductTypes();
     dispatch(ProductUser({user_id : useLogin.id}))
     CampusesList();
@@ -158,7 +157,7 @@ const ConfirmScreen = () => {
         listProductType={listProductType}
         productDetail={productDetail}
       />
-      {productDetail && (
+       { path && productDetail && (
         <PopupOverlay
           open={open}
           setOpen={setOpen}

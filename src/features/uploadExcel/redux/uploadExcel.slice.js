@@ -8,8 +8,11 @@ export const postImportFileExcel = createAsyncThunk(
     try {
       await uploadExcelApi.postImportFile(file);
     } catch (error) {
-      error.response.data.message = 'Upload file không thành công !';
-      return rejectWithValue(error.response.data.message);
+     if(error.response.data.errors.ma_mon ){
+      return rejectWithValue(error.response.data.errors.ma_mon[0]);
+     }else {
+      return rejectWithValue(error.response.data.errors.giang_vien[0]);
+     } 
     }
   }
 );

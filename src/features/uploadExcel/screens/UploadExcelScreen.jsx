@@ -48,7 +48,7 @@ const UploadExcelScreen = () => {
           if (postImportFileExcel.fulfilled.match(response)) {
             toast.success('Upload file thành công !');
           } else {
-            toast.error('Upload file không thành công !');
+            toast.error(response.payload);
           }
           setIsLoading(false);
           resetForm({ semester_id: null, excel: null });
@@ -83,14 +83,6 @@ const UploadExcelScreen = () => {
                         listSelectOptionSemester ? listSelectOptionSemester : []
                       }
                       label="Kì học"
-                    />
-                  </div>
-                  <div className="box-select">
-                    <ElementSelect
-                      placeholder="Cơ sở"
-                      options={[]}
-                      name="campus_id"
-                      label="Cơ sở"
                     />
                   </div>
                 </div>

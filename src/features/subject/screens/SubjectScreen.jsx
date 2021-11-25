@@ -141,7 +141,11 @@ const SubjectScreen = () => {
             </label>
             <Select
               className="select-option input-search"
-              // options={[{ label: 'All', value: 0 }, ...listSelectMajor] || []}
+              options={
+                listSelectMajor
+                  ? [{ label: 'All', value: 0 }, ...listSelectMajor]
+                  : []
+              }
               placeholder="Chuyên ngành "
               onChange={(e) => handleSortMajos(e)}
             />
