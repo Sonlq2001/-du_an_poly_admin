@@ -57,7 +57,9 @@ const SemesterScreen = () => {
   );
 
   const isCheckedAll = useMemo(() => {
-    return listSemester && listSemester.every((i) => listChecked.includes(i.id));
+    return (
+      listSemester && listSemester.every((i) => listChecked.includes(i.id))
+    );
   }, [listSemester, listChecked]);
 
   const handleCheckedAll = (isChecked) => {
@@ -119,7 +121,7 @@ const SemesterScreen = () => {
 
       <WrapContent>
         <HeaderTable>
-        <div className="resultSeach">
+          <div className="resultSeach">
             {/* {messengerSort && (
               <span>
                 Kết quả : &nbsp; {messengerSort} ( {listSubject.length} )
@@ -127,23 +129,23 @@ const SemesterScreen = () => {
             )} */}
           </div>
           <div className="buttonAction">
-          <Button
-            disabled={!listChecked.length || isLoading}
-            onClick={handleRemoveAll}
-            loading={isLoading}
-          >
-            Xóa tất cả
-          </Button>
-          <Button
-            icon={<IoMdAdd />}
-            color="primary"
-            onClick={() => {
-              setIsDialogSemester(true);
-              setItemSemester(initForm);
-            }}
-          >
-            Thêm
-          </Button>
+            <Button
+              disabled={!listChecked.length || isLoading}
+              onClick={handleRemoveAll}
+              loading={isLoading}
+            >
+              Xóa tất cả
+            </Button>
+            <Button
+              icon={<IoMdAdd />}
+              color="primary"
+              onClick={() => {
+                setIsDialogSemester(true);
+                setItemSemester(initForm);
+              }}
+            >
+              Thêm
+            </Button>
           </div>
         </HeaderTable>
 

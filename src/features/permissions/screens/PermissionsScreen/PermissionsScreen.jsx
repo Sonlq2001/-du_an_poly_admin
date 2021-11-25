@@ -132,7 +132,7 @@ const PermissionsScreen = () => {
 
       <WrapContent>
         <HeaderTable>
-        <div className="resultSeach">
+          <div className="resultSeach">
             {/* {messengerSort && (
               <span>
                 Kết quả : &nbsp; {messengerSort} ( {listSubject.length} )
@@ -140,23 +140,23 @@ const PermissionsScreen = () => {
             )} */}
           </div>
           <div className="buttonAction">
-          <Button
-            disabled={!listChecked.length || isLoading}
-            onClick={handleRemoveAll}
-            loading={isLoading}
-          >
-            Xóa tất cả
-          </Button>
-          <Button
-            icon={<IoMdAdd />}
-            color="primary"
-            onClick={() => {
-              setIsDialogActionRole(true);
-              setItemRole(initForm);
-            }}
-          >
-            Thêm
-          </Button>
+            <Button
+              disabled={!listChecked.length || isLoading}
+              onClick={handleRemoveAll}
+              loading={isLoading}
+            >
+              Xóa tất cả
+            </Button>
+            <Button
+              icon={<IoMdAdd />}
+              color="primary"
+              onClick={() => {
+                setIsDialogActionRole(true);
+                setItemRole(initForm);
+              }}
+            >
+              Thêm
+            </Button>
           </div>
         </HeaderTable>
 
@@ -189,7 +189,7 @@ const PermissionsScreen = () => {
                     </Td>
                     <Td>{index + 1}</Td>
                     <Td>{row?.name}</Td>
-                    <Td>{row?.view_permission[0]?.url}</Td>
+                    <Td>{row?.view_permission[0]?.url ?? '-'}</Td>
                     <Td>
                       <BoxActionTable>
                         <Button

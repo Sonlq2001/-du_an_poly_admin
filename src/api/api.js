@@ -3,7 +3,7 @@ import axios from 'axios';
 const requestInterceptor = (req) => {
   const { accessToken } = JSON.parse(localStorage.getItem('persist:auth'));
   const token = accessToken.replace(/"/g, '');
-  if (accessToken) {
+  if (token) {
     req.headers.Authorization = `Bearer ${token}`;
   }
   return req;

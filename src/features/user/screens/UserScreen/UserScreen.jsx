@@ -38,6 +38,7 @@ import EmptyResultImage from 'assets/images/empty-result.gif';
 import { USER_PATHS } from './../../constants/user.paths';
 import avatarEmpty from 'assets/images/empty-avatar.png';
 import Adduser from 'features/user/components/action/AddUser';
+import { GroupRole } from './UserScreen.styles';
 
 const UserScreen = () => {
   const dispatch = useDispatch();
@@ -142,11 +143,16 @@ const UserScreen = () => {
                     <Td>{row.email}</Td>
                     <Td>{row?.student_code || '-'}</Td>
                     <Td>
-                      {row.roles  && row?.roles.map((item) => (
-                        <HightLightText key={item.id}>
-                          {item.name}
-                        </HightLightText>
-                      ))}
+                      <GroupRole>
+                        {row.roles &&
+                          row?.roles.map((item) => (
+                            <div className="item-role">
+                              <HightLightText value={item.name}>
+                                {item.name}
+                              </HightLightText>
+                            </div>
+                          ))}
+                      </GroupRole>
                     </Td>
                     <Td>
                       <BoxActionTable>
