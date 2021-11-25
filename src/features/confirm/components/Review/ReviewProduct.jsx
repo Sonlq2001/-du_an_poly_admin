@@ -30,7 +30,6 @@ import { approveProduct } from 'features/confirm/redux/product.slice';
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import Refuse from '../ActionProduct/refuse/Refuse';
 const ReviewProduct = ({ data, setOpen }) => {
-  console.log(data)
   const dispatch = useDispatch();
   const { useLogin } = useSelector((state) => state.auth);
   const [itemRefuse, setItemRefuse] = useState(false);
