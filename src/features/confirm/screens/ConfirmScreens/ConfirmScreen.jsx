@@ -44,10 +44,6 @@ const ConfirmScreen = () => {
   }, [dispatch]);
   useEffect(() => {
     dispatch(getSemesters());
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
     ProductTypes();
     dispatch(ProductUser({user_id : useLogin.id}))
     CampusesList();

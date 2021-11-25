@@ -220,11 +220,7 @@ const ConfirmTable = ({ data, listProductType }) => {
                               <span className="icon-action">
                                 <MdModeEdit />
                               </span>
-<<<<<<< Updated upstream
                               <Link to={`/product/update/${item.id}`} > Sửa</Link>
-=======
-                              <Link to={`product/update/${item.id}`} >  Sửa</Link>
->>>>>>> Stashed changes
                              
                             </div>
                             {/* từ trối */}

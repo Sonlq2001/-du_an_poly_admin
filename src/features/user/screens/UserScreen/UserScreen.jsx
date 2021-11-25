@@ -95,11 +95,20 @@ const UserScreen = () => {
 
       <WrapContent>
         <HeaderTable>
+          <div className="resultSeach">
+               {/* {messengerSort && (
+              <span>
+                Kết quả : &nbsp; {messengerSort} ( {listSubject.length} )
+              </span>
+            )} */}  </div>
+          <div className="buttonAction">
           <Button color="primary">Tải file excel</Button>
 
-          <Button color="primary" icon={<IoMdAdd />} onClick={() => addUser()}>
-            Thêm
-          </Button>
+<Button color="primary" icon={<IoMdAdd />} onClick={() => addUser()}>
+  Thêm
+</Button>
+            </div>  
+         
         </HeaderTable>
 
         {listUser && listUser.length > 0 ? (

@@ -132,6 +132,14 @@ const RoleScreen = () => {
 
       <WrapContent>
         <HeaderTable>
+        <div className="resultSeach">
+            {/* {messengerSort && (
+              <span>
+                Kết quả : &nbsp; {messengerSort} ( {listSubject.length} )
+              </span>
+            )} */}
+          </div>
+          <div className="buttonAction">
           <Button
             disabled={!listChecked.length || isLoading}
             onClick={handleRemoveAll}
@@ -146,6 +154,7 @@ const RoleScreen = () => {
           >
             Thêm
           </Button>
+          </div>
         </HeaderTable>
 
         {listRole && listRole.length > 0 ? (
