@@ -65,7 +65,12 @@ export const ProductUser  = createAsyncThunk("product/productUser" , async (user
     try {
       const response = await  confirmProductApi.productUser(user_id)
     return  response.data
+<<<<<<< Updated upstream
     } catch (error) { 
+=======
+    } catch (error) {
+      
+>>>>>>> Stashed changes
     }
     
 })
