@@ -63,7 +63,7 @@ const MajorsScreen = () => {
   const { listMajors, isMajorsLoading } = useSelector((state) => state.majors);
 
   const isCheckedAll = useMemo(() => {
-    return listMajors.every((i) => listChecked.includes(i.id));
+    return listMajors && listMajors.every((i) => listChecked.includes(i.id));
   }, [listMajors, listChecked]);
 
   const handleCheckedAll = (isChecked) => {

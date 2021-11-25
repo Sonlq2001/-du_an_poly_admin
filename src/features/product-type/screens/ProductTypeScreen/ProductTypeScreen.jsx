@@ -61,7 +61,7 @@ const ProductTypeScreen = () => {
   );
 
   const isCheckedAll = useMemo(() => {
-    return listProductType.every((i) => listChecked.includes(i.id));
+    return listProductType && listProductType.every((i) => listChecked.includes(i.id));
   }, [listProductType, listChecked]);
 
   const handleCheckedAll = (isChecked) => {
