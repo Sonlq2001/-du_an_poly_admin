@@ -1,13 +1,28 @@
-import React, { memo } from 'react';
-import { RiDashboardLine } from 'react-icons/ri';
+import React, { memo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { RiDashboardLine } from 'react-icons/ri';
 
 import { WrapSidebar, ListMenu, ItemLink } from './Sidebar.styles';
 import LogoFpt from 'assets/images/logo.png';
-import { sidebars } from 'routes/sidebars.constants';
 import { DASHBOARD_PATH } from 'features/dashboard/constants/dashboard.paths';
+import { getPermissions } from 'features/auth/redux/auth.slice';
 
 const Sidebar = () => {
+  const location = useLocation();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const routesPermission = JSON.parse(
+      JSON.parse(localStorage.getItem('persist:auth'))?.permission
+    );
+    dispatch(getPermissions(routesPermission));
+  }, [location.pathname, dispatch]);
+
+  const { listPermission } = useSelector((state) => ({
+    listPermission: state.auth.permission,
+  }));
+
   return (
     <WrapSidebar>
       <Link to="/">
@@ -27,33 +42,60 @@ const Sidebar = () => {
               Quản trị Dashboard
             </ItemLink>
           </div>
-          {sidebars.map((sidebar) => (
-            <ListMenu key={sidebar.title}>
-              {sidebar.title && (
-                <div className="title-sidebar">
-                  <span className="title-cate">{sidebar?.title ?? ''}</span>
-                </div>
-              )}
-              {sidebar?.items.map((sidebarItem) => {
+          {listPermission &&
+            listPermission.map((sidebar, index) => {
+              if (sidebar?.items.length > 0) {
+                let titleGroup = '';
+                switch (sidebar.title) {
+                  case 1:
+                    titleGroup = 'Quản trị';
+                    break;
+                  case 2:
+                    titleGroup = 'Phân quyền';
+                    break;
+                  case 3:
+                    titleGroup = 'Nhập điểm';
+                    break;
+                  case 4:
+                    titleGroup = 'Cài đặt';
+                    break;
+                  default:
+                    break;
+                }
                 return (
-                  <li className="item-menu" key={sidebarItem.id}>
-                    <ItemLink
-                      exact
-                      to={sidebarItem.path}
-                      className="link-menu"
-                      activeClassName="active"
-                    >
-                      {sidebarItem.icon && (
-                        <span className="icon-menu">{sidebarItem.icon}</span>
-                      )}
-                      {/* <RiDashboardLine /> */}
-                      {sidebarItem?.navigationTitle ?? ''}
-                    </ItemLink>
-                  </li>
+                  <ListMenu key={index}>
+                    {sidebar?.title && (
+                      <div className="title-sidebar">
+                        <span className="title-cate">{titleGroup}</span>
+                      </div>
+                    )}
+                    {sidebar?.items.map((sidebarItem, index) => {
+                      return (
+                        sidebarItem?.items.length !== 0 && (
+                          <li className="item-menu" key={index}>
+                            <ItemLink
+                              exact
+                              to={
+                                sidebarItem?.items.length === 1 &&
+                                sidebarItem?.items[0]?.url
+                              }
+                              className="link-menu"
+                              activeClassName="active"
+                            >
+                              {/* {sidebarItem?.items[0]?.icon && (
+                                <span className="icon-menu">{icons}</span>
+                              )} */}
+                              {sidebarItem?.items[0]?.title}
+                            </ItemLink>
+                          </li>
+                        )
+                      );
+                    })}
+                  </ListMenu>
                 );
-              })}
-            </ListMenu>
-          ))}
+              }
+              return null;
+            })}
         </div>
       </div>
     </WrapSidebar>

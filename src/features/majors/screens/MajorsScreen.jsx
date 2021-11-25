@@ -63,7 +63,7 @@ const MajorsScreen = () => {
   const { listMajors, isMajorsLoading } = useSelector((state) => state.majors);
 
   const isCheckedAll = useMemo(() => {
-    return listMajors.every((i) => listChecked.includes(i.id));
+    return listMajors && listMajors.every((i) => listChecked.includes(i.id));
   }, [listMajors, listChecked]);
 
   const handleCheckedAll = (isChecked) => {
@@ -124,31 +124,31 @@ const MajorsScreen = () => {
 
       <WrapContent>
         <HeaderTable>
-        <div className="resultSeach">
+          <div className="resultSeach">
             {/* {messengerSort && (
               <span>
                 Kết quả : &nbsp; {messengerSort} ( {listSubject.length} )
               </span>
             )} */}
           </div>
-        <div className="buttonAction">
-          <Button
-            disabled={!listChecked.length || isLoading}
-            loading={isLoading}
-            onClick={handleRemoveAll}
-          >
-            Xóa tất cả
-          </Button>
-          <Button
-            icon={<IoMdAdd />}
-            color="primary"
-            onClick={() => {
-              setIsDialogActionMajor(true);
-              setItemMajors(initForm);
-            }}
-          >
-            Thêm
-          </Button>
+          <div className="buttonAction">
+            <Button
+              disabled={!listChecked.length || isLoading}
+              loading={isLoading}
+              onClick={handleRemoveAll}
+            >
+              Xóa tất cả
+            </Button>
+            <Button
+              icon={<IoMdAdd />}
+              color="primary"
+              onClick={() => {
+                setIsDialogActionMajor(true);
+                setItemMajors(initForm);
+              }}
+            >
+              Thêm
+            </Button>
           </div>
         </HeaderTable>
 

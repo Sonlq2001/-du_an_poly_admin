@@ -9,15 +9,12 @@ const ElementCheckbox = ({ id, data, name, ...props }) => {
   const handleChange = (e) => {
     const { checked, value } = e.target;
     if (checked) {
-      setFieldValue(
-        name,
-        Array.from(new Set([...values[name], Number(value)]))
-      );
+      setFieldValue(name, Array.from(new Set([...values[name], value])));
     } else {
       setFieldValue(
         name,
         values[name].filter((item) =>
-          item?.id ? item.id !== Number(value) : item !== Number(value)
+          item?.name ? item.name !== value : item !== value
         )
       );
     }
@@ -26,10 +23,9 @@ const ElementCheckbox = ({ id, data, name, ...props }) => {
   let mixArray = [];
   if (values !== null && values) {
     mixArray = Array.from(
-      new Set(values[name].map((item) => (item?.id ? item.id : item)))
+      new Set(values[name].map((item) => (item?.name ? item.name : item)))
     );
   }
-
   return (
     <>
       {data &&
@@ -44,8 +40,8 @@ const ElementCheckbox = ({ id, data, name, ...props }) => {
                 className="checkbox-field"
                 id={item.id}
                 name={name}
-                value={item.id}
-                checked={mixArray.includes(item.id)}
+                value={item.name}
+                checked={mixArray.includes(item.name)}
                 onChange={handleChange}
               />
             </BoxCheckbox>

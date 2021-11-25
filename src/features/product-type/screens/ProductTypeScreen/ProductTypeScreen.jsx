@@ -61,7 +61,10 @@ const ProductTypeScreen = () => {
   );
 
   const isCheckedAll = useMemo(() => {
-    return listProductType.every((i) => listChecked.includes(i.id));
+    return (
+      listProductType &&
+      listProductType.every((i) => listChecked.includes(i.id))
+    );
   }, [listProductType, listChecked]);
 
   const handleCheckedAll = (isChecked) => {
@@ -125,7 +128,7 @@ const ProductTypeScreen = () => {
 
       <WrapContent>
         <HeaderTable>
-        <div className="resultSeach">
+          <div className="resultSeach">
             {/* {messengerSort && (
               <span>
                 Kết quả : &nbsp; {messengerSort} ( {listSubject.length} )
@@ -133,23 +136,23 @@ const ProductTypeScreen = () => {
             )} */}
           </div>
           <div className="buttonAction">
-          <Button
-            disabled={!listChecked.length || isLoading}
-            onClick={handleRemoveAll}
-            Loading={isLoading}
-          >
-            Xóa tất cả
-          </Button>
-          <Button
-            icon={<IoMdAdd />}
-            color="primary"
-            onClick={() => {
-              setIsDialogProductType(true);
-              setItemProductType(initForm);
-            }}
-          >
-            Thêm
-          </Button>
+            <Button
+              disabled={!listChecked.length || isLoading}
+              onClick={handleRemoveAll}
+              Loading={isLoading}
+            >
+              Xóa tất cả
+            </Button>
+            <Button
+              icon={<IoMdAdd />}
+              color="primary"
+              onClick={() => {
+                setIsDialogProductType(true);
+                setItemProductType(initForm);
+              }}
+            >
+              Thêm
+            </Button>
           </div>
         </HeaderTable>
 

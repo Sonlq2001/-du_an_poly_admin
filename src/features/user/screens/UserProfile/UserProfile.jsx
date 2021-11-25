@@ -73,11 +73,15 @@ const UserProfile = () => {
           onSubmit={async (values) => {
             setIsLoading(true);
             const actionDispatch = id ? putUsers : putUsers;
+            const dataName = values.roles.map((item) =>
+              item?.name ? item.name : item
+            );
+
             const response = await dispatch(
               actionDispatch({
                 id: values.id,
                 user: {
-                  role: values.roles,
+                  role: dataName,
                 },
               })
             );

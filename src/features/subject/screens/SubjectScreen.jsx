@@ -141,7 +141,7 @@ const SubjectScreen = () => {
             </label>
             <Select
               className="select-option input-search"
-              options={[{ label: 'All', value: 0 }, ...listSelectMajor] || []}
+              // options={[{ label: 'All', value: 0 }, ...listSelectMajor] || []}
               placeholder="Chuyên ngành "
               onChange={(e) => handleSortMajos(e)}
             />
@@ -150,19 +150,14 @@ const SubjectScreen = () => {
       </WrapContent>
       <WrapContent>
         <HeaderTable>
-          
-          
-              <div className="resultSeach">
-              
-                {messengerSort && ( 
-                   
-                <span>
-              Kết quả :  &nbsp;  {messengerSort} (   {listSubject.length} )
-                </span>
-                   )}
-              </div>
-         
-        
+          <div className="resultSeach">
+            {messengerSort && (
+              <span>
+                Kết quả : &nbsp; {messengerSort} ( {listSubject.length} )
+              </span>
+            )}
+          </div>
+
           <div className="buttonAction">
             <Button
               disabled={!listChecked.length || isLoading}
