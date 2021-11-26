@@ -39,6 +39,7 @@ import EmptyResultImage from 'assets/images/empty-result.gif';
 import { initForm } from './../../helpers/semester.helpers';
 import ActionSemester from './../../components/ActionSemester/ActionSemester';
 import RemoveSemester from './../../components/RemoveSemester/RemoveSemester';
+import { useSortableData } from 'helpers/sortingTable/sortingTable';
 
 const SemesterScreen = () => {
   const dispatch = useDispatch();
@@ -55,6 +56,7 @@ const SemesterScreen = () => {
   const { listSemester, isListSemesterLoading } = useSelector(
     (state) => state.semester
   );
+  const { dataSort, requestSort } = useSortableData(listSemester);
 
   const isCheckedAll = useMemo(() => {
     return (
@@ -160,13 +162,17 @@ const SemesterScreen = () => {
                       onChange={(e) => handleCheckedAll(e.target.checked)}
                     />
                   </Th>
-                  <Th sort>STT</Th>
-                  <Th sort>Kỳ học</Th>
+                  <Th sort onClick={() => requestSort('id')}>
+                    STT
+                  </Th>
+                  <Th sort onClick={() => requestSort('name')}>
+                    Kỳ học
+                  </Th>
                   <Th align="right">Thao tác</Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {listSemester.map((row, index) => (
+                {dataSort.map((row) => (
                   <Tr key={row.id}>
                     <Td>
                       <CheckboxSingle
@@ -174,7 +180,7 @@ const SemesterScreen = () => {
                         onChange={() => handleChangeChecked(row.id)}
                       />
                     </Td>
-                    <Td>{index + 1}</Td>
+                    <Td>{row.id}</Td>
                     <Td>{row.name}</Td>
                     <Td>
                       <BoxActionTable>

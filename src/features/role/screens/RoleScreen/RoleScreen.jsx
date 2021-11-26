@@ -40,11 +40,12 @@ import { getRole } from 'features/role/redux/role.slice';
 import { removeRoles } from 'features/role/redux/role.slice';
 import EmptyResultImage from 'assets/images/empty-result.gif';
 import { ROLE_PATHS } from '../../constants/role.paths';
+import { useSortableData } from 'helpers/sortingTable/sortingTable';
 
 const headerCells = [
-  { label: 'STT', field: 'id', sort: true },
-  { label: 'Vai trò', field: 'id', sort: true },
-  { label: 'Thao tác', field: 'id', sort: false, align: 'right' },
+  { label: 'STT', fieldSort: 'id', sort: true },
+  { label: 'Vai trò', fieldSort: 'name', sort: true },
+  { label: 'Thao tác', sort: false, align: 'right' },
 ];
 
 const RoleScreen = () => {
@@ -66,6 +67,7 @@ const RoleScreen = () => {
     listRole: state.role.listRole,
     isListRoleLoading: state.role.isListRoleLoading,
   }));
+  const { dataSort, requestSort } = useSortableData(listRole);
 
   const isCheckedAll = useMemo(() => {
     return (
@@ -132,7 +134,7 @@ const RoleScreen = () => {
 
       <WrapContent>
         <HeaderTable>
-        <div className="resultSeach">
+          <div className="resultSeach">
             {/* {messengerSort && (
               <span>
                 Kết quả : &nbsp; {messengerSort} ( {listSubject.length} )
@@ -140,20 +142,20 @@ const RoleScreen = () => {
             )} */}
           </div>
           <div className="buttonAction">
-          <Button
-            disabled={!listChecked.length || isLoading}
-            onClick={handleRemoveAll}
-            loading={isLoading}
-          >
-            Xóa tất cả
-          </Button>
-          <Button
-            to={ROLE_PATHS.ROLE_ACTION_ADD}
-            icon={<IoMdAdd />}
-            color="primary"
-          >
-            Thêm
-          </Button>
+            <Button
+              disabled={!listChecked.length || isLoading}
+              onClick={handleRemoveAll}
+              loading={isLoading}
+            >
+              Xóa tất cả
+            </Button>
+            <Button
+              to={ROLE_PATHS.ROLE_ACTION_ADD}
+              icon={<IoMdAdd />}
+              color="primary"
+            >
+              Thêm
+            </Button>
           </div>
         </HeaderTable>
 
@@ -169,14 +171,19 @@ const RoleScreen = () => {
                     />
                   </Th>
                   {headerCells.map((cell) => (
-                    <Th key={cell.label} sort={cell.sort} align={cell.align}>
+                    <Th
+                      key={cell.label}
+                      sort={cell.sort}
+                      align={cell.align}
+                      onClick={() => requestSort(cell?.fieldSort)}
+                    >
                       {cell.label}
                     </Th>
                   ))}
                 </Tr>
               </Thead>
               <Tbody>
-                {listRole.map((item, index) => (
+                {dataSort.map((item) => (
                   <Tr key={item.id}>
                     <Td>
                       <CheckboxSingle
@@ -184,7 +191,7 @@ const RoleScreen = () => {
                         onChange={() => handleChangeChecked(item.id)}
                       />
                     </Td>
-                    <Td>{index + 1}</Td>
+                    <Td>{item.id}</Td>
                     <Td>{item.name}</Td>
                     <Td>
                       <BoxActionTable>

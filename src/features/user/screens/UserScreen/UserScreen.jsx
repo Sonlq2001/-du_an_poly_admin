@@ -37,8 +37,9 @@ import { getUsers } from './../../redux/user.slice';
 import EmptyResultImage from 'assets/images/empty-result.gif';
 import { USER_PATHS } from './../../constants/user.paths';
 import avatarEmpty from 'assets/images/empty-avatar.png';
-import Adduser from 'features/user/components/action/AddUser';
+import AddUser from 'features/user/components/ActionUser/AddUser';
 import { GroupRole } from './UserScreen.styles';
+import { useSortableData } from 'helpers/sortingTable/sortingTable';
 
 const UserScreen = () => {
   const dispatch = useDispatch();
@@ -54,6 +55,8 @@ const UserScreen = () => {
   const addUser = () => {
     setOpen(true);
   };
+
+  const { dataSort, requestSort } = useSortableData(listUser);
 
   if (isListUserLoading) {
     return <Loading />;
@@ -97,83 +100,93 @@ const UserScreen = () => {
       <WrapContent>
         <HeaderTable>
           <div className="resultSeach">
-               {/* {messengerSort && (
+            {/* {messengerSort && (
               <span>
                 Kết quả : &nbsp; {messengerSort} ( {listSubject.length} )
               </span>
-            )} */}  </div>
+            )} */}{' '}
+          </div>
           <div className="buttonAction">
-          <Button color="primary">Tải file excel</Button>
+            <Button color="primary">Tải file excel</Button>
 
-<Button color="primary" icon={<IoMdAdd />} onClick={() => addUser()}>
-  Thêm
-</Button>
-            </div>  
-         
+            <Button
+              color="primary"
+              icon={<IoMdAdd />}
+              onClick={() => addUser()}
+            >
+              Thêm
+            </Button>
+          </div>
         </HeaderTable>
 
         {listUser && listUser.length > 0 ? (
           <TableCustom>
             <Thead>
               <Tr>
-                <Th sort>STT</Th>
-                <Th sort>Tên</Th>
-                <Th sort>Ảnh</Th>
-                <Th sort>Email</Th>
-                <Th sort>MSSV</Th>
-                <Th sort>Vai trò</Th>
+                <Th sort onClick={() => requestSort('id')}>
+                  STT
+                </Th>
+                <Th sort onClick={() => requestSort('name')}>
+                  Tên
+                </Th>
+                <Th>Ảnh</Th>
+                <Th sort onClick={() => requestSort('email')}>
+                  Email
+                </Th>
+                <Th sort onClick={() => requestSort('student_code')}>
+                  MSSV
+                </Th>
+                <Th>Vai trò</Th>
                 <Th align="right">Thao tác</Th>
               </Tr>
             </Thead>
 
             <Tbody>
-              {listUser.map((row, index) => {
-                return (
-                  <Tr key={row.id}>
-                    <Td>{index + 1}</Td>
-                    <Td>{row.name}</Td>
-                    <Td>
-                      <img
-                        src={row?.avatar || avatarEmpty}
-                        width="50px"
-                        height="50px"
-                        alt=""
+              {dataSort.map((row) => (
+                <Tr key={row.id}>
+                  <Td>{row?.id}</Td>
+                  <Td>{row?.name}</Td>
+                  <Td>
+                    <img
+                      src={row?.avatar || avatarEmpty}
+                      width="50px"
+                      height="50px"
+                      alt=""
+                    />
+                  </Td>
+                  <Td>{row?.email}</Td>
+                  <Td>{row?.student_code || '-'}</Td>
+                  <Td>
+                    <GroupRole>
+                      {row.roles &&
+                        row?.roles.map((item) => (
+                          <div className="item-role">
+                            <HightLightText value={item.name}>
+                              {item.name}
+                            </HightLightText>
+                          </div>
+                        ))}
+                    </GroupRole>
+                  </Td>
+                  <Td>
+                    <BoxActionTable>
+                      <Button
+                        color="warning"
+                        to={USER_PATHS.USER_PROFILE.replace(/:id/, row.id)}
+                        icon={<MdModeEdit />}
+                        size="small"
                       />
-                    </Td>
-                    <Td>{row.email}</Td>
-                    <Td>{row?.student_code || '-'}</Td>
-                    <Td>
-                      <GroupRole>
-                        {row.roles &&
-                          row?.roles.map((item) => (
-                            <div className="item-role">
-                              <HightLightText value={item.name}>
-                                {item.name}
-                              </HightLightText>
-                            </div>
-                          ))}
-                      </GroupRole>
-                    </Td>
-                    <Td>
-                      <BoxActionTable>
-                        <Button
-                          color="warning"
-                          to={USER_PATHS.USER_PROFILE.replace(/:id/, row.id)}
-                          icon={<MdModeEdit />}
-                          size="small"
-                        />
 
-                        <Button
-                          color="danger"
-                          disabled={true}
-                          size="small"
-                          icon={<BsTrash />}
-                        />
-                      </BoxActionTable>
-                    </Td>
-                  </Tr>
-                );
-              })}
+                      <Button
+                        color="danger"
+                        disabled={true}
+                        size="small"
+                        icon={<BsTrash />}
+                      />
+                    </BoxActionTable>
+                  </Td>
+                </Tr>
+              ))}
             </Tbody>
           </TableCustom>
         ) : (
@@ -183,7 +196,7 @@ const UserScreen = () => {
           </EmptyResult>
         )}
         <PopupOverlay open={open} setOpen={setOpen} title="Thêm Tài Khoản ">
-          <Adduser setOpen={setOpen} />
+          <AddUser setOpen={setOpen} />
         </PopupOverlay>
         <GroupPagination>
           <TablePagination

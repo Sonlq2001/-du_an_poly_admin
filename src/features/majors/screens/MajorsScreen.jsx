@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IoMdAdd } from 'react-icons/io';
 import { BsTrash } from 'react-icons/bs';
 import { MdModeEdit } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
 import {
   TableCustom,
@@ -37,12 +38,12 @@ import RemoveMajors from './../components/RemoveMajors/RemoveMajors';
 import { initForm } from './../helpers/majors.helpers';
 import { getMajors, removeMajors } from './../redux/majors.slice';
 import EmptyResultImage from 'assets/images/empty-result.gif';
-import { toast } from 'react-toastify';
+import { useSortableData } from 'helpers/sortingTable/sortingTable';
 
 const headerCells = [
-  { label: 'STT', field: 'id', sort: true },
-  { label: 'Tên Chuyên Ngành', field: 'id', sort: true },
-  { label: 'Thao tác', field: 'id', sort: false, align: 'right' },
+  { label: 'STT', fieldSort: 'id', sort: true },
+  { label: 'Tên Chuyên Ngành', fieldSort: 'name', sort: true },
+  { label: 'Thao tác', sort: false, align: 'right' },
 ];
 
 const MajorsScreen = () => {
@@ -61,6 +62,7 @@ const MajorsScreen = () => {
     fetchData();
   }, [fetchData]);
   const { listMajors, isMajorsLoading } = useSelector((state) => state.majors);
+  const { dataSort, requestSort } = useSortableData(listMajors);
 
   const isCheckedAll = useMemo(() => {
     return listMajors && listMajors.every((i) => listChecked.includes(i.id));
@@ -164,14 +166,19 @@ const MajorsScreen = () => {
                     />
                   </Th>
                   {headerCells.map((cell) => (
-                    <Th key={cell.label} sort={cell.sort} align={cell.align}>
+                    <Th
+                      key={cell.label}
+                      sort={cell.sort}
+                      align={cell.align}
+                      onClick={() => requestSort(cell?.fieldSort)}
+                    >
                       {cell.label}
                     </Th>
                   ))}
                 </Tr>
               </Thead>
               <Tbody>
-                {listMajors.map((item, index) => (
+                {dataSort.map((item) => (
                   <Tr key={item.id}>
                     <Td>
                       <CheckboxSingle
@@ -179,7 +186,7 @@ const MajorsScreen = () => {
                         onChange={() => handleChangeChecked(item.id)}
                       />
                     </Td>
-                    <Td>{index + 1}</Td>
+                    <Td>{item.id}</Td>
                     <Td>{item.name}</Td>
                     <Td>
                       <BoxActionTable>
