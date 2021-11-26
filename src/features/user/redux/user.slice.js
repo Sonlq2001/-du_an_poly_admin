@@ -7,14 +7,17 @@ export const getUsers = createAsyncThunk('user/getUsers', async () => {
     return response.data;
   } catch (error) {}
 });
-export const postUsers = createAsyncThunk('user/post', async (user,{rejectWithValue}) => {
-  try {
-    const response = await userApi.postUser(user);
-    return response.data;
-  } catch (error) {
-    return rejectWithValue(_get(error.response.data, 'errors', ''));
+export const postUsers = createAsyncThunk(
+  'user/post',
+  async (user, { rejectWithValue }) => {
+    try {
+      const response = await userApi.postUser(user);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
+    }
   }
-});
+);
 export const putUsers = createAsyncThunk('user/putUsers', async (value) => {
   try {
     const response = await userApi.putUser(value);
@@ -37,6 +40,7 @@ const initialState = {
   listUser: [],
   isListUserLoading: false,
   messenger: null,
+
   // user
   itemUser: null,
   isItemUserLoading: false,
@@ -45,6 +49,7 @@ const initialState = {
 const useSlice = createSlice({
   name: 'user',
   initialState,
+  reducers: {},
   extraReducers: {
     // get list user
     [getUsers.pending]: (state) => {
@@ -83,5 +88,4 @@ const useSlice = createSlice({
 });
 
 const { reducer: useReducer } = useSlice;
-
 export default useReducer;

@@ -22,7 +22,6 @@ import {
   GroupAttach,
   ItemAttach,
   Video,
-  // BoxYoutube,
 } from './ReviewProduct.styles';
 import { MdContentPaste } from 'react-icons/md';
 import { GrAttachment } from 'react-icons/gr';
@@ -109,7 +108,6 @@ const ReviewProduct = ({ data, setOpen }) => {
                     onClick={() => handleConfirm(data)}
                   >
                     <div className="test">
-                      {' '}
                       {disableButton && <span className="loading"></span>}
                       Chấp nhận lần 1
                     </div>
@@ -121,7 +119,7 @@ const ReviewProduct = ({ data, setOpen }) => {
                     onClick={() => handleConfirm(data)}
                   >
                     <div className="test">
-                    {disableButton && <span className="loading"></span>}
+                      {disableButton && <span className="loading"></span>}
                       Chấp nhận lần 2
                     </div>
                   </button>
@@ -229,7 +227,6 @@ const ReviewProduct = ({ data, setOpen }) => {
                 </TitleMain>
 
                 <GroupAttach>
-                 
                   <ItemAttach>
                     <div className="title-attach">Tài liệu hướng dẫn:</div>
                     <a

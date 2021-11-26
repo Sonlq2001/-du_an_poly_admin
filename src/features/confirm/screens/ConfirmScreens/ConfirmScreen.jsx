@@ -4,7 +4,7 @@ import {
   getProductType,
   getDetail,
   getListCampuses,
-  ProductUser
+  ProductUser,
 } from './../../redux/product.slice';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -21,7 +21,7 @@ import ConfirmTable from './../../components/ConfirmTable/ConfirmTable';
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import Loading from 'components/Loading/Loading';
 import { getSemesters } from '../../../uploadExcel/redux/uploadExcel.slice';
-import { MapOptions } from '../../../../helpers/convert/map-options';
+import { MapOptions } from 'helpers/convert/map-options';
 import ReviewProduct from 'features/confirm/components/Review/ReviewProduct';
 
 const ConfirmScreen = () => {
@@ -29,12 +29,13 @@ const ConfirmScreen = () => {
   const { path } = useParams();
   const { listProduct, isProductLoading, listProductType, productDetail } =
     useSelector((state) => state.product);
-    const {useLogin}  = useSelector((state)=>state.auth)
+  const { useLogin } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(true);
   const { listSemester } = useSelector((state) => state.uploadExcel);
   const { listCampuses } = useSelector((state) => state.product);
   const listSelectOptionSemester = MapOptions(listSemester);
   const listSelectOptionCampuses = MapOptions(listCampuses);
+
   const ProductTypes = useCallback(() => {
     dispatch(getProductType());
   }, [dispatch]);
@@ -42,12 +43,14 @@ const ConfirmScreen = () => {
   const CampusesList = useCallback(() => {
     dispatch(getListCampuses());
   }, [dispatch]);
+
   useEffect(() => {
     dispatch(getSemesters());
     ProductTypes();
-    dispatch(ProductUser({user_id : useLogin.id}))
+    dispatch(ProductUser({ user_id: useLogin.id }));
     CampusesList();
-  }, [dispatch, ProductTypes, CampusesList ,useLogin]);
+  }, [dispatch, ProductTypes, CampusesList, useLogin]);
+
   useEffect(() => {
     dispatch(getDetail(path));
   }, [dispatch, path]);
@@ -142,7 +145,6 @@ const ConfirmScreen = () => {
             <Select
               className="select-option input-search"
               options={[
-                {},
                 { label: 'Phê duyệt ', value: 1 },
                 { label: 'Đang chờ ', value: 2 },
               ]}
@@ -157,7 +159,7 @@ const ConfirmScreen = () => {
         listProductType={listProductType}
         productDetail={productDetail}
       />
-       { path && productDetail && (
+      {path && productDetail && (
         <PopupOverlay
           open={open}
           setOpen={setOpen}

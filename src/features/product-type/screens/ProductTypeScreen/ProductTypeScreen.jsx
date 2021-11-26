@@ -42,6 +42,7 @@ import EmptyResultImage from 'assets/images/empty-result.gif';
 import { initForm } from './../../helpers/product-type.helpers';
 import ActionProductType from './../../components/ActionProductType/ActionProductType';
 import RemoveProductType from './../../components/RemoveProductType/RemoveProductType';
+import { useSortableData } from 'helpers/sortingTable/sortingTable';
 
 const ProductTypeScreen = () => {
   const dispatch = useDispatch();
@@ -59,6 +60,7 @@ const ProductTypeScreen = () => {
   const { listProductType, isListProductTypeLoading } = useSelector(
     (state) => state.productType
   );
+  const { dataSort, requestSort } = useSortableData(listProductType);
 
   const isCheckedAll = useMemo(() => {
     return (
@@ -167,13 +169,17 @@ const ProductTypeScreen = () => {
                       onChange={(e) => handleCheckedAll(e.target.checked)}
                     />
                   </Th>
-                  <Th sort>STT</Th>
-                  <Th sort>Tên Danh Mục</Th>
+                  <Th sort onClick={() => requestSort('id')}>
+                    STT
+                  </Th>
+                  <Th sort onClick={() => requestSort('name')}>
+                    Tên Danh Mục
+                  </Th>
                   <Th align="right">Thao tác</Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {listProductType.map((row, index) => (
+                {dataSort.map((row) => (
                   <Tr key={row.id}>
                     <Td>
                       <CheckboxSingle
@@ -181,7 +187,7 @@ const ProductTypeScreen = () => {
                         onChange={() => handleChangeChecked(row.id)}
                       />
                     </Td>
-                    <Td>{index + 1}</Td>
+                    <Td>{row.id}</Td>
                     <Td>{row.name}</Td>
                     <Td>
                       <BoxActionTable>
