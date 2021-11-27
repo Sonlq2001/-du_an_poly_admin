@@ -24,7 +24,7 @@ const SignInScreen = () => {
   const [isError, setIsError] = useState(false);
   const [message, setMessage] = useState('');
 
-  useRedirectAfterLogin();
+
 
   useEffect(() => {
     dispatch(getCampuses());
@@ -36,7 +36,7 @@ const SignInScreen = () => {
       value: campus.code,
     })),
   }));
-
+  useRedirectAfterLogin();
   const responseGoogle = async (response) => {
     const { accessToken } = response;
     if (accessToken) {
@@ -45,11 +45,11 @@ const SignInScreen = () => {
           codeCampus,
           accessToken,
         })
-      );
-
-      if (!postAccessToken.fulfilled.match(response)) {
+      );    if (!postAccessToken.fulfilled.match(response)) {
+   
         setIsError(true);
         setMessage(_get(response, 'payload', ''));
+       
       }
     }
   };

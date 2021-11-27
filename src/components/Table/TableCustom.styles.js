@@ -4,6 +4,7 @@ export const GroupTale = styled.div`
   overflow-x: auto;
 `;
 export const Table = styled.table`
+
   border-collapse: collapse;
   width: 100%;
   background-color: var(--white-color);
@@ -13,6 +14,24 @@ export const Table = styled.table`
     margin: 2rem 0rem;
     text-align: center;
   }
+  .resultLoader{
+    width: 18px;
+    height: 18px;
+    padding:10px;
+    margin: 10px;
+    border-radius: 50%;
+    border-top: 2px solid blue;
+    animation: loader 2s infinite linear ;
+  }
+  @keyframes loader {
+        0%{
+          transform :  rotate(0deg);
+        }
+        100%{
+          transform :  rotate(360deg);
+        }
+    }
+
 `;
 
 export const TableTr = styled.tr`

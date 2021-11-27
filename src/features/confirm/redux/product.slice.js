@@ -65,11 +65,41 @@ export const ProductUser = createAsyncThunk(
   'product/productUser',
   async (user_id) => {
     try {
-      const response = await confirmProductApi.productUser(user_id);
-      return response.data;
-    } catch (error) {}
-  }
-);
+      const response = await  confirmProductApi.productUser(user_id)
+    return  response.data
+    } catch (error) {
+      
+    }
+    
+})
+//  tìm kiếm
+export const SearchProduct = createAsyncThunk("product/searchProduct", async (data)=>{
+    try {
+        const response = await confirmProductApi.seachProduct(data)
+      return response.data.data
+    } catch (error) {
+      console.log("response.data.data",error.response)
+    }
+})
+// filter 
+export const filterProduct = createAsyncThunk("product/filterProduct", async (data)=>{
+ try {
+  const response = await  confirmProductApi.filter(data)
+      return response.data.data
+  } catch (error) {
+   
+ }
+
+})
+export const filterStatusProduct = createAsyncThunk("product/filterProduct", async (id)=>{
+ try {
+  const response = await  confirmProductApi.filterStatus(id)
+  return response.data.data
+  } catch (error) {
+   
+ }
+
+})
 const initialState = {
   listProduct: [],
   isProductLoading: false,
@@ -82,17 +112,6 @@ const productSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
-    productUpdate(state, action) {
-      state.listProduct = state.listProduct.sort((a, b) => {
-        if (state.sortedField === 'ASC') {
-          state.sortedField = 'DSC';
-          return a[action.payload] > b[action.payload] ? 1 : -1;
-        } else {
-          state.sortedField = 'ASC';
-          return a[action.payload] < b[action.payload] ? 1 : -1;
-        }
-      });
-    },
   },
   extraReducers: {
     // product user
@@ -153,8 +172,18 @@ const productSlice = createSlice({
       state.listCampuses = action.payload;
     },
     [getListCampuses.pending]: (state, action) => {},
+    // search productt 
+    [SearchProduct.fulfilled] :(state,action)=>{
+      state.listProduct = action.payload
+    },
+    // filter
+    [filterProduct.fulfilled] :(state,action) => {
+      state.listProduct = action.payload
+    },
+    [filterStatusProduct.fulfilled] :(state,action) => {
+      state.listProduct = action.payload
+    },
   },
 });
-export const { convertProduct, productUpdate } = productSlice.actions;
 const { reducer: productReducer } = productSlice;
 export default productReducer;

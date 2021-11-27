@@ -4,6 +4,7 @@ import {
   PRODUCT_TYPE,
   CHAIRMAN_APPROVE_PATH,
   CAMPUSES_PATH,
+  SEARCH_PATH
 } from './../constants/confirm.paths';
 
 const getListProduct = () => {
@@ -45,6 +46,18 @@ const getCampus = () => {
 const productUser  = (id)=>{
   return  api.post(PRODUCT_PATH.PRODUCT_USER,id)
 }
+// search product 
+const seachProduct  = (data)=>{
+  return api.post(SEARCH_PATH.SEARCH_NAME,data)
+}
+// lọc theo chuyên ngành 
+const filter = (data)=>{
+  return api.post(SEARCH_PATH.FILTER_PATH,data)
+}
+//  trạng thái sp
+const filterStatus  = (id)=>{
+  return api.get(SEARCH_PATH.FILTE_STATUS.replace(":id",id.toString()))
+}
 export const confirmProductApi = {
   getListProduct,
   putStatusProduct,
@@ -53,5 +66,8 @@ export const confirmProductApi = {
   productTypes,
   detailProduct,
   getCampus,
-  productUser
+  productUser,
+  seachProduct,
+  filter,
+  filterStatus
 };

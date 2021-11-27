@@ -8,7 +8,6 @@ export const getListSubject = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await subjectApi.getListSubject();
-      console.log('response của majort ', response.data)
       return response.data;
     } catch (error) {
       return rejectWithValue(_get(error.response.data, 'errors', ''));
