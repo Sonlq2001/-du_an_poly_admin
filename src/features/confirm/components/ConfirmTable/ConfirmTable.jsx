@@ -95,11 +95,11 @@ const ConfirmTable = ({ data, listProductType ,result}) => {
     setItemRefuse(true);
   };
   // sort 
-  const { dataSort, requestSort } = useSortableData(data);
+  const { dataSort, requestSort } = useSortableData(data ? data : []);
   return (
     <WrapContent>
       <BoxMain>
-        {result === 2 && <div className="messengers">Kết quả tìm kiếm :  { data && data.length} </div>}
+        {result === 2 && <div className="messengers">Kết quả tìm kiếm :  { data ? data.length : "0"} </div>}
         <TableCustom className="table-confirm">
           <Thead>
             <Tr>

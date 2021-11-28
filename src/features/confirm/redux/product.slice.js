@@ -76,6 +76,7 @@ export const ProductUser = createAsyncThunk(
 export const SearchProduct = createAsyncThunk("product/searchProduct", async (data)=>{
     try {
         const response = await confirmProductApi.seachProduct(data)
+        console.log("response",response.data.data)
       return response.data.data
     } catch (error) {
       console.log("response.data.data",error.response)
