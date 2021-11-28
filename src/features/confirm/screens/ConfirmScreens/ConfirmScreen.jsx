@@ -1,11 +1,18 @@
-import React, { memo, useEffect, useCallback, useState } from 'react';
+import React, { memo, useEffect, useCallback, useState, useRef } from 'react';
 import Select from 'react-select';
+import { useParams } from 'react-router';
+import {CgSortAz}  from "react-icons/cg"
+
 import {
   getProductType,
   getDetail,
   getListCampuses,
   ProductUser,
+  SearchProduct,
+  filterProduct,
+  filterStatusProduct
 } from './../../redux/product.slice';
+
 import { useSelector, useDispatch } from 'react-redux';
 import {
   WrapContent,
@@ -16,7 +23,7 @@ import {
   InputSearch,
 } from 'styles/common/common-styles';
 
-import { useParams } from 'react-router';
+
 import ConfirmTable from './../../components/ConfirmTable/ConfirmTable';
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import Loading from 'components/Loading/Loading';
@@ -27,14 +34,21 @@ import ReviewProduct from 'features/confirm/components/Review/ReviewProduct';
 const ConfirmScreen = () => {
   const dispatch = useDispatch();
   const { path } = useParams();
+
   const { listProduct, isProductLoading, listProductType, productDetail } =
     useSelector((state) => state.product);
   const { useLogin } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(true);
   const { listSemester } = useSelector((state) => state.uploadExcel);
   const { listCampuses } = useSelector((state) => state.product);
+
   const listSelectOptionSemester = MapOptions(listSemester);
   const listSelectOptionCampuses = MapOptions(listCampuses);
+
+  const [SearchName ,setName]=  useState(null)
+  const [result,setResult]=  useState(0)
+  const [Advanced,SetAdvanced]=  useState(false)
+  const timeOutString = useRef(null)
 
   const ProductTypes = useCallback(() => {
     dispatch(getProductType());
@@ -54,10 +68,53 @@ const ConfirmScreen = () => {
   useEffect(() => {
     dispatch(getDetail(path));
   }, [dispatch, path]);
-  // change kỳ học
-  const HandlerSemester = (data) => {
-    console.log('data', data);
+  // change trạng thái sp
+  const HandlerStatus=  async (data) => {
+  const response = await  dispatch(filterStatusProduct(data.value))
+  setResult(1)
+  if(filterStatusProduct.fulfilled.match(response)){
+    setResult(2)
+  }
   };
+  const ChangeSearch = (e)=>{
+    const value = e.target.value
+    if(!value){
+      setName(value )
+      if(timeOutString.current){
+        clearTimeout(timeOutString.current)
+      }
+      timeOutString.current = setTimeout( async()=>{
+       const response = await dispatch(ProductUser({ user_id: useLogin.id }));
+       setResult(1)
+       if(ProductUser.fulfilled.match(response)) {
+        setResult(2)
+       }      
+      },800)
+    
+    }else{
+      setName(value )
+      if(timeOutString.current){
+        clearTimeout(timeOutString.current)
+      }
+      timeOutString.current = setTimeout( async()=>{
+        const data = {"text" : value }
+        const response = await dispatch(SearchProduct(data))
+        setResult(1)
+        if(SearchProduct.fulfilled.match(response)) {
+         setResult(2)
+        } 
+      },800)
+    }
+   
+  }
+// 
+const Filter = (e,type)=>{
+  const data={
+    id:e.value,
+    type : type
+  }
+  dispatch(filterProduct(data))
+}
   if (isProductLoading) {
     return <Loading />;
   }
@@ -65,7 +122,10 @@ const ConfirmScreen = () => {
     <>
       <TitleMain> Danh sách sản phẩm </TitleMain>
       <WrapContent>
+        <div className="titleSearch"> 
         <TitleControl>Tìm kiếm</TitleControl>
+        <span onClick={()=>SetAdvanced(!Advanced)}><i className="icon"> <CgSortAz/></i> Nâng cao </span>
+        </div>
         <BoxSearchInput>
           <BoxControl className="box-control">
             <label htmlFor="" className="label-control">
@@ -75,6 +135,7 @@ const ConfirmScreen = () => {
               type="text"
               placeholder="Tìm kiếm"
               className="input-filter input-search"
+            onKeyUp={(e)=>ChangeSearch(e)}
             />
           </BoxControl>
 
@@ -91,6 +152,7 @@ const ConfirmScreen = () => {
                 { label: 'Sinh viên', value: 4 },
               ]}
               placeholder="Tìm theo chủ nhiệm"
+              onChange={(e)=>Filter(e,"major")}
             />
           </BoxControl>
         </BoxSearchInput>
@@ -108,6 +170,7 @@ const ConfirmScreen = () => {
                 { label: 'Sinh viên', value: 4 },
               ]}
               placeholder="Tìm theo bộ môn"
+              onChange={(e)=>Filter(e,"master_user")}
             />
           </BoxControl>
 
@@ -122,7 +185,7 @@ const ConfirmScreen = () => {
                 listSelectOptionSemester ? listSelectOptionSemester : [])
               }
               placeholder="Tìm theo kì học"
-              onChange={(e) => HandlerSemester(e)}
+              onChange={(e)=>Filter(e,"semester")}
             />
           </BoxControl>
         </BoxSearchInput>
@@ -135,26 +198,30 @@ const ConfirmScreen = () => {
               className="select-option input-search"
               options={listSelectOptionCampuses}
               placeholder="Tìm theo Cơ Sở "
+              onChange={(e)=>Filter(e,"campus")}
             />
           </BoxControl>
-
           <BoxControl className="box-control">
             <label htmlFor="" className="label-control">
-              Kì học
+            Trạng thái
             </label>
             <Select
               className="select-option input-search"
               options={[
-                { label: 'Phê duyệt ', value: 1 },
-                { label: 'Đang chờ ', value: 2 },
+                { label: 'Giảng viên phê duyệt ', value:1},
+                { label: 'Chủ nhiệm phê duyệt ', value: 2 },
+                { label: 'Chưa thêm ', value: 0 },
+                { label: 'Phê duyệt ', value: 3 },
               ]}
               placeholder="Trạng Thái "
+              onChange={(e)=>HandlerStatus(e) }
             />
           </BoxControl>
         </BoxSearchInput>
       </WrapContent>
-
+     
       <ConfirmTable
+        result={result}
         data={listProduct}
         listProductType={listProductType}
         productDetail={productDetail}

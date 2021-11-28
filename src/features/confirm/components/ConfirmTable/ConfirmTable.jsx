@@ -29,14 +29,12 @@ import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import ReviewProduct from './../Review/ReviewProduct';
 import RemoveProduct from './../RemoveProduct/RemoveProduct';
 import { useDispatch, useSelector } from 'react-redux';
-import { approveProduct, productUpdate } from '../../redux/product.slice';
+import { approveProduct } from '../../redux/product.slice';
 import GroupAlert from './../../../../components/AlertMessage/AlertMessage';
 import Refuse from '../ActionProduct/refuse/Refuse';
+import { useSortableData } from 'helpers/sortingTable/sortingTable';
 
-const ConfirmTable = ({ data, listProductType }) => {
-  const HandleSort = (name) => {
-    dispatch(productUpdate(name));
-  };
+const ConfirmTable = ({ data, listProductType ,result}) => {
   const dispatch = useDispatch();
   const { useLogin } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
@@ -74,8 +72,6 @@ const ConfirmTable = ({ data, listProductType }) => {
     setItemRemove(item);
   };
 
-
-
   const handleConfirm = async (item) => {
     setIsLoading(true);
     setDisableButton(true);
@@ -98,36 +94,40 @@ const ConfirmTable = ({ data, listProductType }) => {
     setRefuse(item);
     setItemRefuse(true);
   };
-
+  // sort 
+  const { dataSort, requestSort } = useSortableData(data ? data : []);
   return (
     <WrapContent>
       <BoxMain>
+        {result === 2 && <div className="messengers">Kết quả tìm kiếm :  { data ? data.length : "0"} </div>}
         <TableCustom className="table-confirm">
           <Thead>
             <Tr>
-              <Th sort onClick={() => HandleSort('id')}>
+              <Th sort onClick={() => requestSort('id')}>
                 STT
               </Th>
-              <Th sort onClick={() => HandleSort('name')}>
+              <Th sort onClick={() => requestSort('name')}>
                 Tên đề tài
               </Th>
-              <Th sort onClick={() => HandleSort('class')}>
+              <Th sort onClick={() => requestSort('class')}>
                 Lớp
               </Th>
-              <Th sort onClick={() => HandleSort('subject')}>
+              <Th sort onClick={() => requestSort('subject')}>
                 Môn
               </Th>
               <Th className="fix-th" sort>
                 Kỳ học
               </Th>
-              <Th sort onClick={() => HandleSort('students')}>
+              <Th sort onClick={() => requestSort('students')}>
                 Thành viên
               </Th>
               <Th align="right">Action</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {data.length ? data.map((item, index) => {
+            {result === 1 ?  <Tr> <div className = "resultLoader"> </div> </Tr>:
+          <>
+            {dataSort?.length> 0? dataSort.map((item, index) => {
               return (
                 <Tr key={index}>
                   <Td> {item.id}</Td>
@@ -295,7 +295,10 @@ const ConfirmTable = ({ data, listProductType }) => {
                   </Td>
                 </Tr>
               );
-            }) : <div className = "result"> Chưa có sản phẩm nào !</div>}
+            }) : <div className = "result"> Chưa có sản phẩm nào !</div>
+            }
+           </>
+}
           </Tbody>
         </TableCustom>
         <GroupPagination>

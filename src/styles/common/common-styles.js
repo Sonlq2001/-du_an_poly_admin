@@ -8,8 +8,40 @@ export const WrapContent = styled.div`
   border-radius: 5px;
   background-color: var(--white-color);
   padding: 2rem;
+  height: auto;
   & + & {
     margin-top: 2rem;
+  }
+  .titleSearch{
+    display :flex ;
+    width :100%;
+    justify-content: space-between;
+  }
+  .titleSearch span {
+    padding: 2px 8px;
+    font-size: 11px;
+    height: 32px;
+    background-color: #f0ecec;
+    border-radius: 10px;
+    line-height: 28px;
+    display :flex;
+    justify-content: space-between;
+  }
+  .titleSearch span:hover{
+    cursor: pointer;
+  }
+  .titleSearch span .icon {
+    font-size: 25px;
+  }
+  .sortVip{
+    margin-top: 5rem;
+    transition: 2s ease;
+    opacity: 0;
+  }
+  .activeAdvanced{
+    margin-top: 5rem;
+    transition: 2s ease;
+    opacity: 1;
   }
 `;
 export const TitleMain = styled.h3`

@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState, useMemo } from 'react';
+import React, { memo, useEffect, useState, useMemo, useCallback } from 'react';
 import Select from 'react-select';
 import { IoMdAdd } from 'react-icons/io';
 import { MdModeEdit } from 'react-icons/md';
@@ -60,10 +60,14 @@ const SubjectScreen = () => {
       listMajors: state.majors.listMajors,
     })
   );
-  useEffect(() => {
+  const getAll = useCallback(()=>{
     dispatch(getListSubject());
     dispatch(getMajors());
-  }, [dispatch]);
+  },[dispatch])
+  useEffect(() => {
+    getAll()
+  }, [dispatch,getAll]);
+
   const listSelectMajor = MapOptions(listMajors);
 
   const isCheckedAll = useMemo(() => {

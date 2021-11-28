@@ -1,11 +1,17 @@
 import styled from 'styled-components';
 
 export const BoxMain = styled.div`
+    position: relative;
   .table-confirm .fix-th {
     min-width: 8rem;
   }
   .fix-td {
     text-align: center;
+  }
+  .messengers{
+    padding: 0.6rem 0px 1.5rem 0rem ;
+    font-size: 1.8rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
 `;
 
