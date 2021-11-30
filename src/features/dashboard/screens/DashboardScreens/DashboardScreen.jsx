@@ -20,7 +20,7 @@ const DashboardScreen = () => {
     getData()
   },[dispatch,getData])
 
-  const {data,loading} = useSelector(state=> state.dashboard)
+  const {data,loading} = useSelector(state=> state.dashboard);
   if(loading && !data){
     return <Loading />;
   }
@@ -28,8 +28,8 @@ const DashboardScreen = () => {
     <ContentDashboard>
       <div className="wrap-left">
         <BoxCard  total_products={data ? data.total_products : 0} />
-        <BoxChart />
-        <TableFeedback />
+        <BoxChart totalProduct={data}/>
+        <TableFeedback feedbacks={data?.feedback ? data.feedback : []} />
       </div>
 
       <div className="wrap-right">

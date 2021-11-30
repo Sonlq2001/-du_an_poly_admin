@@ -10,9 +10,13 @@ import {
   Th,
   Td,
 } from 'components/Table/TableCustom';
-import { DATA_FAKE } from './../../constants/dashboard.constants';
 
-const TableFeedback = () => {
+const TableFeedback = ({feedbacks}) => {
+  let data =[];
+  for(let item in feedbacks){
+         data.push(feedbacks[item])
+  }
+  console.log(data)
   return (
     <WrapTable>
       <BoxTitleDashboard>Phản hồi mới nhất</BoxTitleDashboard>
@@ -21,23 +25,21 @@ const TableFeedback = () => {
           <Thead>
             <Tr>
               <Th>#</Th>
-              <Th>Sản phẩm</Th>
               <Th className="fix-sort">Người đánh giá</Th>
               <Th>Nội dung</Th>
               <Th>Thời gian</Th>
             </Tr>
           </Thead>
-
           <Tbody>
-            {DATA_FAKE.map((row) => (
-              <Tr key={row.id}>
-                <Td>{row.id}</Td>
-                <Td>{row.product}</Td>
-                <Td>{row.name}</Td>
-                <Td>{row.content}</Td>
-                <Td>{row.time}</Td>
-              </Tr>
-            ))}
+           {data.map((item)=>{
+               return (
+                <Tr key={item.id}>
+                  <Td>{item.id}</Td>
+                  <Td>{item.email}</Td>
+                  <Td>{item.content}</Td>
+                  <Td>{item.created_at.split('T',1)}</Td>
+                </Tr> 
+           )})}
           </Tbody>
         </TableCustom>
       </div>
