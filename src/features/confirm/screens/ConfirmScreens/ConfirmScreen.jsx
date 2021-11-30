@@ -53,17 +53,19 @@ const ConfirmScreen = () => {
   const ProductTypes = useCallback(() => {
     dispatch(getProductType());
   }, [dispatch]);
-
   const CampusesList = useCallback(() => {
     dispatch(getListCampuses());
   }, [dispatch]);
-
+  const getDataUser = useCallback(() => {
+    dispatch(ProductUser({ user_id: useLogin.id }));
+  }, [dispatch,useLogin]);
+  
   useEffect(() => {
     dispatch(getSemesters());
     ProductTypes();
-    dispatch(ProductUser({ user_id: useLogin.id }));
+    getDataUser();
     CampusesList();
-  }, [dispatch, ProductTypes, CampusesList, useLogin]);
+  }, [dispatch, ProductTypes, CampusesList,getDataUser]);
 
   useEffect(() => {
     dispatch(getDetail(path));
