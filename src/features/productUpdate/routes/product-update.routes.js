@@ -4,6 +4,6 @@ const   PRODUCT_UPDATE_SCREEN = {
     path :"/product/update/:id",
     component:  lazy(()=>import('./../screens/ProductUpdateScreens.jsx')),
     pageTitle : "Cập nhật sản phẩm ",
-    // isPrivateRoute: true,
+    isPrivateRoute: true,
 }
 export const PRODUCT_UPDATE_ROUTES = [PRODUCT_UPDATE_SCREEN]

@@ -35,6 +35,14 @@ export const ContentForm = styled.div`
     color: gray;
     width: 30%;
   }
+  & .from-group .labelFile{
+    width: 100%;
+    margin-right: 0;
+    border-radius: 5px;
+    padding: 5px 10px;
+    background-color: #edeff6;
+    font-size: 12px;
+  }
   & .from-group > input {
     width: 25rem;
     border-radius: 5px;
@@ -179,3 +187,10 @@ export const ImageItem = styled.div`
     visibility: visible;
   }
 `;
+export const Loading = styled.div`
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border-radius: 50%;
+  border-bottom: 5px  solid  red;
+`

@@ -1,8 +1,9 @@
-import React, { memo, useState } from "react";
+import React, { memo, useState, useEffect,useCallback } from "react";
 import { Formik } from 'formik';
 import { BsImageFill } from 'react-icons/bs';
 import { AiOutlineSave, AiOutlineDelete } from 'react-icons/ai';
 import { MdDelete } from 'react-icons/md';
+import { useHistory, useParams } from "react-router";
 
 import ElementInput from 'components/FormElements/ElementInput/ElementInput';
 import ElementSelect from 'components/FormElements/ElementSelect/ElementSelect';
@@ -16,11 +17,32 @@ import {
 } from './ProductDetail.styles';
 import { schema } from './../helpers/product-update.helpers';
 import Editor from "./../componments/Editor/Editor";
-import ElementInputFile from "components/FormElements/ElementInput/ElementInputFile";
+import  ElementInputFile from "components/FormElements/ElementInput/ElementInputFile";
+import { useDispatch, useSelector } from "react-redux";
+import { getData } from "../redux/productUpdate.slice";
+import Loading from "components/Loading/Loading";
+import { getProductType } from "features/product-type/redux/product-type.slice";
+import { MapOptions } from "helpers/convert/map-options";
 
 const ProductUpdateScreens = () => {
+  const {id} = useParams()
+  const history = useHistory()
+  const dispatch = useDispatch()
+  const ProductType = useCallback(()=>{
+    dispatch(getProductType())
+  },[dispatch])
+  const FetchData = useCallback(()=>{
+    dispatch(getData(id))
+  },[dispatch,id])
+  useEffect(()=>{
+    FetchData()
+    ProductType()
+  },[FetchData,ProductType])
+const {data,loading} = useSelector(state=> state.productDetail)
+const {listProductType} = useSelector(state=> state.productType)
 const [groupStudents,setGroupStudents] = useState([])
   const handleChangeDescription = (description) => {};
+
   let email = [];
   const EmailChange = (e, index) => {
     email = [...groupStudents];
@@ -31,23 +53,20 @@ const [groupStudents,setGroupStudents] = useState([])
   const remove = (i) => {
     setGroupStudents(groupStudents.filter((element, index) => index !== i));
   };
-
-//   const optionSelect =
-//     listProductType &&
-//     listProductType.map((item) => {
-//       return { ...item, label: item.name, value: item.id };
-//     });
-
+  const optionProductType = MapOptions(listProductType)
+  if(loading || data === null){
+    return <Loading />
+  }
   return (
     <>
+    {data !== undefined ? 
       <Formik
         enableReinitialize
         initialValues
         validationSchema={schema}
         onSubmit={(values) => {
-          // values.students = [...groupStudents];
           const student = [...groupStudents];
-          console.log('lưu', student);
+          console.log('lưu', values);
         }}
       >
         {({ handleSubmit }) => {
@@ -97,17 +116,7 @@ const [groupStudents,setGroupStudents] = useState([])
                     disabled
                   />
                 </div>
-                <div className="from-group">
-                  <label htmlFor="">Loại sản phẩm </label>
-                  <div className="box-select">
-                    <ElementSelect
-                      className="select"
-                      name="product_types"
-                      placeholder="Loại sản phẩm "
-                      options={[]}
-                    />
-                  </div>
-                </div>
+               
                 <div className="from-group">
                   <label htmlFor="">Thành viên </label>
                   <div className="box-select">
@@ -143,11 +152,32 @@ const [groupStudents,setGroupStudents] = useState([])
                   </div>
                 </div>
                 <div className="from-group">
-                  <label htmlFor="">Kỳ Học </label>
+                  <label htmlFor="">Loại sản phẩm </label>
+                  <div className="box-select">
+                    <ElementSelect
+                      className="select"
+                      name="product_types"
+                      placeholder="Loại sản phẩm "
+                      options={optionProductType ? optionProductType : []}
+                    />
+                  </div>
+                </div>
+                <div className="from-group">
+                  <label htmlFor="">Ảnh Đại Diện</label>
                   <ElementInputFile
-                    placeholder="Kỳ Học"
-                    name="subject.code"
-                  
+                    placeholder="Chọn ảnh đại diện"
+                    name=""     
+                    id="avatar"
+                    title ="Ảnh Đại Diện"            
+                  />
+                </div>
+                <div className="from-group">
+                  <label htmlFor="">Tài liệu </label>
+                  <ElementInputFile
+                    placeholder="Tài Liệu "
+                    name=""     
+                    id="avatar"      
+                    title ="Chọn tài liệu"            
                   />
                 </div>
                 <label htmlFor=""> Hình ảnh </label> <br />
@@ -165,7 +195,6 @@ const [groupStudents,setGroupStudents] = useState([])
                 </GroupImage>
                 <ListImage>
                   <ImageItem>
-                    {' '}
                     <img
                       src="https://cdn.pixabay.com/photo/2016/02/13/13/11/oldtimer-1197800_1280.jpg"
                       alt=""
@@ -208,6 +237,7 @@ const [groupStudents,setGroupStudents] = useState([])
           );
         }}
       </Formik>
+      : <div> Sản phẩm k tồn tại </div>}
     </>
   );
 };

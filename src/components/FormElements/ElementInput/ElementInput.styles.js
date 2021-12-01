@@ -34,3 +34,5 @@ export const BoxInputField = styled.div`
     color: var(--aaa-color);
   }
 `;
+export const Label = styled.label`
+`

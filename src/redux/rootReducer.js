@@ -12,8 +12,10 @@ import semesterReducer from 'features/semester/redux/semester.slice';
 import roleReducer from 'features/role/redux/role.slice';
 import permissionsReducer from 'features/permissions/redux/permissions.slice';
 import campusesReducer from 'features/campuses/redux/campuses.slice';
+import productDetailReducer from 'features/productUpdate/redux/productUpdate.slice';
 
 const rootReducer = combineReducers({
+  productDetail : productDetailReducer,
   user: useReducer,
   auth: authReducer,
   product: productReducer,
