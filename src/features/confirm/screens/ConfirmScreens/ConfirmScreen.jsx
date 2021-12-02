@@ -39,6 +39,11 @@ const ConfirmScreen = () => {
     useSelector((state) => state.product);
   const { useLogin } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(true);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    pageLength: 20,
+    totalRecords:100
+  });
   const { listSemester } = useSelector((state) => state.uploadExcel);
   const { listCampuses } = useSelector((state) => state.product);
 
@@ -61,7 +66,7 @@ const ConfirmScreen = () => {
   useEffect(() => {
     dispatch(getSemesters());
     ProductTypes();
-    dispatch(ProductUser({ user_id: useLogin.id }));
+    dispatch(ProductUser({user_id: useLogin.id }));
     CampusesList();
   }, [dispatch, ProductTypes, CampusesList, useLogin]);
 
@@ -225,6 +230,8 @@ const Filter = (e,type)=>{
         data={listProduct}
         listProductType={listProductType}
         productDetail={productDetail}
+        pagination={pagination}
+        setPagination={setPagination}
       />
       {path && productDetail && (
         <PopupOverlay

@@ -2,8 +2,8 @@ import api from 'api/api';
 
 import { SUBJECT_PATH, SORT_PATH } from './../constants/subject.paths';
 
-const getListSubject = () => {
-  return api.get(SUBJECT_PATH.LIST);
+const getListSubject = (params) => {
+  return api.get(SUBJECT_PATH.LIST, {params});
 };
 const postSubject = (data) => {
   return api.post(SUBJECT_PATH.POST, data);
