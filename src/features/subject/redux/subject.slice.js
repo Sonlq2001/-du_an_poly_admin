@@ -5,9 +5,9 @@ import { subjectApi, sortMajor } from './../api/subject.api.js';
 
 export const getListSubject = createAsyncThunk(
   'subject/getListSubject',
-  async (_, { rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
     try {
-      const response = await subjectApi.getListSubject();
+      const response = await subjectApi.getListSubject(params);
       return response.data;
     } catch (error) {
       return rejectWithValue(_get(error.response.data, 'errors', ''));
