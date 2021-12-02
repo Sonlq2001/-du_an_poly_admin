@@ -5,9 +5,9 @@ import { productTypeApi } from './../api/product-type.api';
 
 export const getProductType = createAsyncThunk(
   'productType/getProductType',
-  async (_, { rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
     try {
-      const response = await productTypeApi.getProductTypes();
+      const response = await productTypeApi.getProductTypes(params);
       return response.data;
     } catch (error) {
       return rejectWithValue(_get(error.response.data, 'errors', ''));
