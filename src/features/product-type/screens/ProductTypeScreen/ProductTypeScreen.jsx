@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState, useMemo } from 'react';
+import React, { memo, useEffect, useState, useMemo, useCallback } from 'react';
 import { IoMdAdd } from 'react-icons/io';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsTrash } from 'react-icons/bs';
@@ -52,10 +52,26 @@ const ProductTypeScreen = () => {
     useState(false);
   const [listChecked, setListChecked] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    pageLength: 20,
+  });
+
+  const fetchData = useCallback(() => {
+    dispatch(getProductType(pagination));
+  }, [dispatch, pagination]);
 
   useEffect(() => {
-    dispatch(getProductType());
-  }, [dispatch]);
+    fetchData();
+  }, [fetchData]);
+
+  const handlePagination = (dataPagination) => {
+    setPagination({
+      ...dataPagination,
+      page: pagination.page,
+      pageLength: pagination.pageLength,
+    });
+  };
 
   const { listProductType, isListProductTypeLoading } = useSelector(
     (state) => state.productType
@@ -218,10 +234,10 @@ const ProductTypeScreen = () => {
             <GroupPagination>
               <TablePagination
                 pageLengthMenu={[20, 50, 100]}
-                page={1}
-                pageLength={10}
-                totalRecords={100}
-                onPageChange={() => null}
+                page={pagination.page}
+                pageLength={pagination.pageLength}
+                totalRecords={1000}
+                onPageChange={handlePagination}
               />
             </GroupPagination>
           </>

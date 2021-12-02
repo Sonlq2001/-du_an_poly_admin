@@ -53,16 +53,32 @@ const MajorsScreen = () => {
   const [isDialogDeleteMajor, setIsDialogDeleteMajor] = useState(false);
   const [listChecked, setListChecked] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    pageLength: 10,
+  });
 
   const fetchData = useCallback(() => {
-    dispatch(getMajors());
-  }, [dispatch]);
+    dispatch(getMajors(pagination));
+  }, [dispatch, pagination]);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-  const { listMajors, isMajorsLoading } = useSelector((state) => state.majors);
+  const { listMajors, isMajorsLoading, total } = useSelector((state) => ({
+    listMajors: state.majors.listMajors,
+    isMajorsLoading: state.majors.isMajorsLoading,
+    total: state.majors.total,
+  }));
   const { dataSort, requestSort } = useSortableData(listMajors);
+
+  const handlePagination = (dataPagination) => {
+    setPagination({
+      ...dataPagination,
+      page: dataPagination.page,
+      pageLength: dataPagination.pageLength,
+    });
+  };
 
   const isCheckedAll = useMemo(() => {
     return listMajors && listMajors.every((i) => listChecked.includes(i.id));
@@ -216,11 +232,11 @@ const MajorsScreen = () => {
             </TableCustom>
             <GroupPagination>
               <TablePagination
-                pageLengthMenu={[20, 50, 100]}
-                page={1}
-                pageLength={listMajors.length}
-                totalRecords={100}
-                onPageChange={() => null}
+                pageLengthMenu={[10, 30, 50, 100]}
+                page={pagination.page}
+                pageLength={pagination.pageLength}
+                totalRecords={total}
+                onPageChange={handlePagination}
               />
             </GroupPagination>
           </>
