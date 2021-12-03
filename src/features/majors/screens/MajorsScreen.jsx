@@ -71,7 +71,6 @@ const MajorsScreen = () => {
     total: state.majors.total,
   }));
   const { dataSort, requestSort } = useSortableData(listMajors);
-
   const handlePagination = (dataPagination) => {
     setPagination({
       ...dataPagination,

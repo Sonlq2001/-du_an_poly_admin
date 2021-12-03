@@ -4,6 +4,7 @@ import { userApi } from './../api/user.api';
 export const getUsers = createAsyncThunk('user/getUsers', async (prams) => {
   try {
     const response = await userApi.getUsers(prams);
+    console.log("response.data",response.data)
     return response.data;
   } catch (error) {}
 });
@@ -44,6 +45,7 @@ const initialState = {
   // user
   itemUser: null,
   isItemUserLoading: false,
+  total : null
 };
 
 const useSlice = createSlice({
@@ -58,6 +60,7 @@ const useSlice = createSlice({
     [getUsers.fulfilled]: (state, action) => {
       state.isListUserLoading = false;
       state.listUser = action.payload.users;
+      state.total = action.payload.total;
     },
     [getUsers.rejected]: (state) => {
       state.isListUserLoading = false;

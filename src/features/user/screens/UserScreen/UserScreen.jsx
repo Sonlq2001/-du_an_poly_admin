@@ -52,9 +52,10 @@ const UserScreen = () => {
     dispatch(getUsers(pagination));
   }, [dispatch,pagination]);
 
-  const { isListUserLoading, listUser } = useSelector((state) => ({
+  const { isListUserLoading, listUser,total } = useSelector((state) => ({
     isListUserLoading: state.user.isListUserLoading,
     listUser: state.user.listUser,
+    total: state.user.total,
   }));
   const addUser = () => {
     setOpen(true);
@@ -214,7 +215,7 @@ const UserScreen = () => {
              pageLengthMenu={[10, 30, 50, 100]}
              page={pagination.page}
              pageLength={pagination.pageLength}
-             totalRecords={1000}
+             totalRecords={total}
              onPageChange={handlePagination}
           />
         </GroupPagination>
