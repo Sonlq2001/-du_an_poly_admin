@@ -65,42 +65,43 @@ export const ProductUser = createAsyncThunk(
   'product/productUser',
   async (user_id) => {
     try {
-      const response = await  confirmProductApi.productUser(user_id)
-    return  response.data
-    } catch (error) {
-      
-    }
-    
-})
+      const response = await confirmProductApi.productUser(user_id);
+      return response.data;
+    } catch (error) {}
+  }
+);
 //  tìm kiếm
-export const SearchProduct = createAsyncThunk("product/searchProduct", async (data)=>{
+export const SearchProduct = createAsyncThunk(
+  'product/searchProduct',
+  async (data) => {
     try {
-        const response = await confirmProductApi.seachProduct(data)
-        console.log("response",response.data.data)
-      return response.data.data
+      const response = await confirmProductApi.seachProduct(data);
+      console.log('response', response.data.data);
+      return response.data.data;
     } catch (error) {
-      console.log("response.data.data",error.response)
+      console.log('response.data.data', error.response);
     }
-})
-// filter 
-export const filterProduct = createAsyncThunk("product/filterProduct", async (data)=>{
- try {
-  const response = await  confirmProductApi.filter(data)
-      return response.data.data
-  } catch (error) {
-   
- }
-
-})
-export const filterStatusProduct = createAsyncThunk("product/filterProduct", async (id)=>{
- try {
-  const response = await  confirmProductApi.filterStatus(id)
-  return response.data.data
-  } catch (error) {
-   
- }
-
-})
+  }
+);
+// filter
+export const filterProduct = createAsyncThunk(
+  'product/filterProduct',
+  async (data) => {
+    try {
+      const response = await confirmProductApi.filter(data);
+      return response.data.data;
+    } catch (error) {}
+  }
+);
+export const filterStatusProduct = createAsyncThunk(
+  'product/filterProduct',
+  async (id) => {
+    try {
+      const response = await confirmProductApi.filterStatus(id);
+      return response.data.data;
+    } catch (error) {}
+  }
+);
 const initialState = {
   listProduct: [],
   isProductLoading: false,
@@ -112,8 +113,7 @@ const initialState = {
 const productSlice = createSlice({
   name: 'product',
   initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: {
     // product user
     [ProductUser.pending]: (state) => {
@@ -158,7 +158,7 @@ const productSlice = createSlice({
       );
     },
     [getProductType.fulfilled]: (state, action) => {
-      state.listProductType = action.payload.product_types;
+      state.listProductType = action.payload?.product_types;
     },
     [getProductType.rejected]: (state, action) => {},
     // chi tiết sản Phẩm
@@ -173,16 +173,16 @@ const productSlice = createSlice({
       state.listCampuses = action.payload;
     },
     [getListCampuses.pending]: (state, action) => {},
-    // search productt 
-    [SearchProduct.fulfilled] :(state,action)=>{
-      state.listProduct = action.payload
+    // search productt
+    [SearchProduct.fulfilled]: (state, action) => {
+      state.listProduct = action.payload;
     },
     // filter
-    [filterProduct.fulfilled] :(state,action) => {
-      state.listProduct = action.payload
+    [filterProduct.fulfilled]: (state, action) => {
+      state.listProduct = action.payload;
     },
-    [filterStatusProduct.fulfilled] :(state,action) => {
-      state.listProduct = action.payload
+    [filterStatusProduct.fulfilled]: (state, action) => {
+      state.listProduct = action.payload;
     },
   },
 });
