@@ -107,6 +107,7 @@ const initialState = {
   isProductLoading: false,
   listProductType: [],
   productDetail: {},
+  loadingDetail :  false,
   sortedField: 'ASC',
   listCampuses: [],
 };
@@ -160,13 +161,19 @@ const productSlice = createSlice({
     [getProductType.fulfilled]: (state, action) => {
       state.listProductType = action.payload?.product_types;
     },
-    [getProductType.rejected]: (state, action) => {},
+    [getProductType.rejected]: (state, action) => {
+     
+    },
     // chi tiết sản Phẩm
+    [getDetail.pending] : (state)=>{
+      state.loadingDetail = false
+    },
     [getDetail.fulfilled]: (state, action) => {
       state.productDetail = action.payload;
+      state.loadingDetail = true
     },
-    [getDetail.rejected]: (state, action) => {
-      console.log('lỗi');
+    [getDetail.rejected]: (state) => {
+      state.loadingDetail = true
     },
     [getListCampuses.pending]: (state) => {},
     [getListCampuses.fulfilled]: (state, action) => {

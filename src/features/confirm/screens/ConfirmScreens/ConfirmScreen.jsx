@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useCallback, useState, useRef } from 'react';
 import Select from 'react-select';
-import { useParams } from 'react-router';
+import { Redirect, useParams } from 'react-router';
 import {CgSortAz}  from "react-icons/cg"
 
 import {
@@ -35,7 +35,7 @@ const ConfirmScreen = () => {
   const dispatch = useDispatch();
   const { path } = useParams();
 
-  const { listProduct, isProductLoading, listProductType, productDetail } =
+  const { listProduct, isProductLoading, listProductType, productDetail,loadingDetail } =
     useSelector((state) => state.product);
   const { useLogin } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(true);
@@ -233,7 +233,9 @@ const Filter = (e,type)=>{
         pagination={pagination}
         setPagination={setPagination}
       />
-      {path && productDetail && (
+      {loadingDetail ?
+      <> 
+        {productDetail !== undefined   && (
         <PopupOverlay
           open={open}
           setOpen={setOpen}
@@ -246,7 +248,9 @@ const Filter = (e,type)=>{
             setOpen={setOpen}
           />
         </PopupOverlay>
-      )}
+      )  }
+      
+       </> : ""}
     </>
   );
 };
