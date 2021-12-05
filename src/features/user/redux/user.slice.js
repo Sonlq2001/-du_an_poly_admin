@@ -4,7 +4,6 @@ import { userApi } from './../api/user.api';
 export const getUsers = createAsyncThunk('user/getUsers', async (prams) => {
   try {
     const response = await userApi.getUsers(prams);
-    console.log("response.data",response.data)
     return response.data;
   } catch (error) {}
 });
