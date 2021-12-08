@@ -55,16 +55,16 @@ const SubjectScreen = () => {
   const [messengerSort, setMessengerSort] = useState(null);
   const [pagination, setPagination] = useState({
     page: 1,
-    pageLength: 20,
+    pageLength: 10,
   });
-  const { listSubject, listMajors, isListSubjectLoading } = useSelector(
+  const { listSubject, listMajors, isListSubjectLoading ,total} = useSelector(
     (state) => ({
       listSubject: state.subject.listSubject,
+      total: state.subject.total,
       isListSubjectLoading: state.subject.isListSubjectLoading,
       listMajors: state.majors.listMajors,
     })
   );
-
   const getAll = useCallback(()=>{
     dispatch(getListSubject(pagination));
     dispatch(getMajors());
@@ -77,8 +77,8 @@ const SubjectScreen = () => {
   const handlePagination = (dataPagination) => {
     setPagination({
       ...dataPagination,
-      page: pagination.page,
-      pageLength: pagination.pageLength,
+      page: dataPagination.page,
+      pageLength: dataPagination.pageLength,
     });
   };
 
@@ -258,10 +258,10 @@ const SubjectScreen = () => {
             </TableCustom>
             <GroupPagination>
               <TablePagination
-               pageLengthMenu={[20, 50, 100]}
+               pageLengthMenu={[10,30, 50, 100]}
                page={pagination.page}
                pageLength={pagination.pageLength}
-               totalRecords={1000}
+               totalRecords={total}
                onPageChange={handlePagination}
               />
             </GroupPagination>

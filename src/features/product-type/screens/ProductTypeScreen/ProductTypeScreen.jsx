@@ -54,7 +54,7 @@ const ProductTypeScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [pagination, setPagination] = useState({
     page: 1,
-    pageLength: 20,
+    pageLength: 10,
   });
 
   const fetchData = useCallback(() => {
@@ -68,15 +68,15 @@ const ProductTypeScreen = () => {
   const handlePagination = (dataPagination) => {
     setPagination({
       ...dataPagination,
-      page: pagination.page,
-      pageLength: pagination.pageLength,
+      page: dataPagination.page,
+      pageLength: dataPagination.pageLength,
     });
   };
 
-  const { listProductType, isListProductTypeLoading } = useSelector(
+  const { listProductType, isListProductTypeLoading ,total} = useSelector(
     (state) => state.productType
   );
-  const { dataSort, requestSort } = useSortableData(listProductType);
+  const { dataSort, requestSort } = useSortableData(listProductType?listProductType : []);
 
   const isCheckedAll = useMemo(() => {
     return (
@@ -236,7 +236,7 @@ const ProductTypeScreen = () => {
                 pageLengthMenu={[20, 50, 100]}
                 page={pagination.page}
                 pageLength={pagination.pageLength}
-                totalRecords={1000}
+                totalRecords={total}
                 onPageChange={handlePagination}
               />
             </GroupPagination>

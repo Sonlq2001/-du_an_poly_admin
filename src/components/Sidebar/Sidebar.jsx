@@ -76,8 +76,8 @@ const Sidebar = () => {
                             <ItemLink
                               exact
                               to={
-                                sidebarItem?.items.length === 1 &&
-                                sidebarItem?.items[0]?.url
+                                sidebarItem?.items.length === 1 ?
+                                sidebarItem?.items[0]?.url : sidebarItem?.items[0]?.url
                               }
                               className="link-menu"
                               activeClassName="active"
