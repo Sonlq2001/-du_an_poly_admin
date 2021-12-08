@@ -5,12 +5,12 @@ import { BiCheck } from "react-icons/bi";
 
 import { ListBoxCard, ItemCard } from "./BoxCard.styles";
 
-const BoxCard = () => {
+const BoxCard = ({total_products}) => {
 	return (
 		<ListBoxCard>
 			<ItemCard>
 				<div className="card-left">
-					<div className="card-total">750</div>
+					<div className="card-total">{total_products}</div>
 					<div className="card-title">Sản phẩm</div>
 				</div>
 				<div className="card-right">

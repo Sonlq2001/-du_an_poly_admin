@@ -5,14 +5,11 @@ import { genData, options } from './../../constants/dashboard.constants';
 import { BoxTitleDashboard } from 'styles/common/common-styles';
 import { BoxChartMain } from './BoxChart.styles';
 
-const BoxChart = () => {
+const BoxChart = ({totalProduct}) => {
   const [data, setData] = useState(genData());
-
   useEffect(() => {
-    const interval = setInterval(() => setData(genData()), 5000);
-
-    return () => clearInterval(interval);
-  }, []);
+    setData(genData(totalProduct?.data?.anuary_april,totalProduct?.data?.april_august,totalProduct?.data?.august_december));
+  }, [totalProduct]);
 
   return (
     <BoxChartMain>
