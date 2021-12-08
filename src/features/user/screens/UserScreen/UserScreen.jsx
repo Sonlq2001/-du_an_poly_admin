@@ -44,19 +44,31 @@ import { useSortableData } from 'helpers/sortingTable/sortingTable';
 const UserScreen = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    pageLength: 10,
+  });
   useEffect(() => {
-    dispatch(getUsers());
-  }, [dispatch]);
+    dispatch(getUsers(pagination));
+  }, [dispatch,pagination]);
 
-  const { isListUserLoading, listUser } = useSelector((state) => ({
+  const { isListUserLoading, listUser,total } = useSelector((state) => ({
     isListUserLoading: state.user.isListUserLoading,
     listUser: state.user.listUser,
+    total: state.user.total,
   }));
   const addUser = () => {
     setOpen(true);
   };
 
   const { dataSort, requestSort } = useSortableData(listUser);
+  const handlePagination = (dataPagination) => {
+    setPagination({
+      ...dataPagination,
+      page: dataPagination.page,
+      pageLength: dataPagination.pageLength,
+    });
+  };
 
   if (isListUserLoading) {
     return <Loading />;
@@ -200,11 +212,11 @@ const UserScreen = () => {
         </PopupOverlay>
         <GroupPagination>
           <TablePagination
-            pageLengthMenu={[20, 50, 100]}
-            page={10}
-            pageLength={100}
-            totalRecords={10}
-            onPageChange={() => null}
+             pageLengthMenu={[10, 30, 50, 100]}
+             page={pagination.page}
+             pageLength={pagination.pageLength}
+             totalRecords={total}
+             onPageChange={handlePagination}
           />
         </GroupPagination>
       </WrapContent>

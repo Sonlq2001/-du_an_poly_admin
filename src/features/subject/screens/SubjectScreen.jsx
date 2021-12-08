@@ -53,22 +53,34 @@ const SubjectScreen = () => {
   const [listChecked, setListChecked] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [messengerSort, setMessengerSort] = useState(null);
-  const { listSubject, listMajors, isListSubjectLoading } = useSelector(
+  const [pagination, setPagination] = useState({
+    page: 1,
+    pageLength: 10,
+  });
+  const { listSubject, listMajors, isListSubjectLoading ,total} = useSelector(
     (state) => ({
       listSubject: state.subject.listSubject,
+      total: state.subject.total,
       isListSubjectLoading: state.subject.isListSubjectLoading,
       listMajors: state.majors.listMajors,
     })
   );
   const getAll = useCallback(()=>{
-    dispatch(getListSubject());
+    dispatch(getListSubject(pagination));
     dispatch(getMajors());
-  },[dispatch])
+  },[dispatch,pagination])
   useEffect(() => {
     getAll()
   }, [dispatch,getAll]);
 
   const listSelectMajor = MapOptions(listMajors);
+  const handlePagination = (dataPagination) => {
+    setPagination({
+      ...dataPagination,
+      page: dataPagination.page,
+      pageLength: dataPagination.pageLength,
+    });
+  };
 
   const isCheckedAll = useMemo(() => {
     return listSubject && listSubject.every((i) => listChecked.includes(i.id));
@@ -246,11 +258,11 @@ const SubjectScreen = () => {
             </TableCustom>
             <GroupPagination>
               <TablePagination
-                pageLengthMenu={[20, 50, 100]}
-                page={1}
-                pageLength={10}
-                totalRecords={100}
-                onPageChange={() => null}
+               pageLengthMenu={[10,30, 50, 100]}
+               page={pagination.page}
+               pageLength={pagination.pageLength}
+               totalRecords={total}
+               onPageChange={handlePagination}
               />
             </GroupPagination>
           </>

@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useCallback, useState, useRef } from 'react';
 import Select from 'react-select';
-import { useParams } from 'react-router';
+import { Redirect, useParams } from 'react-router';
 import {CgSortAz}  from "react-icons/cg"
 
 import {
@@ -35,10 +35,15 @@ const ConfirmScreen = () => {
   const dispatch = useDispatch();
   const { path } = useParams();
 
-  const { listProduct, isProductLoading, listProductType, productDetail } =
+  const { listProduct, isProductLoading, listProductType, productDetail,loadingDetail } =
     useSelector((state) => state.product);
   const { useLogin } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(true);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    pageLength: 20,
+    totalRecords:100
+  });
   const { listSemester } = useSelector((state) => state.uploadExcel);
   const { listCampuses } = useSelector((state) => state.product);
 
@@ -63,7 +68,7 @@ const ConfirmScreen = () => {
   useEffect(() => {
     dispatch(getSemesters());
     ProductTypes();
-    getDataUser();
+    getDataUser()
     CampusesList();
   }, [dispatch, ProductTypes, CampusesList,getDataUser]);
 
@@ -227,8 +232,12 @@ const Filter = (e,type)=>{
         data={listProduct}
         listProductType={listProductType}
         productDetail={productDetail}
+        pagination={pagination}
+        setPagination={setPagination}
       />
-      {path && productDetail && (
+      {loadingDetail ?
+      <> 
+        {productDetail !== undefined   && (
         <PopupOverlay
           open={open}
           setOpen={setOpen}
@@ -241,7 +250,9 @@ const Filter = (e,type)=>{
             setOpen={setOpen}
           />
         </PopupOverlay>
-      )}
+      )  }
+      
+       </> : ""}
     </>
   );
 };

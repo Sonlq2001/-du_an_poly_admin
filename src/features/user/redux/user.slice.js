@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import _get from 'lodash.get';
 import { userApi } from './../api/user.api';
-export const getUsers = createAsyncThunk('user/getUsers', async () => {
+export const getUsers = createAsyncThunk('user/getUsers', async (prams) => {
   try {
-    const response = await userApi.getUsers();
+    const response = await userApi.getUsers(prams);
     return response.data;
   } catch (error) {}
 });
@@ -44,6 +44,7 @@ const initialState = {
   // user
   itemUser: null,
   isItemUserLoading: false,
+  total : null
 };
 
 const useSlice = createSlice({
@@ -58,6 +59,7 @@ const useSlice = createSlice({
     [getUsers.fulfilled]: (state, action) => {
       state.isListUserLoading = false;
       state.listUser = action.payload.users;
+      state.total = action.payload.total;
     },
     [getUsers.rejected]: (state) => {
       state.isListUserLoading = false;

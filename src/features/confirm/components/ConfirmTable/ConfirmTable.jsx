@@ -34,7 +34,7 @@ import GroupAlert from './../../../../components/AlertMessage/AlertMessage';
 import Refuse from '../ActionProduct/refuse/Refuse';
 import { useSortableData } from 'helpers/sortingTable/sortingTable';
 
-const ConfirmTable = ({ data, listProductType ,result}) => {
+const ConfirmTable = ({ data, listProductType ,result,setPagination,pagination}) => {
   const dispatch = useDispatch();
   const { useLogin } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
@@ -52,14 +52,12 @@ const ConfirmTable = ({ data, listProductType ,result}) => {
     subject: '',
     description: '',
   });
-  const [pagination, setPagination] = useState({
-    page: 1,
-    pageLength: 20,
-    totalRecords: 100,
-  });
-
-  const handleChangePage = (values) => {
-    setPagination({ ...pagination, ...values });
+  const handleChangePages = (dataPagination) => {
+    setPagination({
+      ...dataPagination,
+      page: dataPagination.page,
+      pageLength: dataPagination.pageLength,
+    });
   };
 
   const review = (item) => {
@@ -303,11 +301,11 @@ const ConfirmTable = ({ data, listProductType ,result}) => {
         </TableCustom>
         <GroupPagination>
           <TablePagination
-            pageLengthMenu={[20, 50, 100]}
+            pageLengthMenu={[10,20, 50, 100]}
             page={pagination.page}
             pageLength={pagination.pageLength}
             totalRecords={pagination.totalRecords}
-            onPageChange={handleChangePage}
+            onPageChange={handleChangePages}
           />
         </GroupPagination>
       </BoxMain>

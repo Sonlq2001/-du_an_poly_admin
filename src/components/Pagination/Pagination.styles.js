@@ -60,5 +60,6 @@ export const BoxControl = styled.div`
   .icon-prev.disabled,
   .icon-next.disabled {
     color: var(--ddd-color);
+    pointer-events: none;
   }
 `;

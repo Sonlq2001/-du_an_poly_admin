@@ -12,10 +12,12 @@ const WrapRoute = ({
   layout,
   exact,
   isPrivateRoute,
+  pageTitle = '',
 }) => {
   const RouteLayout = layout || DefaultLayout;
   const isExact = exact || false;
   const isSignedIn = useSelector((state) => !!state.auth.accessToken);
+  document.title = pageTitle;
 
   if (isPrivateRoute && !isSignedIn) {
     return <LoginRedirect />;
