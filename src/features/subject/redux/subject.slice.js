@@ -61,6 +61,7 @@ export const SortMajor = createAsyncThunk('subject/sortMajor', async (id) => {
 const initialState = {
   listSubject: [],
   isListSubjectLoading: false,
+  total : null
 };
 const subjectSlice = createSlice({
   name: 'subject',
@@ -73,6 +74,7 @@ const subjectSlice = createSlice({
     [getListSubject.fulfilled]: (state, action) => {
       state.isListSubjectLoading = false;
       state.listSubject = action.payload.data;
+      state.total = action.payload.total;
     },
     [getListSubject.rejected]: (state) => {
       state.isListSubjectLoading = false;

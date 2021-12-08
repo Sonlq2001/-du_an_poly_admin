@@ -58,6 +58,7 @@ export const deleteProductType = createAsyncThunk(
 const initialState = {
   listProductType: [],
   isListProductTypeLoading: false,
+  total : null
 };
 
 const productTypeSlice = createSlice({
@@ -71,6 +72,7 @@ const productTypeSlice = createSlice({
     [getProductType.fulfilled]: (state, action) => {
       state.isListProductTypeLoading = false;
       state.listProductType = action.payload.product_types;
+      state.total = action.payload.total;
     },
     [getProductType.rejected]: (state) => {
       state.isListProductTypeLoading = false;
