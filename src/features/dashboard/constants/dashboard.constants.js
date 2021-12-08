@@ -10,14 +10,12 @@ export const options = {
   },
 };
 
-const rand = () => Math.round(Math.random() * 20 - 10);
-
-export const genData = () => ({
-  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+export const genData = (sping,summer,fall) => ({
+  labels: ['Sping', 'Summer', 'Fall',],
   datasets: [
     {
       label: 'Scale',
-      data: [rand(), rand(), rand(), rand(), rand(), rand()],
+      data: [sping, summer, fall],
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
         'rgba(54, 162, 235, 0.2)',
