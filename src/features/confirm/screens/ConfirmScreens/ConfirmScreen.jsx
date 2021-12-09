@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useCallback, useState, useRef } from 'react';
 import Select from 'react-select';
-import { Redirect, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import {CgSortAz}  from "react-icons/cg"
 
 import {
