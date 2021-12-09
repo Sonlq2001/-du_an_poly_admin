@@ -45,6 +45,8 @@ import {
 } from './../redux/subject.slice';
 import { initForm } from './../helpers/subject.helpers';
 import { MapOptions } from 'helpers/convert/map-options';
+import { useSortableData } from 'helpers/sortingTable/sortingTable';
+
 const SubjectScreen = () => {
   const dispatch = useDispatch();
   const [itemSubject, setItemSubject] = useState(initForm);
@@ -53,11 +55,12 @@ const SubjectScreen = () => {
   const [listChecked, setListChecked] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [messengerSort, setMessengerSort] = useState(null);
+
   const [pagination, setPagination] = useState({
     page: 1,
     pageLength: 10,
   });
-  const { listSubject, listMajors, isListSubjectLoading ,total} = useSelector(
+  const { listSubject, listMajors, isListSubjectLoading, total } = useSelector(
     (state) => ({
       listSubject: state.subject.listSubject,
       total: state.subject.total,
@@ -65,13 +68,16 @@ const SubjectScreen = () => {
       listMajors: state.majors.listMajors,
     })
   );
-  const getAll = useCallback(()=>{
+
+  const { dataSort, requestSort } = useSortableData(listSubject);
+
+  const getAll = useCallback(async () => {
     dispatch(getListSubject(pagination));
     dispatch(getMajors());
-  },[dispatch,pagination])
+  }, [dispatch, pagination]);
   useEffect(() => {
-    getAll()
-  }, [dispatch,getAll]);
+    getAll();
+  }, [getAll]);
 
   const listSelectMajor = MapOptions(listMajors);
   const handlePagination = (dataPagination) => {
@@ -119,7 +125,7 @@ const SubjectScreen = () => {
       setListChecked([]);
     });
   };
-  const handleSortMajos = async (data) => {
+  const handleSortMajors = async (data) => {
     const majors_id = data.value;
     if (majors_id === 0) {
       dispatch(getListSubject());
@@ -131,11 +137,10 @@ const SubjectScreen = () => {
       }
     }
   };
-  if (isListSubjectLoading) {
-    return <Loading />;
-  }
+
   return (
     <>
+      {isListSubjectLoading && <Loading />}
       <TitleMain> Danh sách môn học</TitleMain>
       <WrapContent>
         <TitleControl>Tìm kiếm</TitleControl>
@@ -163,7 +168,7 @@ const SubjectScreen = () => {
                   : []
               }
               placeholder="Chuyên ngành "
-              onChange={(e) => handleSortMajos(e)}
+              onChange={(e) => handleSortMajors(e)}
             />
           </BoxControl>
         </BoxSearchInput>
@@ -210,26 +215,36 @@ const SubjectScreen = () => {
                       onChange={(e) => handleCheckedAll(e.target.checked)}
                     />
                   </Th>
-                  <Th sort>STT</Th>
-                  <Th sort>Tên Môn Học</Th>
-                  <Th sort>Mã Môn </Th>
-                  {!messengerSort && <Th sort>Tên Chuyên Ngành </Th>}
+                  <Th sort onClick={() => requestSort('id')}>
+                    STT
+                  </Th>
+                  <Th sort onClick={() => requestSort('name')}>
+                    Tên Môn Học
+                  </Th>
+                  <Th sort onClick={() => requestSort('code')}>
+                    Mã Môn
+                  </Th>
+                  {!messengerSort && (
+                    <Th sort onClick={() => requestSort('majors')}>
+                      Tên Chuyên Ngành
+                    </Th>
+                  )}
                   <Th align="right">Thao tác</Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {listSubject.map((row, index) => (
-                  <Tr key={row.id}>
+                {dataSort.map((row, index) => (
+                  <Tr key={row?.id}>
                     <Td>
                       <CheckboxSingle
-                        checked={listChecked.includes(row.id)}
-                        onChange={() => handleChangeChecked(row.id)}
+                        checked={listChecked.includes(row?.id)}
+                        onChange={() => handleChangeChecked(row?.id)}
                       />
                     </Td>
-                    <Td>{index + 1}</Td>
-                    <Td>{row.name}</Td>
-                    <Td>{row.code}</Td>
-                    {!messengerSort && <Td>{row.majors && row.majors.name}</Td>}
+                    <Td>{row?.id}</Td>
+                    <Td>{row?.name}</Td>
+                    <Td>{row?.code}</Td>
+                    {!messengerSort && <Td>{row?.majors?.name}</Td>}
                     <Td>
                       <BoxActionTable>
                         <Button
@@ -258,11 +273,11 @@ const SubjectScreen = () => {
             </TableCustom>
             <GroupPagination>
               <TablePagination
-               pageLengthMenu={[10,30, 50, 100]}
-               page={pagination.page}
-               pageLength={pagination.pageLength}
-               totalRecords={total}
-               onPageChange={handlePagination}
+                pageLengthMenu={[10, 30, 50, 100]}
+                page={pagination.page}
+                pageLength={pagination.pageLength}
+                totalRecords={total}
+                onPageChange={handlePagination}
               />
             </GroupPagination>
           </>

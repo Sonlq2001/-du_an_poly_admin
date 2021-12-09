@@ -98,12 +98,9 @@ const SemesterScreen = () => {
     });
   };
 
-  if (isListSemesterLoading) {
-    return <Loading />;
-  }
-
   return (
     <>
+      {isListSemesterLoading && <Loading />}
       <TitleMain>Kỳ học</TitleMain>
       <WrapContent>
         <TitleControl>Tìm kiếm</TitleControl>

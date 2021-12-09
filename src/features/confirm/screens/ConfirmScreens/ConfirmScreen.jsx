@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useCallback, useState, useRef } from 'react';
 import Select from 'react-select';
 import { Redirect, useParams } from 'react-router';
-import {CgSortAz}  from "react-icons/cg"
+import { CgSortAz } from 'react-icons/cg';
 
 import {
   getProductType,
@@ -10,7 +10,7 @@ import {
   ProductUser,
   SearchProduct,
   filterProduct,
-  filterStatusProduct
+  filterStatusProduct,
 } from './../../redux/product.slice';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -23,7 +23,6 @@ import {
   InputSearch,
 } from 'styles/common/common-styles';
 
-
 import ConfirmTable from './../../components/ConfirmTable/ConfirmTable';
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import Loading from 'components/Loading/Loading';
@@ -35,14 +34,19 @@ const ConfirmScreen = () => {
   const dispatch = useDispatch();
   const { path } = useParams();
 
-  const { listProduct, isProductLoading, listProductType, productDetail,loadingDetail } =
-    useSelector((state) => state.product);
+  const {
+    listProduct,
+    isProductLoading,
+    listProductType,
+    productDetail,
+    loadingDetail,
+  } = useSelector((state) => state.product);
   const { useLogin } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(true);
   const [pagination, setPagination] = useState({
     page: 1,
     pageLength: 20,
-    totalRecords:100
+    totalRecords: 100,
   });
   const { listSemester } = useSelector((state) => state.uploadExcel);
   const { listCampuses } = useSelector((state) => state.product);
@@ -50,10 +54,10 @@ const ConfirmScreen = () => {
   const listSelectOptionSemester = MapOptions(listSemester);
   const listSelectOptionCampuses = MapOptions(listCampuses);
 
-  const [SearchName ,setName]=  useState(null)
-  const [result,setResult]=  useState(0)
-  const [Advanced,SetAdvanced]=  useState(false)
-  const timeOutString = useRef(null)
+  const [SearchName, setName] = useState(null);
+  const [result, setResult] = useState(0);
+  const [Advanced, SetAdvanced] = useState(false);
+  const timeOutString = useRef(null);
 
   const ProductTypes = useCallback(() => {
     dispatch(getProductType());
@@ -63,75 +67,78 @@ const ConfirmScreen = () => {
   }, [dispatch]);
   const getDataUser = useCallback(() => {
     dispatch(ProductUser({ user_id: useLogin.id }));
-  }, [dispatch,useLogin]);
-  
+  }, [dispatch, useLogin]);
+
   useEffect(() => {
     dispatch(getSemesters());
     ProductTypes();
-    getDataUser()
+    getDataUser();
     CampusesList();
-  }, [dispatch, ProductTypes, CampusesList,getDataUser]);
+  }, [dispatch, ProductTypes, CampusesList, getDataUser]);
 
   useEffect(() => {
     dispatch(getDetail(path));
   }, [dispatch, path]);
   // change trạng thái sp
-  const HandlerStatus=  async (data) => {
-  const response = await  dispatch(filterStatusProduct(data.value))
-  setResult(1)
-  if(filterStatusProduct.fulfilled.match(response)){
-    setResult(2)
-  }
-  };
-  const ChangeSearch = (e)=>{
-    const value = e.target.value
-    if(!value){
-      setName(value )
-      if(timeOutString.current){
-        clearTimeout(timeOutString.current)
-      }
-      timeOutString.current = setTimeout( async()=>{
-       const response = await dispatch(ProductUser({ user_id: useLogin.id }));
-       setResult(1)
-       if(ProductUser.fulfilled.match(response)) {
-        setResult(2)
-       }      
-      },800)
-    
-    }else{
-      setName(value )
-      if(timeOutString.current){
-        clearTimeout(timeOutString.current)
-      }
-      timeOutString.current = setTimeout( async()=>{
-        const data = {"text" : value }
-        const response = await dispatch(SearchProduct(data))
-        setResult(1)
-        if(SearchProduct.fulfilled.match(response)) {
-         setResult(2)
-        } 
-      },800)
+  const HandlerStatus = async (data) => {
+    const response = await dispatch(filterStatusProduct(data.value));
+    setResult(1);
+    if (filterStatusProduct.fulfilled.match(response)) {
+      setResult(2);
     }
-   
-  }
-// 
-const Filter = (e,type)=>{
-  const data={
-    id:e.value,
-    type : type
-  }
-  dispatch(filterProduct(data))
-}
-  if (isProductLoading) {
-    return <Loading />;
-  }
+  };
+  const ChangeSearch = (e) => {
+    const value = e.target.value;
+    if (!value) {
+      setName(value);
+      if (timeOutString.current) {
+        clearTimeout(timeOutString.current);
+      }
+      timeOutString.current = setTimeout(async () => {
+        const response = await dispatch(ProductUser({ user_id: useLogin.id }));
+        setResult(1);
+        if (ProductUser.fulfilled.match(response)) {
+          setResult(2);
+        }
+      }, 800);
+    } else {
+      setName(value);
+      if (timeOutString.current) {
+        clearTimeout(timeOutString.current);
+      }
+      timeOutString.current = setTimeout(async () => {
+        const data = { text: value };
+        const response = await dispatch(SearchProduct(data));
+        setResult(1);
+        if (SearchProduct.fulfilled.match(response)) {
+          setResult(2);
+        }
+      }, 800);
+    }
+  };
+  //
+  const Filter = (e, type) => {
+    const data = {
+      id: e.value,
+      type: type,
+    };
+    dispatch(filterProduct(data));
+  };
+
   return (
     <>
+      {isProductLoading && <Loading />}
       <TitleMain> Danh sách sản phẩm </TitleMain>
       <WrapContent>
-        <div className="titleSearch"> 
-        <TitleControl>Tìm kiếm</TitleControl>
-        <span onClick={()=>SetAdvanced(!Advanced)}><i className="icon"> <CgSortAz/></i> Nâng cao </span>
+        <div className="titleSearch">
+          <TitleControl>Tìm kiếm</TitleControl>
+          <span onClick={() => SetAdvanced(!Advanced)}>
+            <i className="icon">
+              {' '}
+              <CgSortAz />
+            </i>{' '}
+            Nâng cao{' '}
+          </span>
         </div>
         <BoxSearchInput>
           <BoxControl className="box-control">
@@ -142,7 +149,7 @@ const Filter = (e,type)=>{
               type="text"
               placeholder="Tìm kiếm"
               className="input-filter input-search"
-            onKeyUp={(e)=>ChangeSearch(e)}
+              onKeyUp={(e) => ChangeSearch(e)}
             />
           </BoxControl>
 
@@ -159,7 +166,7 @@ const Filter = (e,type)=>{
                 { label: 'Sinh viên', value: 4 },
               ]}
               placeholder="Tìm theo chủ nhiệm"
-              onChange={(e)=>Filter(e,"major")}
+              onChange={(e) => Filter(e, 'major')}
             />
           </BoxControl>
         </BoxSearchInput>
@@ -177,7 +184,7 @@ const Filter = (e,type)=>{
                 { label: 'Sinh viên', value: 4 },
               ]}
               placeholder="Tìm theo bộ môn"
-              onChange={(e)=>Filter(e,"master_user")}
+              onChange={(e) => Filter(e, 'master_user')}
             />
           </BoxControl>
 
@@ -192,7 +199,7 @@ const Filter = (e,type)=>{
                 listSelectOptionSemester ? listSelectOptionSemester : [])
               }
               placeholder="Tìm theo kì học"
-              onChange={(e)=>Filter(e,"semester")}
+              onChange={(e) => Filter(e, 'semester')}
             />
           </BoxControl>
         </BoxSearchInput>
@@ -205,28 +212,28 @@ const Filter = (e,type)=>{
               className="select-option input-search"
               options={listSelectOptionCampuses}
               placeholder="Tìm theo Cơ Sở "
-              onChange={(e)=>Filter(e,"campus")}
+              onChange={(e) => Filter(e, 'campus')}
             />
           </BoxControl>
           <BoxControl className="box-control">
             <label htmlFor="" className="label-control">
-            Trạng thái
+              Trạng thái
             </label>
             <Select
               className="select-option input-search"
               options={[
-                { label: 'Giảng viên phê duyệt ', value:1},
+                { label: 'Giảng viên phê duyệt ', value: 1 },
                 { label: 'Chủ nhiệm phê duyệt ', value: 2 },
                 { label: 'Chưa thêm ', value: 0 },
                 { label: 'Phê duyệt ', value: 3 },
               ]}
               placeholder="Trạng Thái "
-              onChange={(e)=>HandlerStatus(e) }
+              onChange={(e) => HandlerStatus(e)}
             />
           </BoxControl>
         </BoxSearchInput>
       </WrapContent>
-     
+
       <ConfirmTable
         result={result}
         data={listProduct}
@@ -235,24 +242,26 @@ const Filter = (e,type)=>{
         pagination={pagination}
         setPagination={setPagination}
       />
-      {loadingDetail ?
-      <> 
-        {productDetail !== undefined   && (
-        <PopupOverlay
-          open={open}
-          setOpen={setOpen}
-          size="xl"
-          title="Chi Tiết Sản Phẩm "
-          scroll
-        >
-          <ReviewProduct
-            data={productDetail && productDetail}
-            setOpen={setOpen}
-          />
-        </PopupOverlay>
-      )  }
-      
-       </> : ""}
+      {loadingDetail ? (
+        <>
+          {productDetail !== undefined && (
+            <PopupOverlay
+              open={open}
+              setOpen={setOpen}
+              size="xl"
+              title="Chi Tiết Sản Phẩm "
+              scroll
+            >
+              <ReviewProduct
+                data={productDetail && productDetail}
+                setOpen={setOpen}
+              />
+            </PopupOverlay>
+          )}
+        </>
+      ) : (
+        ''
+      )}
     </>
   );
 };
