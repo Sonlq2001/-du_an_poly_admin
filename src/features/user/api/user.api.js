@@ -17,9 +17,14 @@ const getUserDetail = (id) => {
   return api.get(USER_ENDPOINTS.GET_USERS_DETAIL.replace(':id', id));
 };
 
+const deleteUser = (id) => {
+  return api.delete(USER_ENDPOINTS.DELETE_USER.replace(':id', id));
+};
+
 export const userApi = {
   getUsers,
   putUser,
   getUserDetail,
   postUser,
+  deleteUser,
 };
