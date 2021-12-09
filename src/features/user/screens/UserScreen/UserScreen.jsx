@@ -32,30 +32,35 @@ import { TablePagination } from 'components/Pagination/Pagination';
 import { Button } from 'components/Button/Button';
 import Loading from 'components/Loading/Loading';
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
+import { useSortableData } from 'helpers/sortingTable/sortingTable';
 
 import { getUsers } from './../../redux/user.slice';
 import EmptyResultImage from 'assets/images/empty-result.gif';
 import { USER_PATHS } from './../../constants/user.paths';
 import avatarEmpty from 'assets/images/empty-avatar.png';
-import AddUser from 'features/user/components/ActionUser/AddUser';
+import ActionUser from 'features/user/components/ActionUser/ActionUser';
 import { GroupRole } from './UserScreen.styles';
-import { useSortableData } from 'helpers/sortingTable/sortingTable';
+import { defaultPaginationParams } from 'constants/api.constants';
+import RemoveUser from './../../components/RemoveUser/RemoveUser';
 
 const UserScreen = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [isOpenDeleteUser, setIsOpenDeleteUser] = useState(false);
+  const [itemUser, setItemUser] = useState(null);
   const [pagination, setPagination] = useState({
-    page: 1,
-    pageLength: 10,
+    page: defaultPaginationParams.page,
+    pageLength: defaultPaginationParams.pageLength,
   });
+
   useEffect(() => {
     dispatch(getUsers(pagination));
-  }, [dispatch,pagination]);
+  }, [dispatch, pagination]);
 
-  const { isListUserLoading, listUser,total } = useSelector((state) => ({
-    isListUserLoading: state.user.isListUserLoading,
-    listUser: state.user.listUser,
-    total: state.user.total,
+  const { isListUserLoading, listUser, total } = useSelector((state) => ({
+    isListUserLoading: state.user?.isListUserLoading,
+    listUser: state.user?.listUser,
+    total: state.user?.total,
   }));
   const addUser = () => {
     setOpen(true);
@@ -64,18 +69,14 @@ const UserScreen = () => {
   const { dataSort, requestSort } = useSortableData(listUser);
   const handlePagination = (dataPagination) => {
     setPagination({
+      ...pagination,
       ...dataPagination,
-      page: dataPagination.page,
-      pageLength: dataPagination.pageLength,
     });
   };
 
-  if (isListUserLoading) {
-    return <Loading />;
-  }
-
   return (
     <>
+      {isListUserLoading && <Loading />}
       <TitleMain>User</TitleMain>
       <WrapContent>
         <TitleControl>Tìm kiếm</TitleControl>
@@ -116,7 +117,7 @@ const UserScreen = () => {
               <span>
                 Kết quả : &nbsp; {messengerSort} ( {listSubject.length} )
               </span>
-            )} */}{' '}
+            )} */}
           </div>
           <div className="buttonAction">
             <Button color="primary">Tải file excel</Button>
@@ -155,7 +156,7 @@ const UserScreen = () => {
 
             <Tbody>
               {dataSort.map((row) => (
-                <Tr key={row.id}>
+                <Tr key={row?.id}>
                   <Td>{row?.id}</Td>
                   <Td>{row?.name}</Td>
                   <Td>
@@ -170,11 +171,11 @@ const UserScreen = () => {
                   <Td>{row?.student_code || '-'}</Td>
                   <Td>
                     <GroupRole>
-                      {row.roles &&
-                        row?.roles.map((item) => (
+                      {row?.roles &&
+                        row.roles.map((item) => (
                           <div className="item-role">
-                            <HightLightText value={item.name}>
-                              {item.name}
+                            <HightLightText value={item?.name}>
+                              {item?.name}
                             </HightLightText>
                           </div>
                         ))}
@@ -184,16 +185,18 @@ const UserScreen = () => {
                     <BoxActionTable>
                       <Button
                         color="warning"
-                        to={USER_PATHS.USER_PROFILE.replace(/:id/, row.id)}
+                        to={USER_PATHS.USER_PROFILE.replace(/:id/, row?.id)}
                         icon={<MdModeEdit />}
                         size="small"
                       />
 
                       <Button
                         color="danger"
-                        disabled={true}
                         size="small"
                         icon={<BsTrash />}
+                        onClick={() =>
+                          setIsOpenDeleteUser(true) + setItemUser(row)
+                        }
                       />
                     </BoxActionTable>
                   </Td>
@@ -207,18 +210,27 @@ const UserScreen = () => {
             <img src={EmptyResultImage} alt="" />
           </EmptyResult>
         )}
-        <PopupOverlay open={open} setOpen={setOpen} title="Thêm Tài Khoản ">
-          <AddUser setOpen={setOpen} />
-        </PopupOverlay>
         <GroupPagination>
           <TablePagination
-             pageLengthMenu={[10, 30, 50, 100]}
-             page={pagination.page}
-             pageLength={pagination.pageLength}
-             totalRecords={total}
-             onPageChange={handlePagination}
+            pageLengthMenu={defaultPaginationParams.pageLengthMenu}
+            page={pagination.page}
+            pageLength={pagination.pageLength}
+            totalRecords={total}
+            onPageChange={handlePagination}
           />
         </GroupPagination>
+
+        {/* Model add user */}
+        <PopupOverlay open={open} setOpen={setOpen} title="Thêm Tài Khoản ">
+          <ActionUser setOpen={setOpen} />
+        </PopupOverlay>
+
+        {/* Model delete user */}
+        <RemoveUser
+          item={itemUser}
+          open={isOpenDeleteUser}
+          setOpen={setIsOpenDeleteUser}
+        />
       </WrapContent>
       <GroupAlert />
     </>

@@ -6,7 +6,7 @@ const PERMISSIONS_SCREEN = {
   id: 'id_permissions',
   path: PERMISSIONS_PATH.LIST,
   component: lazy(() =>
-    import('../screens/PermissionsScreen/PermissionsScreen')
+    import('./../screens/PermissionsScreen/PermissionsScreen')
   ),
   pageTitle: 'Quản trị quyền',
   isPrivateRoute: true,

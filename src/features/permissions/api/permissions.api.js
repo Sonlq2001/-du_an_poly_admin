@@ -2,8 +2,8 @@ import api from '../../../api/api';
 
 import { PERMISSIONS_ENDPOINT } from '../constants/permissions.endpoints';
 
-const getPermissions = () => {
-  return api.get(PERMISSIONS_ENDPOINT.GET_PERMISSIONS);
+const getPermissions = (params) => {
+  return api.get(PERMISSIONS_ENDPOINT.GET_PERMISSIONS, { params });
 };
 
 const postPermissions = (value) => {

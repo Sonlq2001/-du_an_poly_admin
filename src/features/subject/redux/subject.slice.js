@@ -51,17 +51,21 @@ export const putSubject = createAsyncThunk(
   }
 );
 // lọc
-export const SortMajor = createAsyncThunk('subject/sortMajor', async (id) => {
-  try {
-    const response = await sortMajor.sortMajors(id);
-    console.log('response.data.data', response.data.data);
-    return response.data.data;
-  } catch (error) {}
-});
+export const SortMajor = createAsyncThunk(
+  'subject/sortMajor',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await sortMajor.sortMajors(id);
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
+    }
+  }
+);
 const initialState = {
   listSubject: [],
   isListSubjectLoading: false,
-  total : null
+  total: null,
 };
 const subjectSlice = createSlice({
   name: 'subject',
@@ -82,7 +86,6 @@ const subjectSlice = createSlice({
 
     // post subject
     [postSubject.fulfilled]: (state, action) => {
-      console.log("ở đây",action.payload)
       state.listSubject = [...state.listSubject, action.payload.data];
     },
     [postSubject.rejected]: (state) => {
@@ -108,15 +111,14 @@ const subjectSlice = createSlice({
     [putSubject.rejected]: (state) => {
       state.isListSubjectLoading = false;
     },
-    // lọc theo majors
-    [SortMajor.pending]: (state) => {
-      // state.isListSubjectLoading = true;
-    },
+
+    // filter majors
     [SortMajor.fulfilled]: (state, action) => {
-      state.listSubject = action.payload;
       state.isListSubjectLoading = false;
+      state.listSubject = action.payload;
     },
   },
 });
+
 const { reducer: subjectReducer } = subjectSlice;
 export default subjectReducer;

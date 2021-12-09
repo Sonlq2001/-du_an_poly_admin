@@ -61,7 +61,7 @@ export const getListCampuses = createAsyncThunk(
     } catch (error) {}
   }
 );
-export const ProductUser = createAsyncThunk(
+export const productUser = createAsyncThunk(
   'product/productUser',
   async (user_id) => {
     try {
@@ -107,8 +107,7 @@ const initialState = {
   isProductLoading: false,
   listProductType: [],
   productDetail: {},
-  loadingDetail :  false,
-  sortedField: 'ASC',
+  loadingDetail: false,
   listCampuses: [],
 };
 const productSlice = createSlice({
@@ -117,10 +116,10 @@ const productSlice = createSlice({
   reducers: {},
   extraReducers: {
     // product user
-    [ProductUser.pending]: (state) => {
+    [productUser.pending]: (state) => {
       state.isProductLoading = true;
     },
-    [ProductUser.fulfilled]: (state, action) => {
+    [productUser.fulfilled]: (state, action) => {
       state.isProductLoading = false;
       if (Array.isArray(action.payload)) {
         state.listProduct = action.payload.filter((item) => item.status !== 0);
@@ -161,19 +160,17 @@ const productSlice = createSlice({
     [getProductType.fulfilled]: (state, action) => {
       state.listProductType = action.payload?.product_types;
     },
-    [getProductType.rejected]: (state, action) => {
-     
-    },
+    [getProductType.rejected]: (state, action) => {},
     // chi tiết sản Phẩm
-    [getDetail.pending] : (state)=>{
-      state.loadingDetail = false
+    [getDetail.pending]: (state) => {
+      state.loadingDetail = false;
     },
     [getDetail.fulfilled]: (state, action) => {
       state.productDetail = action.payload;
-      state.loadingDetail = true
+      state.loadingDetail = true;
     },
     [getDetail.rejected]: (state) => {
-      state.loadingDetail = true
+      state.loadingDetail = true;
     },
     [getListCampuses.pending]: (state) => {},
     [getListCampuses.fulfilled]: (state, action) => {

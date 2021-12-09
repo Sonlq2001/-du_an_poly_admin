@@ -18,7 +18,6 @@ export const useSortableData = (items, config = null) => {
     }
     return sortableItems;
   }, [items, sortConfig]);
-
   const requestSort = (key) => {
     let direction = 'ascending';
     if (

@@ -5,9 +5,9 @@ import { semesterApi } from '../api/semester.api';
 
 export const getSemester = createAsyncThunk(
   'semester/getSemester',
-  async (_, { rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
     try {
-      const response = await semesterApi.getSemester();
+      const response = await semesterApi.getSemester(params);
       return response.data;
     } catch (error) {
       return rejectWithValue(_get(error.response.data, 'errors', ''));
@@ -54,6 +54,7 @@ export const putSemester = createAsyncThunk(
 const initialState = {
   listSemester: [],
   isListSemesterLoading: false,
+  total: null,
 };
 
 const semesterSlice = createSlice({
@@ -68,6 +69,7 @@ const semesterSlice = createSlice({
     [getSemester.fulfilled]: (state, action) => {
       state.isListSemesterLoading = false;
       state.listSemester = action.payload.semesters;
+      state.total = action.payload.total;
     },
     [getSemester.rejected]: (state) => {
       state.isListSemesterLoading = false;

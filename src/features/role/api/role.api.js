@@ -2,8 +2,8 @@ import api from '../../../api/api';
 
 import { ROLE_ENDPOINTS } from '../constants/role.endpoints';
 
-const getRole = () => {
-  return api.get(ROLE_ENDPOINTS.GET_ROLES);
+const getRole = (params) => {
+  return api.get(ROLE_ENDPOINTS.GET_ROLES, { params });
 };
 
 const getRoleDetail = (id) => {

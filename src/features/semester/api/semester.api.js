@@ -2,8 +2,8 @@ import api from 'api/api';
 
 import { SEMESTER_ENDPOINT } from '../constants/semester.endpoints';
 
-const getSemester = () => {
-  return api.get(SEMESTER_ENDPOINT.GET_SEMESTERS);
+const getSemester = (params) => {
+  return api.get(SEMESTER_ENDPOINT.GET_SEMESTERS, { params });
 };
 
 const postSemester = (value) => {
