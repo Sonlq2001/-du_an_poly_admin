@@ -24,6 +24,7 @@ import {
   GroupAction,
   BoxMain,
   ListAction,
+  Message
 } from './ConfirmTable.styles';
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import ReviewProduct from './../Review/ReviewProduct';
@@ -308,7 +309,7 @@ const ConfirmTable = ({
               }
            </Tbody>
           ): (
-            <div className="result"> Chưa có sản phẩm nào  !</div>
+           <div> </div>
           )}
         </TableCustom>
         <GroupPagination>

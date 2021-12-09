@@ -96,3 +96,6 @@ export const GroupPagination = styled.div`
   justify-content: flex-end;
   margin-top: 2rem;
 `;
+export  const Message = styled.div`
+
+`
