@@ -73,10 +73,12 @@ const ProductTypeScreen = () => {
     });
   };
 
-  const { listProductType, isListProductTypeLoading ,total} = useSelector(
+  const { listProductType, isListProductTypeLoading, total } = useSelector(
     (state) => state.productType
   );
-  const { dataSort, requestSort } = useSortableData(listProductType?listProductType : []);
+  const { dataSort, requestSort } = useSortableData(
+    listProductType ? listProductType : []
+  );
 
   const isCheckedAll = useMemo(() => {
     return (
@@ -121,12 +123,9 @@ const ProductTypeScreen = () => {
     });
   };
 
-  if (isListProductTypeLoading) {
-    return <Loading />;
-  }
-
   return (
     <>
+      {isListProductTypeLoading && <Loading />}
       <TitleMain>Danh mục</TitleMain>
       <WrapContent>
         <TitleControl>Tìm kiếm</TitleControl>

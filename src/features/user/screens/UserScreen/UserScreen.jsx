@@ -50,9 +50,9 @@ const UserScreen = () => {
   });
   useEffect(() => {
     dispatch(getUsers(pagination));
-  }, [dispatch,pagination]);
+  }, [dispatch, pagination]);
 
-  const { isListUserLoading, listUser,total } = useSelector((state) => ({
+  const { isListUserLoading, listUser, total } = useSelector((state) => ({
     isListUserLoading: state.user.isListUserLoading,
     listUser: state.user.listUser,
     total: state.user.total,
@@ -70,12 +70,9 @@ const UserScreen = () => {
     });
   };
 
-  if (isListUserLoading) {
-    return <Loading />;
-  }
-
   return (
     <>
+      {isListUserLoading && <Loading />}
       <TitleMain>User</TitleMain>
       <WrapContent>
         <TitleControl>Tìm kiếm</TitleControl>
@@ -212,11 +209,11 @@ const UserScreen = () => {
         </PopupOverlay>
         <GroupPagination>
           <TablePagination
-             pageLengthMenu={[10, 30, 50, 100]}
-             page={pagination.page}
-             pageLength={pagination.pageLength}
-             totalRecords={total}
-             onPageChange={handlePagination}
+            pageLengthMenu={[10, 30, 50, 100]}
+            page={pagination.page}
+            pageLength={pagination.pageLength}
+            totalRecords={total}
+            onPageChange={handlePagination}
           />
         </GroupPagination>
       </WrapContent>

@@ -109,12 +109,9 @@ const RoleScreen = () => {
     });
   };
 
-  if (isListRoleLoading) {
-    return <Loading />;
-  }
-
   return (
     <>
+      {isListRoleLoading && <Loading />}
       <TitleMain>Vai trò</TitleMain>
       <WrapContent>
         <TitleControl>Tìm kiếm</TitleControl>

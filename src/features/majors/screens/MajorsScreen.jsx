@@ -117,11 +117,9 @@ const MajorsScreen = () => {
     });
   };
 
-  if (isMajorsLoading) {
-    return <Loading />;
-  }
   return (
     <>
+      {isMajorsLoading && <Loading />}
       <TitleMain>Chuyên ngành</TitleMain>
       <WrapContent>
         <TitleControl>Tìm kiếm</TitleControl>

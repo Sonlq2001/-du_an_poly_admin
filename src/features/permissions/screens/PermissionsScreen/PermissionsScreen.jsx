@@ -108,11 +108,9 @@ const PermissionsScreen = () => {
     });
   };
 
-  if (isListPermissionLoading) {
-    return <Loading />;
-  }
   return (
     <>
+      {isListPermissionLoading && <Loading />}
       <TitleMain>Quyền sử dụng</TitleMain>
       <WrapContent>
         <TitleControl>Tìm kiếm</TitleControl>
