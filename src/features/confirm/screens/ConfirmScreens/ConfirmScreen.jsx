@@ -1,13 +1,13 @@
 import React, { memo, useEffect, useCallback, useState, useRef } from 'react';
 import Select from 'react-select';
-import { Redirect, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { CgSortAz } from 'react-icons/cg';
 
 import {
   getProductType,
   getDetail,
   getListCampuses,
-  ProductUser,
+  productUser,
   SearchProduct,
   filterProduct,
   filterStatusProduct,
@@ -29,6 +29,7 @@ import Loading from 'components/Loading/Loading';
 import { getSemesters } from '../../../uploadExcel/redux/uploadExcel.slice';
 import { MapOptions } from 'helpers/convert/map-options';
 import ReviewProduct from 'features/confirm/components/Review/ReviewProduct';
+import { defaultPaginationParams } from 'constants/api.constants';
 
 const ConfirmScreen = () => {
   const dispatch = useDispatch();
@@ -44,9 +45,8 @@ const ConfirmScreen = () => {
   const { useLogin } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(true);
   const [pagination, setPagination] = useState({
-    page: 1,
-    pageLength: 20,
-    totalRecords: 100,
+    page: defaultPaginationParams.page,
+    pageLength: defaultPaginationParams.pageLength,
   });
   const { listSemester } = useSelector((state) => state.uploadExcel);
   const { listCampuses } = useSelector((state) => state.product);
@@ -66,7 +66,7 @@ const ConfirmScreen = () => {
     dispatch(getListCampuses());
   }, [dispatch]);
   const getDataUser = useCallback(() => {
-    dispatch(ProductUser({ user_id: useLogin.id }));
+    dispatch(productUser({ user_id: useLogin.id }));
   }, [dispatch, useLogin]);
 
   useEffect(() => {
@@ -95,9 +95,9 @@ const ConfirmScreen = () => {
         clearTimeout(timeOutString.current);
       }
       timeOutString.current = setTimeout(async () => {
-        const response = await dispatch(ProductUser({ user_id: useLogin.id }));
+        const response = await dispatch(productUser({ user_id: useLogin.id }));
         setResult(1);
-        if (ProductUser.fulfilled.match(response)) {
+        if (productUser.fulfilled.match(response)) {
           setResult(2);
         }
       }, 800);
@@ -134,10 +134,9 @@ const ConfirmScreen = () => {
           <TitleControl>Tìm kiếm</TitleControl>
           <span onClick={() => SetAdvanced(!Advanced)}>
             <i className="icon">
-              {' '}
               <CgSortAz />
-            </i>{' '}
-            Nâng cao{' '}
+            </i>
+            Nâng cao
           </span>
         </div>
         <BoxSearchInput>

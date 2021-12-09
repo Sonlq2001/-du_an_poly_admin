@@ -1,12 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import _get from 'lodash.get';
 import { userApi } from './../api/user.api';
-export const getUsers = createAsyncThunk('user/getUsers', async (prams) => {
-  try {
-    const response = await userApi.getUsers(prams);
-    return response.data;
-  } catch (error) {}
-});
+
+export const getUsers = createAsyncThunk(
+  'user/getUsers',
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await userApi.getUsers(params);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
+    }
+  }
+);
 export const postUsers = createAsyncThunk(
   'user/post',
   async (user, { rejectWithValue }) => {
@@ -18,20 +24,27 @@ export const postUsers = createAsyncThunk(
     }
   }
 );
-export const putUsers = createAsyncThunk('user/putUsers', async (value) => {
-  try {
-    const response = await userApi.putUser(value);
-    return response.data;
-  } catch (error) {}
-});
+export const putUsers = createAsyncThunk(
+  'user/putUsers',
+  async (value, { rejectWithValue }) => {
+    try {
+      const response = await userApi.putUser(value);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
+    }
+  }
+);
 
 export const getUserDetail = createAsyncThunk(
   'user/getUserDetail',
-  async (id) => {
+  async (id, { rejectWithValue }) => {
     try {
       const response = await userApi.getUserDetail(id);
       return response.data;
-    } catch (error) {}
+    } catch (error) {
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
+    }
   }
 );
 
@@ -44,7 +57,7 @@ const initialState = {
   // user
   itemUser: null,
   isItemUserLoading: false,
-  total : null
+  total: null,
 };
 
 const useSlice = createSlice({

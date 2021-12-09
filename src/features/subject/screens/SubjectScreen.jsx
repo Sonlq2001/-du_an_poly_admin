@@ -46,6 +46,7 @@ import {
 import { initForm } from './../helpers/subject.helpers';
 import { MapOptions } from 'helpers/convert/map-options';
 import { useSortableData } from 'helpers/sortingTable/sortingTable';
+import { defaultPaginationParams } from 'constants/api.constants';
 
 const SubjectScreen = () => {
   const dispatch = useDispatch();
@@ -57,15 +58,15 @@ const SubjectScreen = () => {
   const [messengerSort, setMessengerSort] = useState(null);
 
   const [pagination, setPagination] = useState({
-    page: 1,
-    pageLength: 10,
+    page: defaultPaginationParams.page,
+    pageLength: defaultPaginationParams.pageLength,
   });
   const { listSubject, listMajors, isListSubjectLoading, total } = useSelector(
     (state) => ({
       listSubject: state.subject.listSubject,
-      total: state.subject.total,
-      isListSubjectLoading: state.subject.isListSubjectLoading,
-      listMajors: state.majors.listMajors,
+      total: state.subject?.total,
+      isListSubjectLoading: state.subject?.isListSubjectLoading,
+      listMajors: state.majors?.listMajors,
     })
   );
 
@@ -82,9 +83,8 @@ const SubjectScreen = () => {
   const listSelectMajor = MapOptions(listMajors);
   const handlePagination = (dataPagination) => {
     setPagination({
+      ...pagination,
       ...dataPagination,
-      page: dataPagination.page,
-      pageLength: dataPagination.pageLength,
     });
   };
 
@@ -273,7 +273,7 @@ const SubjectScreen = () => {
             </TableCustom>
             <GroupPagination>
               <TablePagination
-                pageLengthMenu={[10, 30, 50, 100]}
+                pageLengthMenu={defaultPaginationParams.pageLengthMenu}
                 page={pagination.page}
                 pageLength={pagination.pageLength}
                 totalRecords={total}

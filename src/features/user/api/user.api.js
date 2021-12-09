@@ -2,8 +2,8 @@ import api from 'api/api';
 
 import { USER_ENDPOINTS } from './../constants/user.endpoints';
 
-const getUsers = (prams) => {
-  return api.get(USER_ENDPOINTS.GET_USERS,{prams});
+const getUsers = (params) => {
+  return api.get(USER_ENDPOINTS.GET_USERS, { params });
 };
 
 const postUser = (data) => {

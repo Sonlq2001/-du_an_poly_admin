@@ -40,6 +40,7 @@ import { initForm } from './../../helpers/semester.helpers';
 import ActionSemester from './../../components/ActionSemester/ActionSemester';
 import RemoveSemester from './../../components/RemoveSemester/RemoveSemester';
 import { useSortableData } from 'helpers/sortingTable/sortingTable';
+import { defaultPaginationParams } from 'constants/api.constants';
 
 const SemesterScreen = () => {
   const dispatch = useDispatch();
@@ -48,13 +49,21 @@ const SemesterScreen = () => {
   const [isDialogSemesterRemove, setIsDialogSemesterRemove] = useState(false);
   const [listChecked, setListChecked] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [pagination, setPagination] = useState({
+    page: defaultPaginationParams.page,
+    pageLength: defaultPaginationParams.pageLength,
+  });
 
   useEffect(() => {
-    dispatch(getSemester());
-  }, [dispatch]);
+    dispatch(getSemester(pagination));
+  }, [dispatch, pagination]);
 
-  const { listSemester, isListSemesterLoading } = useSelector(
-    (state) => state.semester
+  const { listSemester, isListSemesterLoading, total } = useSelector(
+    (state) => ({
+      listSemester: state.semester?.listSemester,
+      isListSemesterLoading: state.semester?.isListSemesterLoading,
+      total: state.semester?.total,
+    })
   );
   const { dataSort, requestSort } = useSortableData(listSemester);
 
@@ -95,6 +104,13 @@ const SemesterScreen = () => {
       }
       setIsLoading(false);
       setListChecked([]);
+    });
+  };
+
+  const handlePagination = (dataPagination) => {
+    setPagination({
+      ...pagination,
+      ...dataPagination,
     });
   };
 
@@ -170,15 +186,15 @@ const SemesterScreen = () => {
               </Thead>
               <Tbody>
                 {dataSort.map((row) => (
-                  <Tr key={row.id}>
+                  <Tr key={row?.id}>
                     <Td>
                       <CheckboxSingle
-                        checked={listChecked.includes(row.id)}
-                        onChange={() => handleChangeChecked(row.id)}
+                        checked={listChecked.includes(row?.id)}
+                        onChange={() => handleChangeChecked(row?.id)}
                       />
                     </Td>
-                    <Td>{row.id}</Td>
-                    <Td>{row.name}</Td>
+                    <Td>{row?.id}</Td>
+                    <Td>{row?.name}</Td>
                     <Td>
                       <BoxActionTable>
                         <Button
@@ -207,11 +223,11 @@ const SemesterScreen = () => {
             </TableCustom>
             <GroupPagination>
               <TablePagination
-                pageLengthMenu={[20, 50, 100]}
-                page={1}
-                pageLength={10}
-                totalRecords={100}
-                onPageChange={() => null}
+                pageLengthMenu={defaultPaginationParams.pageLengthMenu}
+                page={pagination.page}
+                pageLength={pagination.pageLength}
+                totalRecords={total}
+                onPageChange={handlePagination}
               />
             </GroupPagination>
           </>
