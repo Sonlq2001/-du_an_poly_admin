@@ -127,7 +127,7 @@ const ConfirmScreen = () => {
 
   return (
     <>
-      {isProductLoading && <Loading />}
+      {/* {isProductLoading && <Loading />} */}
       <TitleMain> Danh sách sản phẩm </TitleMain>
       <WrapContent>
         <div className="titleSearch">
@@ -194,8 +194,7 @@ const ConfirmScreen = () => {
             <Select
               className="select-option input-search"
               options={
-                ({ label: 'All', value: 1 },
-                listSelectOptionSemester ? listSelectOptionSemester : [])
+                listSelectOptionSemester ? listSelectOptionSemester : []
               }
               placeholder="Tìm theo kì học"
               onChange={(e) => Filter(e, 'semester')}
