@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import { AiOutlineSave } from 'react-icons/ai';
 import { toast } from 'react-toastify';
-import _get from 'lodash.get';
 
 import ElementInput from 'components/FormElements/ElementInput/ElementInput';
 import { Button } from 'components/Button/Button';
@@ -14,7 +13,8 @@ import { getMajors } from 'features/majors/redux/majors.slice';
 import { MapOptions } from 'helpers/convert/map-options';
 import { getCampuses } from 'features/campuses/redux/campuses.slice';
 import { postUsers } from 'features/user/redux/user.slice';
-const Adduser = ({ setOpen }) => {
+
+const ActionUser = ({ setOpen }) => {
   const dispatch = useDispatch();
   const { listMajors, listCampuses, messenger } = useSelector((state) => ({
     listMajors: state.majors.listMajors,
@@ -41,9 +41,9 @@ const Adduser = ({ setOpen }) => {
           setLoading(true);
           const response = await dispatch(postUsers(values));
           if (postUsers.fulfilled.match(response)) {
-            toast.success('Thành công !');         
-          }else{
-            toast.error(_get(response.payload, 'code[0]'));
+            toast.success('Thành công !');
+          } else {
+            toast.error('Đã gặp 1 số sự cố, vui lòng thử lại sau !');
           }
           resetForm();
           setLoading(false);
@@ -135,4 +135,4 @@ const Adduser = ({ setOpen }) => {
     </>
   );
 };
-export default Adduser;
+export default ActionUser;

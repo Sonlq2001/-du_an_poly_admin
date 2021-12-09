@@ -38,17 +38,21 @@ import { getUsers } from './../../redux/user.slice';
 import EmptyResultImage from 'assets/images/empty-result.gif';
 import { USER_PATHS } from './../../constants/user.paths';
 import avatarEmpty from 'assets/images/empty-avatar.png';
-import AddUser from 'features/user/components/ActionUser/AddUser';
+import ActionUser from 'features/user/components/ActionUser/ActionUser';
 import { GroupRole } from './UserScreen.styles';
 import { defaultPaginationParams } from 'constants/api.constants';
+import RemoveUser from './../../components/RemoveUser/RemoveUser';
 
 const UserScreen = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [isOpenDeleteUser, setIsOpenDeleteUser] = useState(false);
+  const [itemUser, setItemUser] = useState(null);
   const [pagination, setPagination] = useState({
     page: defaultPaginationParams.page,
     pageLength: defaultPaginationParams.pageLength,
   });
+
   useEffect(() => {
     dispatch(getUsers(pagination));
   }, [dispatch, pagination]);
@@ -113,7 +117,7 @@ const UserScreen = () => {
               <span>
                 Kết quả : &nbsp; {messengerSort} ( {listSubject.length} )
               </span>
-            )} */}{' '}
+            )} */}
           </div>
           <div className="buttonAction">
             <Button color="primary">Tải file excel</Button>
@@ -167,11 +171,11 @@ const UserScreen = () => {
                   <Td>{row?.student_code || '-'}</Td>
                   <Td>
                     <GroupRole>
-                      {row.roles &&
-                        row?.roles.map((item) => (
+                      {row?.roles &&
+                        row.roles.map((item) => (
                           <div className="item-role">
-                            <HightLightText value={item.name}>
-                              {item.name}
+                            <HightLightText value={item?.name}>
+                              {item?.name}
                             </HightLightText>
                           </div>
                         ))}
@@ -181,16 +185,18 @@ const UserScreen = () => {
                     <BoxActionTable>
                       <Button
                         color="warning"
-                        to={USER_PATHS.USER_PROFILE.replace(/:id/, row.id)}
+                        to={USER_PATHS.USER_PROFILE.replace(/:id/, row?.id)}
                         icon={<MdModeEdit />}
                         size="small"
                       />
 
                       <Button
                         color="danger"
-                        disabled={true}
                         size="small"
                         icon={<BsTrash />}
+                        onClick={() =>
+                          setIsOpenDeleteUser(true) + setItemUser(row)
+                        }
                       />
                     </BoxActionTable>
                   </Td>
@@ -204,9 +210,6 @@ const UserScreen = () => {
             <img src={EmptyResultImage} alt="" />
           </EmptyResult>
         )}
-        <PopupOverlay open={open} setOpen={setOpen} title="Thêm Tài Khoản ">
-          <AddUser setOpen={setOpen} />
-        </PopupOverlay>
         <GroupPagination>
           <TablePagination
             pageLengthMenu={defaultPaginationParams.pageLengthMenu}
@@ -216,6 +219,18 @@ const UserScreen = () => {
             onPageChange={handlePagination}
           />
         </GroupPagination>
+
+        {/* Model add user */}
+        <PopupOverlay open={open} setOpen={setOpen} title="Thêm Tài Khoản ">
+          <ActionUser setOpen={setOpen} />
+        </PopupOverlay>
+
+        {/* Model delete user */}
+        <RemoveUser
+          item={itemUser}
+          open={isOpenDeleteUser}
+          setOpen={setIsOpenDeleteUser}
+        />
       </WrapContent>
       <GroupAlert />
     </>

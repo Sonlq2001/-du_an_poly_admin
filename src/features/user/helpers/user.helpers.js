@@ -11,13 +11,12 @@ export const initForm = {
 export const schema = Yup.object().shape({
   name: Yup.string()
     .required('Vui lòng nhập môn học !')
-    .min(5, 'Ký tự phải lớn hơn 8'),
+    .min(5, 'Ký tự phải lớn hơn 5'),
   email: Yup.string()
-    .min(5, 'Ký tự phải lớn hơn 8')
+    .email('Email không hợp lệ !')
     .required('Vui lòng nhập email !'),
   campus_id: Yup.string().required('Vui lòng chọn cơ sở  !'),
   type: Yup.string().required('Vui lòng chọn loại   !'),
-
   major_id: Yup.string().required('Vui lòng chọn chuyên ngành !'),
 });
 

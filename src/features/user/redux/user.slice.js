@@ -48,11 +48,22 @@ export const getUserDetail = createAsyncThunk(
   }
 );
 
+export const deleteUser = createAsyncThunk(
+  'user/deleteUser',
+  async (id, { rejectWithValue }) => {
+    try {
+      await userApi.deleteUser(id);
+      return id;
+    } catch (error) {
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
+    }
+  }
+);
+
 const initialState = {
   // users
   listUser: [],
   isListUserLoading: false,
-  messenger: null,
 
   // user
   itemUser: null,
@@ -90,14 +101,25 @@ const useSlice = createSlice({
       state.isItemUserLoading = false;
     },
 
+    // add user
     [postUsers.fulfilled]: (state, action) => {
       if (action.payload.name) {
         state.listUser = [...state.listUser, action.payload];
       }
-      state.messenger = action.payload;
     },
-    [postUsers.rejected]: (state, action) => {
-      state.messenger = action.payload;
+    [postUsers.rejected]: (state) => {
+      state.isItemUserLoading = false;
+    },
+
+    // remove user
+    [deleteUser.fulfilled]: (state, action) => {
+      state.isItemUserLoading = false;
+      state.listUser = state.listUser.filter(
+        (item) => item.id !== action.payload
+      );
+    },
+    [deleteUser.rejected]: (state) => {
+      state.isItemUserLoading = false;
     },
   },
 });
