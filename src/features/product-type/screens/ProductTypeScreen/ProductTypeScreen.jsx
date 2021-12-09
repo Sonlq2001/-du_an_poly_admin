@@ -43,6 +43,7 @@ import { initForm } from './../../helpers/product-type.helpers';
 import ActionProductType from './../../components/ActionProductType/ActionProductType';
 import RemoveProductType from './../../components/RemoveProductType/RemoveProductType';
 import { useSortableData } from 'helpers/sortingTable/sortingTable';
+import { defaultPaginationParams } from 'constants/api.constants';
 
 const ProductTypeScreen = () => {
   const dispatch = useDispatch();
@@ -53,8 +54,8 @@ const ProductTypeScreen = () => {
   const [listChecked, setListChecked] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [pagination, setPagination] = useState({
-    page: 1,
-    pageLength: 10,
+    page: defaultPaginationParams.page,
+    pageLength: defaultPaginationParams.pageLength,
   });
 
   const fetchData = useCallback(() => {
@@ -67,14 +68,17 @@ const ProductTypeScreen = () => {
 
   const handlePagination = (dataPagination) => {
     setPagination({
+      ...pagination,
       ...dataPagination,
-      page: dataPagination.page,
-      pageLength: dataPagination.pageLength,
     });
   };
 
   const { listProductType, isListProductTypeLoading, total } = useSelector(
-    (state) => state.productType
+    (state) => ({
+      listProductType: state.productType?.listProductType,
+      isListProductTypeLoading: state.productType?.isListProductTypeLoading,
+      total: state.productType?.total,
+    })
   );
   const { dataSort, requestSort } = useSortableData(
     listProductType ? listProductType : []
@@ -232,7 +236,7 @@ const ProductTypeScreen = () => {
             </TableCustom>
             <GroupPagination>
               <TablePagination
-                pageLengthMenu={[20, 50, 100]}
+                pageLengthMenu={defaultPaginationParams.pageLengthMenu}
                 page={pagination.page}
                 pageLength={pagination.pageLength}
                 totalRecords={total}

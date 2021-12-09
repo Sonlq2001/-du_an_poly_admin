@@ -32,6 +32,7 @@ import { TablePagination } from 'components/Pagination/Pagination';
 import { Button } from 'components/Button/Button';
 import Loading from 'components/Loading/Loading';
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
+import { useSortableData } from 'helpers/sortingTable/sortingTable';
 
 import { getUsers } from './../../redux/user.slice';
 import EmptyResultImage from 'assets/images/empty-result.gif';
@@ -39,23 +40,23 @@ import { USER_PATHS } from './../../constants/user.paths';
 import avatarEmpty from 'assets/images/empty-avatar.png';
 import AddUser from 'features/user/components/ActionUser/AddUser';
 import { GroupRole } from './UserScreen.styles';
-import { useSortableData } from 'helpers/sortingTable/sortingTable';
+import { defaultPaginationParams } from 'constants/api.constants';
 
 const UserScreen = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [pagination, setPagination] = useState({
-    page: 1,
-    pageLength: 10,
+    page: defaultPaginationParams.page,
+    pageLength: defaultPaginationParams.pageLength,
   });
   useEffect(() => {
     dispatch(getUsers(pagination));
   }, [dispatch, pagination]);
 
   const { isListUserLoading, listUser, total } = useSelector((state) => ({
-    isListUserLoading: state.user.isListUserLoading,
-    listUser: state.user.listUser,
-    total: state.user.total,
+    isListUserLoading: state.user?.isListUserLoading,
+    listUser: state.user?.listUser,
+    total: state.user?.total,
   }));
   const addUser = () => {
     setOpen(true);
@@ -64,9 +65,8 @@ const UserScreen = () => {
   const { dataSort, requestSort } = useSortableData(listUser);
   const handlePagination = (dataPagination) => {
     setPagination({
+      ...pagination,
       ...dataPagination,
-      page: dataPagination.page,
-      pageLength: dataPagination.pageLength,
     });
   };
 
@@ -152,7 +152,7 @@ const UserScreen = () => {
 
             <Tbody>
               {dataSort.map((row) => (
-                <Tr key={row.id}>
+                <Tr key={row?.id}>
                   <Td>{row?.id}</Td>
                   <Td>{row?.name}</Td>
                   <Td>
@@ -209,7 +209,7 @@ const UserScreen = () => {
         </PopupOverlay>
         <GroupPagination>
           <TablePagination
-            pageLengthMenu={[10, 30, 50, 100]}
+            pageLengthMenu={defaultPaginationParams.pageLengthMenu}
             page={pagination.page}
             pageLength={pagination.pageLength}
             totalRecords={total}

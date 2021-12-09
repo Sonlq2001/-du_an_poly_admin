@@ -44,19 +44,16 @@ const UserProfile = () => {
   }, [dispatch]);
 
   const { isItemUserLoading, itemUser, listRole } = useSelector((state) => ({
-    isItemUserLoading: state.user.isItemUserLoading,
-    itemUser: state.user.itemUser,
-    listRole: state.role.listRole,
+    isItemUserLoading: state.user?.isItemUserLoading,
+    itemUser: state.user?.itemUser,
+    listRole: state.role?.listRole,
   }));
 
   const initFormData = id ? itemUser : initForm;
 
-  if (isItemUserLoading) {
-    return <Loading />;
-  }
-
   return (
     <WrapPage>
+      {isItemUserLoading && <Loading />}
       <TitleMain>{id ? 'Cập nhập thông tin' : 'Thêm người dùng'}</TitleMain>
       <Button
         size="small"
@@ -73,7 +70,7 @@ const UserProfile = () => {
           onSubmit={async (values) => {
             setIsLoading(true);
             const actionDispatch = id ? putUsers : putUsers;
-            const dataName = values.roles.map((item) =>
+            const dataName = values.roles?.map((item) =>
               item?.name ? item.name : item
             );
 

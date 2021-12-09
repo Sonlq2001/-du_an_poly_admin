@@ -39,6 +39,7 @@ import { initForm } from './../helpers/majors.helpers';
 import { getMajors, removeMajors } from './../redux/majors.slice';
 import EmptyResultImage from 'assets/images/empty-result.gif';
 import { useSortableData } from 'helpers/sortingTable/sortingTable';
+import { defaultPaginationParams } from 'constants/api.constants';
 
 const headerCells = [
   { label: 'STT', fieldSort: 'id', sort: true },
@@ -54,8 +55,8 @@ const MajorsScreen = () => {
   const [listChecked, setListChecked] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [pagination, setPagination] = useState({
-    page: 1,
-    pageLength: 10,
+    page: defaultPaginationParams.page,
+    pageLength: defaultPaginationParams.pageLength,
   });
 
   const fetchData = useCallback(() => {
@@ -66,16 +67,15 @@ const MajorsScreen = () => {
     fetchData();
   }, [fetchData]);
   const { listMajors, isMajorsLoading, total } = useSelector((state) => ({
-    listMajors: state.majors.listMajors,
-    isMajorsLoading: state.majors.isMajorsLoading,
-    total: state.majors.total,
+    listMajors: state.majors?.listMajors,
+    isMajorsLoading: state.majors?.isMajorsLoading,
+    total: state.majors?.total,
   }));
   const { dataSort, requestSort } = useSortableData(listMajors);
   const handlePagination = (dataPagination) => {
     setPagination({
+      ...pagination,
       ...dataPagination,
-      page: dataPagination.page,
-      pageLength: dataPagination.pageLength,
     });
   };
 
@@ -192,15 +192,15 @@ const MajorsScreen = () => {
               </Thead>
               <Tbody>
                 {dataSort.map((item) => (
-                  <Tr key={item.id}>
+                  <Tr key={item?.id}>
                     <Td>
                       <CheckboxSingle
-                        checked={listChecked.includes(item.id)}
-                        onChange={() => handleChangeChecked(item.id)}
+                        checked={listChecked.includes(item?.id)}
+                        onChange={() => handleChangeChecked(item?.id)}
                       />
                     </Td>
-                    <Td>{item.id}</Td>
-                    <Td>{item.name}</Td>
+                    <Td>{item?.id}</Td>
+                    <Td>{item?.name}</Td>
                     <Td>
                       <BoxActionTable>
                         <Button
@@ -229,7 +229,7 @@ const MajorsScreen = () => {
             </TableCustom>
             <GroupPagination>
               <TablePagination
-                pageLengthMenu={[10, 30, 50, 100]}
+                pageLengthMenu={defaultPaginationParams.pageLengthMenu}
                 page={pagination.page}
                 pageLength={pagination.pageLength}
                 totalRecords={total}

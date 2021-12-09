@@ -39,11 +39,14 @@ import {
   removePermissions,
   getPermissions,
 } from 'features/permissions/redux/permissions.slice';
+import { defaultPaginationParams } from 'constants/api.constants';
+import { useSortableData } from 'helpers/sortingTable/sortingTable';
+
 const headerCells = [
   { label: 'STT', field: 'id', sort: true },
-  { label: 'Tên quyền', field: 'id', sort: true },
-  { label: 'Đường dẫn', field: 'id', sort: true },
-  { label: 'Thao tác', field: 'id', sort: false, align: 'right' },
+  { label: 'Tên quyền', field: 'name', sort: true },
+  { label: 'Đường dẫn', sort: true },
+  { label: 'Thao tác', sort: false, align: 'right' },
 ];
 const PermissionsScreen = () => {
   const dispatch = useDispatch();
@@ -52,19 +55,27 @@ const PermissionsScreen = () => {
   const [listChecked, setListChecked] = useState([]);
   const [itemRole, setItemRole] = useState(initForm);
   const [isLoading, setIsLoading] = useState(false);
+  const [pagination, setPagination] = useState({
+    page: defaultPaginationParams.page,
+    pageLength: defaultPaginationParams.pageLength,
+  });
 
   const fetchData = useCallback(() => {
-    dispatch(getPermissions());
-  }, [dispatch]);
+    dispatch(getPermissions(pagination));
+  }, [dispatch, pagination]);
 
   useEffect(() => {
     fetchData();
   }, [dispatch, fetchData]);
 
-  const { listPermission, isListPermissionLoading } = useSelector((state) => ({
-    listPermission: state.permission.listPermission,
-    isListPermissionLoading: state.permission.isListPermissionLoading,
-  }));
+  const { listPermission, isListPermissionLoading, total } = useSelector(
+    (state) => ({
+      listPermission: state.permission?.listPermission,
+      isListPermissionLoading: state.permission?.isListPermissionLoading,
+      total: state.permission?.total,
+    })
+  );
+  const { dataSort, requestSort } = useSortableData(listPermission);
 
   const isCheckedAll = useMemo(() => {
     return (
@@ -105,6 +116,13 @@ const PermissionsScreen = () => {
       }
       setIsLoading(false);
       setListChecked([]);
+    });
+  };
+
+  const handlePagination = (dataPagination) => {
+    setPagination({
+      ...pagination,
+      ...dataPagination,
     });
   };
 
@@ -170,14 +188,19 @@ const PermissionsScreen = () => {
                     />
                   </Th>
                   {headerCells.map((cell) => (
-                    <Th key={cell.label} sort={cell.sort} align={cell.align}>
+                    <Th
+                      key={cell.label}
+                      sort={cell.sort}
+                      align={cell.align}
+                      onClick={() => requestSort(cell?.field)}
+                    >
                       {cell.label}
                     </Th>
                   ))}
                 </Tr>
               </Thead>
               <Tbody>
-                {listPermission.map((row, index) => (
+                {dataSort.map((row) => (
                   <Tr key={row?.id}>
                     <Td>
                       <CheckboxSingle
@@ -185,7 +208,7 @@ const PermissionsScreen = () => {
                         onChange={() => handleChangeChecked(row?.id)}
                       />
                     </Td>
-                    <Td>{index + 1}</Td>
+                    <Td>{row?.id}</Td>
                     <Td>{row?.name}</Td>
                     <Td>{row?.view_permission[0]?.url ?? '-'}</Td>
                     <Td>
@@ -217,11 +240,11 @@ const PermissionsScreen = () => {
 
             <GroupPagination>
               <TablePagination
-                pageLengthMenu={[20, 50, 100]}
-                page={1}
-                pageLength={listPermission.length}
-                totalRecords={100}
-                onPageChange={() => null}
+                pageLengthMenu={defaultPaginationParams.pageLengthMenu}
+                page={pagination.page}
+                pageLength={pagination.pageLength}
+                totalRecords={total}
+                onPageChange={handlePagination}
               />
             </GroupPagination>
           </>
