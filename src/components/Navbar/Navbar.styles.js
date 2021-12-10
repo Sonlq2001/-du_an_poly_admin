@@ -130,7 +130,7 @@ export const ListAction = styled.ul`
   transition: ease-in 0.3s;
   opacity: 0;
   visibility: hidden;
-
+  z-index: 100;
   &.active {
     bottom: -180%;
     opacity: 1;

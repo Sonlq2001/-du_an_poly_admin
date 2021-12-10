@@ -1,7 +1,6 @@
 import React, { memo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import { RiDashboardLine, RiSettings4Line } from 'react-icons/ri';
 import { BsBag } from 'react-icons/bs';
 import { BiSitemap } from 'react-icons/bi';
@@ -16,14 +15,13 @@ import { getPermissions } from 'features/auth/redux/auth.slice';
 import { labelSidebar, labelIcons } from 'constants/value-string.constants';
 
 const Sidebar = () => {
-  const location = useLocation();
   const dispatch = useDispatch();
   useEffect(() => {
     const routesPermission = JSON.parse(
       JSON.parse(localStorage.getItem('persist:auth'))?.permission
     );
     dispatch(getPermissions(routesPermission));
-  }, [location.pathname, dispatch]);
+  }, [dispatch]);
 
   const { listPermission } = useSelector((state) => ({
     listPermission: state.auth?.permission,
