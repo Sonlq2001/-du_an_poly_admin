@@ -106,6 +106,7 @@ const initialState = {
   listProduct: [],
   isProductLoading: false,
   listProductType: [],
+  loadingSeach :false,
   productDetail: {},
   loadingDetail: false,
   listCampuses: [],
@@ -117,20 +118,20 @@ const productSlice = createSlice({
   extraReducers: {
     // product user
     [productUser.pending]: (state) => {
-      state.isProductLoading = true;
+      state.loadingSeach = true;
     },
     [productUser.fulfilled]: (state, action) => {
-      state.isProductLoading = false;
+      state.loadingSeach = false;
       if (Array.isArray(action.payload)) {
         state.listProduct = action.payload.filter((item) => item.status !== 0);
       }
     },
     // get list product
     [getListProduct.pending]: (state) => {
-      state.isProductLoading = true;
+      state.loadingSeach = true;
     },
     [getListProduct.fulfilled]: (state, action) => {
-      state.isProductLoading = false;
+      state.loadingSeach = false;
       if (Array.isArray(action.payload.data)) {
         state.listProduct = action.payload.data.filter(
           (item) => item.status !== 0
@@ -138,7 +139,7 @@ const productSlice = createSlice({
       }
     },
     [getListProduct.rejected]: (state) => {
-      state.isProductLoading = false;
+      state.loadingSeach = false;
     },
 
     [approveProduct.fulfilled]: (state, action) => {
@@ -178,15 +179,29 @@ const productSlice = createSlice({
     },
     [getListCampuses.pending]: (state, action) => {},
     // search productt
+    [SearchProduct.pending]: (state) => {
+      state.loadingSeach = true
+    },
     [SearchProduct.fulfilled]: (state, action) => {
       state.listProduct = action.payload;
+      state.loadingSeach = false
     },
+    [SearchProduct.fulfilled]: (state, action) => {
+      state.listProduct = action.payload;
+      state.loadingSeach = false
+    },
+
     // filter
+    [filterProduct.pending] : state =>{
+      state.loadingSeach = true
+    },
     [filterProduct.fulfilled]: (state, action) => {
       state.listProduct = action.payload;
+      state.loadingSeach = false
     },
-    [filterStatusProduct.fulfilled]: (state, action) => {
-      state.listProduct = action.payload;
+    [filterStatusProduct.rejected]: (state, action) => {
+      state.listProduct = undefined;
+      state.loadingSeach = false
     },
   },
 });
