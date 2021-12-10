@@ -64,15 +64,13 @@ const UploadExcelScreen = () => {
               <GroupUpload>
                 <HeaderUpload>
                   <h3 className="title-upload">Danh sách điểm</h3>
-                  <Button
-                    type="button"
-                    size="small"
-                    color="success"
+                  <a
                     target="_parent"
+                    className="btn-download"
                     href="http://api.duanpoly.ml/api/export"
                   >
                     File Mẫu
-                  </Button>
+                  </a>
                 </HeaderUpload>
                 <div className="group-select">
                   <div className="box-select">

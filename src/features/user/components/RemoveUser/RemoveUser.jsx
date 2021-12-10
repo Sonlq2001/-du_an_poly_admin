@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import _get from 'lodash.get';
 
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import { MessagePopup } from './RemoveUser.styles';
