@@ -1,7 +1,29 @@
 import styled from 'styled-components';
 
 export const GroupTale = styled.div`
-  overflow-x: auto;
+  /* overflow-x: auto; */
+  position: relative;
+  min-height: 300px;
+  .loading-item{
+    position: absolute;
+    width: 100%;
+    background-color: white;
+    top: 2;
+    left: 0;
+    max-height: 300px;
+    z-index: 0;
+    text-align: center;
+  }
+  .loading-items{
+    position: absolute;
+    width: 100%;
+    background-color: white;
+    top: 2;
+    left: 0;
+    max-height: 250px;
+    z-index: 100;
+    text-align: center;
+  }
 `;
 export const Table = styled.table`
 

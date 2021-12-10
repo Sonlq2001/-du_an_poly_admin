@@ -43,6 +43,21 @@ export const WrapContent = styled.div`
     transition: 2s ease;
     opacity: 1;
   }
+  .hidenFilter{
+    margin-top: 18px;
+    opacity: 0;
+    visibility: hidden;
+    max-height: 0;
+    transition: 0.3s ease-in-out;
+  }
+  .showFilter{
+    margin-top: 18px;
+    opacity: 1;
+    visibility: visible;
+    max-height: 15rem;
+    transition: 0.3s ease-in-out;
+    margin-bottom: 15px;
+  }
 `;
 export const TitleMain = styled.h3`
   font-size: 2rem;
@@ -113,7 +128,6 @@ export const HeaderTable = styled.div`
     align-items: center;
     justify-content: flex-end;
     margin-bottom: 2rem;
-    float-w
   }
   .resultSeach {
     font-size: 1.7rem;

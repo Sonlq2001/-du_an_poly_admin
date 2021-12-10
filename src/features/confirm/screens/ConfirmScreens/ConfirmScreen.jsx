@@ -25,7 +25,7 @@ import {
 
 import ConfirmTable from './../../components/ConfirmTable/ConfirmTable';
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
-import Loading from 'components/Loading/Loading';
+
 import { getSemesters } from '../../../uploadExcel/redux/uploadExcel.slice';
 import { MapOptions } from 'helpers/convert/map-options';
 import ReviewProduct from 'features/confirm/components/Review/ReviewProduct';
@@ -36,9 +36,7 @@ const ConfirmScreen = () => {
   const { path } = useParams();
 
   const {
-    listProduct,
-    isProductLoading,
-    listProductType,
+    productTypes,
     productDetail,
     loadingDetail,
   } = useSelector((state) => state.product);
@@ -50,7 +48,6 @@ const ConfirmScreen = () => {
   });
   const { listSemester } = useSelector((state) => state.uploadExcel);
   const { listCampuses } = useSelector((state) => state.product);
-
   const listSelectOptionSemester = MapOptions(listSemester);
   const listSelectOptionCampuses = MapOptions(listCampuses);
 
@@ -127,7 +124,7 @@ const ConfirmScreen = () => {
 
   return (
     <>
-      {isProductLoading && <Loading />}
+      {/* {isProductLoading && <Loading />} */}
       <TitleMain> Danh sách sản phẩm </TitleMain>
       <WrapContent>
         <div className="titleSearch">
@@ -169,6 +166,7 @@ const ConfirmScreen = () => {
             />
           </BoxControl>
         </BoxSearchInput>
+        <div className={Advanced ? "showFilter" : "hidenFilter"}>
         <BoxSearchInput>
           <BoxControl className="box-control">
             <label htmlFor="" className="label-control">
@@ -194,8 +192,7 @@ const ConfirmScreen = () => {
             <Select
               className="select-option input-search"
               options={
-                ({ label: 'All', value: 1 },
-                listSelectOptionSemester ? listSelectOptionSemester : [])
+                listSelectOptionSemester ? listSelectOptionSemester : []
               }
               placeholder="Tìm theo kì học"
               onChange={(e) => Filter(e, 'semester')}
@@ -231,13 +228,12 @@ const ConfirmScreen = () => {
             />
           </BoxControl>
         </BoxSearchInput>
+        </div>
       </WrapContent>
 
       <ConfirmTable
         result={result}
-        data={listProduct}
-        listProductType={listProductType}
-        productDetail={productDetail}
+
         pagination={pagination}
         setPagination={setPagination}
       />
