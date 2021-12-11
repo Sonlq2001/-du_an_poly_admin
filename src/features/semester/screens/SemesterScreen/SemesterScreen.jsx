@@ -24,7 +24,6 @@ import {
   HeaderTable,
   BoxActionTable,
   GroupPagination,
-  EmptyResult,
 } from 'styles/common/common-styles';
 
 import { Button } from 'components/Button/Button';
@@ -35,12 +34,12 @@ import GroupAlert from 'components/AlertMessage/AlertMessage';
 import CheckboxSingle from 'components/FormElements/ElementCheckbox/CheckboxSingle';
 
 import { getSemester, removeSemester } from './../../redux/semester.slice';
-import EmptyResultImage from 'assets/images/empty-result.gif';
 import { initForm } from './../../helpers/semester.helpers';
 import ActionSemester from './../../components/ActionSemester/ActionSemester';
 import RemoveSemester from './../../components/RemoveSemester/RemoveSemester';
 import { useSortableData } from 'helpers/sortingTable/sortingTable';
 import { defaultPaginationParams } from 'constants/api.constants';
+import NotFound from 'components/NotFound/NotFound';
 
 const SemesterScreen = () => {
   const dispatch = useDispatch();
@@ -232,10 +231,7 @@ const SemesterScreen = () => {
             </GroupPagination>
           </>
         ) : (
-          <EmptyResult>
-            <div>Không có kết quả nào</div>
-            <img src={EmptyResultImage} alt="" />
-          </EmptyResult>
+          <NotFound />
         )}
 
         {/* Dialog create / edit product type */}

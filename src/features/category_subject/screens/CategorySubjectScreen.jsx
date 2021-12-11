@@ -16,7 +16,6 @@ import {
   HeaderTable,
   BoxActionTable,
   GroupPagination,
-  EmptyResult,
 } from 'styles/common/common-styles';
 import {
   TableCustom,
@@ -36,7 +35,6 @@ import CheckboxSingle from 'components/FormElements/ElementCheckbox/CheckboxSing
 import ActionSubject from '../components/ActionSubject/ActionSubject';
 import RemoveSubject from '../components/RemoveSubject/RemoveSubject';
 
-import EmptyResultImage from 'assets/images/empty-result.gif';
 import { getUsers } from 'features/user/redux/user.slice';
 import {
   getListCategorySubject,
@@ -44,6 +42,7 @@ import {
 } from '../redux/category_subject.slice';
 import { initForm } from '../helpers/subject.helpers';
 import { MapOptions } from 'helpers/convert/map-options';
+import NotFound from 'components/NotFound/NotFound';
 
 const CategorySubjectScreen = () => {
   const dispatch = useDispatch();
@@ -229,10 +228,7 @@ const CategorySubjectScreen = () => {
             </GroupPagination>
           </>
         ) : (
-          <EmptyResult>
-            <div>Không có kết quả nào</div>
-            <img src={EmptyResultImage} alt="" />
-          </EmptyResult>
+          <NotFound />
         )}
 
         <PopupOverlay

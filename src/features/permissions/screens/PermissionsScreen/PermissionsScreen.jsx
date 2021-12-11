@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IoMdAdd } from 'react-icons/io';
 import { BsTrash } from 'react-icons/bs';
 import { MdModeEdit } from 'react-icons/md';
+import { toast } from 'react-toastify';
 import { initForm } from 'features/permissions/helpers/permissions.helpers';
 import GroupAlert from 'components/AlertMessage/AlertMessage';
 import ActionPermissions from 'features/permissions/components/ActionPermissions/ActionPermissions';
@@ -17,7 +18,6 @@ import {
   HeaderTable,
   BoxActionTable,
   GroupPagination,
-  EmptyResult,
 } from 'styles/common/common-styles';
 
 import {
@@ -28,12 +28,10 @@ import {
   Td,
   Tbody,
 } from 'components/Table/TableCustom';
-import { toast } from 'react-toastify';
 import Loading from 'components/Loading/Loading';
 import { Button } from 'components/Button/Button';
 import { TablePagination } from 'components/Pagination/Pagination';
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
-import EmptyResultImage from 'assets/images/empty-result.gif';
 import CheckboxSingle from 'components/FormElements/ElementCheckbox/CheckboxSingle';
 import {
   removePermissions,
@@ -41,6 +39,7 @@ import {
 } from 'features/permissions/redux/permissions.slice';
 import { defaultPaginationParams } from 'constants/api.constants';
 import { useSortableData } from 'helpers/sortingTable/sortingTable';
+import NotFound from 'components/NotFound/NotFound';
 
 const headerCells = [
   { label: 'STT', field: 'id', sort: true },
@@ -237,7 +236,6 @@ const PermissionsScreen = () => {
                 ))}
               </Tbody>
             </TableCustom>
-
             <GroupPagination>
               <TablePagination
                 pageLengthMenu={defaultPaginationParams.pageLengthMenu}
@@ -249,10 +247,7 @@ const PermissionsScreen = () => {
             </GroupPagination>
           </>
         ) : (
-          <EmptyResult>
-            <div>Không có kết quả nào</div>
-            <img src={EmptyResultImage} alt="" />
-          </EmptyResult>
+          <NotFound />
         )}
       </WrapContent>
 

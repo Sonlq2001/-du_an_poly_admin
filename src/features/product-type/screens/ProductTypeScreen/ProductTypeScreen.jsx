@@ -24,7 +24,6 @@ import {
   HeaderTable,
   BoxActionTable,
   GroupPagination,
-  EmptyResult,
 } from 'styles/common/common-styles';
 
 import { Button } from 'components/Button/Button';
@@ -38,12 +37,12 @@ import {
   getProductType,
   deleteProductType,
 } from './../../redux/product-type.slice';
-import EmptyResultImage from 'assets/images/empty-result.gif';
 import { initForm } from './../../helpers/product-type.helpers';
 import ActionProductType from './../../components/ActionProductType/ActionProductType';
 import RemoveProductType from './../../components/RemoveProductType/RemoveProductType';
 import { useSortableData } from 'helpers/sortingTable/sortingTable';
 import { defaultPaginationParams } from 'constants/api.constants';
+import NotFound from 'components/NotFound/NotFound';
 
 const ProductTypeScreen = () => {
   const dispatch = useDispatch();
@@ -245,10 +244,7 @@ const ProductTypeScreen = () => {
             </GroupPagination>
           </>
         ) : (
-          <EmptyResult>
-            <div>Không có kết quả nào</div>
-            <img src={EmptyResultImage} alt="" />
-          </EmptyResult>
+          <NotFound />
         )}
 
         {/* Dialog create / edit product type */}

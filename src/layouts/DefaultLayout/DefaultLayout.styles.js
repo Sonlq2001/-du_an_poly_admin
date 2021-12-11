@@ -12,6 +12,7 @@ export const WrapApp = styled.div`
 
   .wrap-content {
     padding: 3rem 3.5rem;
+    position: relative;
     min-height: 90vh;
   }
 `;

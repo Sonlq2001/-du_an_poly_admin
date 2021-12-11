@@ -12,9 +12,9 @@ export const WrapContent = styled.div`
   & + & {
     margin-top: 2rem;
   }
-  .titleSearch{
-    display :flex ;
-    width :100%;
+  .titleSearch {
+    display: flex;
+    width: 100%;
     justify-content: space-between;
   }
   .titleSearch span {
@@ -24,33 +24,33 @@ export const WrapContent = styled.div`
     background-color: #f0ecec;
     border-radius: 10px;
     line-height: 28px;
-    display :flex;
+    display: flex;
     justify-content: space-between;
   }
-  .titleSearch span:hover{
+  .titleSearch span:hover {
     cursor: pointer;
   }
   .titleSearch span .icon {
     font-size: 25px;
   }
-  .sortVip{
+  .sortVip {
     margin-top: 5rem;
     transition: 2s ease;
     opacity: 0;
   }
-  .activeAdvanced{
+  .activeAdvanced {
     margin-top: 5rem;
     transition: 2s ease;
     opacity: 1;
   }
-  .hidenFilter{
+  .hidenFilter {
     margin-top: 18px;
     opacity: 0;
     visibility: hidden;
     max-height: 0;
     transition: 0.3s ease-in-out;
   }
-  .showFilter{
+  .showFilter {
     margin-top: 18px;
     opacity: 1;
     visibility: visible;
@@ -145,14 +145,4 @@ export const GroupPagination = styled.div`
 export const BoxActionTable = styled.div`
   display: flex;
   justify-content: flex-end;
-`;
-export const EmptyResult = styled.div`
-  font-size: 1.5rem;
-  text-align: center;
-  .text-result {
-    font-size: 1.5rem;
-  }
-  img {
-    height: 20rem;
-  }
 `;

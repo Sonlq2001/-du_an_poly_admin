@@ -24,7 +24,6 @@ import {
   HeaderTable,
   BoxActionTable,
   GroupPagination,
-  EmptyResult,
 } from 'styles/common/common-styles';
 import Loading from 'components/Loading/Loading';
 import { Button } from 'components/Button/Button';
@@ -37,9 +36,9 @@ import ActionMajors from './../components/ActionMajors/ActionMajors';
 import RemoveMajors from './../components/RemoveMajors/RemoveMajors';
 import { initForm } from './../helpers/majors.helpers';
 import { getMajors, removeMajors } from './../redux/majors.slice';
-import EmptyResultImage from 'assets/images/empty-result.gif';
 import { useSortableData } from 'helpers/sortingTable/sortingTable';
 import { defaultPaginationParams } from 'constants/api.constants';
+import NotFound from 'components/NotFound/NotFound';
 
 const headerCells = [
   { label: 'STT', fieldSort: 'id', sort: true },
@@ -238,10 +237,7 @@ const MajorsScreen = () => {
             </GroupPagination>
           </>
         ) : (
-          <EmptyResult>
-            <div>Không có kết quả nào</div>
-            <img src={EmptyResultImage} alt="" />
-          </EmptyResult>
+          <NotFound />
         )}
       </WrapContent>
 
