@@ -16,7 +16,6 @@ import {
   HeaderTable,
   BoxActionTable,
   GroupPagination,
-  EmptyResult,
 } from 'styles/common/common-styles';
 import {
   TableCustom,
@@ -36,7 +35,6 @@ import CheckboxSingle from 'components/FormElements/ElementCheckbox/CheckboxSing
 import ActionSubject from '../components/ActionSubject/ActionSubject';
 import RemoveSubject from '../components/RemoveSubject/RemoveSubject';
 
-import EmptyResultImage from 'assets/images/empty-result.gif';
 import { getMajors } from 'features/majors/redux/majors.slice';
 import {
   getListSubject,
@@ -47,6 +45,7 @@ import { initForm } from './../helpers/subject.helpers';
 import { MapOptions } from 'helpers/convert/map-options';
 import { useSortableData } from 'helpers/sortingTable/sortingTable';
 import { defaultPaginationParams } from 'constants/api.constants';
+import NotFound from 'components/NotFound/NotFound';
 
 const SubjectScreen = () => {
   const dispatch = useDispatch();
@@ -282,10 +281,7 @@ const SubjectScreen = () => {
             </GroupPagination>
           </>
         ) : (
-          <EmptyResult>
-            <div>Không có kết quả nào</div>
-            <img src={EmptyResultImage} alt="" />
-          </EmptyResult>
+          <NotFound />
         )}
 
         <PopupOverlay

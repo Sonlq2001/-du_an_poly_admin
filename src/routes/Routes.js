@@ -42,7 +42,7 @@ const WrapRoute = ({
 
 const Routes = () => {
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<Loading isFullScreen />}>
       <Switch>
         {LIST_ROUTES.map((route) => (
           <WrapRoute key={route.id} {...route} />

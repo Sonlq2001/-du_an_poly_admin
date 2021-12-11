@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 
 export const BoxMain = styled.div`
-    position: relative;
+  position: relative;
   .table-confirm .fix-th {
     min-width: 8rem;
   }
   .fix-td {
     text-align: center;
   }
-  .messengers{
-    padding: 0.6rem 0px 1.5rem 0rem ;
+  .messengers {
+    padding: 0.6rem 0px 1.5rem 0rem;
     font-size: 1.8rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
@@ -36,18 +36,18 @@ export const PendingSearch = styled.div`
     height: 30px;
     border-radius: 50%;
     border-top: 2px solid yellow;
-    border-bottom: 2px solid red; 
+    border-bottom: 2px solid red;
     animation: loading 2s linear infinite;
   }
-  @keyframes  loading {
-      0%{
-        transform: rotate(0deg);
-      }
-      100%{
-        transform: rotate(360deg);
-      }
+  @keyframes loading {
+    0% {
+      transform: rotate(0deg);
     }
- 
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
   .text-pending {
     margin-top: 7rem;
     font-size: 1.4rem;
@@ -76,7 +76,7 @@ export const ListAction = styled.div`
   .icon-action {
     padding-right: 7px;
   }
-  & a{
+  & a {
     color: black;
     display: block;
   }
@@ -125,30 +125,4 @@ export const GroupPagination = styled.div`
   justify-content: flex-end;
   margin-top: 2rem;
 `;
-export  const Message = styled.div`
-
-`
-export const GroupNoResult = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 250px;
-  margin-bottom: 1rem;
- 
-  .body-no-result {
-    text-align: center;
-  }
-  .img-no-result {
-    width: 15rem;
-  }
-  .box-no-result {
-    font-size: 1.4rem;
-  }
-  .label-no-result {
-    font-size: 1.6rem;
-  }
-  .des-no-result {
-    margin-top: 1.5rem;
-    color: var(--aaa-color);
-  }
-`;
+export const Message = styled.div``;

@@ -51,6 +51,7 @@ const UserProfile = () => {
 
   return (
     <>
+      {isItemUserLoading && <Loading />}
       <WrapPage>
         <TitleMain>Cập nhập thông tin</TitleMain>
         <Button
@@ -62,102 +63,100 @@ const UserProfile = () => {
         >
           Quay lại
         </Button>
-        {isItemUserLoading ? (
-          <Loading />
-        ) : (
-          <WrapContent>
-            <Formik
-              initialValues={itemUser}
-              onSubmit={async (values) => {
-                setIsLoading(true);
-                const actionDispatch = id ? putUsers : putUsers;
-                const dataName = values.roles?.map((item) =>
-                  item?.name ? item.name : item
-                );
 
-                const response = await dispatch(
-                  actionDispatch({
-                    id: values.id,
-                    user: {
-                      role: dataName,
-                    },
-                  })
-                );
-                if (actionDispatch.fulfilled.match(response)) {
-                  history.push(USER_PATHS.LIST);
-                }
-                setIsLoading(false);
-              }}
-            >
-              {() => (
-                <Form>
-                  <GroupProfile>
-                    <BoxAvatar>
-                      <img
-                        src={itemUser?.avatar || avatarEmpty}
-                        alt=""
-                        className="user-avatar"
+        <WrapContent>
+          <Formik
+            enableReinitialize
+            initialValues={itemUser}
+            onSubmit={async (values) => {
+              setIsLoading(true);
+              const actionDispatch = id ? putUsers : putUsers;
+              const dataName = values.roles?.map((item) =>
+                item?.name ? item.name : item
+              );
+
+              const response = await dispatch(
+                actionDispatch({
+                  id: values.id,
+                  user: {
+                    role: dataName,
+                  },
+                })
+              );
+              if (actionDispatch.fulfilled.match(response)) {
+                history.push(USER_PATHS.LIST);
+              }
+              setIsLoading(false);
+            }}
+          >
+            {() => (
+              <Form>
+                <GroupProfile>
+                  <BoxAvatar>
+                    <img
+                      src={itemUser?.avatar || avatarEmpty}
+                      alt=""
+                      className="user-avatar"
+                    />
+                    <label htmlFor="avatar">
+                      <div className="footer-avatar">
+                        Upload
+                        <span className="icon-camera">
+                          <AiOutlineCamera />
+                        </span>
+                      </div>
+                    </label>
+                    <input type="file" id="avatar" />
+
+                    <div className="user-des">{itemUser?.description}</div>
+                  </BoxAvatar>
+                  <GroupContent>
+                    <BoxContent>
+                      <h4 className="title-profile">Thông tin cá nhân</h4>
+                      <ElementInput
+                        name="name"
+                        label="Họ tên"
+                        placeholder="Họ tên"
+                        disabled={true}
                       />
-                      <label htmlFor="avatar">
-                        <div className="footer-avatar">
-                          Upload
-                          <span className="icon-camera">
-                            <AiOutlineCamera />
-                          </span>
-                        </div>
-                      </label>
-                      <input type="file" id="avatar" />
 
-                      <div className="user-des">{itemUser?.description}</div>
-                    </BoxAvatar>
-                    <GroupContent>
-                      <BoxContent>
-                        <h4 className="title-profile">Thông tin cá nhân</h4>
-                        <ElementInput
-                          name="name"
-                          label="Họ tên"
-                          placeholder="Họ tên"
-                          disabled={true}
-                        />
+                      <ElementInput
+                        name="email"
+                        label="Email"
+                        placeholder="Email"
+                        disabled={true}
+                      />
 
-                        <ElementInput
-                          name="email"
-                          label="Email"
-                          placeholder="Email"
-                          disabled={true}
-                        />
+                      <ElementInput
+                        name="student_code"
+                        label="MSSV"
+                        placeholder="Mã số"
+                        disabled={true}
+                      />
+                    </BoxContent>
 
-                        <ElementInput
-                          name="student_code"
-                          label="MSSV"
-                          placeholder="Mã số"
-                          disabled={true}
-                        />
-                      </BoxContent>
+                    <BoxNote>
+                      <h4 className="title-profile">Vai trò / vị trí</h4>
+                      <div className="group-role">
+                        <ElementCheckbox name="roles" data={listRole} />
+                      </div>
+                    </BoxNote>
+                  </GroupContent>
+                </GroupProfile>
 
-                      <BoxNote>
-                        <h4 className="title-profile">Vai trò / vị trí</h4>
-                        <div className="group-role">
-                          <ElementCheckbox name="roles" data={listRole} />
-                        </div>
-                      </BoxNote>
-                    </GroupContent>
-                  </GroupProfile>
-
-                  <FormButton>
-                    <Button
-                      color="primary"
-                      loading={isLoading}
-                      disabled={isLoading}
-                    >
-                      Lưu
-                    </Button>
-                  </FormButton>
-                </Form>
-              )}
-            </Formik>
-          </WrapContent>
-        )}
+                <FormButton>
+                  <Button
+                    color="primary"
+                    loading={isLoading}
+                    disabled={isLoading}
+                  >
+                    Lưu
+                  </Button>
+                </FormButton>
+              </Form>
+            )}
+          </Formik>
+        </WrapContent>
       </WrapPage>
     </>
   );

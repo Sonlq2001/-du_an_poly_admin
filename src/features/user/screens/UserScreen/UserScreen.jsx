@@ -23,7 +23,6 @@ import {
   GroupPagination,
   BoxActionTable,
   HeaderTable,
-  EmptyResult,
 } from 'styles/common/common-styles';
 import GroupAlert from 'components/AlertMessage/AlertMessage';
 
@@ -35,13 +34,13 @@ import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import { useSortableData } from 'helpers/sortingTable/sortingTable';
 
 import { getUsers } from './../../redux/user.slice';
-import EmptyResultImage from 'assets/images/empty-result.gif';
 import { USER_PATHS } from './../../constants/user.paths';
 import avatarEmpty from 'assets/images/empty-avatar.png';
 import ActionUser from 'features/user/components/ActionUser/ActionUser';
 import { GroupRole } from './UserScreen.styles';
 import { defaultPaginationParams } from 'constants/api.constants';
 import RemoveUser from './../../components/RemoveUser/RemoveUser';
+import NotFound from 'components/NotFound/NotFound';
 
 const UserScreen = () => {
   const dispatch = useDispatch();
@@ -205,10 +204,7 @@ const UserScreen = () => {
             </Tbody>
           </TableCustom>
         ) : (
-          <EmptyResult>
-            <div>Không có kết quả nào</div>
-            <img src={EmptyResultImage} alt="" />
-          </EmptyResult>
+          <NotFound />
         )}
         <GroupPagination>
           <TablePagination
