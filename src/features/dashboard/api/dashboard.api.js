@@ -1,7 +1,10 @@
 import api from 'api/api';
-const getData = () =>{
-    return api.get("/dashboard")
-}
+
+import { DASHBOARD_ENDPOINTS } from './../constants/dashboard.endpoints';
+
+const getDataDashboard = () => {
+  return api.get(DASHBOARD_ENDPOINTS.GET_DATA_DASHBOARD);
+};
 export const dashboardApi = {
-    getData
+  getDataDashboard,
 };

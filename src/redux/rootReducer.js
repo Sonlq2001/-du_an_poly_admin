@@ -12,10 +12,10 @@ import semesterReducer from 'features/semester/redux/semester.slice';
 import roleReducer from 'features/role/redux/role.slice';
 import permissionsReducer from 'features/permissions/redux/permissions.slice';
 import campusesReducer from 'features/campuses/redux/campuses.slice';
-import DashboardReducer from 'features/dashboard/redux/dashboard.slice';
+import dashboardReducer from 'features/dashboard/redux/dashboard.slice';
 
 const rootReducer = combineReducers({
-  dashboard :DashboardReducer,
+  dashboard: dashboardReducer,
   user: useReducer,
   auth: authReducer,
   product: productReducer,

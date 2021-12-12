@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import moment from 'moment';
 
 import { WrapTable } from './TableFeedback.styles';
 import { BoxTitleDashboard } from 'styles/common/common-styles';
@@ -10,13 +11,16 @@ import {
   Th,
   Td,
 } from 'components/Table/TableCustom';
+import { useSortableData } from 'helpers/sortingTable/sortingTable';
 
-const TableFeedback = ({feedbacks}) => {
-  let data =[];
-  for(let item in feedbacks){
-         data.push(feedbacks[item])
+const TableFeedback = ({ feedbacks }) => {
+  let data = [];
+  for (let item in feedbacks) {
+    data.push(feedbacks[item]);
   }
-  console.log(data)
+
+  const { dataSort, requestSort } = useSortableData(data);
+
   return (
     <WrapTable>
       <BoxTitleDashboard>Phản hồi mới nhất</BoxTitleDashboard>
@@ -24,22 +28,37 @@ const TableFeedback = ({feedbacks}) => {
         <TableCustom>
           <Thead>
             <Tr>
-              <Th>#</Th>
-              <Th className="fix-sort">Người đánh giá</Th>
-              <Th>Nội dung</Th>
-              <Th>Thời gian</Th>
+              <Th sort onClick={() => requestSort('id')}>
+                #
+              </Th>
+              <Th
+                className="fix-sort"
+                sort
+                onClick={() => requestSort('email')}
+              >
+                Người đánh giá
+              </Th>
+              <Th sort onClick={() => requestSort('content')}>
+                Nội dung
+              </Th>
+              <Th sort onClick={() => requestSort('created_at')}>
+                Thời gian
+              </Th>
             </Tr>
           </Thead>
           <Tbody>
-           {data.map((item)=>{
-               return (
-                <Tr key={item.id}>
-                  <Td>{item.id}</Td>
-                  <Td>{item.email}</Td>
-                  <Td>{item.content}</Td>
-                  <Td>{item.created_at.split('T',1)}</Td>
-                </Tr> 
-           )})}
+            {dataSort?.map((item) => {
+              return (
+                <Tr key={item?.id}>
+                  <Td>{item?.id}</Td>
+                  <Td>{item?.email}</Td>
+                  <Td>{item?.content}</Td>
+                  <Td>
+                    {moment(item?.created_at).format('YYYY-MM-DD HH:mm:ss')}
+                  </Td>
+                </Tr>
+              );
+            })}
           </Tbody>
         </TableCustom>
       </div>

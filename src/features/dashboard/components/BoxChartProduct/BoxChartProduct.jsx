@@ -6,10 +6,8 @@ import Select from 'react-select';
 const BoxChartProduct = () => {
   return (
     <>
-    
-
       <BoxMain>
-      <Title> Thống kê sản phẩm </Title>
+        <Title> Thống kê sản phẩm </Title>
         <div className="sort">
           <BoxControl className="box-control">
             <label htmlFor="" className="label-control">
@@ -29,7 +27,7 @@ const BoxChartProduct = () => {
           </BoxControl>
           <BoxControl className="box-control">
             <label htmlFor="" className="label-control">
-                Năm 
+              Năm
             </label>
             <Select
               className="select-option input-search"
@@ -45,7 +43,6 @@ const BoxChartProduct = () => {
           </BoxControl>
         </div>
         <div className="chart">
-          {' '}
           <Doughnut data={dataDoug}> </Doughnut>
         </div>
       </BoxMain>
