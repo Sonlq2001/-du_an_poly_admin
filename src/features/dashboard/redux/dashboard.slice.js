@@ -1,37 +1,46 @@
-import { createAsyncThunk,createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import _get from 'lodash.get';
 
-import {dashboardApi}  from  "./../api/dashboard.api"
+import { dashboardApi } from './../api/dashboard.api';
 
-export const DataDashboard = createAsyncThunk('dashboard/getdata', async ()=>{
- 
+export const getDataDashboard = createAsyncThunk(
+  'dashboard/getDataDashboard',
+  async (_params, { rejectWithValue }) => {
     try {
-        const response = await dashboardApi.getData();
-        return response.data
+      const response = await dashboardApi.getDataDashboard();
+      return response.data;
     } catch (error) {
-        
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
-    
-})
+  }
+);
 const initialState = {
-    data : null,
-    loading :  false
-}
-const DashboardSlice   = createSlice({
-    name: "dashboard",
-    initialState,
-    extraReducers:{
-        [DataDashboard.pending] :state =>{
-            state.loading = true
-        },
-        [DataDashboard.fulfilled] :(state,action) =>{
-            state.loading = false
-            state.data = action.payload
-            
-        },
-        [DataDashboard.pending] :state =>{
-            state.loading = false
-        },
-    }
-})
- const {reducer :  DashboardReducer}  = DashboardSlice
- export default  DashboardReducer
+  dataFeedbackNew: null,
+  dataViewChart: null,
+  totalProduct: null,
+  totalComment: null,
+  isDataDashboardLoading: false,
+};
+
+const dashboardSlice = createSlice({
+  name: 'dashboard',
+  initialState,
+  extraReducers: {
+    [getDataDashboard.pending]: (state) => {
+      state.isDataDashboardLoading = true;
+    },
+    [getDataDashboard.fulfilled]: (state, action) => {
+      state.isDataDashboardLoading = false;
+      state.dataFeedbackNew = action.payload?.feedback;
+      state.dataViewChart = action.payload?.data;
+      state.totalProduct = action.payload?.total_products;
+      state.totalComment = action.payload?.total_comments;
+    },
+    [getDataDashboard.rejected]: (state) => {
+      state.isDataDashboardLoading = false;
+    },
+  },
+});
+
+const { reducer: dashboardReducer } = dashboardSlice;
+export default dashboardReducer;
