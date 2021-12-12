@@ -14,4 +14,8 @@ export const labelIcons = {
   fiUsers: 'FiUsers',
   giMagnifyingGlass: 'GiMagnifyingGlass',
   fiType: 'FiType',
+  bsChat: 'BsChat',
+  biBookAlt: 'BiBookAlt',
+  mdMailOutline: 'MdMailOutline',
+  bsPersonPlus: 'BsPersonPlus',
 };

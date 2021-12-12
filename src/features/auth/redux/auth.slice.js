@@ -73,6 +73,7 @@ const authSlice = createSlice({
             items: handleGroupMenu,
           };
         });
+        console.log(result);
         state.permission = result;
       }
     },

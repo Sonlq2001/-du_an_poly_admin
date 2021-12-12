@@ -2,11 +2,12 @@ import React, { memo, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RiDashboardLine, RiSettings4Line } from 'react-icons/ri';
-import { BsBag } from 'react-icons/bs';
-import { BiSitemap } from 'react-icons/bi';
+import { BsBag, BsChat, BsPersonPlus } from 'react-icons/bs';
+import { BiSitemap, BiBookAlt } from 'react-icons/bi';
 import { FiBookOpen, FiUsers, FiType } from 'react-icons/fi';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { GiMagnifyingGlass } from 'react-icons/gi';
+import { MdMailOutline } from 'react-icons/md';
 
 import { WrapSidebar, ListMenu, ItemLink } from './Sidebar.styles';
 import LogoFpt from 'assets/images/logo.png';
@@ -104,6 +105,18 @@ const Sidebar = () => {
                           break;
                         case labelIcons.fiType:
                           componentIcon = <FiType />;
+                          break;
+                        case labelIcons.bsChat:
+                          componentIcon = <BsChat />;
+                          break;
+                        case labelIcons.biBookAlt:
+                          componentIcon = <BiBookAlt />;
+                          break;
+                        case labelIcons.mdMailOutline:
+                          componentIcon = <MdMailOutline />;
+                          break;
+                        case labelIcons.bsPersonPlus:
+                          componentIcon = <BsPersonPlus />;
                           break;
                         default:
                           break;
