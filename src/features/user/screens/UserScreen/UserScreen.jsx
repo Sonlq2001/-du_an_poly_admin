@@ -48,8 +48,8 @@ const UserScreen = () => {
   const [isOpenDeleteUser, setIsOpenDeleteUser] = useState(false);
   const [itemUser, setItemUser] = useState(null);
   const [pagination, setPagination] = useState({
-    page: defaultPaginationParams.page,
-    pageLength: defaultPaginationParams.pageLength,
+    page: defaultPaginationParams?.page,
+    pageLength: defaultPaginationParams?.pageLength,
   });
 
   useEffect(() => {

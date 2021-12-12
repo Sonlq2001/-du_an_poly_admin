@@ -35,11 +35,9 @@ const ConfirmScreen = () => {
   const dispatch = useDispatch();
   const { path } = useParams();
 
-  const {
-    productTypes,
-    productDetail,
-    loadingDetail,
-  } = useSelector((state) => state.product);
+  const { productTypes, productDetail, loadingDetail } = useSelector(
+    (state) => state.product
+  );
   const { useLogin } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(true);
   const [pagination, setPagination] = useState({
@@ -166,77 +164,77 @@ const ConfirmScreen = () => {
             />
           </BoxControl>
         </BoxSearchInput>
-        <div className={Advanced ? "showFilter" : "hidenFilter"}>
-        <BoxSearchInput>
-          <BoxControl className="box-control">
-            <label htmlFor="" className="label-control">
-              Bộ môn
-            </label>
-            <Select
-              className="select-option input-search"
-              options={[
-                { label: 'Quản trị', value: 1 },
-                { label: 'Giáo vụ', value: 2 },
-                { label: 'Giảng viên', value: 3 },
-                { label: 'Sinh viên', value: 4 },
-              ]}
-              placeholder="Tìm theo bộ môn"
-              onChange={(e) => Filter(e, 'master_user')}
-            />
-          </BoxControl>
+        <div className={Advanced ? 'showFilter' : 'hidenFilter'}>
+          <BoxSearchInput>
+            <BoxControl className="box-control">
+              <label htmlFor="" className="label-control">
+                Bộ môn
+              </label>
+              <Select
+                className="select-option input-search"
+                options={[
+                  { label: 'Quản trị', value: 1 },
+                  { label: 'Giáo vụ', value: 2 },
+                  { label: 'Giảng viên', value: 3 },
+                  { label: 'Sinh viên', value: 4 },
+                ]}
+                placeholder="Tìm theo bộ môn"
+                onChange={(e) => Filter(e, 'master_user')}
+              />
+            </BoxControl>
 
-          <BoxControl className="box-control">
-            <label htmlFor="" className="label-control">
-              Kì học
-            </label>
-            <Select
-              className="select-option input-search"
-              options={
-                listSelectOptionSemester ? listSelectOptionSemester : []
-              }
-              placeholder="Tìm theo kì học"
-              onChange={(e) => Filter(e, 'semester')}
-            />
-          </BoxControl>
-        </BoxSearchInput>
-        <BoxSearchInput>
-          <BoxControl className="box-control">
-            <label htmlFor="" className="label-control">
-              Cơ sở
-            </label>
-            <Select
-              className="select-option input-search"
-              options={listSelectOptionCampuses}
-              placeholder="Tìm theo Cơ Sở "
-              onChange={(e) => Filter(e, 'campus')}
-            />
-          </BoxControl>
-          <BoxControl className="box-control">
-            <label htmlFor="" className="label-control">
-              Trạng thái
-            </label>
-            <Select
-              className="select-option input-search"
-              options={[
-                { label: 'Giảng viên phê duyệt ', value: 1 },
-                { label: 'Chủ nhiệm phê duyệt ', value: 2 },
-                { label: 'Chưa thêm ', value: 0 },
-                { label: 'Phê duyệt ', value: 3 },
-              ]}
-              placeholder="Trạng Thái "
-              onChange={(e) => HandlerStatus(e)}
-            />
-          </BoxControl>
-        </BoxSearchInput>
+            <BoxControl className="box-control">
+              <label htmlFor="" className="label-control">
+                Kì học
+              </label>
+              <Select
+                className="select-option input-search"
+                options={
+                  listSelectOptionSemester ? listSelectOptionSemester : []
+                }
+                placeholder="Tìm theo kì học"
+                onChange={(e) => Filter(e, 'semester')}
+              />
+            </BoxControl>
+          </BoxSearchInput>
+          <BoxSearchInput>
+            <BoxControl className="box-control">
+              <label htmlFor="" className="label-control">
+                Cơ sở
+              </label>
+              <Select
+                className="select-option input-search"
+                options={listSelectOptionCampuses}
+                placeholder="Tìm theo Cơ Sở "
+                onChange={(e) => Filter(e, 'campus')}
+              />
+            </BoxControl>
+            <BoxControl className="box-control">
+              <label htmlFor="" className="label-control">
+                Trạng thái
+              </label>
+              <Select
+                className="select-option input-search"
+                options={[
+                  { label: 'Giảng viên phê duyệt ', value: 1 },
+                  { label: 'Chủ nhiệm phê duyệt ', value: 2 },
+                  { label: 'Chưa thêm ', value: 0 },
+                  { label: 'Phê duyệt ', value: 3 },
+                ]}
+                placeholder="Trạng Thái "
+                onChange={(e) => HandlerStatus(e)}
+              />
+            </BoxControl>
+          </BoxSearchInput>
         </div>
       </WrapContent>
 
       <ConfirmTable
         result={result}
-
         pagination={pagination}
         setPagination={setPagination}
       />
+
       {loadingDetail ? (
         <>
           {productDetail !== undefined && (

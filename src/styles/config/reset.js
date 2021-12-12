@@ -11,6 +11,7 @@ const ResetCss = () => {
 		 	font-family: 'Roboto', sans-serif;
 			 line-height: 1.6rem;
 			 color: var(--txt-color);
+			 scroll-behavior: smooth;
 		}
 
 		ul {

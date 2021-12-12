@@ -24,22 +24,25 @@ import {
   GroupAction,
   BoxMain,
   ListAction,
-  PendingSearch,
 } from './ConfirmTable.styles';
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import ReviewProduct from './../Review/ReviewProduct';
 import RemoveProduct from './../RemoveProduct/RemoveProduct';
 import { useDispatch, useSelector } from 'react-redux';
 import { approveProduct } from '../../redux/product.slice';
-import GroupAlert from './../../../../components/AlertMessage/AlertMessage';
+import GroupAlert from 'components/AlertMessage/AlertMessage';
 import Refuse from '../ActionProduct/refuse/Refuse';
 import { useSortableData } from 'helpers/sortingTable/sortingTable';
+import NotFound from 'components/NotFound/NotFound';
+import Loading from 'components/Loading/Loading';
 
 const ConfirmTable = ({ result, setPagination, pagination }) => {
   const dispatch = useDispatch();
-  const { useLogin } = useSelector((state) => state.auth);
-
-  const { listProduct, loadingSeach } = useSelector((state) => state.product);
+  const { listProduct, isProductLoading, useLogin } = useSelector((state) => ({
+    listProduct: state.product?.listProduct,
+    isProductLoading: state.product?.isProductLoading,
+    useLogin: state.auth?.useLogin,
+  }));
   const [open, setOpen] = useState(false);
   const [openRemove, setOpenRemove] = useState(false);
   const [itemRemove, setItemRemove] = useState(null);
@@ -100,234 +103,228 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
   );
   return (
     <WrapContent>
+      {isProductLoading && <Loading />}
       <BoxMain>
         {result === 2 && (
           <div className="messengers">
             Kết quả tìm kiếm : {listProduct ? listProduct.length : '0'}
           </div>
         )}
-        <TableCustom className="table-confirm">
-          <Thead>
-            <Tr>
-              <Th sort onClick={() => requestSort('id')}>
-                STT
-              </Th>
-              <Th sort onClick={() => requestSort('name')}>
-                Tên đề tài
-              </Th>
-              <Th sort onClick={() => requestSort('class')}>
-                Lớp
-              </Th>
-              <Th sort onClick={() => requestSort('subject')}>
-                Môn
-              </Th>
-              <Th className="fix-th" sort>
-                Kỳ học
-              </Th>
-              <Th sort onClick={() => requestSort('students')}>
-                Thành viên
-              </Th>
-              <Th align="right">Action</Th>
-            </Tr>
-          </Thead>
-          {loadingSeach ? (
-            <div className="loading-items">
-              <PendingSearch>
-                <div className="group-pending"></div>
-              </PendingSearch>
-            </div>
-          ) : (
-            <>
-              {dataSort?.length > 0 ? (
-                <Tbody>
-                  {dataSort.map((item, index) => {
-                    return (
-                      <Tr key={index}>
-                        <Td> {item.id}</Td>
-                        <Td>{item.name} </Td>
-                        <Td>{item.class} </Td>
-                        <Td>{item.subject && item.subject.name} </Td>
-                        <Td> </Td>
-                        <Td>
-                          {item.students &&
-                            item.students.map((element, i) => {
-                              return (
-                                <li key={i}>
-                                  {element.name} - {element.student_code}
-                                </li>
-                              );
-                            })}
-                        </Td>
-                        <Td>
-                          <GroupAction>
-                            <span
-                              className="show-action"
-                              onClick={() => setIsShowAction(item.id)}
+
+        {listProduct && dataSort?.length > 0 ? (
+          <>
+            <TableCustom className="table-confirm">
+              <Thead>
+                <Tr>
+                  <Th sort onClick={() => requestSort('id')}>
+                    STT
+                  </Th>
+                  <Th sort onClick={() => requestSort('name')}>
+                    Tên đề tài
+                  </Th>
+                  <Th sort onClick={() => requestSort('class')}>
+                    Lớp
+                  </Th>
+                  <Th sort onClick={() => requestSort('subject')}>
+                    Môn
+                  </Th>
+                  <Th className="fix-th" sort>
+                    Kỳ học
+                  </Th>
+                  <Th sort onClick={() => requestSort('students')}>
+                    Thành viên
+                  </Th>
+                  <Th align="right">Thao tác</Th>
+                </Tr>
+              </Thead>
+
+              <Tbody>
+                {dataSort.map((item) => {
+                  return (
+                    <Tr key={item?.id}>
+                      <Td> {item?.id}</Td>
+                      <Td>{item?.name} </Td>
+                      <Td>{item?.class} </Td>
+                      <Td>{item?.subject?.name} </Td>
+                      <Td> </Td>
+                      <Td>
+                        {item?.students?.map((element, index) => {
+                          return (
+                            <li key={index}>
+                              {element?.name} - {element?.student_code}
+                            </li>
+                          );
+                        })}
+                      </Td>
+                      <Td>
+                        <GroupAction>
+                          <span
+                            className="show-action"
+                            onClick={() => setIsShowAction(item?.id)}
+                          >
+                            <BiDotsVerticalRounded />
+                          </span>
+
+                          {item?.id === isShowAction && (
+                            <OutsideClickHandler
+                              onOutsideClick={() => setIsShowAction(null)}
                             >
-                              <BiDotsVerticalRounded />
-                            </span>
-
-                            {item.id === isShowAction && (
-                              <OutsideClickHandler
-                                onOutsideClick={() => setIsShowAction(null)}
-                              >
-                                <ListAction>
-                                  {/* chấp nhận  */}
-                                  {item.status === 1 && (
-                                    // giảng viên phê duyệt
-                                    <button
-                                      disabled={
-                                        useLogin.id === item.teacher_id &&
-                                        !disableButton
-                                          ? false
-                                          : true
-                                      }
-                                      className="item-action"
-                                      onClick={() => handleConfirm(item)}
-                                    >
-                                      {isLoading ? (
-                                        <span className="loader"></span>
-                                      ) : (
-                                        <span className="icon-action">
-                                          <FiCheck />
-                                        </span>
-                                      )}
-                                      Chấp nhận lần 1
-                                    </button>
-                                  )}
-                                  {item.status === 2 && (
-                                    // chủ nhiệm phê duyệt
-                                    <button
-                                      className="item-action"
-                                      disabled={!disableButton ? false : true}
-                                      onClick={() => handleConfirm(item)}
-                                    >
-                                      {isLoading ? (
-                                        <span className="loader"></span>
-                                      ) : (
-                                        <span className="icon-action">
-                                          <FiCheck />
-                                        </span>
-                                      )}
-                                      Chấp nhận lần 2
-                                    </button>
-                                  )}
-
-                                  {/* xem trươcs */}
-                                  <div
+                              <ListAction>
+                                {/* chấp nhận  */}
+                                {item.status === 1 && (
+                                  // giảng viên phê duyệt
+                                  <button
+                                    disabled={
+                                      useLogin.id === item.teacher_id &&
+                                      !disableButton
+                                        ? false
+                                        : true
+                                    }
                                     className="item-action"
-                                    onClick={() => {
-                                      review(item);
-                                      setOpen(true);
-                                    }}
+                                    onClick={() => handleConfirm(item)}
+                                  >
+                                    {isLoading ? (
+                                      <span className="loader"></span>
+                                    ) : (
+                                      <span className="icon-action">
+                                        <FiCheck />
+                                      </span>
+                                    )}
+                                    Chấp nhận lần 1
+                                  </button>
+                                )}
+                                {item.status === 2 && (
+                                  // chủ nhiệm phê duyệt
+                                  <button
+                                    className="item-action"
+                                    disabled={!disableButton ? false : true}
+                                    onClick={() => handleConfirm(item)}
+                                  >
+                                    {isLoading ? (
+                                      <span className="loader"></span>
+                                    ) : (
+                                      <span className="icon-action">
+                                        <FiCheck />
+                                      </span>
+                                    )}
+                                    Chấp nhận lần 2
+                                  </button>
+                                )}
+
+                                {/* xem trươcs */}
+                                <div
+                                  className="item-action"
+                                  onClick={() => {
+                                    review(item);
+                                    setOpen(true);
+                                  }}
+                                >
+                                  <span className="icon-action">
+                                    <AiOutlineEye />
+                                  </span>
+                                  Xem trước
+                                </div>
+                                {/* cập nhật  */}
+                                <div className="item-action">
+                                  <span className="icon-action">
+                                    <MdModeEdit />
+                                  </span>
+                                  <Link to={`/product/update/${item.id}`}>
+                                    {' '}
+                                    Sửa
+                                  </Link>
+                                </div>
+                                {/* từ trối */}
+                                {item.status === 1 && (
+                                  <button
+                                    disabled={
+                                      useLogin.id === item.teacher_id &&
+                                      !disableButton
+                                        ? false
+                                        : true
+                                    }
+                                    className="item-action "
+                                    onClick={() =>
+                                      handleRefuse(item) +
+                                      setDisableButton(true)
+                                    }
                                   >
                                     <span className="icon-action">
-                                      <AiOutlineEye />
+                                      <BiExit />
                                     </span>
-                                    Xem trước
-                                  </div>
-                                  {/* cập nhật  */}
-                                  <div className="item-action">
-                                    <span className="icon-action">
-                                      <MdModeEdit />
-                                    </span>
-                                    <Link to={`/product/update/${item.id}`}>
-                                      {' '}
-                                      Sửa
-                                    </Link>
-                                  </div>
-                                  {/* từ trối */}
-                                  {item.status === 1 && (
-                                    <button
-                                      disabled={
-                                        useLogin.id === item.teacher_id &&
-                                        !disableButton
-                                          ? false
-                                          : true
-                                      }
-                                      className="item-action "
-                                      onClick={() =>
-                                        handleRefuse(item) +
-                                        setDisableButton(true)
-                                      }
-                                    >
-                                      <span className="icon-action">
-                                        <BiExit />
-                                      </span>
-                                      Từ chối
-                                    </button>
-                                  )}
-                                  {item.status === 2 && (
-                                    <button
-                                      disabled={
-                                        useLogin.id === item.teacher_id &&
-                                        !disableButton
-                                          ? false
-                                          : false
-                                      }
-                                      className="item-action "
-                                      onClick={() =>
-                                        handleRefuse(item) +
-                                        setDisableButton(true)
-                                      }
-                                    >
-                                      <span className="icon-action">
-                                        <BiExit />
-                                      </span>
-                                      Từ chối
-                                    </button>
-                                  )}
-                                  {
-                                    item.status === 3 && ''
-                                    // <button
-                                    //   disabled={!disableButton ? false : true}
-                                    //   hidden={true}
-                                    //   className="item-action "
-                                    //   onClick={() =>
-                                    //     handleRefuse(item) + setDisableButton(true)
-                                    //   }
-                                    // >
-                                    //   <span className="icon-action">
-                                    //     <BiExit />
-                                    //   </span>
-                                    //   Từ chối
-                                    // </button>
-                                  }
-
-                                  {/* xóa  */}
-                                  <div
-                                    className="item-action"
-                                    onClick={() => removeProduct(item)}
+                                    Từ chối
+                                  </button>
+                                )}
+                                {item.status === 2 && (
+                                  <button
+                                    disabled={
+                                      useLogin.id === item.teacher_id &&
+                                      !disableButton
+                                        ? false
+                                        : false
+                                    }
+                                    className="item-action "
+                                    onClick={() =>
+                                      handleRefuse(item) +
+                                      setDisableButton(true)
+                                    }
                                   >
                                     <span className="icon-action">
-                                      <RiDeleteBinFill />
+                                      <BiExit />
                                     </span>
-                                    Xóa
-                                  </div>
-                                </ListAction>
-                              </OutsideClickHandler>
-                            )}
-                          </GroupAction>
-                        </Td>
-                      </Tr>
-                    );
-                  })}
-                </Tbody>
-              ) : (
-                <div className="loading-item"></div>
-              )}
-            </>
-          )}
-        </TableCustom>
-        <GroupPagination>
-          <TablePagination
-            pageLengthMenu={[10, 20, 50, 100]}
-            page={pagination.page}
-            pageLength={pagination.pageLength}
-            totalRecords={100}
-            onPageChange={handlePagination}
-          />
-        </GroupPagination>
+                                    Từ chối
+                                  </button>
+                                )}
+                                {
+                                  item.status === 3 && ''
+                                  // <button
+                                  //   disabled={!disableButton ? false : true}
+                                  //   hidden={true}
+                                  //   className="item-action "
+                                  //   onClick={() =>
+                                  //     handleRefuse(item) + setDisableButton(true)
+                                  //   }
+                                  // >
+                                  //   <span className="icon-action">
+                                  //     <BiExit />
+                                  //   </span>
+                                  //   Từ chối
+                                  // </button>
+                                }
+
+                                {/* xóa  */}
+                                <div
+                                  className="item-action"
+                                  onClick={() => removeProduct(item)}
+                                >
+                                  <span className="icon-action">
+                                    <RiDeleteBinFill />
+                                  </span>
+                                  Xóa
+                                </div>
+                              </ListAction>
+                            </OutsideClickHandler>
+                          )}
+                        </GroupAction>
+                      </Td>
+                    </Tr>
+                  );
+                })}
+              </Tbody>
+            </TableCustom>
+            <GroupPagination>
+              <TablePagination
+                pageLengthMenu={[10, 20, 50, 100]}
+                page={pagination.page}
+                pageLength={pagination.pageLength}
+                totalRecords={100}
+                onPageChange={handlePagination}
+              />
+            </GroupPagination>
+          </>
+        ) : (
+          <NotFound />
+        )}
       </BoxMain>
 
       {/* chi tiết sản phẩm  */}

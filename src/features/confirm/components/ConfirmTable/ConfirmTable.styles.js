@@ -24,36 +24,6 @@ export const GroupAction = styled.div`
     font-size: 2rem;
   }
 `;
-export const PendingSearch = styled.div`
-  min-height: 50vh;
-  background-color: #d0caca26;
-  border-radius: 10px;
-  .group-pending {
-    position: absolute;
-    top: 20%;
-    left: 45%;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    border-top: 2px solid yellow;
-    border-bottom: 2px solid red;
-    animation: loading 2s linear infinite;
-  }
-  @keyframes loading {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
-  .text-pending {
-    margin-top: 7rem;
-    font-size: 1.4rem;
-    color: var(--aaa-color);
-  }
-`;
 export const ListAction = styled.div`
   position: absolute;
   top: -2rem;
