@@ -14,6 +14,7 @@ import permissionsReducer from 'features/permissions/redux/permissions.slice';
 import campusesReducer from 'features/campuses/redux/campuses.slice';
 import dashboardReducer from 'features/dashboard/redux/dashboard.slice';
 import feedbackReducer from 'features/feedback/redux/feedback.slice';
+import commentReducer from 'features/comment/redux/comment.slice';
 
 const rootReducer = combineReducers({
   dashboard: dashboardReducer,
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   permission: permissionsReducer,
   campuses: campusesReducer,
   feedback: feedbackReducer,
+  comment: commentReducer,
 });
 
 export default rootReducer;

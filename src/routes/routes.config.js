@@ -12,10 +12,13 @@ import { SEMESTER_ROUTES } from './../features/semester/routes/semester.routes';
 import { ROLE_ROUTES } from '../features/role/routes/Role.routes';
 import { PERMISSIONS_ROUTES } from 'features/permissions/routes/Permissions.routes';
 import { PRODUCT_UPDATE_ROUTES } from 'features/productUpdate/routes/product-update.routes';
+import { COMMENT_ROUTES } from 'features/comment/routes/comment.routes';
+
 export const ROOT_ROUTE = '/';
 export const AUTH_ROUTE = '/sign-in';
 
 export const LIST_ROUTES = [
+  ...COMMENT_ROUTES,
   ...PRODUCT_UPDATE_ROUTES,
   ...PERMISSIONS_ROUTES,
   ...ROLE_ROUTES,
