@@ -1,12 +1,13 @@
 import React, { memo, useState, useMemo } from 'react';
-import { BiSearchAlt2 } from 'react-icons/bi';
+import { BiSearchAlt2, BiLogOut } from 'react-icons/bi';
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import { GrTopCorner } from 'react-icons/gr';
-import { BiLogOut } from 'react-icons/bi';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import { compile } from 'path-to-regexp';
+import { AiOutlineProfile } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 
 import {
   WrapNavbar,
@@ -22,6 +23,7 @@ import {
 } from './Navbar.styles';
 import { LIST_ROUTES } from 'routes/routes.config';
 import { postLogout } from 'features/auth/redux/auth.slice';
+import { USER_PATHS } from 'features/user/constants/user.paths';
 
 const FAKE_NOTIFICATION = [
   {
@@ -50,11 +52,11 @@ const Navbar = () => {
 
   const {
     pageTitle: ReduxPageTitle,
-    useLogin,
+    userLogin,
     accessToken,
   } = useSelector((state) => ({
     pageTitle: state.common.pageTitle,
-    useLogin: state.auth.useLogin,
+    userLogin: state.auth.userLogin,
     accessToken: state.auth.accessToken,
   }));
 
@@ -121,10 +123,10 @@ const Navbar = () => {
           </GroupNotification>
 
           <NavControl>
-            {useLogin && accessToken && (
+            {userLogin && accessToken && (
               <div className="box-control">
-                <img src={useLogin?.avatar} alt="" className="avatar-user" />
-                {useLogin?.email}
+                <img src={userLogin?.avatar} alt="" className="avatar-user" />
+                {userLogin?.email}
                 <div
                   className="icon-drop"
                   onClick={() => setActionUser(!actionUser)}
@@ -137,9 +139,16 @@ const Navbar = () => {
             <OutsideClickHandler onOutsideClick={() => setActionUser(false)}>
               <ListAction className={`${actionUser ? 'active' : ''}`}>
                 <li className="item-action">
+                  <Link
+                    to={USER_PATHS.USER_PROFILE.replace(/:id/, userLogin?.id)}
+                    className="link-action"
+                  >
+                    <AiOutlineProfile className="icon-action" />
+                    Thông tin cá nhân
+                  </Link>
                   <button className="link-action" onClick={handleLogout}>
                     <BiLogOut className="icon-action" />
-                    Logout
+                    Đăng xuất
                   </button>
                 </li>
               </ListAction>

@@ -38,7 +38,7 @@ const ConfirmScreen = () => {
   const { productTypes, productDetail, loadingDetail } = useSelector(
     (state) => state.product
   );
-  const { useLogin } = useSelector((state) => state.auth);
+  const { userLogin } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(true);
   const [pagination, setPagination] = useState({
     page: defaultPaginationParams.page,
@@ -61,8 +61,8 @@ const ConfirmScreen = () => {
     dispatch(getListCampuses());
   }, [dispatch]);
   const getDataUser = useCallback(() => {
-    dispatch(productUser({ user_id: useLogin.id }));
-  }, [dispatch, useLogin]);
+    dispatch(productUser({ user_id: userLogin.id }));
+  }, [dispatch, userLogin]);
 
   useEffect(() => {
     dispatch(getSemesters());
@@ -90,7 +90,7 @@ const ConfirmScreen = () => {
         clearTimeout(timeOutString.current);
       }
       timeOutString.current = setTimeout(async () => {
-        const response = await dispatch(productUser({ user_id: useLogin.id }));
+        const response = await dispatch(productUser({ user_id: userLogin.id }));
         setResult(1);
         if (productUser.fulfilled.match(response)) {
           setResult(2);
