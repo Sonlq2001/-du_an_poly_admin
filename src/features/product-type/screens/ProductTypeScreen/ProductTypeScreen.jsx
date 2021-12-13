@@ -159,7 +159,7 @@ const ProductTypeScreen = () => {
             <Button
               disabled={!listChecked.length || isLoading}
               onClick={handleRemoveAll}
-              Loading={isLoading}
+              loading={isLoading}
             >
               Xóa tất cả
             </Button>

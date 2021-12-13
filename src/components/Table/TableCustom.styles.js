@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 
 export const GroupTale = styled.div`
-  /* overflow-x: auto; */
+  overflow-x: auto;
   position: relative;
-  min-height: 300px;
-  .loading-item{
+  .loading-item {
     position: absolute;
     width: 100%;
     background-color: white;
@@ -14,7 +13,7 @@ export const GroupTale = styled.div`
     z-index: 0;
     text-align: center;
   }
-  .loading-items{
+  .loading-items {
     position: absolute;
     width: 100%;
     background-color: white;
@@ -26,7 +25,6 @@ export const GroupTale = styled.div`
   }
 `;
 export const Table = styled.table`
-
   border-collapse: collapse;
   width: 100%;
   background-color: var(--white-color);
@@ -36,24 +34,23 @@ export const Table = styled.table`
     margin: 2rem 0rem;
     text-align: center;
   }
-  .resultLoader{
+  .resultLoader {
     width: 18px;
     height: 18px;
-    padding:10px;
+    padding: 10px;
     margin: 10px;
     border-radius: 50%;
     border-top: 2px solid blue;
-    animation: loader 2s infinite linear ;
+    animation: loader 2s infinite linear;
   }
   @keyframes loader {
-        0%{
-          transform :  rotate(0deg);
-        }
-        100%{
-          transform :  rotate(360deg);
-        }
+    0% {
+      transform: rotate(0deg);
     }
-
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 `;
 
 export const TableTr = styled.tr`

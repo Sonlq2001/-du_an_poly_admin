@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef } from 'react';
+import React, { memo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RiDashboardLine, RiSettings4Line } from 'react-icons/ri';
@@ -27,8 +27,6 @@ const Sidebar = () => {
   const { listPermission } = useSelector((state) => ({
     listPermission: state.auth?.permission,
   }));
-
-  const result = useRef(null);
 
   return (
     <WrapSidebar>
