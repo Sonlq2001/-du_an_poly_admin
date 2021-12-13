@@ -38,10 +38,10 @@ import Loading from 'components/Loading/Loading';
 
 const ConfirmTable = ({ result, setPagination, pagination }) => {
   const dispatch = useDispatch();
-  const { listProduct, isProductLoading, useLogin } = useSelector((state) => ({
+  const { listProduct, isProductLoading, userLogin } = useSelector((state) => ({
     listProduct: state.product?.listProduct,
     isProductLoading: state.product?.isProductLoading,
-    useLogin: state.auth?.useLogin,
+    userLogin: state.auth?.userLogin,
   }));
   const [open, setOpen] = useState(false);
   const [openRemove, setOpenRemove] = useState(false);
@@ -175,7 +175,7 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                                   // giảng viên phê duyệt
                                   <button
                                     disabled={
-                                      useLogin.id === item.teacher_id &&
+                                      userLogin.id === item.teacher_id &&
                                       !disableButton
                                         ? false
                                         : true
@@ -238,7 +238,7 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                                 {item.status === 1 && (
                                   <button
                                     disabled={
-                                      useLogin.id === item.teacher_id &&
+                                      userLogin.id === item.teacher_id &&
                                       !disableButton
                                         ? false
                                         : true
@@ -258,7 +258,7 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                                 {item.status === 2 && (
                                   <button
                                     disabled={
-                                      useLogin.id === item.teacher_id &&
+                                      userLogin.id === item.teacher_id &&
                                       !disableButton
                                         ? false
                                         : false

@@ -56,16 +56,22 @@ const UserScreen = () => {
     dispatch(getUsers(pagination));
   }, [dispatch, pagination]);
 
-  const { isListUserLoading, listUser, total } = useSelector((state) => ({
-    isListUserLoading: state.user?.isListUserLoading,
-    listUser: state.user?.listUser,
-    total: state.user?.total,
-  }));
+  const { isListUserLoading, listUser, total, userLogin } = useSelector(
+    (state) => ({
+      isListUserLoading: state.user?.isListUserLoading,
+      listUser: state.user?.listUser,
+      total: state.user?.total,
+      userLogin: state.auth?.userLogin,
+    })
+  );
+
+  const filterUser = listUser.filter((user) => user.id !== userLogin?.id);
+
   const addUser = () => {
     setOpen(true);
   };
 
-  const { dataSort, requestSort } = useSortableData(listUser);
+  const { dataSort, requestSort } = useSortableData(filterUser ?? []);
   const handlePagination = (dataPagination) => {
     setPagination({
       ...pagination,

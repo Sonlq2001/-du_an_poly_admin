@@ -30,7 +30,7 @@ import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import Refuse from '../ActionProduct/refuse/Refuse';
 const ReviewProduct = ({ data, setOpen }) => {
   const dispatch = useDispatch();
-  const { useLogin } = useSelector((state) => state.auth);
+  const { userLogin } = useSelector((state) => state.auth);
   const [itemRefuse, setItemRefuse] = useState(false);
   const [refuse, setRefuse] = useState(null);
   const [loadingApprove, setLoadingApprove] = useState(false);
@@ -103,7 +103,7 @@ const ReviewProduct = ({ data, setOpen }) => {
                 {/* chấp nhận  */}
                 {data.status === 1 && (
                   <button
-                    disabled={useLogin.id !== data.teacher_id}
+                    disabled={userLogin.id !== data.teacher_id}
                     className="btn-item"
                     onClick={() => handleConfirm(data)}
                   >
@@ -127,7 +127,7 @@ const ReviewProduct = ({ data, setOpen }) => {
                 {/* từ trối */}
                 <button
                   className="btn-item"
-                  disabled={useLogin?.id !== data.teacher_id}
+                  disabled={userLogin?.id !== data.teacher_id}
                   onClick={() => handleRefuse(data)}
                 >
                   {loadingRefuse ? (
@@ -141,7 +141,7 @@ const ReviewProduct = ({ data, setOpen }) => {
                 {/* xóa  */}
                 <button
                   className="btn-item"
-                  disabled={useLogin?.id !== data.teacher_id}
+                  disabled={userLogin?.id !== data.teacher_id}
                 >
                   Xóa
                 </button>

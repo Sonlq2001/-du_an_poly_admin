@@ -30,7 +30,7 @@ export const postLogout = createAsyncThunk('auth/postLogout', async () => {
 
 const initialState = {
   accessToken: null,
-  useLogin: null,
+  userLogin: null,
   permission: [],
   listPermission: [],
 };
@@ -51,7 +51,7 @@ const authSlice = createSlice({
     [postAccessToken.fulfilled]: (state, action) => {
       const { email, avatar, id } = action.payload.user;
       state.accessToken = action?.payload.access_token;
-      state.useLogin = { avatar, email, id };
+      state.userLogin = { avatar, email, id };
       const keys = [1, 2, 3, 4];
 
       const listPermission = action.payload.user?.role;
@@ -83,13 +83,13 @@ const authSlice = createSlice({
     },
     [postLogout.fulfilled]: (state) => {
       state.accessToken = null;
-      state.useLogin = null;
+      state.userLogin = null;
       state.permission = [];
       localStorage.clear();
     },
     [postLogout.rejected]: (state) => {
       state.accessToken = null;
-      state.useLogin = null;
+      state.userLogin = null;
     },
   },
 });
@@ -97,7 +97,7 @@ const authSlice = createSlice({
 const authConfig = {
   key: 'auth',
   storage,
-  whitelist: ['accessToken', 'useLogin', 'permission'],
+  whitelist: ['accessToken', 'userLogin', 'permission'],
 };
 
 export const { getPermissions } = authSlice.actions;
