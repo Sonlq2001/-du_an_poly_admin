@@ -201,10 +201,14 @@ const CommentScreen = () => {
                           disabled={!row?.get_reply.length}
                           size="small"
                           icon={<FaEye />}
-                          to={COMMENT_PATHS.COMMENT_DETAIL.replace(
-                            /:id/,
-                            row?.id
-                          )}
+                          to={
+                            row?.get_reply.length
+                              ? COMMENT_PATHS.COMMENT_DETAIL.replace(
+                                  /:id/,
+                                  row?.id
+                                )
+                              : ''
+                          }
                         />
                         <Button
                           color="danger"

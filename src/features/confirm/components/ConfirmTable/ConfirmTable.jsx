@@ -35,6 +35,11 @@ import Refuse from '../ActionProduct/refuse/Refuse';
 import { useSortableData } from 'helpers/sortingTable/sortingTable';
 import NotFound from 'components/NotFound/NotFound';
 import Loading from 'components/Loading/Loading';
+import HightLightText from 'components/HightLightText/HightLightText';
+import {
+  labelStatusProduct,
+  valueStatusProduct,
+} from 'constants/app.constants';
 
 const ConfirmTable = ({ result, setPagination, pagination }) => {
   const dispatch = useDispatch();
@@ -134,19 +139,34 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                   <Th sort onClick={() => requestSort('students')}>
                     Thành viên
                   </Th>
+                  <Th>Trạng thái</Th>
                   <Th align="right">Thao tác</Th>
                 </Tr>
               </Thead>
 
               <Tbody>
                 {dataSort.map((item) => {
+                  let statusProduct = null;
+                  switch (item?.status) {
+                    case valueStatusProduct.one:
+                      statusProduct = labelStatusProduct.confirm1;
+                      break;
+                    case valueStatusProduct.two:
+                      statusProduct = labelStatusProduct.confirm2;
+                      break;
+                    case valueStatusProduct.three:
+                      statusProduct = labelStatusProduct.done;
+                      break;
+                    default:
+                      break;
+                  }
                   return (
-                    <Tr key={item?.id}>
+                    <Tr key={item?.id} status={item?.status}>
                       <Td> {item?.id}</Td>
                       <Td>{item?.name} </Td>
                       <Td>{item?.class} </Td>
                       <Td>{item?.subject?.name} </Td>
-                      <Td> </Td>
+                      <Td></Td>
                       <Td>
                         {item?.students?.map((element, index) => {
                           return (
@@ -155,6 +175,11 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                             </li>
                           );
                         })}
+                      </Td>
+                      <Td>
+                        <HightLightText status={item?.status}>
+                          {statusProduct}
+                        </HightLightText>
                       </Td>
                       <Td>
                         <GroupAction>
