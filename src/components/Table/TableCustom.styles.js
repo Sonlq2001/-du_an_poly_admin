@@ -89,7 +89,7 @@ export const TableTr = styled.tr`
         case 3:
           return '-9.5rem';
         case 2:
-          return '-9.5rem';
+          return '-15rem';
         case 1:
           return '-15rem';
         default:
@@ -103,7 +103,7 @@ export const TableTr = styled.tr`
         case 3:
           return '-6rem';
         case 2:
-          return '-6rem';
+          return '-10rem';
         case 1:
           return '-10rem';
         default:
