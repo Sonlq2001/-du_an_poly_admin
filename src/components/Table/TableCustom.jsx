@@ -18,8 +18,12 @@ export const Tbody = ({ children, className }) => {
   return <tbody className={className}>{children}</tbody>;
 };
 
-export const Tr = ({ children, className }) => {
-  return <TableTr className={className}>{children}</TableTr>;
+export const Tr = ({ children, className, ...props }) => {
+  return (
+    <TableTr className={className} {...props}>
+      {children}
+    </TableTr>
+  );
 };
 
 export const Th = ({ children, sort = false, className, align, onClick }) => {

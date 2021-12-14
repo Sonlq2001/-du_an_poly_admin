@@ -13,7 +13,7 @@ import { WrapSidebar, ListMenu, ItemLink } from './Sidebar.styles';
 import LogoFpt from 'assets/images/logo.png';
 import { DASHBOARD_PATH } from 'features/dashboard/constants/dashboard.paths';
 import { getPermissions } from 'features/auth/redux/auth.slice';
-import { labelSidebar, labelIcons } from 'constants/value-string.constants';
+import { labelSidebar, labelIcons } from 'constants/app.constants';
 
 const Sidebar = () => {
   const dispatch = useDispatch();
