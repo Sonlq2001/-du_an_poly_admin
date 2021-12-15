@@ -8,6 +8,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { compile } from 'path-to-regexp';
 import { AiOutlineProfile } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+import { CgMenuLeft } from 'react-icons/cg';
 
 import {
   WrapNavbar,
@@ -43,7 +44,7 @@ const FAKE_NOTIFICATION = [
   },
 ];
 
-const Navbar = () => {
+const Navbar = ({ clickBar }) => {
   const [actionUser, setActionUser] = useState(false);
   const [isNotification, setIsNotification] = useState(false);
   const dispatch = useDispatch();
@@ -77,9 +78,16 @@ const Navbar = () => {
     dispatch(postLogout());
   };
 
+  const handleShowSidebar = () => {
+    clickBar();
+  };
+
   return (
     <WrapNavbar>
       <NavbarLeft>
+        <div className="menu-bar" onClick={handleShowSidebar}>
+          <CgMenuLeft />
+        </div>
         <h1 className="title-admin">{pageTitle}</h1>
       </NavbarLeft>
       <NavbarRight>
@@ -124,13 +132,13 @@ const Navbar = () => {
 
           <NavControl>
             {userLogin && accessToken && (
-              <div className="box-control">
+              <div
+                className="box-control"
+                onClick={() => setActionUser(!actionUser)}
+              >
                 <img src={userLogin?.avatar} alt="" className="avatar-user" />
-                {userLogin?.email}
-                <div
-                  className="icon-drop"
-                  onClick={() => setActionUser(!actionUser)}
-                >
+                <span className="name-user">{userLogin?.email}</span>
+                <div className="icon-drop">
                   <GrTopCorner />
                 </div>
               </div>

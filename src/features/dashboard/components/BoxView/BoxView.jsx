@@ -2,11 +2,11 @@ import React, { memo } from 'react';
 import { IoMdCloudDownload } from 'react-icons/io';
 import { BsFillChatDotsFill } from 'react-icons/bs';
 
-import { BoxViewItem } from './BoxView.styles';
+import { WrapBoxView, BoxViewItem } from './BoxView.styles';
 
 const BoxView = ({ totalComment }) => {
   return (
-    <div>
+    <WrapBoxView>
       <BoxViewItem>
         <div className="box-icon icon-download">
           <IoMdCloudDownload />
@@ -25,7 +25,7 @@ const BoxView = ({ totalComment }) => {
           <div className="box-view">{totalComment ?? 0}</div>
         </div>
       </BoxViewItem>
-    </div>
+    </WrapBoxView>
   );
 };
 

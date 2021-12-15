@@ -8,14 +8,20 @@ import { FiBookOpen, FiUsers, FiType } from 'react-icons/fi';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { GiMagnifyingGlass } from 'react-icons/gi';
 import { MdMailOutline } from 'react-icons/md';
+import { IoIosClose } from 'react-icons/io';
 
-import { WrapSidebar, ListMenu, ItemLink } from './Sidebar.styles';
+import {
+  WrapSidebar,
+  ListMenu,
+  ItemLink,
+  SidebarHeader,
+} from './Sidebar.styles';
 import LogoFpt from 'assets/images/logo.png';
 import { DASHBOARD_PATH } from 'features/dashboard/constants/dashboard.paths';
 import { getPermissions } from 'features/auth/redux/auth.slice';
 import { labelSidebar, labelIcons } from 'constants/app.constants';
 
-const Sidebar = () => {
+const Sidebar = ({ isShowBar, clickBar }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     const routesPermission = JSON.parse(
@@ -29,10 +35,15 @@ const Sidebar = () => {
   }));
 
   return (
-    <WrapSidebar>
-      <Link to="/">
-        <img src={LogoFpt} alt="" className="img-logo" />
-      </Link>
+    <WrapSidebar className={`${isShowBar && 'active'}`}>
+      <SidebarHeader>
+        <Link to="/">
+          <img src={LogoFpt} alt="" className="img-logo" />
+        </Link>
+        <span className="close-bar" onClick={() => clickBar(!isShowBar)}>
+          <IoIosClose />
+        </span>
+      </SidebarHeader>
 
       <div className="group-sidebar scroll-delayed">
         <div className="content-sidebar ">
@@ -44,7 +55,7 @@ const Sidebar = () => {
               activeClassName="active"
             >
               <RiDashboardLine className="icon-menu" />
-              Quản trị Dashboard
+              <span className="name-menu">Quản trị Dashboard</span>
             </ItemLink>
           </div>
           {listPermission &&
@@ -134,7 +145,9 @@ const Sidebar = () => {
                               activeClassName="active"
                             >
                               <span className="icon-menu">{componentIcon}</span>
-                              {sidebarItem?.items[0]?.title}
+                              <span className="name-menu">
+                                {sidebarItem?.items[0]?.title}
+                              </span>
                             </ItemLink>
                           </li>
                         )

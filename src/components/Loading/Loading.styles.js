@@ -30,4 +30,10 @@ export const LoadingPage = styled.div`
       transform: rotate(360deg);
     }
   }
+  @media (max-width: 991.98px) {
+    left: ${({ isFullScreen }) => (isFullScreen ? 0 : '7.9rem')};
+  }
+  @media (max-width: 575.98px) {
+    left: 0;
+  }
 `;

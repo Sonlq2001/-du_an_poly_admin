@@ -1,20 +1,25 @@
-import React from "react";
+import React, { useState } from 'react';
 
-import { WrapApp } from "./DefaultLayout.styles";
-import Sidebar from "./../../components/Sidebar/Sidebar";
-import Navbar from "./../../components/Navbar/Navbar";
+import { WrapApp } from './DefaultLayout.styles';
+import Sidebar from './../../components/Sidebar/Sidebar';
+import Navbar from './../../components/Navbar/Navbar';
 
 const DefaultLayout = ({ children }) => {
-	return (
-		<WrapApp>
-			<Sidebar />
-			<div className="wrap-main">
-				<Navbar />
+  const [isShowBar, setIsShowBar] = useState(false);
 
-				<div className="wrap-content">{children}</div>
-			</div>
-		</WrapApp>
-	);
+  const handleShowBar = () => {
+    setIsShowBar(!isShowBar);
+  };
+
+  return (
+    <WrapApp>
+      <Sidebar isShowBar={isShowBar} clickBar={handleShowBar} />
+      <div className="wrap-main">
+        <Navbar clickBar={handleShowBar} />
+        <div className="wrap-content">{children}</div>
+      </div>
+    </WrapApp>
+  );
 };
 
 export default DefaultLayout;
