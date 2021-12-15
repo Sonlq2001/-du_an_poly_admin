@@ -210,7 +210,7 @@ const ConfirmScreen = () => {
 
       <ConfirmTable pagination={pagination} setPagination={setPagination} />
 
-      {loadingDetail ? (
+      {loadingDetail && (
         <>
           {productDetail !== undefined && (
             <PopupOverlay
@@ -227,8 +227,6 @@ const ConfirmScreen = () => {
             </PopupOverlay>
           )}
         </>
-      ) : (
-        ''
       )}
     </>
   );

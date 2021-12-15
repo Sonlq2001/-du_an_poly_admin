@@ -97,15 +97,14 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
     const response = await dispatch(
       actionDispatch({
         id: item?.id,
-        // status: item?.status + 1,
+        status: item?.status + 1,
         message: null,
       })
     );
-    console.log(response.payload);
     if (actionDispatch.fulfilled.match(response)) {
       toast.success('Chấp nhận thành công !');
     } else {
-      toast.error(_get(response.payload, 'name[0]'));
+      toast.error(_get(response.payload, 'status[0]'));
     }
     setIsShowAction(null);
     setIsLoading(false);
@@ -280,7 +279,8 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                                       className="item-action "
                                       onClick={() =>
                                         handleRefuse(row) +
-                                        setDisableButton(true)
+                                        setDisableButton(true) +
+                                        setIsShowAction(null)
                                       }
                                     >
                                       <span className="icon-action">
@@ -289,25 +289,6 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                                       Từ chối
                                     </button>
                                   )}
-
-                                {/* {item.status === 2 && (
-                                  <button
-                                    disabled={
-                                      userLogin.id === item.teacher_id &&
-                                      disableButton
-                                    }
-                                    className="item-action "
-                                    onClick={() =>
-                                      handleRefuse(item) +
-                                      setDisableButton(true)
-                                    }
-                                  >
-                                    <span className="icon-action">
-                                      <BiExit />
-                                    </span>
-                                    Từ chối
-                                  </button>
-                                )} */}
 
                                 {(row?.status === 1 ||
                                   row?.status === 2 ||
@@ -371,7 +352,7 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
         open={itemRefuse}
         setOpen={setItemRefuse}
         size="md"
-        title="Lý do ?"
+        title="Lý do"
         setDisableButton={setDisableButton}
       >
         <Refuse
