@@ -1,18 +1,49 @@
-import React, { memo } from 'react';
-import { RiDashboardLine } from 'react-icons/ri';
+import React, { memo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { RiDashboardLine, RiSettings4Line } from 'react-icons/ri';
+import { BsBag, BsChat, BsPersonPlus } from 'react-icons/bs';
+import { BiSitemap, BiBookAlt } from 'react-icons/bi';
+import { FiBookOpen, FiUsers, FiType } from 'react-icons/fi';
+import { AiOutlineCloudUpload } from 'react-icons/ai';
+import { GiMagnifyingGlass } from 'react-icons/gi';
+import { MdMailOutline } from 'react-icons/md';
+import { IoIosClose } from 'react-icons/io';
 
-import { WrapSidebar, ListMenu, ItemLink } from './Sidebar.styles';
+import {
+  WrapSidebar,
+  ListMenu,
+  ItemLink,
+  SidebarHeader,
+} from './Sidebar.styles';
 import LogoFpt from 'assets/images/logo.png';
-import { sidebars } from 'routes/sidebars.constants';
 import { DASHBOARD_PATH } from 'features/dashboard/constants/dashboard.paths';
+import { getPermissions } from 'features/auth/redux/auth.slice';
+import { labelSidebar, labelIcons } from 'constants/app.constants';
 
-const Sidebar = () => {
+const Sidebar = ({ isShowBar, clickBar }) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const routesPermission = JSON.parse(
+      JSON.parse(localStorage.getItem('persist:auth'))?.permission
+    );
+    dispatch(getPermissions(routesPermission));
+  }, [dispatch]);
+
+  const { listPermission } = useSelector((state) => ({
+    listPermission: state.auth?.permission,
+  }));
+
   return (
-    <WrapSidebar>
-      <Link to="/">
-        <img src={LogoFpt} alt="" className="img-logo" />
-      </Link>
+    <WrapSidebar className={`${isShowBar && 'active'}`}>
+      <SidebarHeader>
+        <Link to="/">
+          <img src={LogoFpt} alt="" className="img-logo" />
+        </Link>
+        <span className="close-bar" onClick={() => clickBar(!isShowBar)}>
+          <IoIosClose />
+        </span>
+      </SidebarHeader>
 
       <div className="group-sidebar scroll-delayed">
         <div className="content-sidebar ">
@@ -24,34 +55,109 @@ const Sidebar = () => {
               activeClassName="active"
             >
               <RiDashboardLine className="icon-menu" />
-              Quản trị Dashboard
+              <span className="name-menu">Quản trị Dashboard</span>
             </ItemLink>
           </div>
-          {sidebars.map((sidebar) => (
-            <ListMenu key={sidebar.title}>
-              {sidebar.title && (
-                <div className="title-sidebar">
-                  <span className="title-cate">{sidebar.title}</span>
-                </div>
-              )}
-              {sidebar?.items.map((sidebarItem) => (
-                <li className="item-menu" key={sidebarItem.id}>
-                  <ItemLink
-                    exact
-                    to={sidebarItem.path}
-                    className="link-menu"
-                    activeClassName="active"
-                  >
-                    {sidebarItem.icon && (
-                      <span className="icon-menu">{sidebarItem.icon}</span>
+          {listPermission &&
+            listPermission.map((sidebar, index) => {
+              if (sidebar?.items.length > 0) {
+                let titleGroup = null;
+                switch (sidebar.title) {
+                  case 1:
+                    titleGroup = labelSidebar.manager;
+                    break;
+                  case 2:
+                    titleGroup = labelSidebar.position;
+                    break;
+                  case 3:
+                    titleGroup = labelSidebar.import;
+                    break;
+                  case 4:
+                    titleGroup = labelSidebar.setting;
+                    break;
+                  default:
+                    break;
+                }
+                return (
+                  <ListMenu key={index}>
+                    {sidebar?.title && (
+                      <div className="title-sidebar">
+                        <span className="title-cate">{titleGroup}</span>
+                      </div>
                     )}
+                    {sidebar?.items.map((sidebarItem, index) => {
+                      let componentIcon = null;
+                      const nameIcon = sidebarItem?.items[0]?.icon
+                        .slice(1, sidebarItem?.items[0].icon.length - 2)
+                        .trim();
+                      switch (nameIcon) {
+                        case labelIcons.bsBag:
+                          componentIcon = <BsBag />;
+                          break;
+                        case labelIcons.biSitemap:
+                          componentIcon = <BiSitemap />;
+                          break;
+                        case labelIcons.fiBookOpen:
+                          componentIcon = <FiBookOpen />;
+                          break;
+                        case labelIcons.aiOutlineCloudUpload:
+                          componentIcon = <AiOutlineCloudUpload />;
+                          break;
+                        case labelIcons.riSettings4Line:
+                          componentIcon = <RiSettings4Line />;
+                          break;
+                        case labelIcons.fiUsers:
+                          componentIcon = <FiUsers />;
+                          break;
+                        case labelIcons.giMagnifyingGlass:
+                          componentIcon = <GiMagnifyingGlass />;
+                          break;
+                        case labelIcons.fiType:
+                          componentIcon = <FiType />;
+                          break;
+                        case labelIcons.bsChat:
+                          componentIcon = <BsChat />;
+                          break;
+                        case labelIcons.biBookAlt:
+                          componentIcon = <BiBookAlt />;
+                          break;
+                        case labelIcons.mdMailOutline:
+                          componentIcon = <MdMailOutline />;
+                          break;
+                        case labelIcons.bsPersonPlus:
+                          componentIcon = <BsPersonPlus />;
+                          break;
+                        default:
+                          break;
+                      }
 
-                    {sidebarItem.navigationTitle}
-                  </ItemLink>
-                </li>
-              ))}
-            </ListMenu>
-          ))}
+                      return (
+                        sidebarItem?.items.length !== 0 && (
+                          <li className="item-menu" key={index}>
+                            <ItemLink
+                              exact
+                              to={
+                                sidebarItem?.items.length === 1
+                                  ? sidebarItem?.items[0]?.url
+                                  : sidebarItem?.items[0]?.url
+                              }
+                              className="link-menu"
+                              activeClassName="active"
+                            >
+                              <span className="icon-menu">{componentIcon}</span>
+                              <span className="name-menu">
+                                {sidebarItem?.items[0]?.title}
+                              </span>
+                            </ItemLink>
+                          </li>
+                        )
+                      );
+                    })}
+                  </ListMenu>
+                );
+              }
+              return null;
+            })}
         </div>
       </div>
     </WrapSidebar>

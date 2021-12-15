@@ -1,7 +1,9 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const TextStyle = styled.span`
-	background-color: ${({ color }) => color};
-	padding: 5px;
-	border-radius: 5px;
+  display: inline-block;
+  background-color: ${({ color }) => color};
+  padding: 5px;
+  border-radius: 5px;
+  white-space: nowrap;
 `;

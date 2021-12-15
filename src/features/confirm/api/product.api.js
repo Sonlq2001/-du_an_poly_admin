@@ -1,57 +1,60 @@
 import api from 'api/api';
-import {
-  PRODUCT_PATH,
-  PRODUCT_TYPE,
-  CHAIRMAN_APPROVE_PATH,
-  CAMPUSES_PATH,
-} from './../constants/confirm.paths';
+import { PRODUCT_PATH } from './../constants/confirm.paths';
 
-const getListProduct = () => {
-  return api.get(PRODUCT_PATH.LIST);
-};
+import { CONFIRM_ENDPOINTS } from './../constants/confirm.endpoints';
 
 const putStatusProduct = (product) => {
   console.log('product', product);
 };
+
 const postProductApprove = (data) => {
-  if (data.status === 2 || data.status === 1) {
-    return api.post(
-      PRODUCT_PATH.APPROVE.replace(':id', data.id.toString()),
-      data
-    );
-  } else if (data.status === 3) {
-    const test = {
-      status: data.status,
-      message: data.message,
-    };
-    return api.put(
-      CHAIRMAN_APPROVE_PATH.CHAIRMAN_APPROVE.replace(':id', data.id.toString()),
-      test
-    );
-  }
+  return api.post(
+    CONFIRM_ENDPOINTS.POST_PRODUCT_APPROVE.replace(':id', data?.id),
+    data
+  );
 };
-const productRemove = (id) => {
-  return api.delete(PRODUCT_PATH.REMOVE.replace(':id', id.toString()));
+
+const putProductChairmanApproved = (data) => {
+  return api.put(
+    CONFIRM_ENDPOINTS.PUT_PRODUCT_APPROVE.replace(':id', data?.id),
+    data
+  );
 };
-const productTypes = () => {
-  return api.get(PRODUCT_TYPE.LIST);
+
+const deleteProduct = (id) => {
+  return api.delete(CONFIRM_ENDPOINTS.DELETE_PRODUCT.replace(':id', id));
 };
+
 const detailProduct = (id) => {
   return api.get(PRODUCT_PATH.DETAIL.replace(':id', id.toString()));
 };
-const getCampus = () => {
-  return api.get(CAMPUSES_PATH.LIST);
+
+const getProductUser = (id) => {
+  return api.post(CONFIRM_ENDPOINTS.GET_USER_PRODUCT, id);
 };
-const productUser  = (id)=>{
-  return  api.post(PRODUCT_PATH.PRODUCT_USER,id)
-}
+
+const postSearchProduct = (data) => {
+  return api.post(CONFIRM_ENDPOINTS.POST_FILTER_PRODUCT, data);
+};
+
+const postFilterCommonProduct = (data) => {
+  return api.post(CONFIRM_ENDPOINTS.POST_FILTER_COMMON_PRODUCT, data);
+};
+
+const getFilterStatusProduct = (status) => {
+  return api.get(
+    CONFIRM_ENDPOINTS.GET_FILTER_STATUS_PRODUCT.replace(':status', status)
+  );
+};
+
 export const confirmProductApi = {
-  getListProduct,
   putStatusProduct,
   postProductApprove,
-  productRemove,
-  productTypes,
+  deleteProduct,
   detailProduct,
-  getCampus,
-  productUser
+  getProductUser,
+  postSearchProduct,
+  postFilterCommonProduct,
+  getFilterStatusProduct,
+  putProductChairmanApproved,
 };

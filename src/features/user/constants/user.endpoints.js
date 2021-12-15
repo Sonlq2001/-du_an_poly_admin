@@ -3,4 +3,5 @@ export const USER_ENDPOINTS = {
   GET_USERS_DETAIL: '/users/:id',
   PUT_USER: '/users/:id',
   POST_USER: '/users/create',
+  DELETE_USER: '/users/:id',
 };

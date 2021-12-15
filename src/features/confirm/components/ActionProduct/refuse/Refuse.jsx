@@ -7,14 +7,9 @@ import * as Yup from 'yup';
 
 import { WrapFrom, GroupButton } from './Refuse.styles';
 import { Button } from 'components/Button/Button';
-import { approveProduct } from '../../../redux/product.slice';
+import { postProductApprove } from '../../../redux/product.slice';
 
-const Refuse = ({
-  item,
-  setItemRefuse,
-  setLoadingRefuse,
-  setDisableButton,
-}) => {
+const Refuse = ({ item, setItemRefuse, setDisableButton }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,14 +30,13 @@ const Refuse = ({
           message: values.message,
         };
         setDisableButton(true);
-        const response = await dispatch(approveProduct(detail));
-        if (approveProduct.fulfilled.match(response)) {
+        const response = await dispatch(postProductApprove(detail));
+        if (postProductApprove.fulfilled.match(response)) {
           toast.success('Từ chối thành công !');
-          setDisableButton(false);
         } else {
           toast.error(_get(response.payload, 'name[0]'));
-          setDisableButton(false);
         }
+        setDisableButton(false);
         setIsLoading(false);
         setItemRefuse(false);
 
@@ -62,7 +56,7 @@ const Refuse = ({
                 maxLength="51"
                 rows="3"
                 value={values.message}
-              ></textarea>
+              />
               <ErrorMessage
                 name="message"
                 className="error-message"

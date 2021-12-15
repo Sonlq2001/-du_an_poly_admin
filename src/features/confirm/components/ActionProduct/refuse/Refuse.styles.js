@@ -10,6 +10,10 @@ export const WrapFrom = styled.div`
     border: none;
     background-color: var(--bg-tr-table);
     padding: 1rem;
+    resize: none;
+  }
+  & textarea::placeholder {
+    font-family: 'Roboto', sans-serif;
   }
   & label {
     font-size: 1.4rem;

@@ -24,7 +24,6 @@ import {
   HeaderTable,
   BoxActionTable,
   GroupPagination,
-  EmptyResult,
 } from 'styles/common/common-styles';
 import Loading from 'components/Loading/Loading';
 import { Button } from 'components/Button/Button';
@@ -38,13 +37,15 @@ import { initForm } from 'features/role/helpers/role.helpers';
 
 import { getRole } from 'features/role/redux/role.slice';
 import { removeRoles } from 'features/role/redux/role.slice';
-import EmptyResultImage from 'assets/images/empty-result.gif';
 import { ROLE_PATHS } from '../../constants/role.paths';
+import { useSortableData } from 'helpers/sortingTable/sortingTable';
+import { defaultPaginationParams } from 'constants/api.constants';
+import NotFound from 'components/NotFound/NotFound';
 
 const headerCells = [
-  { label: 'STT', field: 'id', sort: true },
-  { label: 'Vai trò', field: 'id', sort: true },
-  { label: 'Thao tác', field: 'id', sort: false, align: 'right' },
+  { label: 'STT', fieldSort: 'id', sort: true },
+  { label: 'Vai trò', fieldSort: 'name', sort: true },
+  { label: 'Thao tác', sort: false, align: 'right' },
 ];
 
 const RoleScreen = () => {
@@ -53,19 +54,25 @@ const RoleScreen = () => {
   const [isDialogDeleteRole, setIsDialogDeleteRole] = useState(false);
   const [listChecked, setListChecked] = useState([]);
   const [isLoading, setLoading] = useState(false);
+  const [pagination, setPagination] = useState({
+    page: defaultPaginationParams.page,
+    pageLength: defaultPaginationParams.pageLength,
+  });
 
   const fetchData = useCallback(() => {
-    dispatch(getRole());
-  }, [dispatch]);
+    dispatch(getRole(pagination));
+  }, [dispatch, pagination]);
 
   useEffect(() => {
     fetchData();
   }, [dispatch, fetchData]);
 
-  const { listRole, isListRoleLoading } = useSelector((state) => ({
-    listRole: state.role.listRole,
-    isListRoleLoading: state.role.isListRoleLoading,
+  const { listRole, isListRoleLoading, total } = useSelector((state) => ({
+    listRole: state.role?.listRole,
+    isListRoleLoading: state.role?.isListRoleLoading,
+    total: state.role?.total,
   }));
+  const { dataSort, requestSort } = useSortableData(listRole);
 
   const isCheckedAll = useMemo(() => {
     return (
@@ -107,12 +114,16 @@ const RoleScreen = () => {
     });
   };
 
-  if (isListRoleLoading) {
-    return <Loading />;
-  }
+  const handlePagination = (dataPagination) => {
+    setPagination({
+      ...pagination,
+      ...dataPagination,
+    });
+  };
 
   return (
     <>
+      {isListRoleLoading && <Loading />}
       <TitleMain>Vai trò</TitleMain>
       <WrapContent>
         <TitleControl>Tìm kiếm</TitleControl>
@@ -132,20 +143,29 @@ const RoleScreen = () => {
 
       <WrapContent>
         <HeaderTable>
-          <Button
-            disabled={!listChecked.length || isLoading}
-            onClick={handleRemoveAll}
-            loading={isLoading}
-          >
-            Xóa tất cả
-          </Button>
-          <Button
-            to={ROLE_PATHS.ROLE_ACTION_ADD}
-            icon={<IoMdAdd />}
-            color="primary"
-          >
-            Thêm
-          </Button>
+          <div className="resultSeach">
+            {/* {messengerSort && (
+              <span>
+                Kết quả : &nbsp; {messengerSort} ( {listSubject.length} )
+              </span>
+            )} */}
+          </div>
+          <div className="buttonAction">
+            <Button
+              disabled={!listChecked.length || isLoading}
+              onClick={handleRemoveAll}
+              loading={isLoading}
+            >
+              Xóa tất cả
+            </Button>
+            <Button
+              to={ROLE_PATHS.ROLE_ACTION_ADD}
+              icon={<IoMdAdd />}
+              color="primary"
+            >
+              Thêm
+            </Button>
+          </div>
         </HeaderTable>
 
         {listRole && listRole.length > 0 ? (
@@ -160,23 +180,28 @@ const RoleScreen = () => {
                     />
                   </Th>
                   {headerCells.map((cell) => (
-                    <Th key={cell.label} sort={cell.sort} align={cell.align}>
+                    <Th
+                      key={cell.label}
+                      sort={cell.sort}
+                      align={cell.align}
+                      onClick={() => requestSort(cell?.fieldSort)}
+                    >
                       {cell.label}
                     </Th>
                   ))}
                 </Tr>
               </Thead>
               <Tbody>
-                {listRole.map((item, index) => (
-                  <Tr key={item.id}>
+                {dataSort.map((row) => (
+                  <Tr key={row?.id}>
                     <Td>
                       <CheckboxSingle
-                        checked={listChecked.includes(item.id)}
-                        onChange={() => handleChangeChecked(item.id)}
+                        checked={listChecked.includes(row?.id)}
+                        onChange={() => handleChangeChecked(row?.id)}
                       />
                     </Td>
-                    <Td>{index + 1}</Td>
-                    <Td>{item.name}</Td>
+                    <Td>{row?.id}</Td>
+                    <Td>{row?.name}</Td>
                     <Td>
                       <BoxActionTable>
                         <Button
@@ -185,7 +210,7 @@ const RoleScreen = () => {
                           size="small"
                           to={ROLE_PATHS.ROLE_ACTION_EDIT.replace(
                             ':id',
-                            item.id
+                            row?.id
                           )}
                         />
                         <Button
@@ -194,7 +219,7 @@ const RoleScreen = () => {
                           icon={<BsTrash />}
                           onClick={() => {
                             setIsDialogDeleteRole(true);
-                            setItemRole(item);
+                            setItemRole(row);
                           }}
                         />
                       </BoxActionTable>
@@ -206,19 +231,16 @@ const RoleScreen = () => {
 
             <GroupPagination>
               <TablePagination
-                pageLengthMenu={[20, 50, 100]}
-                page={1}
-                pageLength={listRole.length}
-                totalRecords={100}
-                onPageChange={() => null}
+                pageLengthMenu={defaultPaginationParams.pageLengthMenu}
+                page={pagination.page}
+                pageLength={pagination.pageLength}
+                totalRecords={total}
+                onPageChange={handlePagination}
               />
             </GroupPagination>
           </>
         ) : (
-          <EmptyResult>
-            <div>Không có kết quả nào</div>
-            <img src={EmptyResultImage} alt="" />
-          </EmptyResult>
+          <NotFound />
         )}
       </WrapContent>
 

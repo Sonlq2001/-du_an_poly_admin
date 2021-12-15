@@ -24,7 +24,6 @@ import {
   HeaderTable,
   BoxActionTable,
   GroupPagination,
-  EmptyResult,
 } from 'styles/common/common-styles';
 
 import { Button } from 'components/Button/Button';
@@ -35,10 +34,12 @@ import GroupAlert from 'components/AlertMessage/AlertMessage';
 import CheckboxSingle from 'components/FormElements/ElementCheckbox/CheckboxSingle';
 
 import { getSemester, removeSemester } from './../../redux/semester.slice';
-import EmptyResultImage from 'assets/images/empty-result.gif';
 import { initForm } from './../../helpers/semester.helpers';
 import ActionSemester from './../../components/ActionSemester/ActionSemester';
 import RemoveSemester from './../../components/RemoveSemester/RemoveSemester';
+import { useSortableData } from 'helpers/sortingTable/sortingTable';
+import { defaultPaginationParams } from 'constants/api.constants';
+import NotFound from 'components/NotFound/NotFound';
 
 const SemesterScreen = () => {
   const dispatch = useDispatch();
@@ -47,17 +48,28 @@ const SemesterScreen = () => {
   const [isDialogSemesterRemove, setIsDialogSemesterRemove] = useState(false);
   const [listChecked, setListChecked] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [pagination, setPagination] = useState({
+    page: defaultPaginationParams.page,
+    pageLength: defaultPaginationParams.pageLength,
+  });
 
   useEffect(() => {
-    dispatch(getSemester());
-  }, [dispatch]);
+    dispatch(getSemester(pagination));
+  }, [dispatch, pagination]);
 
-  const { listSemester, isListSemesterLoading } = useSelector(
-    (state) => state.semester
+  const { listSemester, isListSemesterLoading, total } = useSelector(
+    (state) => ({
+      listSemester: state.semester?.listSemester,
+      isListSemesterLoading: state.semester?.isListSemesterLoading,
+      total: state.semester?.total,
+    })
   );
+  const { dataSort, requestSort } = useSortableData(listSemester);
 
   const isCheckedAll = useMemo(() => {
-    return listSemester.every((i) => listChecked.includes(i.id));
+    return (
+      listSemester && listSemester.every((i) => listChecked.includes(i.id))
+    );
   }, [listSemester, listChecked]);
 
   const handleCheckedAll = (isChecked) => {
@@ -94,12 +106,16 @@ const SemesterScreen = () => {
     });
   };
 
-  if (isListSemesterLoading) {
-    return <Loading />;
-  }
+  const handlePagination = (dataPagination) => {
+    setPagination({
+      ...pagination,
+      ...dataPagination,
+    });
+  };
 
   return (
     <>
+      {isListSemesterLoading && <Loading />}
       <TitleMain>Kỳ học</TitleMain>
       <WrapContent>
         <TitleControl>Tìm kiếm</TitleControl>
@@ -119,7 +135,7 @@ const SemesterScreen = () => {
 
       <WrapContent>
         <HeaderTable>
-        <div className="resultSeach">
+          <div className="resultSeach">
             {/* {messengerSort && (
               <span>
                 Kết quả : &nbsp; {messengerSort} ( {listSubject.length} )
@@ -127,23 +143,23 @@ const SemesterScreen = () => {
             )} */}
           </div>
           <div className="buttonAction">
-          <Button
-            disabled={!listChecked.length || isLoading}
-            onClick={handleRemoveAll}
-            loading={isLoading}
-          >
-            Xóa tất cả
-          </Button>
-          <Button
-            icon={<IoMdAdd />}
-            color="primary"
-            onClick={() => {
-              setIsDialogSemester(true);
-              setItemSemester(initForm);
-            }}
-          >
-            Thêm
-          </Button>
+            <Button
+              disabled={!listChecked.length || isLoading}
+              onClick={handleRemoveAll}
+              loading={isLoading}
+            >
+              Xóa tất cả
+            </Button>
+            <Button
+              icon={<IoMdAdd />}
+              color="primary"
+              onClick={() => {
+                setIsDialogSemester(true);
+                setItemSemester(initForm);
+              }}
+            >
+              Thêm
+            </Button>
           </div>
         </HeaderTable>
 
@@ -158,22 +174,26 @@ const SemesterScreen = () => {
                       onChange={(e) => handleCheckedAll(e.target.checked)}
                     />
                   </Th>
-                  <Th sort>STT</Th>
-                  <Th sort>Kỳ học</Th>
+                  <Th sort onClick={() => requestSort('id')}>
+                    STT
+                  </Th>
+                  <Th sort onClick={() => requestSort('name')}>
+                    Kỳ học
+                  </Th>
                   <Th align="right">Thao tác</Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {listSemester.map((row, index) => (
-                  <Tr key={row.id}>
+                {dataSort.map((row) => (
+                  <Tr key={row?.id}>
                     <Td>
                       <CheckboxSingle
-                        checked={listChecked.includes(row.id)}
-                        onChange={() => handleChangeChecked(row.id)}
+                        checked={listChecked.includes(row?.id)}
+                        onChange={() => handleChangeChecked(row?.id)}
                       />
                     </Td>
-                    <Td>{index + 1}</Td>
-                    <Td>{row.name}</Td>
+                    <Td>{row?.id}</Td>
+                    <Td>{row?.name}</Td>
                     <Td>
                       <BoxActionTable>
                         <Button
@@ -202,19 +222,16 @@ const SemesterScreen = () => {
             </TableCustom>
             <GroupPagination>
               <TablePagination
-                pageLengthMenu={[20, 50, 100]}
-                page={1}
-                pageLength={10}
-                totalRecords={100}
-                onPageChange={() => null}
+                pageLengthMenu={defaultPaginationParams.pageLengthMenu}
+                page={pagination.page}
+                pageLength={pagination.pageLength}
+                totalRecords={total}
+                onPageChange={handlePagination}
               />
             </GroupPagination>
           </>
         ) : (
-          <EmptyResult>
-            <div>Không có kết quả nào</div>
-            <img src={EmptyResultImage} alt="" />
-          </EmptyResult>
+          <NotFound />
         )}
 
         {/* Dialog create / edit product type */}

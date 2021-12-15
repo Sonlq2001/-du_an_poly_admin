@@ -12,7 +12,7 @@ function useRedirectAfterLogin() {
   }));
 
   useEffect(() => {
-    if (accessToken) {
+    if (accessToken !== null) {
       history.push(redirect ?? '/');
     }
   }, [redirect, history, accessToken]);

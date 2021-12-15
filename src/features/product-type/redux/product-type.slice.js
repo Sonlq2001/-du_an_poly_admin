@@ -5,9 +5,9 @@ import { productTypeApi } from './../api/product-type.api';
 
 export const getProductType = createAsyncThunk(
   'productType/getProductType',
-  async (_, { rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
     try {
-      const response = await productTypeApi.getProductTypes();
+      const response = await productTypeApi.getProductTypes(params);
       return response.data;
     } catch (error) {
       return rejectWithValue(_get(error.response.data, 'errors', ''));
@@ -58,6 +58,7 @@ export const deleteProductType = createAsyncThunk(
 const initialState = {
   listProductType: [],
   isListProductTypeLoading: false,
+  total : null
 };
 
 const productTypeSlice = createSlice({
@@ -71,6 +72,7 @@ const productTypeSlice = createSlice({
     [getProductType.fulfilled]: (state, action) => {
       state.isListProductTypeLoading = false;
       state.listProductType = action.payload.product_types;
+      state.total = action.payload.total;
     },
     [getProductType.rejected]: (state) => {
       state.isListProductTypeLoading = false;

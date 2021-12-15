@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IoMdAdd } from 'react-icons/io';
 import { BsTrash } from 'react-icons/bs';
 import { MdModeEdit } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
 import {
   TableCustom,
@@ -23,7 +24,6 @@ import {
   HeaderTable,
   BoxActionTable,
   GroupPagination,
-  EmptyResult,
 } from 'styles/common/common-styles';
 import Loading from 'components/Loading/Loading';
 import { Button } from 'components/Button/Button';
@@ -36,13 +36,14 @@ import ActionMajors from './../components/ActionMajors/ActionMajors';
 import RemoveMajors from './../components/RemoveMajors/RemoveMajors';
 import { initForm } from './../helpers/majors.helpers';
 import { getMajors, removeMajors } from './../redux/majors.slice';
-import EmptyResultImage from 'assets/images/empty-result.gif';
-import { toast } from 'react-toastify';
+import { useSortableData } from 'helpers/sortingTable/sortingTable';
+import { defaultPaginationParams } from 'constants/api.constants';
+import NotFound from 'components/NotFound/NotFound';
 
 const headerCells = [
-  { label: 'STT', field: 'id', sort: true },
-  { label: 'Tên Chuyên Ngành', field: 'id', sort: true },
-  { label: 'Thao tác', field: 'id', sort: false, align: 'right' },
+  { label: 'STT', fieldSort: 'id', sort: true },
+  { label: 'Tên Chuyên Ngành', fieldSort: 'name', sort: true },
+  { label: 'Thao tác', sort: false, align: 'right' },
 ];
 
 const MajorsScreen = () => {
@@ -52,18 +53,33 @@ const MajorsScreen = () => {
   const [isDialogDeleteMajor, setIsDialogDeleteMajor] = useState(false);
   const [listChecked, setListChecked] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [pagination, setPagination] = useState({
+    page: defaultPaginationParams.page,
+    pageLength: defaultPaginationParams.pageLength,
+  });
 
   const fetchData = useCallback(() => {
-    dispatch(getMajors());
-  }, [dispatch]);
+    dispatch(getMajors(pagination));
+  }, [dispatch, pagination]);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-  const { listMajors, isMajorsLoading } = useSelector((state) => state.majors);
+  const { listMajors, isMajorsLoading, total } = useSelector((state) => ({
+    listMajors: state.majors?.listMajors,
+    isMajorsLoading: state.majors?.isMajorsLoading,
+    total: state.majors?.total,
+  }));
+  const { dataSort, requestSort } = useSortableData(listMajors);
+  const handlePagination = (dataPagination) => {
+    setPagination({
+      ...pagination,
+      ...dataPagination,
+    });
+  };
 
   const isCheckedAll = useMemo(() => {
-    return listMajors.every((i) => listChecked.includes(i.id));
+    return listMajors && listMajors.every((i) => listChecked.includes(i.id));
   }, [listMajors, listChecked]);
 
   const handleCheckedAll = (isChecked) => {
@@ -100,11 +116,9 @@ const MajorsScreen = () => {
     });
   };
 
-  if (isMajorsLoading) {
-    return <Loading />;
-  }
   return (
     <>
+      {isMajorsLoading && <Loading />}
       <TitleMain>Chuyên ngành</TitleMain>
       <WrapContent>
         <TitleControl>Tìm kiếm</TitleControl>
@@ -124,31 +138,31 @@ const MajorsScreen = () => {
 
       <WrapContent>
         <HeaderTable>
-        <div className="resultSeach">
+          <div className="resultSeach">
             {/* {messengerSort && (
               <span>
                 Kết quả : &nbsp; {messengerSort} ( {listSubject.length} )
               </span>
             )} */}
           </div>
-        <div className="buttonAction">
-          <Button
-            disabled={!listChecked.length || isLoading}
-            loading={isLoading}
-            onClick={handleRemoveAll}
-          >
-            Xóa tất cả
-          </Button>
-          <Button
-            icon={<IoMdAdd />}
-            color="primary"
-            onClick={() => {
-              setIsDialogActionMajor(true);
-              setItemMajors(initForm);
-            }}
-          >
-            Thêm
-          </Button>
+          <div className="buttonAction">
+            <Button
+              disabled={!listChecked.length || isLoading}
+              loading={isLoading}
+              onClick={handleRemoveAll}
+            >
+              Xóa tất cả
+            </Button>
+            <Button
+              icon={<IoMdAdd />}
+              color="primary"
+              onClick={() => {
+                setIsDialogActionMajor(true);
+                setItemMajors(initForm);
+              }}
+            >
+              Thêm
+            </Button>
           </div>
         </HeaderTable>
 
@@ -164,23 +178,28 @@ const MajorsScreen = () => {
                     />
                   </Th>
                   {headerCells.map((cell) => (
-                    <Th key={cell.label} sort={cell.sort} align={cell.align}>
+                    <Th
+                      key={cell.label}
+                      sort={cell.sort}
+                      align={cell.align}
+                      onClick={() => requestSort(cell?.fieldSort)}
+                    >
                       {cell.label}
                     </Th>
                   ))}
                 </Tr>
               </Thead>
               <Tbody>
-                {listMajors.map((item, index) => (
-                  <Tr key={item.id}>
+                {dataSort.map((item) => (
+                  <Tr key={item?.id}>
                     <Td>
                       <CheckboxSingle
-                        checked={listChecked.includes(item.id)}
-                        onChange={() => handleChangeChecked(item.id)}
+                        checked={listChecked.includes(item?.id)}
+                        onChange={() => handleChangeChecked(item?.id)}
                       />
                     </Td>
-                    <Td>{index + 1}</Td>
-                    <Td>{item.name}</Td>
+                    <Td>{item?.id}</Td>
+                    <Td>{item?.name}</Td>
                     <Td>
                       <BoxActionTable>
                         <Button
@@ -209,19 +228,16 @@ const MajorsScreen = () => {
             </TableCustom>
             <GroupPagination>
               <TablePagination
-                pageLengthMenu={[20, 50, 100]}
-                page={1}
-                pageLength={listMajors.length}
-                totalRecords={100}
-                onPageChange={() => null}
+                pageLengthMenu={defaultPaginationParams.pageLengthMenu}
+                page={pagination.page}
+                pageLength={pagination.pageLength}
+                totalRecords={total}
+                onPageChange={handlePagination}
               />
             </GroupPagination>
           </>
         ) : (
-          <EmptyResult>
-            <div>Không có kết quả nào</div>
-            <img src={EmptyResultImage} alt="" />
-          </EmptyResult>
+          <NotFound />
         )}
       </WrapContent>
 

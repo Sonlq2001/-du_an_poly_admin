@@ -2,8 +2,8 @@ import api from 'api/api';
 
 import { PRODUCT_TYPE_ENDPOINTS } from '../constants/product-type.endpoints';
 
-const getProductTypes = () => {
-  return api.get(PRODUCT_TYPE_ENDPOINTS.GET_PRODUCT_TYPE);
+const getProductTypes = (params) => {
+  return api.get(PRODUCT_TYPE_ENDPOINTS.GET_PRODUCT_TYPE, { params });
 };
 
 const postProductTypes = (value) => {

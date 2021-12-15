@@ -7,6 +7,7 @@ const ROLE_SCREEN = {
   path: ROLE_PATHS.LIST,
   component: lazy(() => import('../screens/RoleScreen/RoleScreen')),
   pageTitle: 'Quản trị vai trò',
+  isPrivateRoute: true,
 };
 
 const ROLE_ACTION_ADD_SCREEN = {

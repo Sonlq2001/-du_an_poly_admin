@@ -5,9 +5,9 @@ import { majorsApi } from '../api/majors.api';
 
 export const getMajors = createAsyncThunk(
   'majors/getMajors',
-  async (_, { rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
     try {
-      const response = await majorsApi.getMajors();
+      const response = await majorsApi.getMajors(params);
       return response.data;
     } catch (error) {
       return rejectWithValue(_get(error.response.data, 'errors', ''));
@@ -53,6 +53,7 @@ export const putMajors = createAsyncThunk(
 
 const initialState = {
   listMajors: [],
+  total: null,
   isMajorsLoading: false,
 };
 
@@ -68,6 +69,7 @@ const majorsSlice = createSlice({
     [getMajors.fulfilled]: (state, action) => {
       state.isMajorsLoading = false;
       state.listMajors = action.payload.data;
+      state.total = action.payload.total;
     },
     [getMajors.rejected]: (state) => {
       state.isMajorsLoading = false;

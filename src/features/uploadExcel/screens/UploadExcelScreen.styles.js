@@ -27,6 +27,15 @@ export const GroupUpload = styled.div`
     display: flex;
     justify-content: flex-end;
   }
+  .btn-download {
+    font-size: 1.4rem;
+    padding: 1rem 1.5rem;
+    background-color: var(--eee-color);
+    border-radius: 5px;
+    &:hover {
+      opacity: 0.9;
+    }
+  }
 `;
 export const HeaderUpload = styled.div`
   display: flex;

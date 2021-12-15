@@ -19,11 +19,11 @@ const ActionPermissions = ({ item, setOpen }) => {
   const itemPermission = item?.name
     ? {
         id: item.id,
-        name: item.name,
-        type: item.type,
-        title: item.view_permission[0].title,
-        url: item.view_permission[0].url,
-        icon: item.view_permission[0].icon,
+        name: item?.name,
+        type: item?.type,
+        title: item?.view_permission[0]?.title,
+        url: item?.view_permission[0]?.url,
+        icon: item?.view_permission[0]?.icon,
       }
     : item;
 
@@ -39,11 +39,11 @@ const ActionPermissions = ({ item, setOpen }) => {
             id: item.id,
             name: values.name,
             type: values.type,
+            status: 0,
             view_permissions: [
               { title: values.title, url: values.url, icon: values.icon },
             ],
           };
-
           const dispatchAction = item?.name ? putPermissions : postPermissions;
 
           const response = await dispatch(dispatchAction(newObj));

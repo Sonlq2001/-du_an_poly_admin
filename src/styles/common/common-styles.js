@@ -8,8 +8,55 @@ export const WrapContent = styled.div`
   border-radius: 5px;
   background-color: var(--white-color);
   padding: 2rem;
+  height: auto;
   & + & {
     margin-top: 2rem;
+  }
+  .titleSearch {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+  .titleSearch span {
+    padding: 2px 8px;
+    font-size: 11px;
+    height: 32px;
+    background-color: #f0ecec;
+    border-radius: 10px;
+    line-height: 28px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .titleSearch span:hover {
+    cursor: pointer;
+  }
+  .titleSearch span .icon {
+    font-size: 25px;
+  }
+  .sortVip {
+    margin-top: 5rem;
+    transition: 2s ease;
+    opacity: 0;
+  }
+  .activeAdvanced {
+    margin-top: 5rem;
+    transition: 2s ease;
+    opacity: 1;
+  }
+  .hidenFilter {
+    margin-top: 18px;
+    opacity: 0;
+    visibility: hidden;
+    max-height: 0;
+    transition: 0.3s ease-in-out;
+  }
+  .showFilter {
+    margin-top: 18px;
+    opacity: 1;
+    visibility: visible;
+    max-height: 15rem;
+    transition: 0.3s ease-in-out;
+    margin-bottom: 15px;
   }
 `;
 export const TitleMain = styled.h3`
@@ -81,7 +128,6 @@ export const HeaderTable = styled.div`
     align-items: center;
     justify-content: flex-end;
     margin-bottom: 2rem;
-    float-w
   }
   .resultSeach {
     font-size: 1.7rem;
@@ -99,14 +145,4 @@ export const GroupPagination = styled.div`
 export const BoxActionTable = styled.div`
   display: flex;
   justify-content: flex-end;
-`;
-export const EmptyResult = styled.div`
-  font-size: 1.5rem;
-  text-align: center;
-  .text-result {
-    font-size: 1.5rem;
-  }
-  img {
-    height: 20rem;
-  }
 `;

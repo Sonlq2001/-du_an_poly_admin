@@ -1,32 +1,28 @@
 import styled from 'styled-components';
 
 export const BoxMain = styled.div`
-  .table-confirm .fix-th {
-    min-width: 8rem;
-  }
-  .fix-td {
-    text-align: center;
+  position: relative;
+  .messengers {
+    padding: 0.6rem 0px 1.5rem 0rem;
+    font-size: 1.8rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
 `;
-
 export const GroupAction = styled.div`
   text-align: right;
   position: relative;
-  z-index: 200;
   .show-action {
     cursor: pointer;
     font-size: 2rem;
   }
 `;
-
 export const ListAction = styled.div`
   position: absolute;
-  top: -2rem;
-  right: 3rem;
+  right: 0rem;
   background-color: var(--white-color);
-  box-shadow: 0 0 1rem var(--eee-color);
+  box-shadow: 2px 2px 1rem var(--ddd-color);
   border-radius: 5px;
-  z-index: 0;
+  z-index: 50;
   overflow: hidden;
   .item-action {
     white-space: nowrap;
@@ -41,7 +37,7 @@ export const ListAction = styled.div`
   .icon-action {
     padding-right: 7px;
   }
-  & a{
+  & a {
     color: black;
     display: block;
   }
@@ -75,6 +71,9 @@ export const ListAction = styled.div`
     display: inline-block;
     margin-right: 7px;
   }
+  &.active {
+    display: block;
+  }
   @keyframes spin {
     0% {
       transform: rotate(0deg);
@@ -85,8 +84,13 @@ export const ListAction = styled.div`
   }
 `;
 
-export const GroupPagination = styled.div`
+export const GroupStudent = styled.div`
+  overflow: hidden;
   display: flex;
-  justify-content: flex-end;
-  margin-top: 2rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  span + span {
+    padding-left: 5px;
+  }
 `;

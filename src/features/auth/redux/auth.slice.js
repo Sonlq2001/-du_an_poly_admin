@@ -30,13 +30,19 @@ export const postLogout = createAsyncThunk('auth/postLogout', async () => {
 
 const initialState = {
   accessToken: null,
-  useLogin: null,
+  userLogin: null,
+  permission: [],
+  listPermission: [],
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducer: {},
+  reducers: {
+    getPermissions: (state, action) => {
+      state.listPermission = action.payload;
+    },
+  },
   extraReducers: {
     // login
     [postAccessToken.pending]: (state) => {
@@ -45,7 +51,30 @@ const authSlice = createSlice({
     [postAccessToken.fulfilled]: (state, action) => {
       const { email, avatar, id } = action.payload.user;
       state.accessToken = action?.payload.access_token;
-      state.useLogin = { avatar, email, id };
+      state.userLogin = { avatar, email, id };
+      const keys = [1, 2, 3, 4];
+
+      const listPermission = action.payload.user?.role;
+      if (listPermission.length > 0) {
+        const result = keys.map((key) => {
+          const groupMenu = listPermission[0]?.permission.filter(
+            (item) => item.status === key
+          );
+
+          const handleGroupMenu = groupMenu.map((item) => {
+            return {
+              status: item?.status,
+              items: item?.view_permission,
+              icon: item?.icon,
+            };
+          });
+          return {
+            title: handleGroupMenu[0]?.status,
+            items: handleGroupMenu,
+          };
+        });
+        state.permission = result;
+      }
     },
 
     // logout
@@ -54,13 +83,13 @@ const authSlice = createSlice({
     },
     [postLogout.fulfilled]: (state) => {
       state.accessToken = null;
-      state.useLogin = null;
+      state.userLogin = null;
+      state.permission = [];
       localStorage.clear();
-      state.messenger = '';
     },
     [postLogout.rejected]: (state) => {
       state.accessToken = null;
-      state.useLogin = null;
+      state.userLogin = null;
     },
   },
 });
@@ -68,7 +97,9 @@ const authSlice = createSlice({
 const authConfig = {
   key: 'auth',
   storage,
-  whitelist: ['accessToken', 'useLogin'],
+  whitelist: ['accessToken', 'userLogin', 'permission'],
 };
+
+export const { getPermissions } = authSlice.actions;
 
 export const authReducer = persistReducer(authConfig, authSlice.reducer);

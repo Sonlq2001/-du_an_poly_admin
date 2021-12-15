@@ -1,72 +1,39 @@
 import styled from 'styled-components';
 
-export const WrapLoader = styled.div`
+export const LoadingPage = styled.div`
   position: fixed;
   top: 0;
-  left: 0;
-  bottom: 0;
+  left: ${({ isFullScreen }) => (isFullScreen ? 0 : '27.9rem')};
   right: 0;
-  background-color: rgba(255, 255, 255, 0.7);
-  z-index: 200;
-
-  .wrapper {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
+  bottom: 0;
+  background-color: ${({ isFullScreen }) =>
+    isFullScreen ? 'rgba(255,255,255, 1)' : 'rgba(255,255,255, 0.8)'};
+  z-index: 2000;
   .loader {
     position: absolute;
-    width: 2.5rem;
-    height: 2.5rem;
-    animation: rotate 3.2s linear infinite;
+    top: ${({ isFullScreen }) => (isFullScreen ? '50%' : '40%')};
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid var(--eee-color);
+    border-radius: 50%;
+    border-top: 2px solid var(--blue-color);
+    border-bottom: 2px solid var(--blue-color);
+    width: 25px;
+    height: 25px;
+    animation: spin 0.5s linear infinite;
   }
-
-  @keyframes rotate {
-    30% {
-      transform: rotate(220deg);
-    }
-    40% {
-      transform: rotate(450deg);
-    }
-    75% {
-      transform: rotate(720deg);
-      opacity: 1;
-    }
-    76% {
-      opacity: 0;
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
     }
     100% {
-      transform: rotate(0deg);
-      opacity: 0;
+      transform: rotate(360deg);
     }
   }
-
-  .loader:nth-child(1) {
-    animation-delay: 0.15s;
+  @media (max-width: 991.98px) {
+    left: ${({ isFullScreen }) => (isFullScreen ? 0 : '7.9rem')};
   }
-  .loader:nth-child(2) {
-    animation-delay: 0.3s;
-  }
-  .loader:nth-child(3) {
-    animation-delay: 0.45s;
-  }
-  .loader:nth-child(4) {
-    animation-delay: 0.6s;
-  }
-  .loader:nth-child(5) {
-    animation-delay: 0.75s;
-  }
-  .loader:nth-child(6) {
-    animation-delay: 0.9s;
-  }
-
-  .element {
-    height: 4.5px;
-    width: 4.5px;
-    background-color: var(--blue-color);
-    border-radius: 50%;
-    position: relative;
+  @media (max-width: 575.98px) {
+    left: 0;
   }
 `;

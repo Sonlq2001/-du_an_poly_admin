@@ -18,3 +18,8 @@ export const PRODUCT_TYPE = {
 export const CAMPUSES_PATH = {
   LIST: '/campuses',
 };
+export const SEARCH_PATH = {
+  SEARCH_NAME : "/filter/products",
+  FILTER_PATH : "/filter",
+  FILTE_STATUS  :"/filter/products/:id"
+}

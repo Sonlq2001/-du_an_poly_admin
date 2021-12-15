@@ -2,8 +2,8 @@ import api from 'api/api';
 
 import { MAJORS_ENDPOINTS } from '../constants/majors.endpoints';
 
-const getMajors = () => {
-  return api.get(MAJORS_ENDPOINTS.GET_MAJORS);
+const getMajors = (params) => {
+  return api.get(MAJORS_ENDPOINTS.GET_MAJORS, { params });
 };
 
 const postMajors = (majors) => {

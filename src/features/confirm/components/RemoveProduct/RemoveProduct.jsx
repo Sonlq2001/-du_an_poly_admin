@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import _get from 'lodash.get';
 
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import { MessagePopup } from './RemoveProduct.styles';
-import { removeProduct } from 'features/confirm/redux/product.slice';
+import { deleteProduct } from 'features/confirm/redux/product.slice';
 
 const RemoveProduct = ({ item, open, setOpen }) => {
   const dispatch = useDispatch();
@@ -13,11 +12,11 @@ const RemoveProduct = ({ item, open, setOpen }) => {
 
   const handleRemoveProduct = async () => {
     setIsLoading(true);
-    const response = await dispatch(removeProduct(item?.id));
-    if (removeProduct.fulfilled.match(response)) {
+    const response = await dispatch(deleteProduct(item?.id));
+    if (deleteProduct.fulfilled.match(response)) {
       toast.success('Xóa thành công !');
     } else {
-      toast.error(_get(response.payload, 'name[0]'));
+      toast.error(response.payload);
     }
     setIsLoading(false);
     setOpen(false);

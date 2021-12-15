@@ -5,9 +5,9 @@ import { roleApi } from '../api/role.api';
 
 export const getRole = createAsyncThunk(
   'role/getRole',
-  async (_, { rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
     try {
-      const response = await roleApi.getRole();
+      const response = await roleApi.getRole(params);
       return response.data;
     } catch (error) {
       return rejectWithValue(_get(error.response.data, 'errors', ''));
