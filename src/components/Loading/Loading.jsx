@@ -1,32 +1,20 @@
-import React, { memo } from "react";
+import React, { memo } from 'react';
 
-import { WrapLoader } from "./Loading.styles";
+import { LoadingPage } from './Loading.styles';
 
-const Loading = () => {
-	return (
-		<WrapLoader>
-			<div className="wrapper">
-				<div className="loader">
-					<div className="element"></div>
-				</div>
-				<div className="loader">
-					<div className="element"></div>
-				</div>
-				<div className="loader">
-					<div className="element"></div>
-				</div>
-				<div className="loader">
-					<div className="element"></div>
-				</div>
-				<div className="loader">
-					<div className="element"></div>
-				</div>
-				<div className="loader">
-					<div className="element"></div>
-				</div>
-			</div>
-		</WrapLoader>
-	);
+const Loading = ({ isFullScreen }) => {
+  if (isFullScreen) {
+    return (
+      <LoadingPage isFullScreen={true}>
+        <div className="loader" />
+      </LoadingPage>
+    );
+  }
+  return (
+    <LoadingPage>
+      <div className="loader" />
+    </LoadingPage>
+  );
 };
 
 export default memo(Loading);

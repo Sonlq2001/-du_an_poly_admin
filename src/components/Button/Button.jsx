@@ -60,6 +60,7 @@ export const Button = ({
         color={colorButton}
         size={sizeButton}
         className={className}
+        disabled={disabled}
       >
         <a href={href} target={target} rel="noreferrer">
           <span className="icon-btn">{icon}</span>
@@ -74,6 +75,7 @@ export const Button = ({
         size={sizeButton}
         className={className}
         to={to}
+        disabled={disabled}
       >
         <Link to={to}>
           <span className="icon-btn">{icon}</span>

@@ -120,7 +120,7 @@ export const NavControl = styled.div`
 export const ListAction = styled.ul`
   position: absolute;
   width: 80%;
-  bottom: -210%;
+  bottom: -300%;
   right: 0;
   width: 100%;
   padding: 1rem;
@@ -130,9 +130,9 @@ export const ListAction = styled.ul`
   transition: ease-in 0.3s;
   opacity: 0;
   visibility: hidden;
-
+  z-index: 100;
   &.active {
-    bottom: -180%;
+    bottom: -250%;
     opacity: 1;
     visibility: visible;
   }

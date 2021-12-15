@@ -1,19 +1,17 @@
-import React, { memo, useEffect, useCallback, useState, useRef } from 'react';
+import React, { memo, useEffect, useState, useRef } from 'react';
 import Select from 'react-select';
 import { useParams } from 'react-router';
-import {CgSortAz}  from "react-icons/cg"
+import { CgSortAz } from 'react-icons/cg';
+import { useSelector, useDispatch } from 'react-redux';
 
 import {
-  getProductType,
   getDetail,
-  getListCampuses,
-  ProductUser,
-  SearchProduct,
-  filterProduct,
-  filterStatusProduct
+  getProductUser,
+  postSearchProduct,
+  postFilterCommonProduct,
+  getFilterStatusProduct,
 } from './../../redux/product.slice';
 
-import { useSelector, useDispatch } from 'react-redux';
 import {
   WrapContent,
   TitleMain,
@@ -23,108 +21,100 @@ import {
   InputSearch,
 } from 'styles/common/common-styles';
 
-
 import ConfirmTable from './../../components/ConfirmTable/ConfirmTable';
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
-import Loading from 'components/Loading/Loading';
-import { getSemesters } from '../../../uploadExcel/redux/uploadExcel.slice';
+
+import { getSemester } from 'features/semester/redux/semester.slice';
+import { getCampuses } from 'features/campuses/redux/campuses.slice';
+import { getProductType } from 'features/product-type/redux/product-type.slice';
+
 import { MapOptions } from 'helpers/convert/map-options';
 import ReviewProduct from 'features/confirm/components/Review/ReviewProduct';
+import { defaultPaginationParams } from 'constants/api.constants';
 
 const ConfirmScreen = () => {
   const dispatch = useDispatch();
   const { path } = useParams();
 
-  const { listProduct, isProductLoading, listProductType, productDetail } =
-    useSelector((state) => state.product);
-  const { useLogin } = useSelector((state) => state.auth);
+  const {
+    productDetail,
+    loadingDetail,
+    userLogin,
+    listCampuses,
+    listSemester,
+  } = useSelector((state) => ({
+    productDetail: state.product?.productDetail,
+    loadingDetail: state.product?.loadingDetail,
+    userLogin: state.auth?.userLogin,
+    listCampuses: state.campuses?.listCampuses,
+    listSemester: state.semester?.listSemester,
+  }));
+
   const [open, setOpen] = useState(true);
-  const { listSemester } = useSelector((state) => state.uploadExcel);
-  const { listCampuses } = useSelector((state) => state.product);
+  const [pagination, setPagination] = useState({
+    page: defaultPaginationParams.page,
+    pageLength: defaultPaginationParams.pageLength,
+  });
 
-  const listSelectOptionSemester = MapOptions(listSemester);
-  const listSelectOptionCampuses = MapOptions(listCampuses);
+  const listSelectOptionSemester = MapOptions(listSemester ?? []);
+  const listSelectOptionCampuses = MapOptions(listCampuses ?? []);
 
-  const [SearchName ,setName]=  useState(null)
-  const [result,setResult]=  useState(0)
-  const [Advanced,SetAdvanced]=  useState(false)
-  const timeOutString = useRef(null)
-
-  const ProductTypes = useCallback(() => {
-    dispatch(getProductType());
-  }, [dispatch]);
-
-  const CampusesList = useCallback(() => {
-    dispatch(getListCampuses());
-  }, [dispatch]);
+  const [keySearch, setKeySearch] = useState(null);
+  const [isFilterAdvanced, setIsFilterAdvanced] = useState(false);
+  const timeOutString = useRef(null);
 
   useEffect(() => {
-    dispatch(getSemesters());
-    ProductTypes();
-    dispatch(ProductUser({ user_id: useLogin.id }));
-    CampusesList();
-  }, [dispatch, ProductTypes, CampusesList, useLogin]);
+    dispatch(getSemester({}));
+    dispatch(getProductUser({ user_id: userLogin?.id }));
+    dispatch(getProductType({}));
+    dispatch(getCampuses({}));
+  }, [dispatch, userLogin]);
 
   useEffect(() => {
     dispatch(getDetail(path));
   }, [dispatch, path]);
-  // change trạng thái sp
-  const HandlerStatus=  async (data) => {
-  const response = await  dispatch(filterStatusProduct(data.value))
-  setResult(1)
-  if(filterStatusProduct.fulfilled.match(response)){
-    setResult(2)
-  }
+
+  const handleFilterStatus = (option) => {
+    dispatch(getFilterStatusProduct(option.value));
   };
-  const ChangeSearch = (e)=>{
-    const value = e.target.value
-    if(!value){
-      setName(value )
-      if(timeOutString.current){
-        clearTimeout(timeOutString.current)
-      }
-      timeOutString.current = setTimeout( async()=>{
-       const response = await dispatch(ProductUser({ user_id: useLogin.id }));
-       setResult(1)
-       if(ProductUser.fulfilled.match(response)) {
-        setResult(2)
-       }      
-      },800)
-    
-    }else{
-      setName(value )
-      if(timeOutString.current){
-        clearTimeout(timeOutString.current)
-      }
-      timeOutString.current = setTimeout( async()=>{
-        const data = {"text" : value }
-        const response = await dispatch(SearchProduct(data))
-        setResult(1)
-        if(SearchProduct.fulfilled.match(response)) {
-         setResult(2)
-        } 
-      },800)
+
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setKeySearch(value);
+    clearTimeout(timeOutString?.current);
+
+    if (value) {
+      timeOutString.current = setTimeout(() => {
+        dispatch(postSearchProduct({ text: keySearch }));
+      }, 500);
+    } else {
+      timeOutString.current = setTimeout(() => {
+        dispatch(getProductUser({ user_id: userLogin?.id }));
+      }, 500);
     }
-   
-  }
-// 
-const Filter = (e,type)=>{
-  const data={
-    id:e.value,
-    type : type
-  }
-  dispatch(filterProduct(data))
-}
-  if (isProductLoading) {
-    return <Loading />;
-  }
+  };
+
+  const handleFilterCommon = (option, type) => {
+    dispatch(
+      postFilterCommonProduct({
+        id: option.value,
+        type: type,
+      })
+    );
+  };
+
   return (
     <>
       <TitleMain> Danh sách sản phẩm </TitleMain>
       <WrapContent>
-        <div className="titleSearch"> 
-        <TitleControl>Tìm kiếm</TitleControl>
-        <span onClick={()=>SetAdvanced(!Advanced)}><i className="icon"> <CgSortAz/></i> Nâng cao </span>
+        <div className="titleSearch">
+          <TitleControl>Tìm kiếm</TitleControl>
+          <span onClick={() => setIsFilterAdvanced(!isFilterAdvanced)}>
+            <i className="icon">
+              <CgSortAz />
+            </i>
+            Nâng cao
+          </span>
         </div>
         <BoxSearchInput>
           <BoxControl className="box-control">
@@ -135,7 +125,7 @@ const Filter = (e,type)=>{
               type="text"
               placeholder="Tìm kiếm"
               className="input-filter input-search"
-            onKeyUp={(e)=>ChangeSearch(e)}
+              onKeyUp={handleSearch}
             />
           </BoxControl>
 
@@ -152,93 +142,93 @@ const Filter = (e,type)=>{
                 { label: 'Sinh viên', value: 4 },
               ]}
               placeholder="Tìm theo chủ nhiệm"
-              onChange={(e)=>Filter(e,"major")}
+              onChange={(e) => handleFilterCommon(e, 'major')}
             />
           </BoxControl>
         </BoxSearchInput>
-        <BoxSearchInput>
-          <BoxControl className="box-control">
-            <label htmlFor="" className="label-control">
-              Bộ môn
-            </label>
-            <Select
-              className="select-option input-search"
-              options={[
-                { label: 'Quản trị', value: 1 },
-                { label: 'Giáo vụ', value: 2 },
-                { label: 'Giảng viên', value: 3 },
-                { label: 'Sinh viên', value: 4 },
-              ]}
-              placeholder="Tìm theo bộ môn"
-              onChange={(e)=>Filter(e,"master_user")}
-            />
-          </BoxControl>
+        <div className={isFilterAdvanced ? 'showFilter' : 'hidenFilter'}>
+          <BoxSearchInput>
+            <BoxControl className="box-control">
+              <label htmlFor="" className="label-control">
+                Bộ môn
+              </label>
+              <Select
+                className="select-option input-search"
+                options={[
+                  { label: 'Quản trị', value: 1 },
+                  { label: 'Giáo vụ', value: 2 },
+                  { label: 'Giảng viên', value: 3 },
+                  { label: 'Sinh viên', value: 4 },
+                ]}
+                placeholder="Tìm theo bộ môn"
+                onChange={(e) => handleFilterCommon(e, 'master_user')}
+              />
+            </BoxControl>
 
-          <BoxControl className="box-control">
-            <label htmlFor="" className="label-control">
-              Kì học
-            </label>
-            <Select
-              className="select-option input-search"
-              options={
-                ({ label: 'All', value: 1 },
-                listSelectOptionSemester ? listSelectOptionSemester : [])
-              }
-              placeholder="Tìm theo kì học"
-              onChange={(e)=>Filter(e,"semester")}
-            />
-          </BoxControl>
-        </BoxSearchInput>
-        <BoxSearchInput>
-          <BoxControl className="box-control">
-            <label htmlFor="" className="label-control">
-              Cơ sở
-            </label>
-            <Select
-              className="select-option input-search"
-              options={listSelectOptionCampuses}
-              placeholder="Tìm theo Cơ Sở "
-              onChange={(e)=>Filter(e,"campus")}
-            />
-          </BoxControl>
-          <BoxControl className="box-control">
-            <label htmlFor="" className="label-control">
-            Trạng thái
-            </label>
-            <Select
-              className="select-option input-search"
-              options={[
-                { label: 'Giảng viên phê duyệt ', value:1},
-                { label: 'Chủ nhiệm phê duyệt ', value: 2 },
-                { label: 'Chưa thêm ', value: 0 },
-                { label: 'Phê duyệt ', value: 3 },
-              ]}
-              placeholder="Trạng Thái "
-              onChange={(e)=>HandlerStatus(e) }
-            />
-          </BoxControl>
-        </BoxSearchInput>
+            <BoxControl className="box-control">
+              <label htmlFor="" className="label-control">
+                Kì học
+              </label>
+              <Select
+                className="select-option input-search"
+                options={listSelectOptionSemester ?? []}
+                placeholder="Tìm theo kì học"
+                onChange={(e) => handleFilterCommon(e, 'semester')}
+              />
+            </BoxControl>
+          </BoxSearchInput>
+          <BoxSearchInput>
+            <BoxControl className="box-control">
+              <label htmlFor="" className="label-control">
+                Cơ sở
+              </label>
+              <Select
+                className="select-option input-search"
+                options={listSelectOptionCampuses ?? []}
+                placeholder="Tìm theo Cơ Sở "
+                onChange={(e) => handleFilterCommon(e, 'campus')}
+              />
+            </BoxControl>
+            <BoxControl className="box-control">
+              <label htmlFor="" className="label-control">
+                Trạng thái
+              </label>
+              <Select
+                className="select-option input-search"
+                options={[
+                  { label: 'Chờ xác nhận lần 1', value: 1 },
+                  { label: 'Chờ xác nhận lần 2', value: 2 },
+                  { label: 'Hoàn thành', value: 3 },
+                ]}
+                placeholder="Trạng Thái "
+                onChange={handleFilterStatus}
+              />
+            </BoxControl>
+          </BoxSearchInput>
+        </div>
       </WrapContent>
-     
-      <ConfirmTable
-        result={result}
-        data={listProduct}
-        listProductType={listProductType}
-        productDetail={productDetail}
-      />
-      {path && productDetail && (
-        <PopupOverlay
-          open={open}
-          setOpen={setOpen}
-          size="xl"
-          title="Chi Tiết Sản Phẩm "
-          scroll
-        >
-          <ReviewProduct
-            data={productDetail && productDetail}
-            setOpen={setOpen}
-          />
-        </PopupOverlay>
+
+      <ConfirmTable pagination={pagination} setPagination={setPagination} />
+
+      {loadingDetail ? (
+        <>
+          {productDetail !== undefined && (
+            <PopupOverlay
+              open={open}
+              setOpen={setOpen}
+              size="xl"
+              title="Chi Tiết Sản Phẩm "
+              scroll
+            >
+              <ReviewProduct
+                data={productDetail && productDetail}
+                setOpen={setOpen}
+              />
+            </PopupOverlay>
+          )}
+        </>
+      ) : (
+        ''
       )}
     </>
   );

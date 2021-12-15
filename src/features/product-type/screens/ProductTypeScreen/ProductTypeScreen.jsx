@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState, useMemo } from 'react';
+import React, { memo, useEffect, useState, useMemo, useCallback } from 'react';
 import { IoMdAdd } from 'react-icons/io';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsTrash } from 'react-icons/bs';
@@ -24,7 +24,6 @@ import {
   HeaderTable,
   BoxActionTable,
   GroupPagination,
-  EmptyResult,
 } from 'styles/common/common-styles';
 
 import { Button } from 'components/Button/Button';
@@ -38,11 +37,12 @@ import {
   getProductType,
   deleteProductType,
 } from './../../redux/product-type.slice';
-import EmptyResultImage from 'assets/images/empty-result.gif';
 import { initForm } from './../../helpers/product-type.helpers';
 import ActionProductType from './../../components/ActionProductType/ActionProductType';
 import RemoveProductType from './../../components/RemoveProductType/RemoveProductType';
 import { useSortableData } from 'helpers/sortingTable/sortingTable';
+import { defaultPaginationParams } from 'constants/api.constants';
+import NotFound from 'components/NotFound/NotFound';
 
 const ProductTypeScreen = () => {
   const dispatch = useDispatch();
@@ -52,15 +52,36 @@ const ProductTypeScreen = () => {
     useState(false);
   const [listChecked, setListChecked] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [pagination, setPagination] = useState({
+    page: defaultPaginationParams.page,
+    pageLength: defaultPaginationParams.pageLength,
+  });
+
+  const fetchData = useCallback(() => {
+    dispatch(getProductType(pagination));
+  }, [dispatch, pagination]);
 
   useEffect(() => {
-    dispatch(getProductType());
-  }, [dispatch]);
+    fetchData();
+  }, [fetchData]);
 
-  const { listProductType, isListProductTypeLoading } = useSelector(
-    (state) => state.productType
+  const handlePagination = (dataPagination) => {
+    setPagination({
+      ...pagination,
+      ...dataPagination,
+    });
+  };
+
+  const { listProductType, isListProductTypeLoading, total } = useSelector(
+    (state) => ({
+      listProductType: state.productType?.listProductType,
+      isListProductTypeLoading: state.productType?.isListProductTypeLoading,
+      total: state.productType?.total,
+    })
   );
-  const { dataSort, requestSort } = useSortableData(listProductType);
+  const { dataSort, requestSort } = useSortableData(
+    listProductType ? listProductType : []
+  );
 
   const isCheckedAll = useMemo(() => {
     return (
@@ -105,12 +126,9 @@ const ProductTypeScreen = () => {
     });
   };
 
-  if (isListProductTypeLoading) {
-    return <Loading />;
-  }
-
   return (
     <>
+      {isListProductTypeLoading && <Loading />}
       <TitleMain>Danh mục</TitleMain>
       <WrapContent>
         <TitleControl>Tìm kiếm</TitleControl>
@@ -141,7 +159,7 @@ const ProductTypeScreen = () => {
             <Button
               disabled={!listChecked.length || isLoading}
               onClick={handleRemoveAll}
-              Loading={isLoading}
+              loading={isLoading}
             >
               Xóa tất cả
             </Button>
@@ -217,19 +235,16 @@ const ProductTypeScreen = () => {
             </TableCustom>
             <GroupPagination>
               <TablePagination
-                pageLengthMenu={[20, 50, 100]}
-                page={1}
-                pageLength={10}
-                totalRecords={100}
-                onPageChange={() => null}
+                pageLengthMenu={defaultPaginationParams.pageLengthMenu}
+                page={pagination.page}
+                pageLength={pagination.pageLength}
+                totalRecords={total}
+                onPageChange={handlePagination}
               />
             </GroupPagination>
           </>
         ) : (
-          <EmptyResult>
-            <div>Không có kết quả nào</div>
-            <img src={EmptyResultImage} alt="" />
-          </EmptyResult>
+          <NotFound />
         )}
 
         {/* Dialog create / edit product type */}

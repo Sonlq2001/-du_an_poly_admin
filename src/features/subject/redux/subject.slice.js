@@ -5,9 +5,9 @@ import { subjectApi, sortMajor } from './../api/subject.api.js';
 
 export const getListSubject = createAsyncThunk(
   'subject/getListSubject',
-  async (_, { rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
     try {
-      const response = await subjectApi.getListSubject();
+      const response = await subjectApi.getListSubject(params);
       return response.data;
     } catch (error) {
       return rejectWithValue(_get(error.response.data, 'errors', ''));
@@ -51,16 +51,21 @@ export const putSubject = createAsyncThunk(
   }
 );
 // lọc
-export const SortMajor = createAsyncThunk('subject/sortMajor', async (id) => {
-  try {
-    const response = await sortMajor.sortMajors(id);
-    console.log('response.data.data', response.data.data);
-    return response.data.data;
-  } catch (error) {}
-});
+export const SortMajor = createAsyncThunk(
+  'subject/sortMajor',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await sortMajor.sortMajors(id);
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
+    }
+  }
+);
 const initialState = {
   listSubject: [],
   isListSubjectLoading: false,
+  total: null,
 };
 const subjectSlice = createSlice({
   name: 'subject',
@@ -73,6 +78,7 @@ const subjectSlice = createSlice({
     [getListSubject.fulfilled]: (state, action) => {
       state.isListSubjectLoading = false;
       state.listSubject = action.payload.data;
+      state.total = action.payload.total;
     },
     [getListSubject.rejected]: (state) => {
       state.isListSubjectLoading = false;
@@ -80,7 +86,6 @@ const subjectSlice = createSlice({
 
     // post subject
     [postSubject.fulfilled]: (state, action) => {
-      console.log("ở đây",action.payload)
       state.listSubject = [...state.listSubject, action.payload.data];
     },
     [postSubject.rejected]: (state) => {
@@ -106,15 +111,14 @@ const subjectSlice = createSlice({
     [putSubject.rejected]: (state) => {
       state.isListSubjectLoading = false;
     },
-    // lọc theo majors
-    [SortMajor.pending]: (state) => {
-      // state.isListSubjectLoading = true;
-    },
+
+    // filter majors
     [SortMajor.fulfilled]: (state, action) => {
-      state.listSubject = action.payload;
       state.isListSubjectLoading = false;
+      state.listSubject = action.payload;
     },
   },
 });
+
 const { reducer: subjectReducer } = subjectSlice;
 export default subjectReducer;

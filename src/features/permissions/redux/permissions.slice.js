@@ -5,10 +5,10 @@ import { permissionsApi } from '../api/permissions.api';
 
 export const getPermissions = createAsyncThunk(
   'permissions/getPermissions',
-  async (_, { rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
     try {
-      const response = await permissionsApi.getPermissions();
-      return response.data.data;
+      const response = await permissionsApi.getPermissions(params);
+      return response.data;
     } catch (error) {
       return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
@@ -58,6 +58,7 @@ export const putPermissions = createAsyncThunk(
 const initialState = {
   listPermission: [],
   isListPermissionLoading: false,
+  total: null,
 };
 
 const permissionsSlice = createSlice({
@@ -70,8 +71,9 @@ const permissionsSlice = createSlice({
       state.isListPermissionLoading = true;
     },
     [getPermissions.fulfilled]: (state, action) => {
-      state.listPermission = action.payload;
       state.isListPermissionLoading = false;
+      state.listPermission = action.payload.data;
+      state.total = action.payload.total;
     },
     [getPermissions.rejected]: (state) => {
       state.isListPermissionLoading = false;

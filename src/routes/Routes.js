@@ -12,10 +12,12 @@ const WrapRoute = ({
   layout,
   exact,
   isPrivateRoute,
+  pageTitle = '',
 }) => {
   const RouteLayout = layout || DefaultLayout;
   const isExact = exact || false;
   const isSignedIn = useSelector((state) => !!state.auth.accessToken);
+  document.title = pageTitle;
 
   if (isPrivateRoute && !isSignedIn) {
     return <LoginRedirect />;
@@ -40,7 +42,7 @@ const WrapRoute = ({
 
 const Routes = () => {
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<Loading isFullScreen />}>
       <Switch>
         {LIST_ROUTES.map((route) => (
           <WrapRoute key={route.id} {...route} />
