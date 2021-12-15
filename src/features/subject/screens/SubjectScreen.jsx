@@ -215,7 +215,7 @@ const SubjectScreen = () => {
                     />
                   </Th>
                   <Th sort onClick={() => requestSort('id')}>
-                    STT
+                   #
                   </Th>
                   <Th sort onClick={() => requestSort('name')}>
                     Tên Môn Học

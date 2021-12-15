@@ -188,7 +188,7 @@ const ProductTypeScreen = () => {
                     />
                   </Th>
                   <Th sort onClick={() => requestSort('id')}>
-                    STT
+                    #
                   </Th>
                   <Th sort onClick={() => requestSort('name')}>
                     Tên Danh Mục

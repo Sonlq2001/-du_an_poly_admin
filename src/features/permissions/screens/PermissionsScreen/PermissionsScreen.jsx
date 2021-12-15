@@ -42,7 +42,7 @@ import { useSortableData } from 'helpers/sortingTable/sortingTable';
 import NotFound from 'components/NotFound/NotFound';
 
 const headerCells = [
-  { label: 'STT', field: 'id', sort: true },
+  { label: '#', field: 'id', sort: true },
   { label: 'Tên quyền', field: 'name', sort: true },
   { label: 'Đường dẫn', sort: true },
   { label: 'Thao tác', sort: false, align: 'right' },

@@ -173,7 +173,7 @@ const CategorySubjectScreen = () => {
                       onChange={(e) => handleCheckedAll(e.target.checked)}
                     />
                   </Th>
-                  <Th sort>STT</Th>
+                  <Th sort>#</Th>
                   <Th sort>Tên Bộ Môn</Th>
                   <Th sort>Mã Code</Th>
                   <Th align="right">Thao tác</Th>
