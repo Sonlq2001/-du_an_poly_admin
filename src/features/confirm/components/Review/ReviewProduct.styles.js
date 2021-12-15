@@ -18,7 +18,6 @@ export const OverLay = styled.div`
 export const Content = styled.div`
   max-width: 100%;
   overflow: hidden;
-  /* position: absolute; */
 `;
 export const MainReview = styled.div`
   max-width: 100%;
@@ -27,13 +26,16 @@ export const MainReview = styled.div`
 export const DescriptionReview = styled.div``;
 
 export const ContentReview = styled.div`
-  padding-left: 2rem;
+  .group-action {
+    display: flex;
+    align-items: center;
+  }
   & h1 {
     font-size: 2rem;
     line-height: 2.5rem;
     color: var(--txt-color);
   }
-  & button.btn-item {
+  .btn-item {
     background-color: #e6e6e6;
     padding: 10px 7px;
     margin: 5px;
@@ -42,25 +44,29 @@ export const ContentReview = styled.div`
     border-radius: 5px;
     font-size: 1.3rem;
   }
-  & button.btn-item .test {
+  .btn-item .btn-content {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: center;
   }
-
-  & button.btn-item:disabled {
-    /* background-color: #ffffff; */
-    color: #66636366;
+  .btn-text {
+    padding-left: 1rem;
   }
-  & button.btn-item:disabled:hover {
+  .btn-item:disabled {
+    background-color: var(--eee-color);
+    color: #6666;
+  }
+  .btn-item:disabled:hover {
     cursor: not-allowed;
   }
-  & button.btn-item .loading {
-    width: 12px;
-    height: 12px;
+  .btn-item .loading {
+    width: 13px;
+    height: 13px;
     border-radius: 50%;
     margin-right: 8px;
-    border-top: 2px solid blue;
-    animation: spin 1s linear infinite;
+    border-top: 2px solid var(--blue-color);
+    border-right: 2px solid var(--blue-color);
+    animation: spin 0.6s linear infinite;
     @keyframes spin {
       0% {
         transform: rotate(0deg);
@@ -70,12 +76,16 @@ export const ContentReview = styled.div`
       }
     }
   }
+  .btn-item:hover {
+    opacity: 0.8;
+  }
 `;
 
 export const TitleProject = styled.h1`
   font-size: 2rem;
   line-height: 2.5rem;
   color: var(--txt-color);
+  margin-top: 1rem;
 `;
 
 export const GroupMember = styled.div`
@@ -137,6 +147,7 @@ export const ImageSlice = styled.div`
     image-resolution: center;
     image-rendering: pixelated;
     border-radius: 5px;
+    object-fit: cover;
   }
   & .slider_galleries {
     font-size: 1.5rem;
@@ -154,6 +165,7 @@ export const ListCurrentImg = styled.div`
   img {
     height: 100%;
     width: 100%;
+    object-fit: cover;
   }
   & .current-slide {
     max-height: 70px;
@@ -161,6 +173,7 @@ export const ListCurrentImg = styled.div`
     border-radius: 5px;
     image-rendering: pixelated;
     image-resolution: center;
+    object-fit: cover;
   }
 `;
 export const TitleMain = styled.h3`
@@ -180,6 +193,8 @@ export const Video = styled.div`
 `;
 
 export const GroupBox = styled.div`
+  position: sticky;
+  top: 0;
   &:not(:first-child) {
     margin-top: 2.5rem;
   }
@@ -198,12 +213,10 @@ export const GroupAttach = styled.div`
 `;
 
 export const ItemAttach = styled.div`
-
   & + & {
     margin-top: 2rem;
   }
   font-size: 1.2rem;
-
   .title-attach {
     font-size: 1.4rem;
     font-weight: 500;
@@ -211,8 +224,16 @@ export const ItemAttach = styled.div`
     max-width: 100%;
     overflow: hidden;
   }
-  & a {
-      padding-right: 10px;
+  .btn-docs {
+    padding: 1rem 1.5rem;
+    background-color: var(--eee-color);
+    display: inline-block;
+    margin-top: 1rem;
+    border-radius: 5px;
+    color: var(--txt--color);
+    &:hover {
+      background-color: var(--ddd-color);
+    }
   }
 `;
 
@@ -224,5 +245,3 @@ export const BoxYoutube = styled.div`
     height: 25rem;
   }
 `;
-
-// comment
