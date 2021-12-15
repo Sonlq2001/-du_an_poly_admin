@@ -41,7 +41,7 @@ import { defaultPaginationParams } from 'constants/api.constants';
 import NotFound from 'components/NotFound/NotFound';
 
 const headerCells = [
-  { label: 'STT', fieldSort: 'id', sort: true },
+  { label: '#', fieldSort: 'id', sort: true },
   { label: 'Tên Chuyên Ngành', fieldSort: 'name', sort: true },
   { label: 'Thao tác', sort: false, align: 'right' },
 ];

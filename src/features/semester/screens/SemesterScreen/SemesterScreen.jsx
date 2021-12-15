@@ -175,7 +175,7 @@ const SemesterScreen = () => {
                     />
                   </Th>
                   <Th sort onClick={() => requestSort('id')}>
-                    STT
+                    #
                   </Th>
                   <Th sort onClick={() => requestSort('name')}>
                     Kỳ học
