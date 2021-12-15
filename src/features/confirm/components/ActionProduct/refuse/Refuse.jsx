@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 
 import { WrapFrom, GroupButton } from './Refuse.styles';
 import { Button } from 'components/Button/Button';
-import { approveProduct } from '../../../redux/product.slice';
+import { postProductApprove } from '../../../redux/product.slice';
 
 const Refuse = ({
   item,
@@ -35,8 +35,8 @@ const Refuse = ({
           message: values.message,
         };
         setDisableButton(true);
-        const response = await dispatch(approveProduct(detail));
-        if (approveProduct.fulfilled.match(response)) {
+        const response = await dispatch(postProductApprove(detail));
+        if (postProductApprove.fulfilled.match(response)) {
           toast.success('Từ chối thành công !');
           setDisableButton(false);
         } else {

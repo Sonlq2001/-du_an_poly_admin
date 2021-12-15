@@ -75,6 +75,8 @@ export const TableTr = styled.tr`
 
   td {
     padding: 1.2rem;
+    line-height: 2rem;
+    vertical-align: baseline;
   }
   li {
     list-style: none;

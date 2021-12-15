@@ -1,19 +1,17 @@
-import React, { memo, useEffect, useCallback, useState, useRef } from 'react';
+import React, { memo, useEffect, useState, useRef } from 'react';
 import Select from 'react-select';
 import { useParams } from 'react-router';
 import { CgSortAz } from 'react-icons/cg';
+import { useSelector, useDispatch } from 'react-redux';
 
 import {
-  getProductType,
   getDetail,
-  getListCampuses,
-  productUser,
-  SearchProduct,
-  filterProduct,
-  filterStatusProduct,
+  getProductUser,
+  postSearchProduct,
+  postFilterCommonProduct,
+  getFilterStatusProduct,
 } from './../../redux/product.slice';
 
-import { useSelector, useDispatch } from 'react-redux';
 import {
   WrapContent,
   TitleMain,
@@ -26,7 +24,10 @@ import {
 import ConfirmTable from './../../components/ConfirmTable/ConfirmTable';
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 
-import { getSemesters } from '../../../uploadExcel/redux/uploadExcel.slice';
+import { getSemester } from 'features/semester/redux/semester.slice';
+import { getCampuses } from 'features/campuses/redux/campuses.slice';
+import { getProductType } from 'features/product-type/redux/product-type.slice';
+
 import { MapOptions } from 'helpers/convert/map-options';
 import ReviewProduct from 'features/confirm/components/Review/ReviewProduct';
 import { defaultPaginationParams } from 'constants/api.constants';
@@ -35,99 +36,80 @@ const ConfirmScreen = () => {
   const dispatch = useDispatch();
   const { path } = useParams();
 
-  const { productTypes, productDetail, loadingDetail } = useSelector(
-    (state) => state.product
-  );
-  const { userLogin } = useSelector((state) => state.auth);
+  const {
+    productDetail,
+    loadingDetail,
+    userLogin,
+    listCampuses,
+    listSemester,
+  } = useSelector((state) => ({
+    productDetail: state.product?.productDetail,
+    loadingDetail: state.product?.loadingDetail,
+    userLogin: state.auth?.userLogin,
+    listCampuses: state.campuses?.listCampuses,
+    listSemester: state.semester?.listSemester,
+  }));
+
   const [open, setOpen] = useState(true);
   const [pagination, setPagination] = useState({
     page: defaultPaginationParams.page,
     pageLength: defaultPaginationParams.pageLength,
   });
-  const { listSemester } = useSelector((state) => state.uploadExcel);
-  const { listCampuses } = useSelector((state) => state.product);
-  const listSelectOptionSemester = MapOptions(listSemester);
-  const listSelectOptionCampuses = MapOptions(listCampuses);
 
-  const [SearchName, setName] = useState(null);
-  const [result, setResult] = useState(0);
-  const [Advanced, SetAdvanced] = useState(false);
+  const listSelectOptionSemester = MapOptions(listSemester ?? []);
+  const listSelectOptionCampuses = MapOptions(listCampuses ?? []);
+
+  const [keySearch, setKeySearch] = useState(null);
+  const [isFilterAdvanced, setIsFilterAdvanced] = useState(false);
   const timeOutString = useRef(null);
 
-  const ProductTypes = useCallback(() => {
-    dispatch(getProductType());
-  }, [dispatch]);
-  const CampusesList = useCallback(() => {
-    dispatch(getListCampuses());
-  }, [dispatch]);
-  const getDataUser = useCallback(() => {
-    dispatch(productUser({ user_id: userLogin.id }));
-  }, [dispatch, userLogin]);
-
   useEffect(() => {
-    dispatch(getSemesters());
-    ProductTypes();
-    getDataUser();
-    CampusesList();
-  }, [dispatch, ProductTypes, CampusesList, getDataUser]);
+    dispatch(getSemester({}));
+    dispatch(getProductUser({ user_id: userLogin?.id }));
+    dispatch(getProductType({}));
+    dispatch(getCampuses({}));
+  }, [dispatch, userLogin]);
 
   useEffect(() => {
     dispatch(getDetail(path));
   }, [dispatch, path]);
-  // change trạng thái sp
-  const HandlerStatus = async (data) => {
-    const response = await dispatch(filterStatusProduct(data.value));
-    setResult(1);
-    if (filterStatusProduct.fulfilled.match(response)) {
-      setResult(2);
-    }
+
+  const handleFilterStatus = (option) => {
+    dispatch(getFilterStatusProduct(option.value));
   };
-  const ChangeSearch = (e) => {
+
+  const handleSearch = (e) => {
     const value = e.target.value;
-    if (!value) {
-      setName(value);
-      if (timeOutString.current) {
-        clearTimeout(timeOutString.current);
-      }
-      timeOutString.current = setTimeout(async () => {
-        const response = await dispatch(productUser({ user_id: userLogin.id }));
-        setResult(1);
-        if (productUser.fulfilled.match(response)) {
-          setResult(2);
-        }
-      }, 800);
+    setKeySearch(value);
+    clearTimeout(timeOutString?.current);
+
+    if (value) {
+      timeOutString.current = setTimeout(() => {
+        dispatch(postSearchProduct({ text: keySearch }));
+      }, 500);
     } else {
-      setName(value);
-      if (timeOutString.current) {
-        clearTimeout(timeOutString.current);
-      }
-      timeOutString.current = setTimeout(async () => {
-        const data = { text: value };
-        const response = await dispatch(SearchProduct(data));
-        setResult(1);
-        if (SearchProduct.fulfilled.match(response)) {
-          setResult(2);
-        }
-      }, 800);
+      timeOutString.current = setTimeout(() => {
+        dispatch(getProductUser({ user_id: userLogin?.id }));
+      }, 500);
     }
   };
-  //
-  const Filter = (e, type) => {
-    const data = {
-      id: e.value,
-      type: type,
-    };
-    dispatch(filterProduct(data));
+
+  const handleFilterCommon = (option, type) => {
+    dispatch(
+      postFilterCommonProduct({
+        id: option.value,
+        type: type,
+      })
+    );
   };
 
   return (
     <>
-      {/* {isProductLoading && <Loading />} */}
       <TitleMain> Danh sách sản phẩm </TitleMain>
       <WrapContent>
         <div className="titleSearch">
           <TitleControl>Tìm kiếm</TitleControl>
-          <span onClick={() => SetAdvanced(!Advanced)}>
+          <span onClick={() => setIsFilterAdvanced(!isFilterAdvanced)}>
             <i className="icon">
               <CgSortAz />
             </i>
@@ -143,7 +125,7 @@ const ConfirmScreen = () => {
               type="text"
               placeholder="Tìm kiếm"
               className="input-filter input-search"
-              onKeyUp={(e) => ChangeSearch(e)}
+              onKeyUp={handleSearch}
             />
           </BoxControl>
 
@@ -160,11 +142,11 @@ const ConfirmScreen = () => {
                 { label: 'Sinh viên', value: 4 },
               ]}
               placeholder="Tìm theo chủ nhiệm"
-              onChange={(e) => Filter(e, 'major')}
+              onChange={(e) => handleFilterCommon(e, 'major')}
             />
           </BoxControl>
         </BoxSearchInput>
-        <div className={Advanced ? 'showFilter' : 'hidenFilter'}>
+        <div className={isFilterAdvanced ? 'showFilter' : 'hidenFilter'}>
           <BoxSearchInput>
             <BoxControl className="box-control">
               <label htmlFor="" className="label-control">
@@ -179,7 +161,7 @@ const ConfirmScreen = () => {
                   { label: 'Sinh viên', value: 4 },
                 ]}
                 placeholder="Tìm theo bộ môn"
-                onChange={(e) => Filter(e, 'master_user')}
+                onChange={(e) => handleFilterCommon(e, 'master_user')}
               />
             </BoxControl>
 
@@ -189,11 +171,9 @@ const ConfirmScreen = () => {
               </label>
               <Select
                 className="select-option input-search"
-                options={
-                  listSelectOptionSemester ? listSelectOptionSemester : []
-                }
+                options={listSelectOptionSemester ?? []}
                 placeholder="Tìm theo kì học"
-                onChange={(e) => Filter(e, 'semester')}
+                onChange={(e) => handleFilterCommon(e, 'semester')}
               />
             </BoxControl>
           </BoxSearchInput>
@@ -204,9 +184,9 @@ const ConfirmScreen = () => {
               </label>
               <Select
                 className="select-option input-search"
-                options={listSelectOptionCampuses}
+                options={listSelectOptionCampuses ?? []}
                 placeholder="Tìm theo Cơ Sở "
-                onChange={(e) => Filter(e, 'campus')}
+                onChange={(e) => handleFilterCommon(e, 'campus')}
               />
             </BoxControl>
             <BoxControl className="box-control">
@@ -216,24 +196,19 @@ const ConfirmScreen = () => {
               <Select
                 className="select-option input-search"
                 options={[
-                  { label: 'Giảng viên phê duyệt ', value: 1 },
-                  { label: 'Chủ nhiệm phê duyệt ', value: 2 },
-                  { label: 'Chưa thêm ', value: 0 },
-                  { label: 'Phê duyệt ', value: 3 },
+                  { label: 'Chờ xác nhận lần 1', value: 1 },
+                  { label: 'Chờ xác nhận lần 2', value: 2 },
+                  { label: 'Hoàn thành', value: 3 },
                 ]}
                 placeholder="Trạng Thái "
-                onChange={(e) => HandlerStatus(e)}
+                onChange={handleFilterStatus}
               />
             </BoxControl>
           </BoxSearchInput>
         </div>
       </WrapContent>
 
-      <ConfirmTable
-        result={result}
-        pagination={pagination}
-        setPagination={setPagination}
-      />
+      <ConfirmTable pagination={pagination} setPagination={setPagination} />
 
       {loadingDetail ? (
         <>

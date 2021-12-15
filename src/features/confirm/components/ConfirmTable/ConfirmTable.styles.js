@@ -84,8 +84,13 @@ export const ListAction = styled.div`
   }
 `;
 
-export const GroupPagination = styled.div`
+export const GroupStudent = styled.div`
+  overflow: hidden;
   display: flex;
-  justify-content: flex-end;
-  margin-top: 2rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  span + span {
+    padding-left: 5px;
+  }
 `;

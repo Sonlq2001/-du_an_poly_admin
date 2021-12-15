@@ -30,6 +30,7 @@ export const deleteFeedback = createAsyncThunk(
 const initialState = {
   listFeedback: [],
   isListFeedbackLoading: false,
+  total: null,
 };
 
 const feedbackSlice = createSlice({
@@ -42,7 +43,8 @@ const feedbackSlice = createSlice({
     },
     [getFeedback.fulfilled]: (state, action) => {
       state.isListFeedbackLoading = false;
-      state.listFeedback = action.payload.data;
+      state.listFeedback = action.payload?.data;
+      state.total = action.payload?.total;
     },
     [getFeedback.rejected]: (state) => {
       state.isListFeedbackLoading = false;

@@ -60,10 +60,13 @@ const FeedbackScreen = () => {
     });
   };
 
-  const { listFeedback, isListFeedbackLoading } = useSelector((state) => ({
-    listFeedback: state.feedback?.listFeedback,
-    isListFeedbackLoading: state.feedback?.isListFeedbackLoading,
-  }));
+  const { listFeedback, isListFeedbackLoading, total } = useSelector(
+    (state) => ({
+      listFeedback: state.feedback?.listFeedback,
+      isListFeedbackLoading: state.feedback?.isListFeedbackLoading,
+      total: state.feedback?.total,
+    })
+  );
 
   const { dataSort, requestSort } = useSortableData(listFeedback ?? []);
 
@@ -212,7 +215,7 @@ const FeedbackScreen = () => {
                 pageLengthMenu={defaultPaginationParams.pageLengthMenu}
                 page={pagination.page}
                 pageLength={pagination.pageLength}
-                totalRecords={100}
+                totalRecords={total}
                 onPageChange={handlePagination}
               />
             </GroupPagination>
