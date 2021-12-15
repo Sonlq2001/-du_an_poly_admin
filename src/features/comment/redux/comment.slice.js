@@ -30,6 +30,7 @@ export const deleteComment = createAsyncThunk(
 const initialState = {
   listComment: [],
   isListCommentLoading: false,
+  total: null,
 };
 
 const commentSlice = createSlice({
@@ -42,7 +43,8 @@ const commentSlice = createSlice({
     },
     [getComment.fulfilled]: (state, action) => {
       state.isListCommentLoading = false;
-      state.listComment = action.payload?.comments;
+      state.listComment = action.payload?.data;
+      state.total = action.payload?.total;
     },
     [getComment.rejected]: (state) => {
       state.isListCommentLoading = false;

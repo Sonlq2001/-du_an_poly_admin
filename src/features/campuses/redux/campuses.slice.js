@@ -32,6 +32,9 @@ const campusesSlice = createSlice({
       state.isListCampusesLoading = false;
       state.listCampuses = action.payload.campuses;
     },
+    [getCampuses.rejected]: (state) => {
+      state.isListCampusesLoading = false;
+    },
   },
 });
 

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-
 import Slider from 'react-slick';
 import ReactPlayer from 'react-player';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import _get from 'lodash.get';
+import { MdContentPaste } from 'react-icons/md';
+import { GrAttachment } from 'react-icons/gr';
+
 import {
   Content,
   MainReview,
@@ -23,11 +25,10 @@ import {
   ItemAttach,
   Video,
 } from './ReviewProduct.styles';
-import { MdContentPaste } from 'react-icons/md';
-import { GrAttachment } from 'react-icons/gr';
-import { approveProduct } from 'features/confirm/redux/product.slice';
+import { postProductApprove } from 'features/confirm/redux/product.slice';
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import Refuse from '../ActionProduct/refuse/Refuse';
+
 const ReviewProduct = ({ data, setOpen }) => {
   const dispatch = useDispatch();
   const { userLogin } = useSelector((state) => state.auth);
@@ -63,8 +64,8 @@ const ReviewProduct = ({ data, setOpen }) => {
     };
     setDisableButton(true);
     setLoadingApprove(true);
-    const response = await dispatch(approveProduct(productUpdateStatus));
-    if (approveProduct.fulfilled.match(response)) {
+    const response = await dispatch(postProductApprove(productUpdateStatus));
+    if (postProductApprove.fulfilled.match(response)) {
       toast.success('Chấp nhận thành công !');
       setLoadingApprove(false);
       setDisableButton(false);
@@ -83,7 +84,7 @@ const ReviewProduct = ({ data, setOpen }) => {
       <Content>
         <MainReview className="row">
           <ImageSlice className="col-6">
-            {data.product_galleries ? (
+            {data?.product_galleries ? (
               <Slider {...settings}>
                 {data.product_galleries.map((item, index) => (
                   <div key={index}>
@@ -93,7 +94,7 @@ const ReviewProduct = ({ data, setOpen }) => {
               </Slider>
             ) : (
               <div className="slider_galleries">
-                <img src={data.image && data.image} alt="" />
+                <img src={data?.image} alt="" />
               </div>
             )}
           </ImageSlice>
@@ -149,16 +150,16 @@ const ReviewProduct = ({ data, setOpen }) => {
             ) : (
               <div> </div>
             )}
-            <TitleProject> {data.name} </TitleProject>
+            <TitleProject> {data?.name} </TitleProject>
 
             <GroupMember>
               <LabelProject>Thành viên nhóm: </LabelProject>
               <div className="list-member">
-                {data.students &&
+                {data?.students &&
                   data.students.map((element, i) => {
                     return (
                       <span key={i} className="item-member">
-                        {element.name} - {element.student_code}
+                        {element?.name} - {element?.student_code}
                       </span>
                     );
                   })}
@@ -170,8 +171,7 @@ const ReviewProduct = ({ data, setOpen }) => {
             </BoxProject>
             <BoxProject>
               <LabelProject>Giảng viên hướng dẫn:</LabelProject>
-              {data.teacher && data.teacher.name} -
-              {data.teacher && data.teacher.email}
+              {data?.teacher?.name} - {data?.teacher?.email}
             </BoxProject>
             <BoxProject>
               <LabelProject>Chuyên ngành:</LabelProject>
@@ -179,7 +179,7 @@ const ReviewProduct = ({ data, setOpen }) => {
             </BoxProject>
             <BoxProject>
               <LabelProject>Mã môn học:</LabelProject>
-              {data.subject && data.subject.code}
+              {data?.subject?.code}
             </BoxProject>
             <BoxProject>
               <LabelProject>Kì học:</LabelProject>
@@ -209,12 +209,12 @@ const ReviewProduct = ({ data, setOpen }) => {
                     previewTabIndex={10}
                     playIcon
                     onReady={() => console.log('play')}
-                    url={data.video_url}
+                    url={data?.video_url}
                   />
                 </Video>
                 <ContentPost
                   dangerouslySetInnerHTML={{
-                    __html: data.description,
+                    __html: data?.description,
                   }}
                 ></ContentPost>
               </div>
@@ -246,7 +246,7 @@ const ReviewProduct = ({ data, setOpen }) => {
       <PopupOverlay
         open={itemRefuse}
         setOpen={setItemRefuse}
-        size="md"
+        size="lg"
         title="Lý do "
         setDisableButton={setDisableButton}
       >

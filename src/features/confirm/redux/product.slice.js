@@ -3,165 +3,156 @@ import _get from 'lodash.get';
 
 import { confirmProductApi } from './../api/product.api';
 
-export const getListProduct = createAsyncThunk(
-  'confirm/getListProduct',
-  async (_, { rejectWithValue }) => {
+export const postProductApprove = createAsyncThunk(
+  'product/postProductApprove',
+  async (data, { rejectWithValue }) => {
     try {
-      const response = await confirmProductApi.getListProduct();
-      return response.data;
+      await confirmProductApi.postProductApprove(data);
+      return data;
     } catch (error) {
       return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
 
-export const approveProduct = createAsyncThunk(
-  'product/update',
-  async (product, { rejectWithValue }) => {
+export const putProductChairmanApproved = createAsyncThunk(
+  'product/putProductChairmanApproved',
+  async (data, { rejectWithValue }) => {
     try {
-      await confirmProductApi.postProductApprove(product);
-      return product;
+      await confirmProductApi.putProductChairmanApproved(data);
+      return data;
     } catch (error) {
       return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
-export const removeProduct = createAsyncThunk(
-  'product/remove',
+
+export const deleteProduct = createAsyncThunk(
+  'product/deleteProduct',
   async (id, { rejectWithValue }) => {
     try {
-      const response = await confirmProductApi.productRemove(id);
-      return response.data.info.id;
+      await confirmProductApi.deleteProduct(id);
+      return id;
     } catch (error) {
       return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
-export const getProductType = createAsyncThunk(
-  'product/productType',
-  async () => {
-    try {
-      const response = await confirmProductApi.productTypes();
-      return response.data;
-    } catch (e) {}
-  }
-);
+
 export const getDetail = createAsyncThunk('product/detail', async (id) => {
   try {
     const response = await confirmProductApi.detailProduct(id);
     return response.data.data;
   } catch (error) {}
 });
-export const getListCampuses = createAsyncThunk(
-  'product/campuses',
-  async () => {
-    try {
-      const response = await confirmProductApi.getCampus();
-      return response.data.campuses;
-    } catch (error) {}
-  }
-);
-export const productUser = createAsyncThunk(
+
+export const getProductUser = createAsyncThunk(
   'product/productUser',
-  async (user_id) => {
+  async (userId, { rejectWithValue }) => {
     try {
-      const response = await confirmProductApi.productUser(user_id);
+      const response = await confirmProductApi.getProductUser(userId);
       return response.data;
-    } catch (error) {}
-  }
-);
-//  tìm kiếm
-export const SearchProduct = createAsyncThunk(
-  'product/searchProduct',
-  async (data) => {
-    try {
-      const response = await confirmProductApi.seachProduct(data);
-      console.log('response', response.data.data);
-      return response.data.data;
     } catch (error) {
-      console.log('response.data.data', error.response);
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
     }
   }
 );
-// filter
-export const filterProduct = createAsyncThunk(
-  'product/filterProduct',
-  async (data) => {
+
+export const postSearchProduct = createAsyncThunk(
+  'product/postSearchProduct',
+  async (data, { rejectWithValue }) => {
     try {
-      const response = await confirmProductApi.filter(data);
+      const response = await confirmProductApi.postSearchProduct(data);
       return response.data.data;
-    } catch (error) {}
+    } catch (error) {
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
+    }
   }
 );
-export const filterStatusProduct = createAsyncThunk(
-  'product/filterProduct',
-  async (id) => {
+
+export const postFilterCommonProduct = createAsyncThunk(
+  'product/postFilterCommonProduct',
+  async (data, { rejectWithValue }) => {
     try {
-      const response = await confirmProductApi.filterStatus(id);
+      const response = await confirmProductApi.postFilterCommonProduct(data);
       return response.data.data;
-    } catch (error) {}
+    } catch (error) {
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
+    }
   }
 );
+
+export const getFilterStatusProduct = createAsyncThunk(
+  'product/getFilterStatusProduct',
+  async (status, { rejectWithValue }) => {
+    try {
+      const response = await confirmProductApi.getFilterStatusProduct(status);
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(_get(error.response.data, 'errors', ''));
+    }
+  }
+);
+
 const initialState = {
-  listProduct: [],
-  isProductLoading: false,
-  listProductType: [],
-  loadingSeach :false,
+  listProductUser: [],
+  isListProductUser: false,
+
   productDetail: {},
   loadingDetail: false,
-  listCampuses: [],
 };
 const productSlice = createSlice({
   name: 'product',
   initialState,
-  reducers: {},
   extraReducers: {
     // product user
-    [productUser.pending]: (state) => {
-      state.loadingSeach = true;
+    [getProductUser.pending]: (state) => {
+      state.isListProductUser = true;
     },
-    [productUser.fulfilled]: (state, action) => {
-      state.loadingSeach = false;
-      if (Array.isArray(action.payload)) {
-        state.listProduct = action.payload.filter((item) => item.status !== 0);
-      }
+    [getProductUser.fulfilled]: (state, action) => {
+      state.isListProductUser = false;
+      state.listProductUser = action.payload;
     },
-    // get list product
-    [getListProduct.pending]: (state) => {
-      state.loadingSeach = true;
-    },
-    [getListProduct.fulfilled]: (state, action) => {
-      state.loadingSeach = false;
-      if (Array.isArray(action.payload.data)) {
-        state.listProduct = action.payload.data.filter(
-          (item) => item.status !== 0
-        );
-      }
-    },
-    [getListProduct.rejected]: (state) => {
-      state.loadingSeach = false;
+    [getProductUser.rejected]: (state) => {
+      state.isListProductUser = false;
     },
 
-    [approveProduct.fulfilled]: (state, action) => {
-      state.listProduct = state.listProduct.map((item) => {
-        if (item.id === action.payload.id) item.status = action.payload.status;
-        return item;
-      });
-      state.isProductLoading = false;
+    // teacher update
+    [postProductApprove.fulfilled]: (state, action) => {
+      state.listProductUser = state.listProductUser.map((item) =>
+        item.id === action.payload?.id
+          ? { ...item, status: action.payload?.status }
+          : item
+      );
+      state.isListProductUser = false;
     },
-    [approveProduct.rejected]: (state) => {
-      state.isProductLoading = false;
+    [postProductApprove.rejected]: (state) => {
+      state.isListProductUser = false;
     },
 
-    [removeProduct.fulfilled]: (state, action) => {
-      state.listProduct = state.listProduct.filter(
+    // chairman approved update
+    [putProductChairmanApproved.fulfilled]: (state, action) => {
+      state.listProductUser = state.listProductUser.map((item) =>
+        item.id === action.payload?.id
+          ? { ...item, status: action.payload?.status }
+          : item
+      );
+      state.isListProductUser = false;
+    },
+    [putProductChairmanApproved.rejected]: (state) => {
+      state.isListProductUser = false;
+    },
+
+    [deleteProduct.fulfilled]: (state, action) => {
+      state.isListProductUser = false;
+      state.listProductUser = state.listProductUser.filter(
         (item) => item.id !== action.payload
       );
     },
-    [getProductType.fulfilled]: (state, action) => {
-      state.listProductType = action.payload?.product_types;
+    [deleteProduct.rejected]: (state) => {
+      state.isListProductUser = false;
     },
-    [getProductType.rejected]: (state, action) => {},
+
     // chi tiết sản Phẩm
     [getDetail.pending]: (state) => {
       state.loadingDetail = false;
@@ -173,35 +164,32 @@ const productSlice = createSlice({
     [getDetail.rejected]: (state) => {
       state.loadingDetail = true;
     },
-    [getListCampuses.pending]: (state) => {},
-    [getListCampuses.fulfilled]: (state, action) => {
-      state.listCampuses = action.payload;
+
+    // search product
+    [postSearchProduct.fulfilled]: (state, action) => {
+      state.listProductUser = action.payload;
+      state.isListProductUser = false;
     },
-    [getListCampuses.pending]: (state, action) => {},
-    // search productt
-    [SearchProduct.pending]: (state) => {
-      state.loadingSeach = true
-    },
-    [SearchProduct.fulfilled]: (state, action) => {
-      state.listProduct = action.payload;
-      state.loadingSeach = false
-    },
-    [SearchProduct.fulfilled]: (state, action) => {
-      state.listProduct = action.payload;
-      state.loadingSeach = false
+    [postSearchProduct.rejected]: (state) => {
+      state.isListProductUser = false;
     },
 
-    // filter
-    [filterProduct.pending] : state =>{
-      state.loadingSeach = true
+    // filter common
+    [postFilterCommonProduct.fulfilled]: (state, action) => {
+      state.isListProductUser = false;
+      state.listProductUser = action.payload;
     },
-    [filterProduct.fulfilled]: (state, action) => {
-      state.listProduct = action.payload;
-      state.loadingSeach = false
+    [postFilterCommonProduct.rejected]: (state) => {
+      state.isListProductUser = false;
     },
-    [filterStatusProduct.rejected]: (state, action) => {
-      state.listProduct = undefined;
-      state.loadingSeach = false
+
+    // filter status product
+    [getFilterStatusProduct.fulfilled]: (state, action) => {
+      state.isListProductUser = false;
+      state.listProductUser = action.payload;
+    },
+    [getFilterStatusProduct.rejected]: (state) => {
+      state.isListProductUser = false;
     },
   },
 });
