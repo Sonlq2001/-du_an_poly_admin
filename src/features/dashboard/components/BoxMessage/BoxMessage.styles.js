@@ -4,10 +4,21 @@ export const BoxMessageWait = styled.div`
   background-color: var(--white-color);
   padding: 1.5rem;
   border-radius: 5px;
+  @media (max-width: 1198.98px) {
+    & {
+      width: 57%;
+    }
+  }
+  @media (max-width: 575.98px) {
+    & {
+      width: 100%;
+      margin-top: 2rem;
+    }
+  }
 `;
 export const GroupMessageWait = styled.div`
   overflow-y: scroll;
-  max-height: 20rem;
+  max-height: 16.6rem;
   padding: 3.2rem 1rem 2rem 0;
   &::-webkit-scrollbar {
     width: 5px;

@@ -2,18 +2,43 @@ import styled from 'styled-components';
 
 export const WrapNavbar = styled.div`
   padding: 0 3.5rem;
+  width: 100%;
   height: 8rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: var(--white-color);
   box-shadow: 0px 10px 30px 0px rgb(82 63 105 / 8%);
+  @media (max-width: 767.98px) {
+    height: 6rem;
+    padding: 0 2rem;
+  }
+  @media (max-width: 575.98px) {
+    padding: 0 1rem;
+  }
 `;
 
 export const NavbarLeft = styled.div`
+  display: flex;
+  align-items: center;
+  .menu-bar {
+    display: none;
+  }
   .title-admin {
     font-size: 1.9rem;
     font-weight: 500;
+  }
+  @media (max-width: 575.98px) {
+    .menu-bar {
+      display: block;
+      font-size: 2rem;
+      margin-right: 2rem;
+      cursor: pointer;
+    }
+    .title-admin {
+      font-size: 1.6rem;
+      word-break: break-all;
+    }
   }
 `;
 
@@ -25,14 +50,12 @@ export const NavbarRight = styled.div`
 
 export const NavbarSearch = styled.div`
   position: relative;
-
   .main-search {
     border: none;
     padding: 1.3rem 4.5rem 1.3rem 2rem;
     border-radius: 5px;
     background-color: var(--gray1-color);
   }
-
   .icon-search {
     position: absolute;
     display: flex;
@@ -48,9 +71,11 @@ export const NavbarSearch = styled.div`
     border-radius: 5px;
     cursor: pointer;
   }
-
   .icon-search:hover {
     background-color: var(--blue-bold-color);
+  }
+  @media (max-width: 767.98px) {
+    display: none;
   }
 `;
 
@@ -58,6 +83,9 @@ export const NavbarAction = styled.div`
   margin-left: 7rem;
   display: flex;
   align-items: center;
+  @media (max-width: 575.98px) {
+    margin-left: 0;
+  }
 `;
 
 export const GroupNotification = styled.div`
@@ -91,29 +119,40 @@ export const NavNotification = styled.div`
 export const NavControl = styled.div`
   margin-left: 4rem;
   position: relative;
-
   .box-control {
     display: flex;
     align-items: center;
     font-size: 1.4rem;
     font-weight: 500;
+    cursor: pointer;
   }
-
   .avatar-user {
     width: 4rem;
     height: 4rem;
     border-radius: 50%;
     margin-right: 2rem;
   }
-
   .icon-drop {
     font-size: 1.4rem;
     margin-left: 4rem;
     transform: rotate(-135deg);
     cursor: pointer;
   }
-
-  @media (max-width: 1999.98px) {
+  @media (max-width: 1199.98px) {
+    .name-user {
+      display: none;
+    }
+    .avatar-user {
+      margin: 0;
+    }
+  }
+  @media (max-width: 575.98px) {
+    & {
+      margin-left: 2rem;
+    }
+    .icon-drop {
+      display: none;
+    }
   }
 `;
 
@@ -130,17 +169,15 @@ export const ListAction = styled.ul`
   transition: ease-in 0.3s;
   opacity: 0;
   visibility: hidden;
-  z-index: 100;
+  z-index: 600;
   &.active {
     bottom: -250%;
     opacity: 1;
     visibility: visible;
   }
-
   .item-action + .item-action {
     margin-top: 1rem;
   }
-
   .link-action {
     display: flex;
     align-items: center;
@@ -153,13 +190,14 @@ export const ListAction = styled.ul`
     width: 100%;
     background: transparent;
   }
-
   .link-action:hover {
     background-color: var(--gray1-color);
   }
-
   .icon-action {
     margin-right: 1.5rem;
+  }
+  @media (max-width: 1199.98px) {
+    width: 20rem;
   }
 `;
 
