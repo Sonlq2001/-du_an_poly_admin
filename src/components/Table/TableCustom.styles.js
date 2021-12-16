@@ -135,3 +135,7 @@ export const TableTh = styled.th`
     opacity: 0.7;
   }
 `;
+
+export const TableTd = styled.td`
+  white-space: ${({ nowrap }) => (nowrap ? 'nowrap' : '')};
+`;

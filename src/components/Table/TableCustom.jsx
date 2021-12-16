@@ -1,6 +1,12 @@
 import React from 'react';
 
-import { Table, TableTr, TableTh, GroupTale } from './TableCustom.styles';
+import {
+  Table,
+  TableTr,
+  TableTh,
+  GroupTale,
+  TableTd,
+} from './TableCustom.styles';
 
 export const TableCustom = ({ children, className }) => {
   return (
@@ -50,6 +56,10 @@ export const Th = ({ children, sort = false, className, align, onClick }) => {
   );
 };
 
-export const Td = ({ children, className }) => {
-  return <td className={className}>{children}</td>;
+export const Td = ({ children, className, nowrap = false }) => {
+  return (
+    <TableTd className={className} nowrap={nowrap}>
+      {children}
+    </TableTd>
+  );
 };

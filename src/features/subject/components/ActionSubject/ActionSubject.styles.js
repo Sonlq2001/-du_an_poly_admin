@@ -34,6 +34,14 @@ export const ContentForm = styled.div`
     width: 100%;
     font-size: 1.4rem;
   }
+  @media (max-width: 575.98px) {
+    .form-group {
+      flex-direction: column;
+    }
+    .form-group + .form-group {
+      margin-top: 0;
+    }
+  }
 `;
 
 export const GroupAction = styled.div`

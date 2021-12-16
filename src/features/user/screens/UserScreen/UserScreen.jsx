@@ -37,7 +37,7 @@ import { getUsers } from './../../redux/user.slice';
 import { USER_PATHS } from './../../constants/user.paths';
 import avatarEmpty from 'assets/images/empty-avatar.png';
 import ActionUser from 'features/user/components/ActionUser/ActionUser';
-import { GroupRole } from './UserScreen.styles';
+import { GroupRole, BoxAvatar } from './UserScreen.styles';
 import { defaultPaginationParams } from 'constants/api.constants';
 import RemoveUser from './../../components/RemoveUser/RemoveUser';
 import NotFound from 'components/NotFound/NotFound';
@@ -163,14 +163,17 @@ const UserScreen = () => {
               {dataSort.map((row) => (
                 <Tr key={row?.id}>
                   <Td>{row?.id}</Td>
-                  <Td>{row?.name}</Td>
+                  <Td nowrap>{row?.name}</Td>
                   <Td>
-                    <img
-                      src={row?.avatar || avatarEmpty}
-                      width="50px"
-                      height="50px"
-                      alt=""
-                    />
+                    <BoxAvatar>
+                      <img
+                        src={row?.avatar || avatarEmpty}
+                        width="50px"
+                        height="50px"
+                        alt=""
+                        className="img-user"
+                      />
+                    </BoxAvatar>
                   </Td>
                   <Td>{row?.email}</Td>
                   <Td>{row?.student_code || '-'}</Td>

@@ -13,6 +13,10 @@ const DefaultLayout = ({ children }) => {
 
   return (
     <WrapApp>
+      {isShowBar && (
+        <div className="overlay" onClick={() => setIsShowBar(!isShowBar)}></div>
+      )}
+
       <Sidebar isShowBar={isShowBar} clickBar={handleShowBar} />
       <div className="wrap-main">
         <Navbar clickBar={handleShowBar} />

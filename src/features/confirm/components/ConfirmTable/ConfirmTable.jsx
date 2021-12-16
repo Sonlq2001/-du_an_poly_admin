@@ -170,7 +170,6 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                     default:
                       break;
                   }
-
                   return (
                     <Tr key={row?.id} status={row?.status}>
                       <Td> {row?.id}</Td>

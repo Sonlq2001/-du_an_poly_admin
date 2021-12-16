@@ -36,6 +36,13 @@ export const GroupUpload = styled.div`
       opacity: 0.9;
     }
   }
+
+  @media (max-width: 767.98px) {
+    .group-select,
+    .box-select {
+      width: 100%;
+    }
+  }
 `;
 export const HeaderUpload = styled.div`
   display: flex;
@@ -44,7 +51,7 @@ export const HeaderUpload = styled.div`
 `;
 export const BoxUpload = styled.div`
   margin: 4em 0 1rem 0;
-  width: calc(50% - 2rem);
+  width: 50%;
   .label-upload {
     font-size: 1.4rem;
     margin-bottom: 5px;
@@ -53,6 +60,11 @@ export const BoxUpload = styled.div`
     font-size: 1.3rem;
     color: var(--red-color) !important;
     margin-top: 5px;
+  }
+  @media (max-width: 767.98px) {
+    & {
+      width: 100%;
+    }
   }
 `;
 export const ContentUpload = styled.label`
