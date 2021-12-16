@@ -24,8 +24,6 @@ const SignInScreen = () => {
   const [isError, setIsError] = useState(false);
   const [message, setMessage] = useState('');
 
-
-
   useEffect(() => {
     dispatch(getCampuses());
   }, [dispatch]);
@@ -45,11 +43,10 @@ const SignInScreen = () => {
           codeCampus,
           accessToken,
         })
-      );    if (!postAccessToken.fulfilled.match(response)) {
-   
+      );
+      if (!postAccessToken.fulfilled.match(response)) {
         setIsError(true);
         setMessage(_get(response, 'payload', ''));
-       
       }
     }
   };
