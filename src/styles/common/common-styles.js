@@ -107,6 +107,16 @@ export const BoxSearch = styled.div`
   .box-control {
     width: 50%;
   }
+  @media (max-width: 767.98px) {
+    flex-direction: column;
+    .box-control {
+      width: 100%;
+      margin-left: 0;
+    }
+    .box-control + .box-control {
+      margin-top: 2rem;
+    }
+  }
 `;
 export const BoxSearchInput = styled(BoxSearch)`
   justify-content: space-between;

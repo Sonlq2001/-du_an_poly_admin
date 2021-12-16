@@ -12,6 +12,13 @@ export const GroupPagination = styled.div`
   .location-pagination {
     margin: 0 2rem 0 1rem;
   }
+  @media (max-width: 575.98px) {
+    white-space: nowrap;
+    padding: 0;
+    .title-pagination {
+      padding-right: 0;
+    }
+  }
 `;
 export const BoxSelect = styled.div`
   position: relative;
@@ -34,7 +41,7 @@ export const BoxSelect = styled.div`
   .list-option {
     text-align: center;
     position: absolute;
-    top: -180%;
+    top: -250%;
     left: 0;
     right: 0;
     background-color: var(--white-color);

@@ -24,23 +24,25 @@ const PopupOverlay = ({
   let sizePopup = '';
   switch (size) {
     case 'xl':
-      sizePopup = '1000px';
+      sizePopup = '1100px';
       break;
     case 'lg':
-      sizePopup = '800px';
+      sizePopup = '900px';
       break;
     case 'md':
-      sizePopup = '600px';
+      sizePopup = '700px';
       break;
     default:
-      sizePopup = '450px';
+      sizePopup = '500px';
   }
 
   return (
     <div>
       <GroupPopupOverlay
         className={`${open ? 'active' : ''}`}
-        onClick={() => setOpen(!open) +setDisableButton&&  setDisableButton(false)}
+        onClick={() =>
+          setOpen(!open) + setDisableButton && setDisableButton(false)
+        }
       >
         <ContentPopupOverlay
           className={`${open ? 'active' : ''}`}

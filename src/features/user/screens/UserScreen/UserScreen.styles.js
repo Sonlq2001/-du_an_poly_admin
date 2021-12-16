@@ -8,3 +8,7 @@ export const GroupRole = styled.div`
     margin-top: 5px;
   }
 `;
+
+export const BoxAvatar = styled.div`
+  min-width: 5rem;
+`;

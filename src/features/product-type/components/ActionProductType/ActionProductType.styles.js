@@ -30,6 +30,14 @@ export const ContentForm = styled.div`
       border: 2px solid #165bf3;
     }
   }
+  @media (max-width: 575.98px) {
+    .from-group {
+      flex-direction: column;
+    }
+    .from-group + .from-group {
+      margin-top: 0;
+    }
+  }
 `;
 export const GroupAction = styled.div`
   display: flex;
