@@ -42,6 +42,15 @@ export const ContentPopupOverlay = styled.div`
     border-bottom: 1px solid var(--eee-color);
     padding-bottom: 1.5rem;
   }
+  @media (max-width: 1199.98px) {
+    width: 70%;
+  }
+  @media (max-width: 767.98px) {
+    width: 80%;
+  }
+  @media (max-width: 575.98px) {
+    width: 95%;
+  }
 `;
 export const ContentPopup = styled.div`
   overflow-y: ${({ scroll }) => (scroll ? 'scroll' : 'visible')};

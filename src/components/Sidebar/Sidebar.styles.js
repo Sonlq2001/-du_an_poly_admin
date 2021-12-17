@@ -71,26 +71,6 @@ export const WrapSidebar = styled.div`
     }
   }
 `;
-export const SidebarHeader = styled.div`
-  position: relative;
-  .close-bar {
-    display: none;
-    position: absolute;
-    font-size: 3rem;
-    cursor: pointer;
-    right: 0;
-    top: 0;
-    color: var(--blue-color);
-    &:hover {
-      opacity: 0.7;
-    }
-  }
-  @media (max-width: 575.98px) {
-    .close-bar {
-      display: block;
-    }
-  }
-`;
 export const ListMenu = styled.ul`
   margin-top: 1.5rem;
   .item-menu + .item-menu {

@@ -8,14 +8,8 @@ import { FiBookOpen, FiUsers, FiType } from 'react-icons/fi';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { GiMagnifyingGlass } from 'react-icons/gi';
 import { MdMailOutline } from 'react-icons/md';
-import { IoIosClose } from 'react-icons/io';
 
-import {
-  WrapSidebar,
-  ListMenu,
-  ItemLink,
-  SidebarHeader,
-} from './Sidebar.styles';
+import { WrapSidebar, ListMenu, ItemLink } from './Sidebar.styles';
 import LogoFpt from 'assets/images/logo.png';
 import { DASHBOARD_PATH } from 'features/dashboard/constants/dashboard.paths';
 import { getPermissions } from 'features/auth/redux/auth.slice';
@@ -36,14 +30,9 @@ const Sidebar = ({ isShowBar, clickBar }) => {
 
   return (
     <WrapSidebar className={`${isShowBar && 'active'}`}>
-      <SidebarHeader>
-        <Link to="/">
-          <img src={LogoFpt} alt="" className="img-logo" />
-        </Link>
-        <span className="close-bar" onClick={() => clickBar(!isShowBar)}>
-          <IoIosClose />
-        </span>
-      </SidebarHeader>
+      <Link to="/">
+        <img src={LogoFpt} alt="" className="img-logo" />
+      </Link>
 
       <div className="group-sidebar scroll-delayed">
         <div className="content-sidebar ">

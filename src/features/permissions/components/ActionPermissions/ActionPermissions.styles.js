@@ -19,6 +19,23 @@ export const ContentForm = styled.div`
     white-space: nowrap;
     width: 40%;
   }
+  @media (max-width: 575.98px) {
+    .from-group {
+      flex-direction: column;
+    }
+    .from-group + .from-group {
+      margin-top: 0;
+    }
+    .form-checkbox {
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .form-checkbox > label:nth-child(1) {
+      width: auto;
+      padding-right: 2rem;
+    }
+  }
 `;
 export const GroupAction = styled.div`
   display: flex;
