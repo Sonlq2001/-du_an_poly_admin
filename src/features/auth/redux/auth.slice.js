@@ -33,6 +33,7 @@ const initialState = {
   userLogin: null,
   permission: [],
   listPermission: [],
+  routerPermission: [],
 };
 
 const authSlice = createSlice({
@@ -61,7 +62,7 @@ const authSlice = createSlice({
         teacher: teacher_is,
       };
       const keys = [1, 2, 3, 4];
-
+      let arrayPath = [];
       const listPermission = action.payload.user?.role;
       if (listPermission.length > 0) {
         const result = keys.map((key) => {
@@ -70,18 +71,20 @@ const authSlice = createSlice({
           );
 
           const handleGroupMenu = groupMenu.map((item) => {
+            arrayPath.push(...item?.view_permission);
             return {
               status: item?.status,
               items: item?.view_permission,
-              icon: item?.icon,
             };
           });
+
           return {
             title: handleGroupMenu[0]?.status,
             items: handleGroupMenu,
           };
         });
         state.permission = result;
+        state.privateRouter = arrayPath;
       }
     },
 
@@ -93,7 +96,7 @@ const authSlice = createSlice({
       state.accessToken = null;
       state.userLogin = null;
       state.permission = [];
-      localStorage.clear();
+      state.privateRouter = [];
     },
     [postLogout.rejected]: (state) => {
       state.accessToken = null;
@@ -105,7 +108,7 @@ const authSlice = createSlice({
 const authConfig = {
   key: 'auth',
   storage,
-  whitelist: ['accessToken', 'userLogin', 'permission'],
+  whitelist: ['accessToken', 'userLogin', 'permission', 'privateRouter'],
 };
 
 export const { getPermissions } = authSlice.actions;
