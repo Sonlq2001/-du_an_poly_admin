@@ -65,7 +65,8 @@ const UserScreen = () => {
     })
   );
 
-  const filterUser = listUser.filter((user) => user.id !== userLogin?.id);
+  const filterUser =
+    listUser && listUser.filter((user) => user.id !== userLogin?.id);
 
   const addUser = () => {
     setOpen(true);

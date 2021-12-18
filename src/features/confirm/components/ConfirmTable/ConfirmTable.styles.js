@@ -18,12 +18,22 @@ export const GroupAction = styled.div`
 `;
 export const ListAction = styled.div`
   position: absolute;
+  top: -4.55rem;
   right: 0rem;
   background-color: var(--white-color);
   box-shadow: 2px 2px 1rem var(--ddd-color);
   border-radius: 5px;
   z-index: 50;
-  overflow: hidden;
+  overflow-y: auto;
+  max-height: 8rem;
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 4rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--eee-color);
+    border-radius: 10px;
+  }
   .item-action {
     white-space: nowrap;
     cursor: pointer;
