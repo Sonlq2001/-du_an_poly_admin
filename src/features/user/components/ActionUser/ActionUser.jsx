@@ -8,26 +8,25 @@ import ElementInput from 'components/FormElements/ElementInput/ElementInput';
 import { Button } from 'components/Button/Button';
 import { GroupAction, ContentForm } from './AddUser.styles';
 import ElementSelect from 'components/FormElements/ElementSelect/ElementSelect';
-import { initFormAdd, schema } from 'features/user/helpers/user.helpers';
+import { initFormAdd, schema,isinitFormAdd } from 'features/user/helpers/user.helpers';
 import { getMajors } from 'features/majors/redux/majors.slice';
-import { MapOptions } from 'helpers/convert/map-options';
 import { getCampuses } from 'features/campuses/redux/campuses.slice';
 import { postUsers } from 'features/user/redux/user.slice';
+import { MajorData } from 'features/user/constants/user.constants';
+
 
 const ActionUser = ({ setOpen }) => {
   const dispatch = useDispatch();
-  const { listMajors, listCampuses, messenger, superAdmin } = useSelector(
+  const {  messenger, superAdmin ,campus_id } = useSelector(
     (state) => ({
-      listMajors: state.majors?.listMajors,
-      listCampuses: state.campuses?.listCampuses,
       messenger: state.user?.messenger,
       superAdmin: state.auth?.userLogin?.superAdmin,
+      campus_id: state.auth?.userLogin?.campus_id,
     })
   );
-
-  const listMajorsOption = MapOptions(listMajors);
-  const listCampusesOption = MapOptions(listCampuses);
   const [isLoading, setLoading] = useState(false);
+  const [roleMini ,setRoleMini] =  useState(false)
+  const [valueMajor,setValueMajor] = useState("")
   const getAll = useCallback(() => {
     dispatch(getCampuses());
     dispatch(getMajors());
@@ -39,17 +38,19 @@ const ActionUser = ({ setOpen }) => {
   const TYPE_ROLE = [
     { label: 'Giảng viên ', value: 1 },
     { label: 'Chủ nhiệm bộ môn', value: 3 },
-    ...(superAdmin ? [{ label: 'Giáo vụ', value: 4 }] : []),
+    ...(superAdmin ?  [{ label: 'Giáo vụ', value: 4 }] : []),
   ];
-
+ 
   return (
     <>
       <Formik
         enableReinitialize
-        initialValues={initFormAdd}
+        initialValues={initFormAdd }
         validationSchema={schema}
         onSubmit={async (values, { resetForm }) => {
           setLoading(true);
+          values.campus_id = campus_id
+          values.major_id = !roleMini ?  "" :  valueMajor
           const response = await dispatch(postUsers(values));
           if (postUsers.fulfilled.match(response)) {
             toast.success('Thành công !');
@@ -77,20 +78,22 @@ const ActionUser = ({ setOpen }) => {
                 <ElementInput type="text" placeholder="Email" name="email" />
                 {messenger && <div> {messenger.email[0]} </div>}
               </div>
-
+        
               <div className="from-group">
-                <label htmlFor=""> Cơ Sở </label>
+                <label htmlFor=""> Chức vụ  </label>
                 <div className="box-select">
                   <ElementSelect
                     type="text"
-                    placeholder="Cơ Sở  "
+                    placeholder="Chức vụ "
                     className="select"
-                    name="campus_id"
-                    options={listCampusesOption || []}
+                    name="type"
+                    options={TYPE_ROLE}
+                    setRoleMini={setRoleMini}
+                    setValueMajor={setValueMajor}
                   />
                 </div>
               </div>
-              <div className="from-group">
+           {roleMini === true  &&  <div className="from-group">
                 <label htmlFor=""> Chuyên ngành </label>
                 <div className="box-select">
                   <ElementSelect
@@ -98,22 +101,13 @@ const ActionUser = ({ setOpen }) => {
                     placeholder="Chuyên Ngành "
                     className="select"
                     name="major_id"
-                    options={listMajorsOption || []}
+                    options={MajorData}
+                    setRoleMini={setRoleMini}
+                    setValueMajor={setValueMajor}
                   />
                 </div>
-              </div>
-              <div className="from-group">
-                <label htmlFor=""> Loại </label>
-                <div className="box-select">
-                  <ElementSelect
-                    type="text"
-                    placeholder="Type"
-                    className="select"
-                    name="type"
-                    options={TYPE_ROLE}
-                  />
-                </div>
-              </div>
+              </div>  
+        }
               <GroupAction>
                 <Button
                   size="medium"

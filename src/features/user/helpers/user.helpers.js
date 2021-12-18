@@ -15,9 +15,7 @@ export const schema = Yup.object().shape({
   email: Yup.string()
     .email('Email không hợp lệ !')
     .required('Vui lòng nhập email !'),
-  campus_id: Yup.string().required('Vui lòng chọn cơ sở  !'),
   type: Yup.string().required('Vui lòng chọn loại   !'),
-  major_id: Yup.string().required('Vui lòng chọn chuyên ngành !'),
 });
 
 export const initFormAdd = {

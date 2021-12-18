@@ -8,9 +8,9 @@ export const BoxCheckbox = styled.div`
     font-size: 1.4rem;
     cursor: pointer;
     min-width: 10rem;
-    margin-right: 2rem;
     white-space: nowrap;
     user-select: none;
+    margin-left : 1rem;
   }
   .checkbox-field {
     appearance: none;
