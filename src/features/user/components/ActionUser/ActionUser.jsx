@@ -16,11 +16,15 @@ import { postUsers } from 'features/user/redux/user.slice';
 
 const ActionUser = ({ setOpen }) => {
   const dispatch = useDispatch();
-  const { listMajors, listCampuses, messenger } = useSelector((state) => ({
-    listMajors: state.majors.listMajors,
-    listCampuses: state.campuses.listCampuses,
-    messenger: state.user.messenger,
-  }));
+  const { listMajors, listCampuses, messenger, superAdmin } = useSelector(
+    (state) => ({
+      listMajors: state.majors?.listMajors,
+      listCampuses: state.campuses?.listCampuses,
+      messenger: state.user?.messenger,
+      superAdmin: state.auth?.userLogin?.superAdmin,
+    })
+  );
+
   const listMajorsOption = MapOptions(listMajors);
   const listCampusesOption = MapOptions(listCampuses);
   const [isLoading, setLoading] = useState(false);
@@ -31,6 +35,13 @@ const ActionUser = ({ setOpen }) => {
   useEffect(() => {
     getAll();
   }, [dispatch, getAll]);
+
+  const TYPE_ROLE = [
+    { label: 'Giảng viên ', value: 1 },
+    { label: 'Chủ nhiệm bộ môn', value: 3 },
+    ...(superAdmin ? [{ label: 'Giáo vụ', value: 4 }] : []),
+  ];
+
   return (
     <>
       <Formik
@@ -99,10 +110,7 @@ const ActionUser = ({ setOpen }) => {
                     placeholder="Type"
                     className="select"
                     name="type"
-                    options={[
-                      { label: 'Giảng viên ', value: 1 },
-                      { label: 'Chủ nhiệm bộ môn', value: 2 },
-                    ]}
+                    options={TYPE_ROLE}
                   />
                 </div>
               </div>

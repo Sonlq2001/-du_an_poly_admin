@@ -49,9 +49,17 @@ const authSlice = createSlice({
       state.accessToken = null;
     },
     [postAccessToken.fulfilled]: (state, action) => {
-      const { email, avatar, id } = action.payload.user;
+      const { email, avatar, id, ministry_is, superadmin_is, teacher_is } =
+        action.payload.user;
       state.accessToken = action?.payload.access_token;
-      state.userLogin = { avatar, email, id };
+      state.userLogin = {
+        avatar,
+        email,
+        id,
+        superAdmin: superadmin_is,
+        ministry: ministry_is,
+        teacher: teacher_is,
+      };
       const keys = [1, 2, 3, 4];
 
       const listPermission = action.payload.user?.role;
