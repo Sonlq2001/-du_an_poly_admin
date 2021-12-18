@@ -3,9 +3,9 @@ import { useFormikContext } from 'formik';
 
 import { BoxCheckbox } from './ElementCheckbox.styles';
 
-const ElementCheckbox = ({ id, data, name, ...props }) => {
+const ElementCheckbox = ({ id, data, name, superAdmin, ...props }) => {
   const { setFieldValue, values } = useFormikContext(props);
-
+  console.log('vô đây', superAdmin);
   const handleChange = (e) => {
     const { checked, value } = e.target;
     if (checked) {
@@ -32,18 +32,25 @@ const ElementCheckbox = ({ id, data, name, ...props }) => {
         data.map((item) => {
           return (
             <BoxCheckbox key={item.id}>
-              <label htmlFor={item.id} className="label-filed label-checkbox">
+              <span hidden={item.name === 'superadmin' ? true : false}>
+            
+                <input
+                  type="checkbox"
+                  className="checkbox-field"
+                  id={item.id}
+                  name={name}
+                  value={item.name}
+                  checked={mixArray.includes(item.name)}
+                  onChange={handleChange}
+                />
+              </span>
+              <label
+                hidden={item.name === 'superadmin' ? true : false}
+                htmlFor={item.id}
+                className="label-filed label-checkbox"
+              >
                 {item.name}
               </label>
-              <input
-                type="checkbox"
-                className="checkbox-field"
-                id={item.id}
-                name={name}
-                value={item.name}
-                checked={mixArray.includes(item.name)}
-                onChange={handleChange}
-              />
             </BoxCheckbox>
           );
         })}

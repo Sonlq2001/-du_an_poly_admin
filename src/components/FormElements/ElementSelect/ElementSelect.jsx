@@ -4,13 +4,24 @@ import { useField, ErrorMessage } from 'formik';
 
 import { BoxSelect } from './ElementSelect.styles';
 
-const ElementSelect = ({ label, options, placeholder, ...props }) => {
+const ElementSelect = ({ label, options, placeholder,setRoleMini,setValueMajor, ...props }) => {
   const [field, meta, helpers] = useField(props);
   const classError = meta.touched && meta.error;
   const valueSelected = options.find((option) => option.value === field.value);
 
   const handleSelect = (selected) => {
     const option = selected ? selected.value : selected;
+    if(field.name ==="type"){
+      if(option === 4){
+        setRoleMini(false)
+        setValueMajor(" ")
+      } else{
+      setRoleMini(true)
+     
+      }
+    }
+    setValueMajor(option)
+    
     const valueOption = {
       target: {
         name: field.name,
@@ -18,6 +29,7 @@ const ElementSelect = ({ label, options, placeholder, ...props }) => {
       },
     };
     field.onChange(valueOption);
+
   };
   return (
     <BoxSelect className={classError ? 'error-group' : ''}>
