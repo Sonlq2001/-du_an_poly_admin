@@ -33,7 +33,15 @@ export const removeDocument = createAsyncThunk(
     await UpdateProductApi.removeDocument(resource_url);
   }
 );
-
+// cập nhật 
+export const UpdateProduct = createAsyncThunk("product-update/update", async (data)=>{
+  try {
+      const response = await UpdateProductApi.updateProduct(data)
+  
+  } catch (error) {
+    
+  }
+})
 const initialState = {
   productDetail : "",
   loading : false,

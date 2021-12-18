@@ -39,6 +39,7 @@ import {
   getProductTypes,
   getDetailProduct,
   removeImage,
+  UpdateProduct
 } from '../redux/update-product.slice';
 import Loading from 'components/Loading/Loading';
 
@@ -150,8 +151,12 @@ const AddProduct = () => {
             setLoadingButton(STATUS_KEY_INPUT.LOADING);
             setDisableButton(true);
             console.log('newObjProduct', newObjProduct);
-            // const response = await dispatch(postAddProduct(newObjProduct));
-            // if (postAddProduct.fulfilled.match(response)) {
+            const data = {
+              newObjProduct : newObjProduct,
+              id :id
+            }
+            // const response = await dispatch(UpdateProduct(data));
+            // if (UpdateProduct.fulfilled.match(response)) {
             //   toast.success('Thêm sản phẩm thành công !');
             //   setLoadingButton(STATUS_KEY_INPUT.DEFAULT);
             //   setTimeout(
