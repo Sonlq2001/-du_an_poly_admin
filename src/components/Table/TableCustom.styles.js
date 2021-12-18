@@ -1,8 +1,4 @@
 import styled from 'styled-components';
-import {
-  GroupAction,
-  ListAction,
-} from 'features/confirm/components/ConfirmTable/ConfirmTable.styles';
 
 export const GroupTale = styled.div`
   overflow-x: auto;
@@ -81,37 +77,6 @@ export const TableTr = styled.tr`
   li {
     list-style: none;
     padding: 2px 0px;
-  }
-  &:first-child td ${GroupAction} ${ListAction} {
-    top: -3rem;
-  }
-  &:last-child td ${GroupAction} ${ListAction} {
-    top: ${({ status }) => {
-      switch (status) {
-        case 3:
-          return '-9.5rem';
-        case 2:
-          return '-15rem';
-        case 1:
-          return '-15rem';
-        default:
-          break;
-      }
-    }};
-  }
-  &:not(:first-child, :last-child) td ${GroupAction} ${ListAction} {
-    top: ${({ status }) => {
-      switch (status) {
-        case 3:
-          return '-6rem';
-        case 2:
-          return '-10rem';
-        case 1:
-          return '-10rem';
-        default:
-          break;
-      }
-    }};
   }
 `;
 

@@ -170,8 +170,9 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                     default:
                       break;
                   }
+
                   return (
-                    <Tr key={row?.id} status={row?.status}>
+                    <Tr key={row?.id}>
                       <Td> {row?.id}</Td>
                       <Td>{row?.name} </Td>
                       <Td>{row?.class} </Td>
@@ -262,14 +263,16 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                                   Xem trước
                                 </div>
 
-                                <div className="item-action">
-                                  <span className="icon-action">
-                                    <MdModeEdit />
-                                  </span>
-                                  <Link to={`/product/update/${row.id}`}>
-                                    Sửa
-                                  </Link>
-                                </div>
+                                {userLogin?.id === row?.teacher_id && (
+                                  <div className="item-action">
+                                    <span className="icon-action">
+                                      <MdModeEdit />
+                                    </span>
+                                    <Link to={`/product/update/${row.id}`}>
+                                      Sửa
+                                    </Link>
+                                  </div>
+                                )}
 
                                 {(row?.status === 1 || row.status === 2) &&
                                   userLogin?.id === row?.teacher_id && (
