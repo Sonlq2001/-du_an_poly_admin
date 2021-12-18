@@ -57,11 +57,12 @@ const SemesterScreen = () => {
     dispatch(getSemester(pagination));
   }, [dispatch, pagination]);
 
-  const { listSemester, isListSemesterLoading, total } = useSelector(
+  const { listSemester, isListSemesterLoading, total, userLogin } = useSelector(
     (state) => ({
       listSemester: state.semester?.listSemester,
       isListSemesterLoading: state.semester?.isListSemesterLoading,
       total: state.semester?.total,
+      userLogin: state.auth?.userLogin,
     })
   );
   const { dataSort, requestSort } = useSortableData(listSemester);
@@ -142,25 +143,27 @@ const SemesterScreen = () => {
               </span>
             )} */}
           </div>
-          <div className="buttonAction">
-            <Button
-              disabled={!listChecked.length || isLoading}
-              onClick={handleRemoveAll}
-              loading={isLoading}
-            >
-              Xóa tất cả
-            </Button>
-            <Button
-              icon={<IoMdAdd />}
-              color="primary"
-              onClick={() => {
-                setIsDialogSemester(true);
-                setItemSemester(initForm);
-              }}
-            >
-              Thêm
-            </Button>
-          </div>
+          {(userLogin?.superAdmin || userLogin?.ministry) && (
+            <div className="buttonAction">
+              <Button
+                disabled={!listChecked.length || isLoading}
+                onClick={handleRemoveAll}
+                loading={isLoading}
+              >
+                Xóa tất cả
+              </Button>
+              <Button
+                icon={<IoMdAdd />}
+                color="primary"
+                onClick={() => {
+                  setIsDialogSemester(true);
+                  setItemSemester(initForm);
+                }}
+              >
+                Thêm
+              </Button>
+            </div>
+          )}
         </HeaderTable>
 
         {listSemester && listSemester.length > 0 ? (
@@ -180,7 +183,9 @@ const SemesterScreen = () => {
                   <Th sort onClick={() => requestSort('name')}>
                     Kỳ học
                   </Th>
-                  <Th align="right">Thao tác</Th>
+                  {(userLogin?.superAdmin || userLogin?.ministry) && (
+                    <Th align="right">Thao tác</Th>
+                  )}
                 </Tr>
               </Thead>
               <Tbody>
@@ -194,28 +199,30 @@ const SemesterScreen = () => {
                     </Td>
                     <Td>{row?.id}</Td>
                     <Td>{row?.name}</Td>
-                    <Td>
-                      <BoxActionTable>
-                        <Button
-                          color="warning"
-                          icon={<MdModeEdit />}
-                          size="small"
-                          onClick={() => {
-                            setItemSemester(row);
-                            setIsDialogSemester(true);
-                          }}
-                        />
-                        <Button
-                          color="danger"
-                          size="small"
-                          icon={<BsTrash />}
-                          onClick={() => {
-                            setItemSemester(row);
-                            setIsDialogSemesterRemove(true);
-                          }}
-                        />
-                      </BoxActionTable>
-                    </Td>
+                    {(userLogin?.superAdmin || userLogin?.ministry) && (
+                      <Td>
+                        <BoxActionTable>
+                          <Button
+                            color="warning"
+                            icon={<MdModeEdit />}
+                            size="small"
+                            onClick={() => {
+                              setItemSemester(row);
+                              setIsDialogSemester(true);
+                            }}
+                          />
+                          <Button
+                            color="danger"
+                            size="small"
+                            icon={<BsTrash />}
+                            onClick={() => {
+                              setItemSemester(row);
+                              setIsDialogSemesterRemove(true);
+                            }}
+                          />
+                        </BoxActionTable>
+                      </Td>
+                    )}
                   </Tr>
                 ))}
               </Tbody>
