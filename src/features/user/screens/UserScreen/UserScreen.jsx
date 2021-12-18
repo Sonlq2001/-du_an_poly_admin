@@ -79,7 +79,7 @@ const UserScreen = () => {
       ...dataPagination,
     });
   };
-
+  console.log(dataSort);
   return (
     <>
       {isListUserLoading && <Loading />}
@@ -143,7 +143,7 @@ const UserScreen = () => {
             <Thead>
               <Tr>
                 <Th sort onClick={() => requestSort('id')}>
-                  STT
+                  #
                 </Th>
                 <Th sort onClick={() => requestSort('name')}>
                   Tên
@@ -152,65 +152,63 @@ const UserScreen = () => {
                 <Th sort onClick={() => requestSort('email')}>
                   Email
                 </Th>
-                <Th sort onClick={() => requestSort('student_code')}>
-                  MSSV
-                </Th>
                 <Th>Vai trò</Th>
                 <Th align="right">Thao tác</Th>
               </Tr>
             </Thead>
 
             <Tbody>
-              {dataSort.map((row) => (
-                <Tr key={row?.id}>
-                  <Td>{row?.id}</Td>
-                  <Td nowrap>{row?.name}</Td>
-                  <Td>
-                    <BoxAvatar>
-                      <img
-                        src={row?.avatar || avatarEmpty}
-                        width="50px"
-                        height="50px"
-                        alt=""
-                        className="img-user"
-                      />
-                    </BoxAvatar>
-                  </Td>
-                  <Td>{row?.email}</Td>
-                  <Td>{row?.student_code || '-'}</Td>
-                  <Td>
-                    <GroupRole>
-                      {row?.roles &&
-                        row.roles.map((item) => (
-                          <div className="item-role">
-                            <HightLightText value={item?.name}>
-                              {item?.name}
-                            </HightLightText>
-                          </div>
-                        ))}
-                    </GroupRole>
-                  </Td>
-                  <Td>
-                    <BoxActionTable>
-                      <Button
-                        color="warning"
-                        to={USER_PATHS.USER_PROFILE.replace(/:id/, row?.id)}
-                        icon={<MdModeEdit />}
-                        size="small"
-                      />
+              {dataSort.map((row) => {
+                return (
+                  <Tr key={row?.id}>
+                    <Td>{row?.id}</Td>
+                    <Td nowrap>{row?.name}</Td>
+                    <Td>
+                      <BoxAvatar>
+                        <img
+                          src={row?.avatar || avatarEmpty}
+                          width="50px"
+                          height="50px"
+                          alt=""
+                          className="img-user"
+                        />
+                      </BoxAvatar>
+                    </Td>
+                    <Td>{row?.email}</Td>
+                    <Td>
+                      <GroupRole>
+                        {row?.roles &&
+                          row.roles.map((item) => (
+                            <div className="item-role">
+                              <HightLightText value={item?.name}>
+                                {item?.name}
+                              </HightLightText>
+                            </div>
+                          ))}
+                      </GroupRole>
+                    </Td>
+                    <Td>
+                      <BoxActionTable>
+                        <Button
+                          color="warning"
+                          to={USER_PATHS.USER_PROFILE.replace(/:id/, row?.id)}
+                          icon={<MdModeEdit />}
+                          size="small"
+                        />
 
-                      <Button
-                        color="danger"
-                        size="small"
-                        icon={<BsTrash />}
-                        onClick={() =>
-                          setIsOpenDeleteUser(true) + setItemUser(row)
-                        }
-                      />
-                    </BoxActionTable>
-                  </Td>
-                </Tr>
-              ))}
+                        <Button
+                          color="danger"
+                          size="small"
+                          icon={<BsTrash />}
+                          onClick={() =>
+                            setIsOpenDeleteUser(true) + setItemUser(row)
+                          }
+                        />
+                      </BoxActionTable>
+                    </Td>
+                  </Tr>
+                );
+              })}
             </Tbody>
           </TableCustom>
         ) : (

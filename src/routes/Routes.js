@@ -29,6 +29,7 @@ const WrapRoute = ({
         : pathPrivate.url
     )
     .concat('/');
+
   if (isPrivateRoute && !isSignedIn) {
     return <LoginRedirect />;
   }

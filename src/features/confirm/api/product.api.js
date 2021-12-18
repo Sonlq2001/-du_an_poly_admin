@@ -29,8 +29,8 @@ const detailProduct = (id) => {
   return api.get(PRODUCT_PATH.DETAIL.replace(':id', id.toString()));
 };
 
-const getProductUser = (id) => {
-  return api.post(CONFIRM_ENDPOINTS.GET_USER_PRODUCT, id);
+const getProductUser = ({ user_id }) => {
+  return api.get(CONFIRM_ENDPOINTS.GET_USER_PRODUCT.replace(':id', user_id));
 };
 
 const postSearchProduct = (data) => {
