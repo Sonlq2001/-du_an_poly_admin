@@ -38,6 +38,16 @@ export const ContentForm = styled.div`
       margin-top: 0;
     }
   }
+  .error-group .css-1s2u09g-control {
+    border: 1px solid var(--red-color);
+    background-color: var(--red-bg-err);
+  }
+
+  .error-msg {
+    font-size: 1.3rem;
+    color: var(--red-color);
+    margin-top: 5px;
+  }
 `;
 
 export const GroupAction = styled.div`

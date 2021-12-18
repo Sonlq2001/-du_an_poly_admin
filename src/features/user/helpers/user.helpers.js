@@ -9,13 +9,11 @@ export const initForm = {
 };
 
 export const schema = Yup.object().shape({
-  name: Yup.string()
-    .required('Vui lòng nhập môn học !')
-    .min(5, 'Ký tự phải lớn hơn 5'),
+  name: Yup.string().required('Vui lòng nhập môn học !'),
   email: Yup.string()
     .email('Email không hợp lệ !')
     .required('Vui lòng nhập email !'),
-  type: Yup.string().required('Vui lòng chọn loại   !'),
+  type: Yup.string().required('Vui lòng chọn loại !'),
 });
 
 export const initFormAdd = {

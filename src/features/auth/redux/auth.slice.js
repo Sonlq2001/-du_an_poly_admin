@@ -13,7 +13,6 @@ export const postAccessToken = createAsyncThunk(
         campus_code: data.codeCampus,
         access_token: data.accessToken,
       });
-      console.log("vô đây", response.data)
       return response.data;
     } catch (error) {
       return rejectWithValue(_get(error.response.data, 'errors', ''));
@@ -51,8 +50,15 @@ const authSlice = createSlice({
       state.accessToken = null;
     },
     [postAccessToken.fulfilled]: (state, action) => {
-      const { email, avatar, id, ministry_is, superadmin_is, teacher_is ,campus_id} =
-      action.payload.user;
+      const {
+        email,
+        avatar,
+        id,
+        ministry_is,
+        superadmin_is,
+        teacher_is,
+        campus_id,
+      } = action.payload.user;
       state.accessToken = action?.payload.access_token;
       state.userLogin = {
         avatar,
@@ -61,7 +67,7 @@ const authSlice = createSlice({
         superAdmin: superadmin_is,
         ministry: ministry_is,
         teacher: teacher_is,
-        campus_id : campus_id
+        campus_id: campus_id,
       };
       const keys = [1, 2, 3, 4];
       let arrayPath = [];
