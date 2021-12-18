@@ -43,10 +43,11 @@ const UserProfile = () => {
     dispatch(getRole());
   }, [dispatch]);
 
-  const { isItemUserLoading, itemUser, listRole } = useSelector((state) => ({
+  const { isItemUserLoading, itemUser, listRole ,superAdmin} = useSelector((state) => ({
     isItemUserLoading: state.user?.isItemUserLoading,
     itemUser: state.user?.itemUser,
     listRole: state.role?.listRole,
+    superAdmin: state.auth?.userLogin?.superAdmin,
   }));
 
   return (
@@ -138,7 +139,7 @@ const UserProfile = () => {
                     <BoxNote>
                       <h4 className="title-profile">Vai trò / vị trí</h4>
                       <div className="group-role">
-                        <ElementCheckbox name="roles" data={listRole} />
+                        <ElementCheckbox name="roles" data={listRole} superAdmin={superAdmin} />
                       </div>
                     </BoxNote>
                   </GroupContent>
