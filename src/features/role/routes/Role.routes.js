@@ -2,6 +2,12 @@ import { lazy } from 'react';
 
 import { ROLE_PATHS } from '../constants/role.paths';
 
+// const data = JSON.parse(localStorage.getItem('persist:auth')).permission;
+// const result = JSON.parse(data);
+
+// const result2 = result.map((item) => item.items);
+// console.log(...result2);
+
 const ROLE_SCREEN = {
   id: 'id_role',
   path: ROLE_PATHS.LIST,
