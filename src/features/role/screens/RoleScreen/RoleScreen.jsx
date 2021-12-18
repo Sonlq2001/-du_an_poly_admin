@@ -42,12 +42,6 @@ import { useSortableData } from 'helpers/sortingTable/sortingTable';
 import { defaultPaginationParams } from 'constants/api.constants';
 import NotFound from 'components/NotFound/NotFound';
 
-const headerCells = [
-  { label: '#', fieldSort: 'id', sort: true },
-  { label: 'Vai trò', fieldSort: 'name', sort: true },
-  { label: 'Thao tác', sort: false, align: 'right' },
-];
-
 const RoleScreen = () => {
   const dispatch = useDispatch();
   const [itemRole, setItemRole] = useState(initForm);
@@ -67,11 +61,23 @@ const RoleScreen = () => {
     fetchData();
   }, [dispatch, fetchData]);
 
-  const { listRole, isListRoleLoading, total } = useSelector((state) => ({
-    listRole: state.role?.listRole,
-    isListRoleLoading: state.role?.isListRoleLoading,
-    total: state.role?.total,
-  }));
+  const { listRole, isListRoleLoading, total, userLogin } = useSelector(
+    (state) => ({
+      listRole: state.role?.listRole,
+      isListRoleLoading: state.role?.isListRoleLoading,
+      total: state.role?.total,
+      userLogin: state.auth?.userLogin,
+    })
+  );
+
+  const headerCells = [
+    { label: '#', fieldSort: 'id', sort: true },
+    { label: 'Vai trò', fieldSort: 'name', sort: true },
+    ...(userLogin?.superAdmin || userLogin?.ministry
+      ? [{ label: 'Thao tác', sort: false, align: 'right' }]
+      : []),
+  ];
+
   const { dataSort, requestSort } = useSortableData(listRole);
 
   const isCheckedAll = useMemo(() => {
@@ -150,22 +156,25 @@ const RoleScreen = () => {
               </span>
             )} */}
           </div>
-          <div className="buttonAction">
-            <Button
-              disabled={!listChecked.length || isLoading}
-              onClick={handleRemoveAll}
-              loading={isLoading}
-            >
-              Xóa tất cả
-            </Button>
-            <Button
-              to={ROLE_PATHS.ROLE_ACTION_ADD}
-              icon={<IoMdAdd />}
-              color="primary"
-            >
-              Thêm
-            </Button>
-          </div>
+
+          {(userLogin?.superAdmin || userLogin?.ministry) && (
+            <div className="buttonAction">
+              <Button
+                disabled={!listChecked.length || isLoading}
+                onClick={handleRemoveAll}
+                loading={isLoading}
+              >
+                Xóa tất cả
+              </Button>
+              <Button
+                to={ROLE_PATHS.ROLE_ACTION_ADD}
+                icon={<IoMdAdd />}
+                color="primary"
+              >
+                Thêm
+              </Button>
+            </div>
+          )}
         </HeaderTable>
 
         {listRole && listRole.length > 0 ? (
@@ -202,28 +211,30 @@ const RoleScreen = () => {
                     </Td>
                     <Td>{row?.id}</Td>
                     <Td>{row?.name}</Td>
-                    <Td>
-                      <BoxActionTable>
-                        <Button
-                          color="warning"
-                          icon={<MdModeEdit />}
-                          size="small"
-                          to={ROLE_PATHS.ROLE_ACTION_EDIT.replace(
-                            ':id',
-                            row?.id
-                          )}
-                        />
-                        <Button
-                          color="danger"
-                          size="small"
-                          icon={<BsTrash />}
-                          onClick={() => {
-                            setIsDialogDeleteRole(true);
-                            setItemRole(row);
-                          }}
-                        />
-                      </BoxActionTable>
-                    </Td>
+                    {(userLogin?.superAdmin || userLogin?.ministry) && (
+                      <Td>
+                        <BoxActionTable>
+                          <Button
+                            color="warning"
+                            icon={<MdModeEdit />}
+                            size="small"
+                            to={ROLE_PATHS.ROLE_ACTION_EDIT.replace(
+                              ':id',
+                              row?.id
+                            )}
+                          />
+                          <Button
+                            color="danger"
+                            size="small"
+                            icon={<BsTrash />}
+                            onClick={() => {
+                              setIsDialogDeleteRole(true);
+                              setItemRole(row);
+                            }}
+                          />
+                        </BoxActionTable>
+                      </Td>
+                    )}
                   </Tr>
                 ))}
               </Tbody>
