@@ -72,13 +72,13 @@ const ProductTypeScreen = () => {
     });
   };
 
-  const { listProductType, isListProductTypeLoading, total } = useSelector(
-    (state) => ({
+  const { listProductType, isListProductTypeLoading, total, userLogin } =
+    useSelector((state) => ({
       listProductType: state.productType?.listProductType,
       isListProductTypeLoading: state.productType?.isListProductTypeLoading,
       total: state.productType?.total,
-    })
-  );
+      userLogin: state.auth?.userLogin,
+    }));
   const { dataSort, requestSort } = useSortableData(
     listProductType ? listProductType : []
   );
@@ -155,25 +155,27 @@ const ProductTypeScreen = () => {
               </span>
             )} */}
           </div>
-          <div className="buttonAction">
-            <Button
-              disabled={!listChecked.length || isLoading}
-              onClick={handleRemoveAll}
-              loading={isLoading}
-            >
-              Xóa tất cả
-            </Button>
-            <Button
-              icon={<IoMdAdd />}
-              color="primary"
-              onClick={() => {
-                setIsDialogProductType(true);
-                setItemProductType(initForm);
-              }}
-            >
-              Thêm
-            </Button>
-          </div>
+          {(userLogin?.superAdmin || userLogin?.ministry) && (
+            <div className="buttonAction">
+              <Button
+                disabled={!listChecked.length || isLoading}
+                onClick={handleRemoveAll}
+                loading={isLoading}
+              >
+                Xóa tất cả
+              </Button>
+              <Button
+                icon={<IoMdAdd />}
+                color="primary"
+                onClick={() => {
+                  setIsDialogProductType(true);
+                  setItemProductType(initForm);
+                }}
+              >
+                Thêm
+              </Button>
+            </div>
+          )}
         </HeaderTable>
 
         {listProductType && listProductType.length > 0 ? (
@@ -193,7 +195,9 @@ const ProductTypeScreen = () => {
                   <Th sort onClick={() => requestSort('name')}>
                     Tên Danh Mục
                   </Th>
-                  <Th align="right">Thao tác</Th>
+                  {(userLogin?.superAdmin || userLogin?.ministry) && (
+                    <Th align="right">Thao tác</Th>
+                  )}
                 </Tr>
               </Thead>
               <Tbody>
@@ -207,28 +211,30 @@ const ProductTypeScreen = () => {
                     </Td>
                     <Td>{row.id}</Td>
                     <Td>{row.name}</Td>
-                    <Td>
-                      <BoxActionTable>
-                        <Button
-                          color="warning"
-                          icon={<MdModeEdit />}
-                          size="small"
-                          onClick={() => {
-                            setItemProductType(row);
-                            setIsDialogProductType(true);
-                          }}
-                        />
-                        <Button
-                          color="danger"
-                          size="small"
-                          icon={<BsTrash />}
-                          onClick={() => {
-                            setItemProductType(row);
-                            setIsDialogProductTypeRemove(true);
-                          }}
-                        />
-                      </BoxActionTable>
-                    </Td>
+                    {(userLogin?.superAdmin || userLogin?.ministry) && (
+                      <Td>
+                        <BoxActionTable>
+                          <Button
+                            color="warning"
+                            icon={<MdModeEdit />}
+                            size="small"
+                            onClick={() => {
+                              setItemProductType(row);
+                              setIsDialogProductType(true);
+                            }}
+                          />
+                          <Button
+                            color="danger"
+                            size="small"
+                            icon={<BsTrash />}
+                            onClick={() => {
+                              setItemProductType(row);
+                              setIsDialogProductTypeRemove(true);
+                            }}
+                          />
+                        </BoxActionTable>
+                      </Td>
+                    )}
                   </Tr>
                 ))}
               </Tbody>

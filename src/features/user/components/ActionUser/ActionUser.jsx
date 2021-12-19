@@ -33,7 +33,6 @@ const ActionUser = ({ setOpen }) => {
   const TYPE_ROLE = [
     { label: 'Giảng viên ', value: 1 },
     { label: 'Chủ nhiệm bộ môn', value: 3 },
-    { label: 'Giáo vụ', value: 4 },
     ...(superAdmin ? [{ label: 'Giáo vụ', value: 4 }] : []),
   ];
 

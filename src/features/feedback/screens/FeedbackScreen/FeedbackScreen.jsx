@@ -60,11 +60,12 @@ const FeedbackScreen = () => {
     });
   };
 
-  const { listFeedback, isListFeedbackLoading, total } = useSelector(
+  const { listFeedback, isListFeedbackLoading, total, userLogin } = useSelector(
     (state) => ({
       listFeedback: state.feedback?.listFeedback,
       isListFeedbackLoading: state.feedback?.isListFeedbackLoading,
       total: state.feedback?.total,
+      userLogin: state.auth?.userLogin,
     })
   );
 
@@ -140,15 +141,17 @@ const FeedbackScreen = () => {
               </span>
             )} */}
           </div>
-          <div className="buttonAction">
-            <Button
-              disabled={!listChecked.length || isLoading}
-              onClick={handleRemoveAll}
-              loading={isLoading}
-            >
-              Xóa tất cả
-            </Button>
-          </div>
+          {(userLogin?.superAdmin || userLogin?.ministry) && (
+            <div className="buttonAction">
+              <Button
+                disabled={!listChecked.length || isLoading}
+                onClick={handleRemoveAll}
+                loading={isLoading}
+              >
+                Xóa tất cả
+              </Button>
+            </div>
+          )}
         </HeaderTable>
 
         {listFeedback && listFeedback.length > 0 ? (
@@ -174,7 +177,9 @@ const FeedbackScreen = () => {
                   <Th sort onClick={() => requestSort('created_at')}>
                     Thời gian
                   </Th>
-                  <Th align="right">Thao tác</Th>
+                  {(userLogin?.superAdmin || userLogin?.ministry) && (
+                    <Th align="right">Thao tác</Th>
+                  )}
                 </Tr>
               </Thead>
               <Tbody>
@@ -192,19 +197,22 @@ const FeedbackScreen = () => {
                     <Td>
                       {moment(row?.created_at).format('YYYY-MM-DD HH:mm:ss')}
                     </Td>
-                    <Td>
-                      <BoxActionTable>
-                        <Button
-                          color="danger"
-                          size="small"
-                          icon={<BsTrash />}
-                          onClick={() =>
-                            setCurrentIdFeedback(row?.id) +
-                            setIsDialogFeedback(true)
-                          }
-                        />
-                      </BoxActionTable>
-                    </Td>
+
+                    {(userLogin?.superAdmin || userLogin?.ministry) && (
+                      <Td>
+                        <BoxActionTable>
+                          <Button
+                            color="danger"
+                            size="small"
+                            icon={<BsTrash />}
+                            onClick={() =>
+                              setCurrentIdFeedback(row?.id) +
+                              setIsDialogFeedback(true)
+                            }
+                          />
+                        </BoxActionTable>
+                      </Td>
+                    )}
                   </Tr>
                 ))}
               </Tbody>
