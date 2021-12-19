@@ -31,6 +31,7 @@ import { getProductType } from 'features/product-type/redux/product-type.slice';
 import { MapOptions } from 'helpers/convert/map-options';
 import ReviewProduct from 'features/confirm/components/Review/ReviewProduct';
 import { defaultPaginationParams } from 'constants/api.constants';
+import { DataMajor, DataMini } from './../../constants/confirm.constants';
 
 const ConfirmScreen = () => {
   const dispatch = useDispatch();
@@ -135,12 +136,7 @@ const ConfirmScreen = () => {
             </label>
             <Select
               className="select-option input-search"
-              options={[
-                { label: 'Quản trị', value: 1 },
-                { label: 'Giáo vụ', value: 2 },
-                { label: 'Giảng viên', value: 3 },
-                { label: 'Sinh viên', value: 4 },
-              ]}
+              options={DataMini}
               placeholder="Tìm theo chủ nhiệm"
               onChange={(e) => handleFilterCommon(e, 'major')}
             />
@@ -154,14 +150,9 @@ const ConfirmScreen = () => {
               </label>
               <Select
                 className="select-option input-search"
-                options={[
-                  { label: 'Quản trị', value: 1 },
-                  { label: 'Giáo vụ', value: 2 },
-                  { label: 'Giảng viên', value: 3 },
-                  { label: 'Sinh viên', value: 4 },
-                ]}
+                options={ DataMajor}
                 placeholder="Tìm theo bộ môn"
-                onChange={(e) => handleFilterCommon(e, 'master_user')}
+                onChange={(e) => handleFilterCommon(e, 'teacher_user_major')}
               />
             </BoxControl>
 
