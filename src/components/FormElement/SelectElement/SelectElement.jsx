@@ -12,14 +12,17 @@ const SelectElement = ({
   ...props
 }) => {
   const [field] = useField(props);
+  const valueSelected = options.find((option) => option.value === field.value);
   const handleChangeSelect = (value) => {
+   
+    const option = value ? value.value : value;
     if (props.name === 'subject_id') {
       setValueSelect(value);
     }
     const valueOption = {
       target: {
         name: field.name,
-        value,
+        value:option
       },
     };
     field.onChange(valueOption);
@@ -38,6 +41,7 @@ const SelectElement = ({
         className="form-select"
         {...props}
         {...field}
+        value={valueSelected || null}
         onChange={handleChangeSelect}
       />
     </GroupSelect>

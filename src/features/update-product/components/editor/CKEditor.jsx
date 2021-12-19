@@ -9,8 +9,9 @@ const CKEditor = (props) => {
         setEditor(data);
       }}
       data={editor}
-      // {...props}
-      value="xnc aif "
+      {...props}
+      dataOld={props.data}
+      
     />
   );
 };

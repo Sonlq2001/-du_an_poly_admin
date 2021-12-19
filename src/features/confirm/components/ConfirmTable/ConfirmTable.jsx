@@ -117,7 +117,6 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
   };
   // sort
   const { dataSort, requestSort } = useSortableData(listProductUser ?? []);
-
   return (
     <WrapContent>
       {isListProductUser && <Loading />}

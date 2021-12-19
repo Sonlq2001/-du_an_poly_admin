@@ -43,7 +43,7 @@ export const UpdateProduct = createAsyncThunk("product-update/update", async (da
   }
 })
 const initialState = {
-  productDetail : "",
+  productDetail : null,
   loading : false,
   productType : []
 };
@@ -58,8 +58,8 @@ const ProductUpdateSlice = createSlice({
     },
     [getDetailProduct.fulfilled] : (state,action) =>{
       state.loading = true
-      state.productDetail = action.payload.data
-      if(action.payload.data){
+      state.productDetail = action.payload?.data
+      if(action.payload?.data  || !action.payload){
         state.loading = false
       }
     },
@@ -67,14 +67,15 @@ const ProductUpdateSlice = createSlice({
       state.loading = false
     },
     [getProductTypes.pending]: state=>{
-  
+      state.loading = true
     },
     [getProductTypes.fulfilled]: (state,action)=>{
       state.productType = action.payload?.product_types
+      state.loading = false
     },
     [getProductTypes.rejected]: state=>{
       state.productType = []
-     
+      state.loading = false
     },
   },
 });

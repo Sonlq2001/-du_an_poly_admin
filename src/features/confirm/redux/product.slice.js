@@ -51,6 +51,8 @@ export const getProductUser = createAsyncThunk(
   async (userId, { rejectWithValue }) => {
     try {
       const response = await confirmProductApi.getProductUser(userId);
+      console.log("vô đây ",response.data)
+      console.log("userId ",userId)
       return response.data;
     } catch (error) {
       return rejectWithValue(_get(error.response.data, 'errors', ''));
