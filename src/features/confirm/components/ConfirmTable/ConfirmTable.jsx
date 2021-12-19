@@ -215,7 +215,8 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                             >
                               <ListAction>
                                 {row?.status === 1 &&
-                                  row?.user_id === userLogin?.id && (
+                                  row?.teacher_id === userLogin?.id &&
+                                  userLogin?.teacher && (
                                     <button
                                       disabled={disableButton}
                                       className="item-action"
@@ -232,22 +233,24 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                                     </button>
                                   )}
 
-                                {row?.status === 2 && (
-                                  <button
-                                    className="item-action"
-                                    disabled={disableButton}
-                                    onClick={() => handleConfirm(row)}
-                                  >
-                                    {isLoading ? (
-                                      <span className="loader"></span>
-                                    ) : (
-                                      <span className="icon-action">
-                                        <FiCheck />
-                                      </span>
-                                    )}
-                                    Chấp nhận lần 2
-                                  </button>
-                                )}
+                                {row?.status === 2 &&
+                                  row?.teacher_id === userLogin?.id &&
+                                  userLogin?.facultyChairman && (
+                                    <button
+                                      className="item-action"
+                                      disabled={disableButton}
+                                      onClick={() => handleConfirm(row)}
+                                    >
+                                      {isLoading ? (
+                                        <span className="loader"></span>
+                                      ) : (
+                                        <span className="icon-action">
+                                          <FiCheck />
+                                        </span>
+                                      )}
+                                      Chấp nhận lần 2
+                                    </button>
+                                  )}
 
                                 <div
                                   className="item-action"
