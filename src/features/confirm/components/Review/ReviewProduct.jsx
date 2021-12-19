@@ -67,7 +67,7 @@ const ReviewProduct = ({ data, setOpen }) => {
     slidesToScroll: 1,
   };
 
-  const handleConfirm = async (item, type) => {
+  const handleConfirm = async (item) => {
     setDisableButton(true);
     setIsLoading(true);
 
@@ -84,10 +84,10 @@ const ReviewProduct = ({ data, setOpen }) => {
 
     if (actionDispatch.fulfilled.match(response)) {
       toast.success('Chấp nhận thành công !');
-      item?.status === 2 && setOpen(false);
     } else {
       toast.error(_get(response.payload, 'status[0]'));
     }
+    setOpen(false);
     setIsLoading(false);
     setDisableButton(false);
   };
