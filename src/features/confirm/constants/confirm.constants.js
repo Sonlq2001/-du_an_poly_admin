@@ -32,3 +32,18 @@ export const DATA_FAKE = [
 		member: ["Lê Quang Sơn, Nguyễn Hữu Sơn"],
 	},
 ];
+export const DataMajor = [
+	{ label: 'Công Nghệ thông tin', value: 1 },
+	{ label: 'Kinh Tế - Kinh Doanh', value: 2 },
+	{ label: 'Thiết Kế Đồ Họa ', value: 3 },
+	{ label: 'Cơ khí, (điện) tự động hóa', value: 4 },
+	{ label: 'Thẩm Mỹ - Làm đẹp ', value: 5 },
+	{ label: 'Du lịch - nhà hàng - khách sạn', value: 6 } 
+];
+
+export  const DataMini = [
+	{ label: 'Quản trị', value: 1 },
+	{ label: 'Giáo vụ', value: 2 },
+	{ label: 'Giảng viên', value: 3 },
+	{ label: 'Sinh viên', value: 4 },
+   ];
