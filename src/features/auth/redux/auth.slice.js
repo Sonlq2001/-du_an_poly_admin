@@ -59,6 +59,7 @@ const authSlice = createSlice({
         teacher_is,
         campus_id,
         faculty_chairman_is,
+        majors,
       } = action.payload.user;
       state.accessToken = action?.payload.access_token;
       state.userLogin = {
@@ -70,6 +71,7 @@ const authSlice = createSlice({
         teacher: teacher_is,
         campus_id: campus_id,
         facultyChairman: faculty_chairman_is,
+        major_id: majors[0]?.id,
       };
       const keys = [1, 2, 3, 4];
       let arrayPath = [];

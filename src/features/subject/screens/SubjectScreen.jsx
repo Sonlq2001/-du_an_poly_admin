@@ -210,12 +210,14 @@ const SubjectScreen = () => {
             <TableCustom>
               <Thead>
                 <Tr>
-                  <Th>
-                    <CheckboxSingle
-                      checked={isCheckedAll}
-                      onChange={(e) => handleCheckedAll(e.target.checked)}
-                    />
-                  </Th>
+                  {(userLogin?.superAdmin || userLogin?.ministry) && (
+                    <Th>
+                      <CheckboxSingle
+                        checked={isCheckedAll}
+                        onChange={(e) => handleCheckedAll(e.target.checked)}
+                      />
+                    </Th>
+                  )}
                   <Th sort onClick={() => requestSort('id')}>
                     #
                   </Th>
@@ -238,12 +240,14 @@ const SubjectScreen = () => {
               <Tbody>
                 {dataSort.map((row) => (
                   <Tr key={row?.id}>
-                    <Td>
-                      <CheckboxSingle
-                        checked={listChecked.includes(row?.id)}
-                        onChange={() => handleChangeChecked(row?.id)}
-                      />
-                    </Td>
+                    {(userLogin?.superAdmin || userLogin.ministry) && (
+                      <Td>
+                        <CheckboxSingle
+                          checked={listChecked.includes(row?.id)}
+                          onChange={() => handleChangeChecked(row?.id)}
+                        />
+                      </Td>
+                    )}
                     <Td>{row?.id}</Td>
                     <Td>{row?.name}</Td>
                     <Td>{row?.code}</Td>

@@ -149,11 +149,12 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                     Kỳ học
                   </Th>
                   <Th>Thành viên</Th>
+                  <Th>Chuyên ngành</Th>
+                  <Th>Cơ sở</Th>
                   <Th>Trạng thái</Th>
                   <Th align="right">Thao tác</Th>
                 </Tr>
               </Thead>
-
               <Tbody>
                 {dataSort.map((row) => {
                   let statusProduct = null;
@@ -170,6 +171,64 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                     default:
                       break;
                   }
+
+                  let nameCampus = null;
+                  switch (row?.campus_id) {
+                    case 1:
+                      nameCampus = 'Hà Nội';
+                      break;
+                    case 2:
+                      nameCampus = 'Đà nẵng';
+                      break;
+                    case 3:
+                      nameCampus = 'Cần Thơ';
+                      break;
+                    case 4:
+                      nameCampus = 'Hồ Chí Minh';
+                      break;
+                    case 5:
+                      nameCampus = 'Tây Nguyên';
+                      break;
+                    default:
+                      break;
+                  }
+
+                  const isConfirm1 =
+                    row?.status === 1 &&
+                    row?.teacher_id === userLogin?.id &&
+                    userLogin?.teacher &&
+                    userLogin?.major_id === row?.major?.id &&
+                    userLogin?.campus_id === row?.campus_id;
+
+                  const isConfirm2 =
+                    row?.status === 2 &&
+                    row?.master_user === userLogin?.id &&
+                    userLogin?.facultyChairman &&
+                    userLogin?.major_id === row?.major?.id &&
+                    userLogin?.campus_id === row?.campus_id;
+
+                  const isEdit =
+                    (userLogin?.id === row?.teacher_id ||
+                      userLogin?.id === row?.master_user) &&
+                    (userLogin?.facultyChairman || userLogin?.teacher) &&
+                    userLogin?.major_id === row?.major?.id &&
+                    row?.status !== 3 &&
+                    userLogin?.campus_id === row?.campus_id;
+
+                  const isRefuse =
+                    (userLogin?.id === row?.teacher_id ||
+                      userLogin?.id === row?.master_user) &&
+                    (userLogin?.teacher || userLogin?.facultyChairman) &&
+                    userLogin?.major_id === row?.major?.id &&
+                    (row?.status === 1 || row?.status === 2) &&
+                    userLogin?.campus_id === row?.campus_id;
+
+                  const isDeleted =
+                    (userLogin?.id === row?.teacher_id ||
+                      userLogin?.id === row?.master_user) &&
+                    (userLogin?.teacher || userLogin?.facultyChairman) &&
+                    userLogin?.major_id === row?.major?.id &&
+                    userLogin?.campus_id === row?.campus_id;
 
                   return (
                     <Tr key={row?.id}>
@@ -195,6 +254,10 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                           })}
                         </GroupStudent>
                       </Td>
+                      <Td>{row?.major?.name}</Td>
+                      <Td>
+                        <span className="nowrap">{nameCampus}</span>
+                      </Td>
                       <Td>
                         <HightLightText status={row?.status}>
                           {statusProduct}
@@ -214,43 +277,39 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                               onOutsideClick={() => setIsShowAction(null)}
                             >
                               <ListAction>
-                                {row?.status === 1 &&
-                                  row?.teacher_id === userLogin?.id &&
-                                  userLogin?.teacher && (
-                                    <button
-                                      disabled={disableButton}
-                                      className="item-action"
-                                      onClick={() => handleConfirm(row)}
-                                    >
-                                      {isLoading ? (
-                                        <span className="loader" />
-                                      ) : (
-                                        <span className="icon-action">
-                                          <FiCheck />
-                                        </span>
-                                      )}
-                                      Chấp nhận lần 1
-                                    </button>
-                                  )}
+                                {isConfirm1 && (
+                                  <button
+                                    disabled={disableButton}
+                                    className="item-action"
+                                    onClick={() => handleConfirm(row)}
+                                  >
+                                    {isLoading ? (
+                                      <span className="loader" />
+                                    ) : (
+                                      <span className="icon-action">
+                                        <FiCheck />
+                                      </span>
+                                    )}
+                                    Chấp nhận lần 1
+                                  </button>
+                                )}
 
-                                {row?.status === 2 &&
-                                  row?.master_user === userLogin?.id &&
-                                  userLogin?.facultyChairman && (
-                                    <button
-                                      className="item-action"
-                                      disabled={disableButton}
-                                      onClick={() => handleConfirm(row)}
-                                    >
-                                      {isLoading ? (
-                                        <span className="loader"></span>
-                                      ) : (
-                                        <span className="icon-action">
-                                          <FiCheck />
-                                        </span>
-                                      )}
-                                      Chấp nhận lần 2
-                                    </button>
-                                  )}
+                                {isConfirm2 && (
+                                  <button
+                                    className="item-action"
+                                    disabled={disableButton}
+                                    onClick={() => handleConfirm(row)}
+                                  >
+                                    {isLoading ? (
+                                      <span className="loader"></span>
+                                    ) : (
+                                      <span className="icon-action">
+                                        <FiCheck />
+                                      </span>
+                                    )}
+                                    Chấp nhận lần 2
+                                  </button>
+                                )}
 
                                 <div
                                   className="item-action"
@@ -266,46 +325,35 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                                   Xem trước
                                 </div>
 
-                                {(userLogin?.id === row?.teacher_id ||
-                                  userLogin?.id === row?.master_user) &&
-                                  (userLogin?.facultyChairman ||
-                                    userLogin?.teacher) &&
-                                  row?.status !== 3 && (
-                                    <div className="item-action">
-                                      <span className="icon-action">
-                                        <MdModeEdit />
-                                      </span>
-                                      <Link to={`/product/update/${row.id}`}>
-                                        Sửa
-                                      </Link>
-                                    </div>
-                                  )}
+                                {isEdit && (
+                                  <div className="item-action">
+                                    <span className="icon-action">
+                                      <MdModeEdit />
+                                    </span>
+                                    <Link to={`/product/update/${row.id}`}>
+                                      Sửa
+                                    </Link>
+                                  </div>
+                                )}
 
-                                {(userLogin?.id === row?.teacher_id ||
-                                  userLogin?.id === row?.master_user) &&
-                                  (userLogin?.teacher ||
-                                    userLogin?.facultyChairman) &&
-                                  (row?.status === 1 || row?.status === 2) && (
-                                    <button
-                                      disabled={disableButton}
-                                      className="item-action "
-                                      onClick={() =>
-                                        handleRefuse(row) +
-                                        setDisableButton(true) +
-                                        setIsShowAction(null)
-                                      }
-                                    >
-                                      <span className="icon-action">
-                                        <BiExit />
-                                      </span>
-                                      Từ chối
-                                    </button>
-                                  )}
+                                {isRefuse && (
+                                  <button
+                                    disabled={disableButton}
+                                    className="item-action "
+                                    onClick={() =>
+                                      handleRefuse(row) +
+                                      setDisableButton(true) +
+                                      setIsShowAction(null)
+                                    }
+                                  >
+                                    <span className="icon-action">
+                                      <BiExit />
+                                    </span>
+                                    Từ chối
+                                  </button>
+                                )}
 
-                                {(userLogin?.facultyChairman ||
-                                  userLogin?.teacher ||
-                                  userLogin?.id === row?.teacher_id ||
-                                  userLogin?.id === row?.master_user) && (
+                                {isDeleted && (
                                   <div
                                     className="item-action"
                                     onClick={() => handleRemoveProduct(row)}
