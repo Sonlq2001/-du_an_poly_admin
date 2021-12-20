@@ -3,7 +3,6 @@ import Slider from 'react-slick';
 import ReactPlayer from 'react-player';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import _get from 'lodash.get';
 import { MdContentPaste } from 'react-icons/md';
 import { GrAttachment } from 'react-icons/gr';
 import { BsTrash, BsCheck } from 'react-icons/bs';
@@ -33,6 +32,7 @@ import {
 } from 'features/confirm/redux/product.slice';
 import PopupOverlay from 'components/PopupOverlay/PopupOverlay';
 import Refuse from '../ActionProduct/refuse/Refuse';
+import { defaultMessage } from 'constants/app.constants';
 
 const ReviewProduct = ({ data, setOpen }) => {
   const dispatch = useDispatch();
@@ -85,7 +85,7 @@ const ReviewProduct = ({ data, setOpen }) => {
     if (actionDispatch.fulfilled.match(response)) {
       toast.success('Chấp nhận thành công !');
     } else {
-      toast.error(_get(response.payload, 'status[0]'));
+      toast.error(defaultMessage.problems);
     }
     setOpen(false);
     setIsLoading(false);
@@ -110,6 +110,35 @@ const ReviewProduct = ({ data, setOpen }) => {
     setOpen(false);
   };
 
+  const isConfirm1 =
+    data?.status === 1 &&
+    data?.teacher_id === userLogin?.id &&
+    userLogin?.teacher &&
+    userLogin?.major_id === data?.major?.id &&
+    userLogin?.campus_id === data?.campus_id;
+
+  const isConfirm2 =
+    data?.status === 2 &&
+    data?.master_user === userLogin?.id &&
+    userLogin?.facultyChairman &&
+    userLogin?.major_id === data?.major?.id &&
+    userLogin?.campus_id === data?.campus_id;
+
+  const isRefuse =
+    (userLogin?.id === data?.teacher_id ||
+      userLogin?.id === data?.master_user) &&
+    (userLogin?.teacher || userLogin?.facultyChairman) &&
+    userLogin?.major_id === data?.major?.id &&
+    (data?.status === 1 || data?.status === 2) &&
+    userLogin?.campus_id === data?.campus_id;
+
+  const isDeleted =
+    (userLogin?.id === data?.teacher_id ||
+      userLogin?.id === data?.master_user) &&
+    (userLogin?.teacher || userLogin?.facultyChairman) &&
+    userLogin?.major_id === data?.major?.id &&
+    userLogin?.campus_id === data?.campus_id;
+
   return (
     <>
       <Content>
@@ -117,7 +146,7 @@ const ReviewProduct = ({ data, setOpen }) => {
           <ImageSlice className="col-6">
             {data?.product_galleries ? (
               <Slider {...settings}>
-                {data.product_galleries.map((item, index) => (
+                {data?.product_galleries?.map((item, index) => (
                   <div key={index}>
                     <img src={item?.image_url} alt="" />
                   </div>
@@ -131,7 +160,7 @@ const ReviewProduct = ({ data, setOpen }) => {
           </ImageSlice>
           <ContentReview className="col-6">
             <div className="group-action">
-              {data?.status === 1 && data?.teacher_id === userLogin?.id && (
+              {isConfirm1 && (
                 <button
                   className="btn-item"
                   disabled={disableButton}
@@ -144,7 +173,7 @@ const ReviewProduct = ({ data, setOpen }) => {
                 </button>
               )}
 
-              {data?.status === 2 && data?.teacher_id === userLogin?.id && (
+              {isConfirm2 && (
                 <button
                   className="btn-item"
                   disabled={disableButton}
@@ -157,24 +186,23 @@ const ReviewProduct = ({ data, setOpen }) => {
                 </button>
               )}
 
-              {(data?.status === 1 || data?.status === 2) &&
-                data?.teacher_id === userLogin?.id && (
-                  <button
-                    className="btn-item"
-                    disabled={disableButton}
-                    onClick={() => handleRefuse(data)}
-                  >
-                    {loadingRefuse ? (
-                      <div className="loading">
-                        <div className="loader"></div>
-                      </div>
-                    ) : (
-                      'Từ Chối'
-                    )}
-                  </button>
-                )}
+              {isRefuse && (
+                <button
+                  className="btn-item"
+                  disabled={disableButton}
+                  onClick={() => handleRefuse(data)}
+                >
+                  {loadingRefuse ? (
+                    <div className="loading">
+                      <div className="loader"></div>
+                    </div>
+                  ) : (
+                    'Từ Chối'
+                  )}
+                </button>
+              )}
 
-              {data?.teacher_id === userLogin?.id && (
+              {isDeleted && (
                 <button
                   className="btn-item"
                   disabled={disableButton}
