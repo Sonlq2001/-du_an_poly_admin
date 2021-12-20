@@ -1,17 +1,24 @@
 import React, { useState } from 'react';
 import { Formik, Form, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
-import _get from 'lodash.get';
+import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 
 import { WrapFrom, GroupButton } from './Refuse.styles';
 import { Button } from 'components/Button/Button';
-import { postProductApprove } from '../../../redux/product.slice';
+import {
+  postProductApprove,
+  putProductChairmanApproved,
+} from '../../../redux/product.slice';
+import { defaultMessage } from 'constants/app.constants';
 
 const Refuse = ({ item, setItemRefuse, setDisableButton }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+
+  const { userLogin } = useSelector((state) => ({
+    userLogin: state.auth?.userLogin,
+  }));
 
   return (
     <Formik
@@ -26,15 +33,21 @@ const Refuse = ({ item, setItemRefuse, setDisableButton }) => {
         setIsLoading(true);
         const detail = {
           id: item.id,
-          status: 1,
+          status: 0,
           message: values.message,
         };
         setDisableButton(true);
-        const response = await dispatch(postProductApprove(detail));
-        if (postProductApprove.fulfilled.match(response)) {
+
+        const actionDispatch = userLogin?.facultyChairman
+          ? putProductChairmanApproved
+          : postProductApprove;
+
+        const response = await dispatch(actionDispatch(detail));
+        if (actionDispatch.fulfilled.match(response)) {
           toast.success('Từ chối thành công !');
+          window.location.reload();
         } else {
-          toast.error(_get(response.payload, 'name[0]'));
+          toast.error(defaultMessage.problems);
         }
         setDisableButton(false);
         setIsLoading(false);
