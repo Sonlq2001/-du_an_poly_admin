@@ -12,12 +12,12 @@ export const schema = Yup.object().shape({
     .required('Vui lòng chọn file upload !')
     .test('file', 'Định dạng file không đúng !', (value) =>
       SUPPORTED_FORMATS.includes(value?.type)
-    )
-    .test(
-      'file',
-      'Kích thước file quá lớn !',
-      (value) => value === null || (value && value?.size <= 10000)
     ),
+  // .test(
+  //   'file',
+  //   'Kích thước file quá lớn !',
+  //   (value) => value === null || (value && value?.size <= 10000)
+  // ),
 });
 
 export const initForm = {
