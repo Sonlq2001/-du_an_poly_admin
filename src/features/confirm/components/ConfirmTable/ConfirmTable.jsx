@@ -281,8 +281,8 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                                     </div>
                                   )}
 
-                                {(userLogin?.teacher === row?.id ||
-                                  userLogin?.master_user === row?.id) &&
+                                {(userLogin?.id === row?.teacher_id ||
+                                  userLogin?.id === row?.master_user) &&
                                   (userLogin?.teacher ||
                                     userLogin?.facultyChairman) &&
                                   (row?.status === 1 || row?.status === 2) && (
