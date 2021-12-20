@@ -214,7 +214,8 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                             >
                               <ListAction>
                                 {row?.status === 1 &&
-                                  row?.user_id === userLogin?.id && (
+                                  row?.teacher_id === userLogin?.id &&
+                                  userLogin?.teacher && (
                                     <button
                                       disabled={disableButton}
                                       className="item-action"
@@ -231,22 +232,24 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                                     </button>
                                   )}
 
-                                {row?.status === 2 && (
-                                  <button
-                                    className="item-action"
-                                    disabled={disableButton}
-                                    onClick={() => handleConfirm(row)}
-                                  >
-                                    {isLoading ? (
-                                      <span className="loader"></span>
-                                    ) : (
-                                      <span className="icon-action">
-                                        <FiCheck />
-                                      </span>
-                                    )}
-                                    Chấp nhận lần 2
-                                  </button>
-                                )}
+                                {row?.status === 2 &&
+                                  row?.master_user === userLogin?.id &&
+                                  userLogin?.facultyChairman && (
+                                    <button
+                                      className="item-action"
+                                      disabled={disableButton}
+                                      onClick={() => handleConfirm(row)}
+                                    >
+                                      {isLoading ? (
+                                        <span className="loader"></span>
+                                      ) : (
+                                        <span className="icon-action">
+                                          <FiCheck />
+                                        </span>
+                                      )}
+                                      Chấp nhận lần 2
+                                    </button>
+                                  )}
 
                                 <div
                                   className="item-action"
@@ -262,19 +265,26 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                                   Xem trước
                                 </div>
 
-                                {userLogin?.id === row?.teacher_id && (
-                                  <div className="item-action">
-                                    <span className="icon-action">
-                                      <MdModeEdit />
-                                    </span>
-                                    <Link to={`/product/update/${row.id}`}>
-                                      Sửa
-                                    </Link>
-                                  </div>
-                                )}
+                                {(userLogin?.id === row?.teacher_id ||
+                                  userLogin?.id === row?.master_user) &&
+                                  (userLogin?.facultyChairman ||
+                                    userLogin?.teacher) &&
+                                  row?.status !== 3 && (
+                                    <div className="item-action">
+                                      <span className="icon-action">
+                                        <MdModeEdit />
+                                      </span>
+                                      <Link to={`/product/update/${row.id}`}>
+                                        Sửa
+                                      </Link>
+                                    </div>
+                                  )}
 
-                                {(row?.status === 1 || row.status === 2) &&
-                                  userLogin?.id === row?.teacher_id && (
+                                {(userLogin?.teacher === row?.id ||
+                                  userLogin?.master_user === row?.id) &&
+                                  (userLogin?.teacher ||
+                                    userLogin?.facultyChairman) &&
+                                  (row?.status === 1 || row?.status === 2) && (
                                     <button
                                       disabled={disableButton}
                                       className="item-action "
@@ -291,20 +301,20 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                                     </button>
                                   )}
 
-                                {(row?.status === 1 ||
-                                  row?.status === 2 ||
-                                  row?.status === 3) &&
-                                  row?.teacher_id === userLogin?.id && (
-                                    <div
-                                      className="item-action"
-                                      onClick={() => handleRemoveProduct(row)}
-                                    >
-                                      <span className="icon-action">
-                                        <RiDeleteBinFill />
-                                      </span>
-                                      Xóa
-                                    </div>
-                                  )}
+                                {(userLogin?.facultyChairman ||
+                                  userLogin?.teacher ||
+                                  userLogin?.id === row?.teacher_id ||
+                                  userLogin?.id === row?.master_user) && (
+                                  <div
+                                    className="item-action"
+                                    onClick={() => handleRemoveProduct(row)}
+                                  >
+                                    <span className="icon-action">
+                                      <RiDeleteBinFill />
+                                    </span>
+                                    Xóa
+                                  </div>
+                                )}
                               </ListAction>
                             </OutsideClickHandler>
                           )}

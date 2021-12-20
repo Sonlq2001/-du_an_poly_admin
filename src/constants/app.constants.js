@@ -38,3 +38,7 @@ export const labelRankAdmin = {
   teacher: 'teacher',
   ministry: 'ministry',
 };
+
+export const defaultMessage = {
+  problems: 'Đã có lỗi, vui lòng thử lại sau.',
+};

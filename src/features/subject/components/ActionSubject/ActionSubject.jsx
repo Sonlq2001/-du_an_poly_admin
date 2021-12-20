@@ -3,7 +3,6 @@ import { Formik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { AiOutlineSave } from 'react-icons/ai';
-import _get from 'lodash.get';
 
 import { ContentForm, GroupAction } from './ActionSubject.styles';
 import ElementInput from 'components/FormElements/ElementInput/ElementInput';
@@ -13,8 +12,9 @@ import { schema } from './../../helpers/subject.helpers';
 
 import { postSubject, putSubject } from './../../redux/subject.slice.js';
 import { getMajors } from 'features/majors/redux/majors.slice';
+import { defaultMessage } from 'constants/app.constants';
 
-const ActionSubject = ({ item, setOpen, options, optionCategorySubject }) => {
+const ActionSubject = ({ item, setOpen, options }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
@@ -34,7 +34,7 @@ const ActionSubject = ({ item, setOpen, options, optionCategorySubject }) => {
           if (dispatchAction.fulfilled.match(response)) {
             toast.success('Thành công !');
           } else {
-            toast.error(_get(response.payload, 'code[0]'));
+            toast.error(defaultMessage.problems);
           }
           setIsLoading(false);
           setOpen(false);

@@ -8,7 +8,7 @@ import { BoxChartMain } from './BoxChart.styles';
 const BoxChart = ({totalProduct}) => {
   const [data, setData] = useState(genData());
   useEffect(() => {
-    setData(genData(totalProduct?.data?.anuary_april,totalProduct?.data?.april_august,totalProduct?.data?.august_december));
+    setData(genData(totalProduct?.anuary_april,totalProduct?.april_august,totalProduct?.august_december));
   }, [totalProduct]);
 
   return (

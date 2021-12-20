@@ -60,14 +60,14 @@ const SubjectScreen = () => {
     page: defaultPaginationParams.page,
     pageLength: defaultPaginationParams.pageLength,
   });
-  const { listSubject, listMajors, isListSubjectLoading, total } = useSelector(
-    (state) => ({
+  const { listSubject, listMajors, isListSubjectLoading, total, userLogin } =
+    useSelector((state) => ({
       listSubject: state.subject.listSubject,
       total: state.subject?.total,
       isListSubjectLoading: state.subject?.isListSubjectLoading,
       listMajors: state.majors?.listMajors,
-    })
-  );
+      userLogin: state.auth?.userLogin,
+    }));
 
   const { dataSort, requestSort } = useSortableData(listSubject);
 
@@ -182,25 +182,27 @@ const SubjectScreen = () => {
             )}
           </div>
 
-          <div className="buttonAction">
-            <Button
-              disabled={!listChecked.length || isLoading}
-              onClick={handleRemoveAll}
-              loading={isLoading}
-            >
-              Xóa tất cả
-            </Button>
-            <Button
-              icon={<IoMdAdd />}
-              color="primary"
-              onClick={() => {
-                setIsDialogSubject(true);
-                setItemSubject(initForm);
-              }}
-            >
-              Thêm
-            </Button>
-          </div>
+          {(userLogin?.superAdmin || userLogin?.ministry) && (
+            <div className="buttonAction">
+              <Button
+                disabled={!listChecked.length || isLoading}
+                onClick={handleRemoveAll}
+                loading={isLoading}
+              >
+                Xóa tất cả
+              </Button>
+              <Button
+                icon={<IoMdAdd />}
+                color="primary"
+                onClick={() => {
+                  setIsDialogSubject(true);
+                  setItemSubject(initForm);
+                }}
+              >
+                Thêm
+              </Button>
+            </div>
+          )}
         </HeaderTable>
 
         {listSubject && listSubject.length > 0 ? (
@@ -215,7 +217,7 @@ const SubjectScreen = () => {
                     />
                   </Th>
                   <Th sort onClick={() => requestSort('id')}>
-                   #
+                    #
                   </Th>
                   <Th sort onClick={() => requestSort('name')}>
                     Tên Môn Học
@@ -228,11 +230,13 @@ const SubjectScreen = () => {
                       Tên Chuyên Ngành
                     </Th>
                   )}
-                  <Th align="right">Thao tác</Th>
+                  {(userLogin?.superAdmin || userLogin?.ministry) && (
+                    <Th align="right">Thao tác</Th>
+                  )}
                 </Tr>
               </Thead>
               <Tbody>
-                {dataSort.map((row, index) => (
+                {dataSort.map((row) => (
                   <Tr key={row?.id}>
                     <Td>
                       <CheckboxSingle
@@ -244,28 +248,30 @@ const SubjectScreen = () => {
                     <Td>{row?.name}</Td>
                     <Td>{row?.code}</Td>
                     {!messengerSort && <Td>{row?.majors?.name}</Td>}
-                    <Td>
-                      <BoxActionTable>
-                        <Button
-                          color="warning"
-                          icon={<MdModeEdit />}
-                          size="small"
-                          onClick={() => {
-                            setItemSubject(row);
-                            setIsDialogSubject(true);
-                          }}
-                        />
-                        <Button
-                          color="danger"
-                          size="small"
-                          icon={<BsTrash />}
-                          onClick={() => {
-                            setItemSubject(row);
-                            setIsDialogSubjectRemove(true);
-                          }}
-                        />
-                      </BoxActionTable>
-                    </Td>
+                    {(userLogin?.superAdmin || userLogin?.ministry) && (
+                      <Td>
+                        <BoxActionTable>
+                          <Button
+                            color="warning"
+                            icon={<MdModeEdit />}
+                            size="small"
+                            onClick={() => {
+                              setItemSubject(row);
+                              setIsDialogSubject(true);
+                            }}
+                          />
+                          <Button
+                            color="danger"
+                            size="small"
+                            icon={<BsTrash />}
+                            onClick={() => {
+                              setItemSubject(row);
+                              setIsDialogSubjectRemove(true);
+                            }}
+                          />
+                        </BoxActionTable>
+                      </Td>
+                    )}
                   </Tr>
                 ))}
               </Tbody>

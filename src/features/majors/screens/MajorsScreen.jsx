@@ -40,12 +40,6 @@ import { useSortableData } from 'helpers/sortingTable/sortingTable';
 import { defaultPaginationParams } from 'constants/api.constants';
 import NotFound from 'components/NotFound/NotFound';
 
-const headerCells = [
-  { label: '#', fieldSort: 'id', sort: true },
-  { label: 'Tên Chuyên Ngành', fieldSort: 'name', sort: true },
-  { label: 'Thao tác', sort: false, align: 'right' },
-];
-
 const MajorsScreen = () => {
   const dispatch = useDispatch();
   const [isDialogActionMajor, setIsDialogActionMajor] = useState(false);
@@ -65,11 +59,23 @@ const MajorsScreen = () => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-  const { listMajors, isMajorsLoading, total } = useSelector((state) => ({
-    listMajors: state.majors?.listMajors,
-    isMajorsLoading: state.majors?.isMajorsLoading,
-    total: state.majors?.total,
-  }));
+  const { listMajors, isMajorsLoading, total, userLogin } = useSelector(
+    (state) => ({
+      listMajors: state.majors?.listMajors,
+      isMajorsLoading: state.majors?.isMajorsLoading,
+      total: state.majors?.total,
+      userLogin: state.auth?.userLogin,
+    })
+  );
+
+  const headerCells = [
+    { label: '#', fieldSort: 'id', sort: true },
+    { label: 'Tên Chuyên Ngành', fieldSort: 'name', sort: true },
+    ...(userLogin?.superAdmin || userLogin?.ministry
+      ? [{ label: 'Thao tác', sort: false, align: 'right' }]
+      : []),
+  ];
+
   const { dataSort, requestSort } = useSortableData(listMajors);
   const handlePagination = (dataPagination) => {
     setPagination({
@@ -145,25 +151,27 @@ const MajorsScreen = () => {
               </span>
             )} */}
           </div>
-          <div className="buttonAction">
-            <Button
-              disabled={!listChecked.length || isLoading}
-              loading={isLoading}
-              onClick={handleRemoveAll}
-            >
-              Xóa tất cả
-            </Button>
-            <Button
-              icon={<IoMdAdd />}
-              color="primary"
-              onClick={() => {
-                setIsDialogActionMajor(true);
-                setItemMajors(initForm);
-              }}
-            >
-              Thêm
-            </Button>
-          </div>
+          {(userLogin?.superAdmin || userLogin?.ministry) && (
+            <div className="buttonAction">
+              <Button
+                disabled={!listChecked.length || isLoading}
+                loading={isLoading}
+                onClick={handleRemoveAll}
+              >
+                Xóa tất cả
+              </Button>
+              <Button
+                icon={<IoMdAdd />}
+                color="primary"
+                onClick={() => {
+                  setIsDialogActionMajor(true);
+                  setItemMajors(initForm);
+                }}
+              >
+                Thêm
+              </Button>
+            </div>
+          )}
         </HeaderTable>
 
         {listMajors && listMajors.length > 0 ? (
@@ -200,28 +208,30 @@ const MajorsScreen = () => {
                     </Td>
                     <Td>{item?.id}</Td>
                     <Td>{item?.name}</Td>
-                    <Td>
-                      <BoxActionTable>
-                        <Button
-                          color="warning"
-                          icon={<MdModeEdit />}
-                          size="small"
-                          onClick={() => {
-                            setIsDialogActionMajor(true);
-                            setItemMajors(item);
-                          }}
-                        />
-                        <Button
-                          color="danger"
-                          size="small"
-                          icon={<BsTrash />}
-                          onClick={() => {
-                            setIsDialogDeleteMajor(true);
-                            setItemMajors(item);
-                          }}
-                        />
-                      </BoxActionTable>
-                    </Td>
+                    {(userLogin?.superAdmin || userLogin?.ministry) && (
+                      <Td>
+                        <BoxActionTable>
+                          <Button
+                            color="warning"
+                            icon={<MdModeEdit />}
+                            size="small"
+                            onClick={() => {
+                              setIsDialogActionMajor(true);
+                              setItemMajors(item);
+                            }}
+                          />
+                          <Button
+                            color="danger"
+                            size="small"
+                            icon={<BsTrash />}
+                            onClick={() => {
+                              setIsDialogDeleteMajor(true);
+                              setItemMajors(item);
+                            }}
+                          />
+                        </BoxActionTable>
+                      </Td>
+                    )}
                   </Tr>
                 ))}
               </Tbody>

@@ -1,32 +1,26 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Formik } from 'formik';
+import { Formik, ErrorMessage } from 'formik';
 import { AiOutlineSave } from 'react-icons/ai';
 import { toast } from 'react-toastify';
+import Select from 'react-select';
 
 import ElementInput from 'components/FormElements/ElementInput/ElementInput';
 import { Button } from 'components/Button/Button';
 import { GroupAction, ContentForm } from './AddUser.styles';
-import ElementSelect from 'components/FormElements/ElementSelect/ElementSelect';
 import { initFormAdd, schema } from 'features/user/helpers/user.helpers';
 import { getMajors } from 'features/majors/redux/majors.slice';
-import { MapOptions } from 'helpers/convert/map-options';
 import { getCampuses } from 'features/campuses/redux/campuses.slice';
 import { postUsers } from 'features/user/redux/user.slice';
+import { MajorData } from 'features/user/constants/user.constants';
 
 const ActionUser = ({ setOpen }) => {
   const dispatch = useDispatch();
-  const { listMajors, listCampuses, messenger, superAdmin } = useSelector(
-    (state) => ({
-      listMajors: state.majors?.listMajors,
-      listCampuses: state.campuses?.listCampuses,
-      messenger: state.user?.messenger,
-      superAdmin: state.auth?.userLogin?.superAdmin,
-    })
-  );
-
-  const listMajorsOption = MapOptions(listMajors);
-  const listCampusesOption = MapOptions(listCampuses);
+  const [isShowRole, setIsShowRole] = useState(false);
+  const { superAdmin, campus_id } = useSelector((state) => ({
+    superAdmin: state.auth?.userLogin?.superAdmin,
+    campus_id: state.auth?.userLogin?.campus_id,
+  }));
   const [isLoading, setLoading] = useState(false);
   const getAll = useCallback(() => {
     dispatch(getCampuses());
@@ -42,6 +36,18 @@ const ActionUser = ({ setOpen }) => {
     ...(superAdmin ? [{ label: 'Giáo vụ', value: 4 }] : []),
   ];
 
+  const handleChangeRole = (option, setFieldValue) => {
+    if (option.value === 4) {
+      setIsShowRole(false);
+    } else {
+      setIsShowRole(true);
+    }
+    setFieldValue('type', option.value);
+  };
+
+  const handleChangeMajor = (option, setFieldValue) => {
+    setFieldValue('major_id', option.value);
+  };
   return (
     <>
       <Formik
@@ -50,6 +56,7 @@ const ActionUser = ({ setOpen }) => {
         validationSchema={schema}
         onSubmit={async (values, { resetForm }) => {
           setLoading(true);
+          values.campus_id = campus_id;
           const response = await dispatch(postUsers(values));
           if (postUsers.fulfilled.match(response)) {
             toast.success('Thành công !');
@@ -61,11 +68,11 @@ const ActionUser = ({ setOpen }) => {
           setOpen(false);
         }}
       >
-        {({ handleSubmit }) => {
+        {({ handleSubmit, setFieldValue }) => {
           return (
             <ContentForm>
               <div className="from-group">
-                <label htmlFor="">Tên giảng viên </label>
+                <label htmlFor="">Tên giảng viên</label>
                 <ElementInput
                   type="text"
                   placeholder="Tên giảng viên "
@@ -73,47 +80,44 @@ const ActionUser = ({ setOpen }) => {
                 />
               </div>
               <div className="from-group">
-                <label htmlFor=""> Email </label>
+                <label htmlFor="">Email</label>
                 <ElementInput type="text" placeholder="Email" name="email" />
-                {messenger && <div> {messenger.email[0]} </div>}
               </div>
-
-              <div className="from-group">
-                <label htmlFor=""> Cơ Sở </label>
+              <div className={`from-group`}>
+                <label htmlFor="">Chức vụ</label>
                 <div className="box-select">
-                  <ElementSelect
-                    type="text"
-                    placeholder="Cơ Sở  "
-                    className="select"
-                    name="campus_id"
-                    options={listCampusesOption || []}
-                  />
-                </div>
-              </div>
-              <div className="from-group">
-                <label htmlFor=""> Chuyên ngành </label>
-                <div className="box-select">
-                  <ElementSelect
-                    type="text"
-                    placeholder="Chuyên Ngành "
-                    className="select"
-                    name="major_id"
-                    options={listMajorsOption || []}
-                  />
-                </div>
-              </div>
-              <div className="from-group">
-                <label htmlFor=""> Loại </label>
-                <div className="box-select">
-                  <ElementSelect
-                    type="text"
-                    placeholder="Type"
+                  <Select
+                    options={TYPE_ROLE}
+                    placeholder="Chức vụ "
                     className="select"
                     name="type"
-                    options={TYPE_ROLE}
+                    onChange={(option) =>
+                      handleChangeRole(option, setFieldValue)
+                    }
+                  />
+                  <ErrorMessage
+                    name="type"
+                    component="div"
+                    className="error-msg"
                   />
                 </div>
               </div>
+              {isShowRole && (
+                <div className="from-group">
+                  <label htmlFor="">Chuyên ngành</label>
+                  <div className="box-select">
+                    <Select
+                      options={MajorData}
+                      placeholder="Chức vụ "
+                      className="select"
+                      name="major_id"
+                      onChange={(option) =>
+                        handleChangeMajor(option, setFieldValue)
+                      }
+                    />
+                  </div>
+                </div>
+              )}
               <GroupAction>
                 <Button
                   size="medium"

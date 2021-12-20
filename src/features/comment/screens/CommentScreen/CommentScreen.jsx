@@ -38,14 +38,6 @@ import { getComment, deleteComment } from './../../redux/comment.slice';
 import { defaultPaginationParams } from 'constants/api.constants';
 import { COMMENT_PATHS } from './../../constants/comment.paths';
 
-const headerCells = [
-  { label: '#', fieldSort: 'id', sort: true },
-  { label: 'Người bình luận' },
-  { label: 'Nội dung', fieldSort: 'comment', sort: true },
-  { label: 'Thời gian', fieldSort: 'created_at', sort: true },
-  { label: 'Thao tác', sort: false, align: 'right' },
-];
-
 const CommentScreen = () => {
   const dispatch = useDispatch();
   const [currentIdComment, setCurrentIdComment] = useState(null);
@@ -65,10 +57,23 @@ const CommentScreen = () => {
     fetchData();
   }, [fetchData]);
 
-  const { listComment, isListCommentLoading } = useSelector((state) => ({
-    listComment: state.comment?.listComment,
-    isListCommentLoading: state.comment?.isListCommentLoading,
-  }));
+  const { listComment, isListCommentLoading, userLogin } = useSelector(
+    (state) => ({
+      listComment: state.comment?.listComment,
+      isListCommentLoading: state.comment?.isListCommentLoading,
+      userLogin: state.auth?.userLogin,
+    })
+  );
+
+  const headerCells = [
+    { label: '#', fieldSort: 'id', sort: true },
+    { label: 'Người bình luận' },
+    { label: 'Nội dung', fieldSort: 'comment', sort: true },
+    { label: 'Thời gian', fieldSort: 'created_at', sort: true },
+    ...(userLogin?.superAdmin || userLogin?.ministry
+      ? [{ label: 'Thao tác', sort: false, align: 'right' }]
+      : []),
+  ];
 
   const { dataSort, requestSort } = useSortableData(listComment ?? []);
   const handlePagination = (dataPagination) => {
@@ -145,15 +150,18 @@ const CommentScreen = () => {
               </span>
             )} */}
           </div>
-          <div className="buttonAction">
-            <Button
-              disabled={!listChecked.length || isLoading}
-              loading={isLoading}
-              onClick={handleRemoveAll}
-            >
-              Xóa tất cả
-            </Button>
-          </div>
+          {userLogin?.superAdmin ||
+            (userLogin?.ministry && (
+              <div className="buttonAction">
+                <Button
+                  disabled={!listChecked.length || isLoading}
+                  loading={isLoading}
+                  onClick={handleRemoveAll}
+                >
+                  Xóa tất cả
+                </Button>
+              </div>
+            ))}
         </HeaderTable>
 
         {listComment && listComment.length > 0 ? (
@@ -194,33 +202,35 @@ const CommentScreen = () => {
                     <Td>
                       {moment(row?.created_at).format('YYYY-MM-DD HH:mm:ss')}
                     </Td>
-                    <Td>
-                      <BoxActionTable>
-                        <Button
-                          color="info"
-                          disabled={!row?.get_reply?.length}
-                          size="small"
-                          icon={<FaEye />}
-                          to={
-                            row?.get_reply?.length
-                              ? COMMENT_PATHS.COMMENT_DETAIL.replace(
-                                  /:id/,
-                                  row?.id
-                                )
-                              : ''
-                          }
-                        />
-                        <Button
-                          color="danger"
-                          size="small"
-                          icon={<BsTrash />}
-                          onClick={() => {
-                            setIsDialogDeleteMajor(true);
-                            setCurrentIdComment(row?.id);
-                          }}
-                        />
-                      </BoxActionTable>
-                    </Td>
+                    {(userLogin?.ministry || userLogin?.superAdmin) && (
+                      <Td>
+                        <BoxActionTable>
+                          <Button
+                            color="info"
+                            disabled={!row?.get_reply?.length}
+                            size="small"
+                            icon={<FaEye />}
+                            to={
+                              row?.get_reply?.length
+                                ? COMMENT_PATHS.COMMENT_DETAIL.replace(
+                                    /:id/,
+                                    row?.id
+                                  )
+                                : ''
+                            }
+                          />
+                          <Button
+                            color="danger"
+                            size="small"
+                            icon={<BsTrash />}
+                            onClick={() => {
+                              setIsDialogDeleteMajor(true);
+                              setCurrentIdComment(row?.id);
+                            }}
+                          />
+                        </BoxActionTable>
+                      </Td>
+                    )}
                   </Tr>
                 ))}
               </Tbody>

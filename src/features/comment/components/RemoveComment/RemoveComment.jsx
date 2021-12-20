@@ -12,7 +12,7 @@ const RemoveComment = ({ item: id, open, setOpen }) => {
 
   const handleRemove = async () => {
     setIsLoading(true);
-    const response = await dispatch(deleteComment(23425));
+    const response = await dispatch(deleteComment(id));
     if (deleteComment.fulfilled.match(response)) {
       toast.success('Xóa thành công !');
     } else {

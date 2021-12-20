@@ -41,12 +41,6 @@ import { defaultPaginationParams } from 'constants/api.constants';
 import { useSortableData } from 'helpers/sortingTable/sortingTable';
 import NotFound from 'components/NotFound/NotFound';
 
-const headerCells = [
-  { label: '#', field: 'id', sort: true },
-  { label: 'Tên quyền', field: 'name', sort: true },
-  { label: 'Đường dẫn', sort: true },
-  { label: 'Thao tác', sort: false, align: 'right' },
-];
 const PermissionsScreen = () => {
   const dispatch = useDispatch();
   const [isDialogActionRole, setIsDialogActionRole] = useState(false);
@@ -67,13 +61,23 @@ const PermissionsScreen = () => {
     fetchData();
   }, [dispatch, fetchData]);
 
-  const { listPermission, isListPermissionLoading, total } = useSelector(
-    (state) => ({
+  const { listPermission, isListPermissionLoading, total, userLogin } =
+    useSelector((state) => ({
       listPermission: state.permission?.listPermission,
       isListPermissionLoading: state.permission?.isListPermissionLoading,
       total: state.permission?.total,
-    })
-  );
+      userLogin: state.auth?.userLogin,
+    }));
+
+  const headerCells = [
+    { label: '#', field: 'id', sort: true },
+    { label: 'Tên quyền', field: 'name', sort: true },
+    { label: 'Đường dẫn', sort: true },
+    ...(userLogin?.superAdmin
+      ? [{ label: 'Thao tác', sort: false, align: 'right' }]
+      : []),
+  ];
+
   const { dataSort, requestSort } = useSortableData(listPermission);
 
   const isCheckedAll = useMemo(() => {
@@ -154,25 +158,27 @@ const PermissionsScreen = () => {
               </span>
             )} */}
           </div>
-          <div className="buttonAction">
-            <Button
-              disabled={!listChecked.length || isLoading}
-              onClick={handleRemoveAll}
-              loading={isLoading}
-            >
-              Xóa tất cả
-            </Button>
-            <Button
-              icon={<IoMdAdd />}
-              color="primary"
-              onClick={() => {
-                setIsDialogActionRole(true);
-                setItemRole(initForm);
-              }}
-            >
-              Thêm
-            </Button>
-          </div>
+          {userLogin?.superAdmin && (
+            <div className="buttonAction">
+              <Button
+                disabled={!listChecked.length || isLoading}
+                onClick={handleRemoveAll}
+                loading={isLoading}
+              >
+                Xóa tất cả
+              </Button>
+              <Button
+                icon={<IoMdAdd />}
+                color="primary"
+                onClick={() => {
+                  setIsDialogActionRole(true);
+                  setItemRole(initForm);
+                }}
+              >
+                Thêm
+              </Button>
+            </div>
+          )}
         </HeaderTable>
 
         {listPermission && listPermission.length > 0 ? (
@@ -210,28 +216,30 @@ const PermissionsScreen = () => {
                     <Td>{row?.id}</Td>
                     <Td>{row?.name}</Td>
                     <Td>{row?.view_permission[0]?.url ?? '-'}</Td>
-                    <Td>
-                      <BoxActionTable>
-                        <Button
-                          color="warning"
-                          icon={<MdModeEdit />}
-                          size="small"
-                          onClick={() => {
-                            setIsDialogActionRole(true);
-                            setItemRole(row);
-                          }}
-                        />
-                        <Button
-                          color="danger"
-                          size="small"
-                          icon={<BsTrash />}
-                          onClick={() => {
-                            setIsDialogDeleteRole(true);
-                            setItemRole(row);
-                          }}
-                        />
-                      </BoxActionTable>
-                    </Td>
+                    {userLogin?.superAdmin && (
+                      <Td>
+                        <BoxActionTable>
+                          <Button
+                            color="warning"
+                            icon={<MdModeEdit />}
+                            size="small"
+                            onClick={() => {
+                              setIsDialogActionRole(true);
+                              setItemRole(row);
+                            }}
+                          />
+                          <Button
+                            color="danger"
+                            size="small"
+                            icon={<BsTrash />}
+                            onClick={() => {
+                              setIsDialogDeleteRole(true);
+                              setItemRole(row);
+                            }}
+                          />
+                        </BoxActionTable>
+                      </Td>
+                    )}
                   </Tr>
                 ))}
               </Tbody>
