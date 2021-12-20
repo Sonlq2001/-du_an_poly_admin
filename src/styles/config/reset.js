@@ -51,6 +51,9 @@ const ResetCss = () => {
 		.error-group .label-field {
 			color: var(--red-color) !important;
 		}
+		.nowrap{
+			white-space: nowrap;
+		}
 	`;
 };
 

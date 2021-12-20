@@ -169,12 +169,14 @@ const CommentScreen = () => {
             <TableCustom>
               <Thead>
                 <Tr>
-                  <Th>
-                    <CheckboxSingle
-                      checked={isCheckedAll}
-                      onChange={(e) => handleCheckedAll(e.target.checked)}
-                    />
-                  </Th>
+                  {(userLogin?.superAdmin || userLogin?.ministry) && (
+                    <Th>
+                      <CheckboxSingle
+                        checked={isCheckedAll}
+                        onChange={(e) => handleCheckedAll(e.target.checked)}
+                      />
+                    </Th>
+                  )}
                   {headerCells.map((cell) => (
                     <Th
                       key={cell.label}
@@ -190,12 +192,14 @@ const CommentScreen = () => {
               <Tbody>
                 {dataSort.map((row) => (
                   <Tr key={row?.id}>
-                    <Td>
-                      <CheckboxSingle
-                        checked={listChecked.includes(row?.id)}
-                        onChange={() => handleChangeChecked(row?.id)}
-                      />
-                    </Td>
+                    {(userLogin?.superAdmin || userLogin?.ministry) && (
+                      <Td>
+                        <CheckboxSingle
+                          checked={listChecked.includes(row?.id)}
+                          onChange={() => handleChangeChecked(row?.id)}
+                        />
+                      </Td>
+                    )}
                     <Td>{row?.id}</Td>
                     <Td>{row?.get_info_user?.name}</Td>
                     <Td>{row?.comment}</Td>
