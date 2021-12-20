@@ -177,8 +177,17 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                     case 1:
                       nameCampus = 'Hà Nội';
                       break;
-                    case valueStatusProduct.two:
-                      statusProduct = labelStatusProduct.confirm2;
+                    case 2:
+                      nameCampus = 'Đà nẵng';
+                      break;
+                    case 3:
+                      nameCampus = 'Cần Thơ';
+                      break;
+                    case 4:
+                      nameCampus = 'Hồ Chí Minh';
+                      break;
+                    case 5:
+                      nameCampus = 'Tây Nguyên';
                       break;
                     default:
                       break;
