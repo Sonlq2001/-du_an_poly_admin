@@ -65,8 +65,9 @@ const UserScreen = () => {
     })
   );
 
-  const filterUser =
-    listUser && listUser.filter((user) => user.id !== userLogin?.id);
+  const filterUser = (Array.isArray(listUser) ? listUser : [])?.filter(
+    (user) => user.id !== userLogin?.id
+  );
 
   const addUser = () => {
     setOpen(true);
@@ -79,7 +80,7 @@ const UserScreen = () => {
       ...dataPagination,
     });
   };
-  console.log(dataSort);
+
   return (
     <>
       {isListUserLoading && <Loading />}
@@ -125,17 +126,17 @@ const UserScreen = () => {
               </span>
             )} */}
           </div>
-          <div className="buttonAction">
-            <Button color="primary">Tải file excel</Button>
-
-            <Button
-              color="primary"
-              icon={<IoMdAdd />}
-              onClick={() => addUser()}
-            >
-              Thêm
-            </Button>
-          </div>
+          {(userLogin?.superAdmin || userLogin?.ministry) && (
+            <div className="buttonAction">
+              <Button
+                color="primary"
+                icon={<IoMdAdd />}
+                onClick={() => addUser()}
+              >
+                Thêm
+              </Button>
+            </div>
+          )}
         </HeaderTable>
 
         {listUser && listUser.length > 0 ? (
@@ -153,7 +154,9 @@ const UserScreen = () => {
                   Email
                 </Th>
                 <Th>Vai trò</Th>
-                <Th align="right">Thao tác</Th>
+                {(userLogin?.superAdmin || userLogin?.ministry) && (
+                  <Th align="right">Thao tác</Th>
+                )}
               </Tr>
             </Thead>
 
@@ -187,25 +190,27 @@ const UserScreen = () => {
                           ))}
                       </GroupRole>
                     </Td>
-                    <Td>
-                      <BoxActionTable>
-                        <Button
-                          color="warning"
-                          to={USER_PATHS.USER_PROFILE.replace(/:id/, row?.id)}
-                          icon={<MdModeEdit />}
-                          size="small"
-                        />
+                    {(userLogin?.superAdmin || userLogin?.ministry) && (
+                      <Td>
+                        <BoxActionTable>
+                          <Button
+                            color="warning"
+                            to={USER_PATHS.USER_PROFILE.replace(/:id/, row?.id)}
+                            icon={<MdModeEdit />}
+                            size="small"
+                          />
 
-                        <Button
-                          color="danger"
-                          size="small"
-                          icon={<BsTrash />}
-                          onClick={() =>
-                            setIsOpenDeleteUser(true) + setItemUser(row)
-                          }
-                        />
-                      </BoxActionTable>
-                    </Td>
+                          <Button
+                            color="danger"
+                            size="small"
+                            icon={<BsTrash />}
+                            onClick={() =>
+                              setIsOpenDeleteUser(true) + setItemUser(row)
+                            }
+                          />
+                        </BoxActionTable>
+                      </Td>
+                    )}
                   </Tr>
                 );
               })}

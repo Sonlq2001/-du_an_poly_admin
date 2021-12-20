@@ -82,8 +82,8 @@ const useSlice = createSlice({
     },
     [getUsers.fulfilled]: (state, action) => {
       state.isListUserLoading = false;
-      state.listUser = action.payload.users;
-      state.total = action.payload.total;
+      state.listUser = action.payload?.users;
+      state.total = action.payload?.total;
     },
     [getUsers.rejected]: (state) => {
       state.isListUserLoading = false;
