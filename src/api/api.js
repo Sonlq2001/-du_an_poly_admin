@@ -19,6 +19,12 @@ const errorInterceptor = (axiosError) => {
     if (statusCode === 403) {
       window.location = '/';
     }
+    if (statusCode === 401) {
+      if (axiosError.response.data.message === 'Unauthenticated.') {
+        Storage.clear();
+        window.location.reload();
+      }
+    }
   }
   return Promise.reject(axiosError);
 };
