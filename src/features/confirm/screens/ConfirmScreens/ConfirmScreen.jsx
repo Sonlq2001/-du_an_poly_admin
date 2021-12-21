@@ -152,7 +152,7 @@ const ConfirmScreen = () => {
                 className="select-option input-search"
                 options={ DataMajor}
                 placeholder="Tìm theo bộ môn"
-                onChange={(e) => handleFilterCommon(e, 'teacher_user_major')}
+                onChange={(e) => handleFilterCommon(e,'major')}
               />
             </BoxControl>
 
