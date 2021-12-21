@@ -26,11 +26,13 @@ const DashboardScreen = () => {
     isDataDashboardLoading,
     dataViewChart,
     totalComment,
+    total_users
   } = useSelector((state) => ({
     isDataDashboardLoading: state.dashboard?.isDataDashboardLoading,
     dataFeedbackNew: state.dashboard?.dataFeedbackNew,
     dataViewChart: state.dashboard?.dataViewChart,
     totalComment: state.dashboard?.totalComment,
+    total_users: state.dashboard?.total_users,
   }));
 
   if (isDataDashboardLoading) {
@@ -48,7 +50,7 @@ const DashboardScreen = () => {
       <div className="wrap-right">
         <BoxMessage />
 
-        <BoxView totalComment={totalComment} />
+        <BoxView totalComment={totalComment} total_users={total_users} />
       </div>
     </ContentDashboard>
   );

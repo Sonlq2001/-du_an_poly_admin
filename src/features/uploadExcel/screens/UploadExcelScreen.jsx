@@ -41,7 +41,7 @@ const UploadExcelScreen = () => {
         onSubmit={async (values, { resetForm }) => {
           setIsLoading(true);
           const valueForm = new FormData();
-          valueForm.append('campus_id', 1);
+          valueForm.append('campus_id',1);
           valueForm.append('semester_id', values.semester_id);
           valueForm.append('excel', values.excel);
           const response = await dispatch(postImportFileExcel(valueForm));
