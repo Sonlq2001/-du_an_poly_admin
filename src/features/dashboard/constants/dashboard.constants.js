@@ -1,3 +1,4 @@
+
 export const options = {
   scales: {
     yAxes: [
@@ -11,10 +12,10 @@ export const options = {
 };
 
 export const genData = (sping,summer,fall) => ({
-  labels: ['Sping', 'Summer', 'Fall',],
+  labels: [`Tháng 1 - Tháng 4`, 'Tháng 4 - Tháng 8', 'Tháng 8 - Tháng 12'],
   datasets: [
     {
-      label: 'Scale',
+      label: 'Sản phẩm ',
       data: [sping, summer, fall],
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',

@@ -58,9 +58,11 @@ export const ItemCard = styled.div`
   .view {
     color: var(--blue-color);
   }
-
+  .blue{
+    color: green;
+  }
   .student {
-    color: var(--green-color);
+    color: var(--red-color);
   }
   @media (max-width: 1198.98px) {
     .card-right {

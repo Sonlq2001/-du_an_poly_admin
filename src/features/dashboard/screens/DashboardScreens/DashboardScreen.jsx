@@ -25,13 +25,11 @@ const DashboardScreen = () => {
     dataFeedbackNew,
     isDataDashboardLoading,
     dataViewChart,
-    totalProduct,
     totalComment,
   } = useSelector((state) => ({
     isDataDashboardLoading: state.dashboard?.isDataDashboardLoading,
     dataFeedbackNew: state.dashboard?.dataFeedbackNew,
     dataViewChart: state.dashboard?.dataViewChart,
-    totalProduct: state.dashboard?.totalProduct,
     totalComment: state.dashboard?.totalComment,
   }));
 
@@ -42,7 +40,7 @@ const DashboardScreen = () => {
   return (
     <ContentDashboard>
       <div className="wrap-left">
-        <BoxCard total_products={totalProduct ?? 0} />
+        <BoxCard />
         <BoxChart totalProduct={dataViewChart} />
         <TableFeedback feedbacks={dataFeedbackNew ?? []} />
       </div>

@@ -13,7 +13,7 @@ const BoxChart = ({totalProduct}) => {
 
   return (
     <BoxChartMain>
-      <BoxTitleDashboard>Biểu đồ</BoxTitleDashboard>
+      <BoxTitleDashboard>Thống kê sản phẩm theo giai đoạn  </BoxTitleDashboard>
       <Bar data={data} options={options} />
     </BoxChartMain>
   );
