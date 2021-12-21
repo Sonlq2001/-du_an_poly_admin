@@ -153,6 +153,7 @@ const UserScreen = () => {
                 <Th sort onClick={() => requestSort('email')}>
                   Email
                 </Th>
+                <Th>Chuyên ngành</Th>
                 <Th>Vai trò</Th>
                 {(userLogin?.superAdmin || userLogin?.ministry) && (
                   <Th align="right">Thao tác</Th>
@@ -178,6 +179,7 @@ const UserScreen = () => {
                       </BoxAvatar>
                     </Td>
                     <Td>{row?.email}</Td>
+                    <Td>{row?.majors[0]?.name ?? '-'}</Td>
                     <Td>
                       <GroupRole>
                         {row?.roles &&
