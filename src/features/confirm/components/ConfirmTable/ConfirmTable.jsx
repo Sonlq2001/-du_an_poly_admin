@@ -234,7 +234,7 @@ const ConfirmTable = ({ result, setPagination, pagination }) => {
                     <Tr key={row?.id}>
                       <Td> {row?.id}</Td>
                       <Td>{row?.name} </Td>
-                      <Td>{row?.class.toUpperCase()} </Td>
+                      <Td>{row?.class?.toUpperCase()} </Td>
                       <Td>{row?.subject?.name} </Td>
                       <Td>
                         {
