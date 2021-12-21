@@ -18,7 +18,10 @@ const initialState = {
   dataFeedbackNew: null,
   dataViewChart: null,
   totalProduct: null,
+  total_users: null,
   totalComment: null,
+  total_product_not_approved_yet: null,
+  total_product_student_has_not_posted: null,
   isDataDashboardLoading: false,
 };
 
@@ -35,6 +38,9 @@ const dashboardSlice = createSlice({
       state.dataViewChart = action.payload?.data;
       state.totalProduct = action.payload?.total_products;
       state.totalComment = action.payload?.total_comments;
+      state.total_users = action.payload?.total_users;
+      state.total_product_student_has_not_posted = action.payload?.total_product_student_has_not_posted;
+      state.total_product_not_approved_yet = action.payload?.total_product_not_approved_yet;
     },
     [getDataDashboard.rejected]: (state) => {
       state.isDataDashboardLoading = false;
