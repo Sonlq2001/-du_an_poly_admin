@@ -35,7 +35,7 @@ export const BoxViewItem = styled.div`
     word-break: break-all;
   }
   .box-view {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     color: var(--aaa-color);
   }
   @media (max-width: 1199.98px) {

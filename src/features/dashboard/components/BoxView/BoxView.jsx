@@ -1,10 +1,11 @@
 import React, { memo } from 'react';
 import { IoMdCloudDownload } from 'react-icons/io';
 import { BsFillChatDotsFill } from 'react-icons/bs';
+import { FiUserCheck } from 'react-icons/fi';
 
 import { WrapBoxView, BoxViewItem } from './BoxView.styles';
 
-const BoxView = ({ totalComment }) => {
+const BoxView = ({ totalComment ,total_users}) => {
   return (
     <WrapBoxView>
       <BoxViewItem>
@@ -23,6 +24,15 @@ const BoxView = ({ totalComment }) => {
         <div className="box-body">
           <div className="box-title">Comments</div>
           <div className="box-view">{totalComment ?? 0}</div>
+        </div>
+      </BoxViewItem>
+      <BoxViewItem>
+        <div className="box-icon icon-comment">
+          <FiUserCheck />
+        </div>
+        <div className="box-body">
+          <div className="box-title">Thành viên </div>
+          <div className="box-view">{total_users ?? 0}</div>
         </div>
       </BoxViewItem>
     </WrapBoxView>
