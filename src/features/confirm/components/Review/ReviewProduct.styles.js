@@ -190,6 +190,9 @@ export const TitleMain = styled.h3`
 export const Video = styled.div`
   margin-top: 10px;
   border-radius: 10px;
+  & iframe {
+    border-radius: 10px !important;
+  }
 `;
 
 export const GroupBox = styled.div`
