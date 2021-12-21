@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BsTrash } from 'react-icons/bs';
 import { toast } from 'react-toastify';
 import moment from 'moment';
-import { FaEye } from 'react-icons/fa';
 
 import {
   TableCustom,
@@ -36,7 +35,6 @@ import GroupAlert from 'components/AlertMessage/AlertMessage';
 import RemoveComment from './../../components/RemoveComment/RemoveComment';
 import { getComment, deleteComment } from './../../redux/comment.slice';
 import { defaultPaginationParams } from 'constants/api.constants';
-import { COMMENT_PATHS } from './../../constants/comment.paths';
 
 const CommentScreen = () => {
   const dispatch = useDispatch();
@@ -57,16 +55,18 @@ const CommentScreen = () => {
     fetchData();
   }, [fetchData]);
 
-  const { listComment, isListCommentLoading, userLogin } = useSelector(
+  const { listComment, isListCommentLoading, userLogin, total } = useSelector(
     (state) => ({
       listComment: state.comment?.listComment,
       isListCommentLoading: state.comment?.isListCommentLoading,
+      total: state.comment?.total,
       userLogin: state.auth?.userLogin,
     })
   );
 
   const headerCells = [
     { label: '#', fieldSort: 'id', sort: true },
+    { label: 'Sản phẩm' },
     { label: 'Người bình luận' },
     { label: 'Nội dung', fieldSort: 'comment', sort: true },
     { label: 'Thời gian', fieldSort: 'created_at', sort: true },
@@ -150,18 +150,17 @@ const CommentScreen = () => {
               </span>
             )} */}
           </div>
-          {userLogin?.superAdmin ||
-            (userLogin?.ministry && (
-              <div className="buttonAction">
-                <Button
-                  disabled={!listChecked.length || isLoading}
-                  loading={isLoading}
-                  onClick={handleRemoveAll}
-                >
-                  Xóa tất cả
-                </Button>
-              </div>
-            ))}
+          {(userLogin?.superAdmin || userLogin?.ministry) && (
+            <div className="buttonAction">
+              <Button
+                disabled={!listChecked.length || isLoading}
+                loading={isLoading}
+                onClick={handleRemoveAll}
+              >
+                Xóa tất cả
+              </Button>
+            </div>
+          )}
         </HeaderTable>
 
         {listComment && listComment.length > 0 ? (
@@ -190,53 +189,42 @@ const CommentScreen = () => {
                 </Tr>
               </Thead>
               <Tbody>
-                {dataSort.map((row) => (
-                  <Tr key={row?.id}>
-                    {(userLogin?.superAdmin || userLogin?.ministry) && (
-                      <Td>
-                        <CheckboxSingle
-                          checked={listChecked.includes(row?.id)}
-                          onChange={() => handleChangeChecked(row?.id)}
-                        />
-                      </Td>
-                    )}
-                    <Td>{row?.id}</Td>
-                    <Td>{row?.get_info_user?.name}</Td>
-                    <Td>{row?.comment}</Td>
-                    <Td>
-                      {moment(row?.created_at).format('YYYY-MM-DD HH:mm:ss')}
-                    </Td>
-                    {(userLogin?.ministry || userLogin?.superAdmin) && (
-                      <Td>
-                        <BoxActionTable>
-                          <Button
-                            color="info"
-                            disabled={!row?.get_reply?.length}
-                            size="small"
-                            icon={<FaEye />}
-                            to={
-                              row?.get_reply?.length
-                                ? COMMENT_PATHS.COMMENT_DETAIL.replace(
-                                    /:id/,
-                                    row?.id
-                                  )
-                                : ''
-                            }
+                {dataSort.map((row) => {
+                  return (
+                    <Tr key={row?.id}>
+                      {(userLogin?.superAdmin || userLogin?.ministry) && (
+                        <Td>
+                          <CheckboxSingle
+                            checked={listChecked.includes(row?.id)}
+                            onChange={() => handleChangeChecked(row?.id)}
                           />
-                          <Button
-                            color="danger"
-                            size="small"
-                            icon={<BsTrash />}
-                            onClick={() => {
-                              setIsDialogDeleteMajor(true);
-                              setCurrentIdComment(row?.id);
-                            }}
-                          />
-                        </BoxActionTable>
+                        </Td>
+                      )}
+                      <Td>{row?.id}</Td>
+                      <Td>{row?.get_info_product?.name}</Td>
+                      <Td>{row?.get_info_user?.name}</Td>
+                      <Td>{row?.comment}</Td>
+                      <Td>
+                        {moment(row?.created_at).format('YYYY-MM-DD HH:mm:ss')}
                       </Td>
-                    )}
-                  </Tr>
-                ))}
+                      {(userLogin?.ministry || userLogin?.superAdmin) && (
+                        <Td>
+                          <BoxActionTable>
+                            <Button
+                              color="danger"
+                              size="small"
+                              icon={<BsTrash />}
+                              onClick={() => {
+                                setIsDialogDeleteMajor(true);
+                                setCurrentIdComment(row?.id);
+                              }}
+                            />
+                          </BoxActionTable>
+                        </Td>
+                      )}
+                    </Tr>
+                  );
+                })}
               </Tbody>
             </TableCustom>
             <GroupPagination>
@@ -244,7 +232,7 @@ const CommentScreen = () => {
                 pageLengthMenu={defaultPaginationParams.pageLengthMenu}
                 page={pagination.page}
                 pageLength={pagination.pageLength}
-                totalRecords={100}
+                totalRecords={total}
                 onPageChange={handlePagination}
               />
             </GroupPagination>

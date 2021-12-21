@@ -108,7 +108,7 @@ const ActionUser = ({ setOpen }) => {
                   <div className="box-select">
                     <Select
                       options={MajorData}
-                      placeholder="Chức vụ "
+                      placeholder="Chuyên ngành"
                       className="select"
                       name="major_id"
                       onChange={(option) =>
