@@ -209,6 +209,9 @@ export const ContentPost = styled.p`
   line-height: 2.5rem;
   margin-top: 2.5rem;
   text-align: justify;
+  & img{
+    border-radius : 5px;
+  }
 `;
 
 export const GroupAttach = styled.div`
@@ -236,6 +239,7 @@ export const ItemAttach = styled.div`
     color: var(--txt--color);
     &:hover {
       background-color: var(--ddd-color);
+      cursor: pointer;
     }
   }
 `;
@@ -248,3 +252,15 @@ export const BoxYoutube = styled.div`
     height: 25rem;
   }
 `;
+export const WaitingVideo = styled.div`
+  margin-top: 1.5rem;
+  padding: 10px 15px;
+  width: 14rem;
+  background: var(--eee-color);
+  border-radius : 5px;
+  font-size: 1.3rem;
+  &:hover{
+    background-color: var(--ddd-color);
+    cursor: pointer;
+  }
+` 

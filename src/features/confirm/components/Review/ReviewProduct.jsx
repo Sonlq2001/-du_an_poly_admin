@@ -24,6 +24,7 @@ import {
   GroupAttach,
   ItemAttach,
   Video,
+  WaitingVideo,
 } from './ReviewProduct.styles';
 import {
   postProductApprove,
@@ -109,10 +110,14 @@ const ReviewProduct = ({ data, setOpen }) => {
     setIsLoadingRemove(false);
     setOpen(false);
   };
-
+  const  popupWindow = (url, title, w, h)=> {
+    var left = (window.screen.width / 2) - (w / 2);
+    var top = (window.screen.height / 2) - (h / 2);
+    return window.open(url,title ,`toolbar=no, location=no,directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=${w}, height=${h}, top=${top}, left=${left}`)
+}
   const isConfirm1 =
     data?.status === 1 &&
-    data?.teacher_id === userLogin?.id &&
+    data?.teacher_id === userLogin?.id && 
     userLogin?.teacher &&
     userLogin?.major_id === data?.major?.id &&
     userLogin?.campus_id === data?.campus_id;
@@ -272,9 +277,11 @@ const ReviewProduct = ({ data, setOpen }) => {
                   <MdContentPaste />
                   <span>Bài viết giới thiệu</span>
                 </TitleMain>
-                <Video className="video">
+              {data?.status === 3  ? 
+                <Video >
                   <ReactPlayer
                     controls
+                    className="video"
                     style={
                       ({ padding: 10 },
                       { margin_top: 50 },
@@ -288,6 +295,7 @@ const ReviewProduct = ({ data, setOpen }) => {
                     url={data?.video_url}
                   />
                 </Video>
+                : <WaitingVideo onClick={()=>popupWindow(data?.video_url,data?.name,"600","600")}> Xem video tại đây </WaitingVideo>}
                 <ContentPost
                   dangerouslySetInnerHTML={{
                     __html: data?.description,
@@ -304,15 +312,14 @@ const ReviewProduct = ({ data, setOpen }) => {
 
                 <GroupAttach>
                   <ItemAttach>
-                    <div className="title-attach">Tài liệu hướng dẫn:</div>
-                    <a
-                      target="_blank"
-                      href={data?.resource_url}
+                    <div className="title-attach" > Tài liệu hướng dẫn:</div>
+                    <p
+                       onClick={()=> popupWindow(data?.resource_url,data?.name,"600","600")}
                       rel="noreferrer"
                       className="btn-docs"
                     >
-                      Xem ngay
-                    </a>
+                      Tại đây 
+                    </p>
                   </ItemAttach>
                 </GroupAttach>
               </GroupBox>
