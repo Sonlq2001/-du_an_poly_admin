@@ -15,7 +15,7 @@ import campusesReducer from 'features/campuses/redux/campuses.slice';
 import dashboardReducer from 'features/dashboard/redux/dashboard.slice';
 import feedbackReducer from 'features/feedback/redux/feedback.slice';
 import commentReducer from 'features/comment/redux/comment.slice';
-
+import  productUpdateReducer from "features/update-product/redux/update-product.slice"
 const rootReducer = combineReducers({
   dashboard: dashboardReducer,
   user: useReducer,
@@ -32,6 +32,7 @@ const rootReducer = combineReducers({
   campuses: campusesReducer,
   feedback: feedbackReducer,
   comment: commentReducer,
+  updateProduct :productUpdateReducer
 });
 
 export default rootReducer;

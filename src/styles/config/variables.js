@@ -16,7 +16,7 @@ const Variables = () => {
       --pink-color: #fd397a;
       --red-color: #e74c3c;
       --red-bg-err: #fce4e4;
-
+      --bg-input: #f0f2f5; 
       --yellow-color: #FBB837;
 
       --green-color: #00BC8C;
